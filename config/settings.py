@@ -9,23 +9,36 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Load .env file manually
+env_path = BASE_DIR / ".env"
+if env_path.exists():
+    with open(env_path) as env_file:
+        for line in env_file:
+            if line.strip() and not line.startswith("#"):
+                key, _, value = line.strip().partition("=")
+                os.environ.setdefault(key, value)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ylx7fzkpo2gck2wbmy(w-r=ifm3!0$7$(n!onw&o!@qm*psa-y'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-default-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()
+]
+
 
 
 # Application definition
