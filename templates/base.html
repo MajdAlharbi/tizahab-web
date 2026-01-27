@@ -2,13 +2,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Tizahab{% endblock %}</title>
-    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>{% block title %}Tizahab{% endblock %}</title>
+  {% tailwind_css %}
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900 min-h-screen">
 
+  <!-- Navbar -->
+  <nav class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <span class="text-xl font-semibold text-green-600">
+        Tizahab
+      </span>
+
+      <ul class="flex gap-6 text-sm font-medium">
+        <li class="hover:text-green-600 cursor-pointer">Home</li>
+        <li class="hover:text-green-600 cursor-pointer">Events</li>
+        <li class="hover:text-green-600 cursor-pointer">Offers</li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-10">
     {% block content %}{% endblock %}
+  </main>
 
 </body>
 </html>
