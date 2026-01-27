@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import UserPreference
+from .models import UserPreferences
 
-@admin.register(UserPreference)
-class UserPreferenceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'budget', 'age_group', 'language')
+@admin.register(UserPreferences)
+class UserPreferencesAdmin(admin.ModelAdmin):
+    pass
