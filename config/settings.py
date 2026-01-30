@@ -56,6 +56,9 @@ INSTALLED_APPS = [
         'accounts',
     'events',
     'itinerary',
+    'rest_framework',
+
+
 
 ]
 TAILWIND_APP_NAME = "theme"
@@ -136,3 +139,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
