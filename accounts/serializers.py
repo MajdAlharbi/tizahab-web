@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -10,10 +11,10 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2')
+        fields = ("username", "email", "password", "password2")
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
+        if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError("Passwords do not match.")
         return attrs
 
@@ -28,11 +29,11 @@ class SignupSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        validated_data.pop('password2')
+        validated_data.pop("password2")
         user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
+            username=validated_data["username"],
+            email=validated_data["email"],
+            password=validated_data["password"],
         )
         return user
 
@@ -43,14 +44,16 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, data):
         user = authenticate(
-            username=data.get('username'),
-            password=data.get('password')
+            username=data.get("username"),
+            password=data.get("password"),
         )
 
         if not user:
-            raise serializers.ValidationError(
-                "Invalid username or password."
-            )
+            raise serializers.ValidationError("Invalid username or password.")
 
-        data['user'] = user
-        return data
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }
