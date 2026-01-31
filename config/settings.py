@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'accounts',
     'events',
     'itinerary',
-     'rest_framework',
 
 ]
 REST_FRAMEWORK = {
