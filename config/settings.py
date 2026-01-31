@@ -33,7 +33,8 @@ if env_path.exists():
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-default-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
+#DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
+DEBUG = True;
 
 ALLOWED_HOSTS = [
     h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'accounts',
     'events',
     'itinerary',
+     'rest_framework',
 
 ]
 REST_FRAMEWORK = {
