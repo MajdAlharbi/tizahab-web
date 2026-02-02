@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .models import UserPreferences
 
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, validators=[validate_password])
@@ -57,3 +57,8 @@ class LoginSerializer(serializers.Serializer):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
+
+class UserPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreferences
+        exclude = ("user", "created_at", "updated_at")

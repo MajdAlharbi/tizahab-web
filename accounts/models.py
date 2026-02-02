@@ -1,8 +1,7 @@
-from django.conf import settings
 from django.db import models
+from django.conf import settings
 
 User = settings.AUTH_USER_MODEL
-
 
 class UserPreferences(models.Model):
     user = models.OneToOneField(
@@ -13,10 +12,7 @@ class UserPreferences(models.Model):
 
     preferred_language = models.CharField(
         max_length=10,
-        choices=[
-            ("ar", "Arabic"),
-            ("en", "English"),
-        ],
+        choices=[("ar", "Arabic"), ("en", "English")],
         default="ar"
     )
 
