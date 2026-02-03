@@ -3,6 +3,29 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import UserPreferences
+
+
+class UserPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreferences
+        fields = [
+            "preferred_language",
+            "budget_min",
+            "budget_max",
+            "interests",
+        ]
+
+    def validate(self, attrs):
+        min_b = attrs.get("budget_min")
+        max_b = attrs.get("budget_max")
+
+        if min_b is not None and max_b is not None and min_b > max_b:
+            raise serializers.ValidationError(
+                "budget_min cannot be greater than budget_max"
+            )
+
+        return attrs
 
 
 class SignupSerializer(serializers.ModelSerializer):
