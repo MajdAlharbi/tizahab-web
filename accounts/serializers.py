@@ -34,7 +34,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password", "password2")
+        fields = ("email", "password", "password2")
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
@@ -53,26 +53,37 @@ class SignupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("password2")
+        email = validated_data["email"]
+
         user = User.objects.create_user(
-            username=validated_data["username"],
-            email=validated_data["email"],
+            username=email,
+            email=email,
             password=validated_data["password"],
         )
         return user
 
 
+
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+    email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
+        email = data.get("email")
+        password = data.get("password")
+
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Invalid email or password.")
+
         user = authenticate(
-            username=data.get("username"),
-            password=data.get("password"),
+            username=user_obj.username,
+            password=password,
         )
 
         if not user:
-            raise serializers.ValidationError("Invalid username or password.")
+            raise serializers.ValidationError("Invalid email or password.")
 
         refresh = RefreshToken.for_user(user)
 

@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-default-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
-DEBUG = True;
+DEBUG = True
 
 ALLOWED_HOSTS = [
     h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()
@@ -138,6 +138,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

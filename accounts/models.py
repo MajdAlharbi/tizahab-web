@@ -17,9 +17,9 @@ class UserPreferences(models.Model):
     )
 
     preferred_language = models.CharField(
-        max_length=2,
+        max_length=5,
         choices=LANGUAGE_CHOICES,
-        default="ar"
+        default="en",   
     )
 
     budget_min = models.PositiveIntegerField(
