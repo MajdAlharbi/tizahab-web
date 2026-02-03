@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Tizahab</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Cantata+One&family=Bona+Nova+SC&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            arimo: ['Arimo', 'sans-serif'],
+            cantata: ['Cantata One', 'serif'],
+            bona: ['Bona Nova SC', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center
+             bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0]
+             font-arimo relative">
+
+  <!-- Language Switch -->
+  <button class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
+    🌐 العربية
+  </button>
+
+  <!-- Card -->
+  <div class="w-[420px] bg-white/95 rounded-2xl shadow-2xl px-10 py-12">
+
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <img src="{% static 'images/logo.png' %}" class="mx-auto mb-3 h-10">
+      <h1 class="text-3xl text-[#7E1CA1] font-cantata">Tizahab</h1>
+      <p class="text-xl text-[#7E1CA1] font-bona">تــــــــزهب</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex bg-gray-100 rounded-xl p-1 mb-8 text-sm">
+      <button class="flex-1 bg-white rounded-lg py-2 text-[#7E1CA1] shadow">
+        Login
+      </button>
+      <a href="{% url 'signup-page' %}" class="flex-1 py-2 text-center text-gray-500">
+        Create Account
+      </a>
+    </div>
+
+    <!-- Form -->
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Email -->
+      <div>
+        <label class="block text-sm mb-2">Email Address</label>
+        <input type="email" name="email" placeholder="your@email.com" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
+                 text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-sm mb-2">Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
+                 text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
+        <div class="text-right mt-2">
+          <a href="#" class="text-sm text-[#7E1CA1]">Forgot password?</a>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <p id="login-error" class="text-sm text-red-600 hidden"></p>
+
+      <!-- Login -->
+      <button type="submit" class="w-full h-12 rounded-lg text-white text-lg font-bold
+               bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
+        Login
+      </button>
+
+      <!-- Guest -->
+      <button type="button" class="w-full h-12 rounded-lg border font-bold">
+        Continue as Guest
+      </button>
+    </form>
+
+    <!-- Divider -->
+    <div class="flex items-center my-8 text-sm text-gray-400">
+      <div class="flex-1 h-px bg-gray-200"></div>
+      <span class="px-4">Or continue with</span>
+      <div class="flex-1 h-px bg-gray-200"></div>
+    </div>
+
+    <!-- Social -->
+    <div class="space-y-3">
+      <button class="w-full h-12 border rounded-lg flex items-center justify-center gap-2">
+        <img src="{% static 'images/google.svg' %}" class="w-4 h-4">
+        Google
+      </button>
+      <button class="w-full h-12 border rounded-lg flex items-center justify-center gap-2">
+        <img src="{% static 'images/facebook.svg' %}" class="w-4 h-4">
+        Facebook
+      </button>
+    </div>
+  </div>
+
+  <a href="/" class="absolute bottom-6 text-white text-sm">
+    ← Back to Home
+  </a>
+
+  <!-- Login Script -->
+  <script>
+    const form = document.querySelector("form");
+    const errorBox = document.getElementById("login-error");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      errorBox.classList.add("hidden");
+      errorBox.textContent = "";
+
+      const email = form.querySelector("input[name='email']").value;
+      const password = form.querySelector("input[name='password']").value;
+
+      try {
+        const response = await fetch("/api/auth/login/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+          },
+          body: JSON.stringify({
+              email: email,
+            password: password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const message =
+            data.non_field_errors?.[0] ||
+            data.detail ||
+            "Invalid email or password";
+          throw new Error(message);
+        }
+
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+        window.location.href = "/";
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove("hidden");
+      }
+    });
+  </script>
+
+</body>
+
+</html>

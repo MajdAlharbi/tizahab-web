@@ -4,6 +4,11 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 class UserPreferences(models.Model):
+    LANGUAGE_CHOICES = [
+        ("ar", "Arabic"),
+        ("en", "English"),
+    ]
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -11,20 +16,23 @@ class UserPreferences(models.Model):
     )
 
     preferred_language = models.CharField(
-        max_length=10,
-        choices=[("ar", "Arabic"), ("en", "English")],
-        default="ar"
+        max_length=5,
+        choices=LANGUAGE_CHOICES,
+        default="en",   
     )
 
-    budget = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    budget_min = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    budget_max = models.PositiveIntegerField(
         null=True,
         blank=True
     )
 
     interests = models.JSONField(
-        null=True,
+        default=list,
         blank=True
     )
 
