@@ -33,7 +33,8 @@ if env_path.exists():
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-default-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
+#DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
+DEBUG = True
 
 ALLOWED_HOSTS = [
     h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()
@@ -50,10 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-        'tailwind',
-        "theme",
+    'rest_framework',
+    'tailwind',
+    "theme",
     'core',
-        'accounts',
+    'accounts',
     'events',
     'itinerary',
     'rest_framework',
@@ -61,6 +63,23 @@ INSTALLED_APPS = [
 
 
 ]
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
 TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
@@ -122,6 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
