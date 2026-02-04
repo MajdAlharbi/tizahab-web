@@ -1,6 +1,14 @@
 from django.urls import path
-from .views import SignupAPIView, LoginAPIView, UserPreferencesView
 from .views import login_page, signup_page
+from django.urls import path
+from .views import (
+    SignupAPIView,
+    LoginAPIView,
+    UserPreferencesView,
+    login_page,
+    signup_page,
+    preferences_page,   
+)
 
 urlpatterns = [
     # API endpoints
@@ -11,4 +19,6 @@ urlpatterns = [
     # UI pages (Django templates)
     path("ui/login/", login_page, name="login-page"),
     path("ui/signup/", signup_page, name="signup-page"),
+    path("ui/preferences/", preferences_page, name="preferences-page"),
+
 ]

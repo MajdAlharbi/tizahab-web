@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | Tizahab</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Cantata+One&family=Bona+Nova+SC&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        arimo: ['Arimo', 'sans-serif'],
+                        cantata: ['Cantata One', 'serif'],
+                        bona: ['Bona Nova SC', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-[#F6F7FB] font-arimo">
+
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto px-6 py-10">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-10">
+            <div>
+                <h1 class="text-2xl font-bold text-[#7E1CA1]">Profile</h1>
+                <p class="text-sm text-gray-500">Manage your preferences and plans</p>
+            </div>
+
+            <button class="px-4 py-2 rounded-lg text-sm font-bold text-white
+        bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
+                Edit Profile
+            </button>
+        </div>
+
+        <!-- Profile Summary Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 flex items-center gap-8">
+
+            <!-- Avatar -->
+            <div class="w-20 h-20 rounded-full bg-[#E9D5FF] flex items-center justify-center
+        text-[#7E1CA1] text-2xl font-bold">
+                AM
+            </div>
+
+            <!-- User Info -->
+            <div class="flex-1">
+                <h2 class="text-xl font-bold">Ahmed Mohammed</h2>
+                <p class="text-sm text-gray-500">Riyadh, Saudi Arabia</p>
+
+                <!-- Stats -->
+                <div class="flex gap-10 mt-4">
+                    <div>
+                        <p class="text-lg font-bold text-[#7E1CA1]">3</p>
+                        <p class="text-xs text-gray-500">Trips</p>
+                    </div>
+                    <div>
+                        <p class="text-lg font-bold text-[#7E1CA1]">4</p>
+                        <p class="text-xs text-gray-500">Plans</p>
+                    </div>
+                    <div>
+                        <p class="text-lg font-bold text-[#7E1CA1]">10</p>
+                        <p class="text-xs text-gray-500">Favorites</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- My Preferences -->
+    <div class="mt-12">
+        <h3 class="text-lg font-bold mb-6">My Preferences</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+            <!-- Preference Card -->
+            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
+                    hover:shadow-lg transition">
+                <img src="{% static 'images/preferences/adventure.jpg' %}" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Adventure</p>
+                    <p class="text-xs text-gray-500 mt-1">Hiking, desert, activities</p>
+                </div>
+            </div>
+
+            <!-- Preference Card -->
+            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
+                    hover:shadow-lg transition">
+                <img src="{% static 'images/preferences/nature.jpg' %}" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Nature</p>
+                    <p class="text-xs text-gray-500 mt-1">Parks, views, relaxation</p>
+                </div>
+            </div>
+
+            <!-- Preference Card -->
+            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
+                    hover:shadow-lg transition">
+                <img src="{% static 'images/preferences/culture.jpg' %}" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Culture</p>
+                    <p class="text-xs text-gray-500 mt-1">Museums, heritage</p>
+                </div>
+            </div>
+
+            <!-- Preference Card -->
+            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
+                    hover:shadow-lg transition">
+                <img src="{% static 'images/preferences/shopping.jpg' %}" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Shopping</p>
+                    <p class="text-xs text-gray-500 mt-1">Malls & markets</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Past Plans -->
+    <div class="mt-14">
+        <h3 class="text-lg font-bold mb-6">Past Plans</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Plan Card -->
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                <img src="{% static 'images/plans/desert.jpg' %}" class="w-full h-36 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Red Sand Trip</p>
+                    <p class="text-xs text-gray-500 mt-1">Desert Adventure</p>
+                    <p class="text-xs text-gray-400 mt-2">📅 Jan 2025 · ⏱ 5 hrs</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                <img src="{% static 'images/plans/diriyah.jpg' %}" class="w-full h-36 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Diriyah Walk</p>
+                    <p class="text-xs text-gray-500 mt-1">Culture & Heritage</p>
+                    <p class="text-xs text-gray-400 mt-2">📅 Dec 2024 · ⏱ 3 hrs</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                <img src="{% static 'images/plans/cafe.jpg' %}" class="w-full h-36 object-cover">
+                <div class="p-4">
+                    <p class="font-bold text-sm">Cafe Hopping</p>
+                    <p class="text-xs text-gray-500 mt-1">Relax & Coffee</p>
+                    <p class="text-xs text-gray-400 mt-2">📅 Nov 2024 · ⏱ 4 hrs</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- My Favorites -->
+    <div class="mt-14">
+        <h3 class="text-lg font-bold mb-6">My Favorites</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
+                <p class="font-bold text-sm">Edge of the World</p>
+                <p class="text-xs text-gray-500 mt-1">Nature · ⭐ 4.8</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
+                <p class="font-bold text-sm">Boulevard Riyadh</p>
+                <p class="text-xs text-gray-500 mt-1">Entertainment · ⭐ 4.6</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
+                <p class="font-bold text-sm">Al Masmak Fort</p>
+                <p class="text-xs text-gray-500 mt-1">Culture · ⭐ 4.7</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
+                <p class="font-bold text-sm">Nakheel Mall</p>
+                <p class="text-xs text-gray-500 mt-1">Shopping · ⭐ 4.5</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="mt-20 text-center text-sm text-gray-400">
+        <p>
+            © 2026 Tizahab. All rights reserved.
+        </p>
+    </div>
+
+    <!-- Back to Home -->
+    <a href="/" class="fixed bottom-6 left-6 text-sm text-white
+            bg-[#7E1CA1]/90 px-4 py-2 rounded-lg shadow hover:bg-[#7E1CA1] transition">
+        ← Back to Home
+    </a>
+
+    <script>
+        const token = localStorage.getItem("access");
+
+        fetch("/api/auth/preferences/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Unauthorized");
+                return res.json();
+            })
+            .then(data => {
+                console.log("Preferences:", data);
+
+                if (data.preferred_language === "ar") {
+                    document.documentElement.lang = "ar";
+                } else {
+                    document.documentElement.lang = "en";
+                }
+            })
+            .catch(err => {
+                console.error("Failed to load preferences", err);
+            });
+    </script>
+
+
+</body>
+
+</html>

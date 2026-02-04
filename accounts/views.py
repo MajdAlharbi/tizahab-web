@@ -20,6 +20,9 @@ def login_page(request):
 def signup_page(request):
     return render(request, "signup.html")
 
+def preferences_page(request):
+    return render(request, "preferences.html")
+
 
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
