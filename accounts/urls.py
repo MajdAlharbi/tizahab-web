@@ -12,4 +12,3 @@ urlpatterns = [
     path("ui/login/", login_page, name="login-page"),
     path("ui/signup/", signup_page, name="signup-page"),
 ]
-
