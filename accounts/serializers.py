@@ -91,8 +91,3 @@ class LoginSerializer(serializers.Serializer):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
-
-class UserPreferencesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserPreferences
-        exclude = ("user", "created_at", "updated_at")
