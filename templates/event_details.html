@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Details | Tizahab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand:'#7E1CA1' }}}}
+  </script>
+</head>
+
+<body class="bg-gray-50">
+  <header class="bg-white border-b">
+    <div class="max-w-[1100px] mx-auto px-6 h-16 flex items-center gap-3">
+      <a href="/events/" class="text-sm text-gray-600 hover:underline">← Back</a>
+      <h1 class="text-xl font-semibold">Event Details</h1>
+    </div>
+  </header>
+
+  <main class="max-w-[1100px] mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left -->
+      <div class="lg:col-span-2 bg-white border rounded-2xl overflow-hidden">
+        <div class="h-64 bg-gray-200"></div>
+        <div class="p-6 space-y-4">
+          <div class="flex items-center gap-2 text-xs text-gray-600">
+            <span class="px-2 py-1 rounded-full bg-brand/10 text-brand font-medium">Festival</span>
+            <span>📅 Nov 20 – Dec 15</span>
+            <span>⏰ 5:00 PM</span>
+            <span>📍 Prince Turki Ibn Abd</span>
+          </div>
+          <h2 class="text-2xl font-semibold">Boulevard World 2025</h2>
+          <p class="text-gray-600">
+            Riyadh’s Cultural Wonderland. Explore cultures, food, and entertainment.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <aside class="bg-white border rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="text-sm text-gray-600">Price</div>
+          <div class="text-xl font-semibold">45 SAR</div>
+        </div>
+        <div class="flex items-center justify-between text-sm text-gray-600">
+          <span>⭐ 4.9</span><span>👥 125k</span>
+        </div>
+        <button class="w-full h-11 rounded-xl bg-brand text-white hover:opacity-90">
+          Book Now
+        </button>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
