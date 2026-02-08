@@ -58,9 +58,7 @@ INSTALLED_APPS = [
     'events',
     'itinerary',
     'rest_framework',
-
-
-
+    'daily_plan',
 ]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
