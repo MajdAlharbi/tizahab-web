@@ -1,15 +1,13 @@
 from django.urls import path
 from . import views
+from .views import EventListAPIView, FilteredEventsAPIView
 
 urlpatterns = [
-    path("", views.events_list, name="events_list"),
-    path("<int:event_id>/", views.event_details, name="event_details"),
-from .views import FilteredEventsAPIView
+    # HTML pages
+    path("page/", views.events_list, name="events-page"),
+    path("page/<int:event_id>/", views.event_details, name="event-details-page"),
 
-urlpatterns = [
-    path("events/", FilteredEventsAPIView.as_view(), name="filtered-events"),
-from .views import EventListAPIView
-
-urlpatterns = [
-    path('events/', EventListAPIView.as_view(), name='events-list'),
+    # APIs
+    path("", EventListAPIView.as_view(), name="events-api"),
+    path("filtered/", FilteredEventsAPIView.as_view(), name="events-filtered-api"),
 ]
