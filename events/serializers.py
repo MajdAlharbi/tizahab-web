@@ -15,3 +15,4 @@ class EventSerializer(serializers.ModelSerializer):
             "end_date",
             "external_booking_url",
         ]
+        fields = '__all__'
