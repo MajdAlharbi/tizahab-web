@@ -1,3 +1,25 @@
-from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import DailyPlan
+from .serializers import DailyPlanSerializer
 
-# Create your views here.
+
+class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = DailyPlanSerializer
+    permission_classes = [IsAuthenticated]
+    
+
+    def get_queryset(self):
+        return DailyPlan.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class DailyPlanRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = DailyPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return DailyPlan.objects.filter(user=self.request.user)
+

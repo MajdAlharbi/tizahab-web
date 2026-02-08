@@ -8,6 +8,6 @@ urlpatterns = [
     path("api/events/", include("events.urls")),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("events/", include("events.urls")),
-
+    path("api/daily-plan/", include("daily_plan.urls")),
     path("api/", include("events.urls")),
 ]
