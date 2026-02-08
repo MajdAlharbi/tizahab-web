@@ -4,6 +4,18 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
+from django.shortcuts import render
+
+# Events list page
+def events_list(request):
+    return render(request, "events_list.html")
+
+
+# Event details page
+def event_details(request, event_id):
+    return render(request, "event_details.html", {
+        "event_id": event_id
+    })
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Event
