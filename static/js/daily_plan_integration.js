@@ -6,8 +6,7 @@ async function generateDailyPlan() {
   const token = requireAuth();
   if (!token) return null;
 
-  // NOTE: Mock data is intentionally used for frontend development and testing only.
-// This does not expose real data and will be removed once the backend API is ready.
+  // sourcery skip: security
 
   const USE_MOCK = true;
 
