@@ -6,7 +6,7 @@ function getAccessToken() {
 
 function redirectToLogin() {
   // Redirect to UI login page
-  window.location.href = "/accounts/ui/login/";
+  window.location.href = "/api/auth/ui/login/";
 }
 
 function requireAuth() {
