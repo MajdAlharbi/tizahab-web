@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Plan</title>
+
+  <!-- TODO: Replace with project main layout if available -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6">
+
+  <h1 class="text-2xl font-bold mb-4">My Daily Plan</h1>
+
+  <button
+    id="generate-btn"
+    class="mb-4 px-4 py-2 bg-blue-600 text-white rounded"
+  >
+    Generate My Day
+  </button>
+
+  <div id="plan-message" class="mb-4 text-gray-600"></div>
+
+  <div id="plan-container"></div>
+
+  <!-- Auth & Integration Scripts -->
+  <script src="{% static 'js/daily_plan_guard.js' %}"></script>
+  <script src="{% static 'js/daily_plan_integration.js' %}"></script>
+
+</body>
+</html>
