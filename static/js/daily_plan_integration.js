@@ -44,27 +44,41 @@ async function generateDailyPlan() {
 }
 
 function renderDailyPlan(data) {
-  // TODO: Align element IDs with final Daily Plan UI (from Frontend team)
   const container = document.getElementById("plan-container");
   const message = document.getElementById("plan-message");
-
   if (!container) return;
 
-  const events = (data && data.events) ? data.events : [];
+  // Clear previous content safely
+  container.replaceChildren();
+
+  const events = (data && Array.isArray(data.events)) ? data.events : [];
 
   if (events.length === 0) {
-    container.innerHTML = `<div class="text-gray-500">No events found.</div>`;
+    const empty = document.createElement("div");
+    empty.className = "text-gray-500";
+    empty.textContent = "No events found.";
+    container.appendChild(empty);
     return;
   }
 
-  container.innerHTML = events.map(event => `
-    <div class="p-3 border rounded mb-2">
-      <div class="font-bold">${event.title}</div>
-      <div class="text-sm text-gray-500">
-        ${event.category} • ${event.date}
-      </div>
-    </div>
-  `).join("");
+  events.forEach(event => {
+    const card = document.createElement("div");
+    card.className = "p-3 border rounded mb-2";
+
+    const title = document.createElement("div");
+    title.className = "font-bold";
+    title.textContent = event?.title ?? "";
+
+    const meta = document.createElement("div");
+    meta.className = "text-sm text-gray-500";
+    const category = event?.category ?? "";
+    const date = event?.date ?? "";
+    meta.textContent = `${category} • ${date}`;
+
+    card.appendChild(title);
+    card.appendChild(meta);
+    container.appendChild(card);
+  });
 
   if (message) message.innerText = "";
 }
