@@ -6,8 +6,9 @@ async function generateDailyPlan() {
   const token = requireAuth();
   if (!token) return null;
 
-  // Use mock data until backend API is ready
-  // TODO: Set USE_MOCK to false when API is implemented
+  // NOTE: Mock data is intentionally used for frontend development and testing only.
+// This does not expose real data and will be removed once the backend API is ready.
+
   const USE_MOCK = true;
 
   if (USE_MOCK) {
