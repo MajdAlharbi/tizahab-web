@@ -62,23 +62,42 @@ function renderDailyPlan(data) {
   }
 
   events.forEach(event => {
-    const card = document.createElement("div");
-    card.className = "p-3 border rounded mb-2";
+  const card = document.createElement("div");
+  card.className = `
+    bg-white border rounded-2xl p-5 shadow-sm
+    flex justify-between items-center
+    hover:shadow-md transition
+  `;
 
-    const title = document.createElement("div");
-    title.className = "font-bold";
-    title.textContent = event?.title ?? "";
+  const left = document.createElement("div");
+  left.className = "space-y-1";
 
-    const meta = document.createElement("div");
-    meta.className = "text-sm text-gray-500";
-    const category = event?.category ?? "";
-    const date = event?.date ?? "";
-    meta.textContent = `${category} • ${date}`;
+  const time = document.createElement("div");
+  time.className = "text-sm text-brand font-medium";
+  time.textContent = "09:00 AM • 1 hour";
 
-    card.appendChild(title);
-    card.appendChild(meta);
-    container.appendChild(card);
-  });
+  const title = document.createElement("div");
+  title.className = "text-lg font-semibold";
+  title.textContent = event?.title ?? "";
+
+  const location = document.createElement("div");
+  location.className = "text-sm text-gray-500";
+  location.textContent = event?.category ?? "";
+
+  left.appendChild(time);
+  left.appendChild(title);
+  left.appendChild(location);
+
+  const actionBtn = document.createElement("button");
+  actionBtn.className = "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90";
+  actionBtn.textContent = "Navigate";
+
+  card.appendChild(left);
+  card.appendChild(actionBtn);
+
+  container.appendChild(card);
+});
+
 
   if (message) message.innerText = "";
 }

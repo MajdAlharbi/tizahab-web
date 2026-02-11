@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Tizahab{% endblock %}</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#7E1CA1' }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+<div class="min-h-screen flex">
+
+  <!-- Sidebar Desktop -->
+  <aside id="sidebar"
+    class="fixed inset-y-0 left-0 w-64 bg-white border-r
+           transform -translate-x-full transition-transform duration-300
+           z-50 flex flex-col justify-between">
+
+        <div id="sidebarOverlay"
+       class="hidden fixed inset-0 bg-white/40 z-40"></div>
+    <div>
+      <!-- Logo -->
+      <div class="px-6 py-6 border-b">
+        <div class="text-2xl font-bold text-brand">Tizahab</div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="p-4 space-y-2 text-sm font-medium">
+
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100">
+         <i data-lucide="home" class="w-5 h-5 text-brand"></i>
+<span>Home</span>
+
+        </a>
+
+        <a href="/daily-plan/" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-brand/10 text-brand">
+          <i data-lucide="calendar-days" class="w-5 h-5 text-brand"></i>
+<span>Daily Plan</span>
+
+        </a>
+
+        <a href="/events/" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100">
+         <i data-lucide="ticket" class="w-5 h-5 text-brand"></i>
+<span>Events</span>
+
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100">
+         <i data-lucide="map-pin" class="w-5 h-5 text-brand"></i>
+<span>Map</span>
+
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100">
+          <i data-lucide="user" class="w-5 h-5 text-brand"></i>
+<span>Profile</span>
+
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- Bottom -->
+    <div class="p-4 space-y-2 border-t">
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100 text-sm">
+       <i data-lucide="settings" class="w-5 h-5 text-brand"></i>
+<span>Settings</span>
+
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100 text-sm text-red-500">
+        <i data-lucide="log-out" class="w-5 h-5 text-red-500"></i>
+<span>Logout</span>
+
+      </a>
+    </div>
+
+  </aside>
+
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- Top Header -->
+    <header class="h-16 bg-white border-b flex items-center px-6">
+
+  <button id="mobileMenuBtn" class="text-xl mr-6">☰</button>
+
+  <div class="flex-1 flex justify-center">
+    <input
+      type="text"
+      placeholder="Search destinations, events..."
+      class="w-full max-w-xl h-10 px-4 rounded-xl border bg-gray-50 text-sm focus:outline-none"
+    />
+  </div>
+
+  <div class="flex items-center gap-5 ml-6">
+
+  <!-- Notifications -->
+  <div class="relative">
+    <button id="notifBtn" class="relative p-2 rounded-xl hover:bg-gray-100 transition">
+      <i data-lucide="bell" class="w-5 h-5 text-brand"></i>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="notifMenu"
+         class="hidden absolute right-0 mt-3 w-64 bg-white border rounded-2xl shadow-lg p-4 space-y-3 z-50">
+      <div class="text-sm font-semibold">Notifications</div>
+      <div class="text-sm text-gray-600">🎉 New event added</div>
+      <div class="text-sm text-gray-600">🗓️ Your plan updated</div>
+      <div class="text-sm text-gray-600">🔥 Trending near you</div>
+    </div>
+  </div>
+
+
+  <!-- Language -->
+  <div class="relative">
+    <button id="langBtn"
+      class="flex items-center gap-2 px-3 h-9 rounded-xl border bg-white hover:bg-gray-50 transition text-sm">
+      <i data-lucide="globe" class="w-4 h-4 text-brand"></i>
+      <span id="langLabel">EN</span>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="langMenu"
+         class="hidden absolute right-0 mt-3 w-32 bg-white border rounded-xl shadow-lg p-2 z-50">
+      <button class="lang-option w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm">EN</button>
+      <button class="lang-option w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm">AR</button>
+    </div>
+  </div>
+
+
+  <!-- Avatar -->
+  <div class="h-9 w-9 bg-brand text-white rounded-full flex items-center justify-center text-sm font-semibold">
+    AM
+  </div>
+
+</div>
+
+    </header>
+
+    <!-- Page Content -->
+   <main class="flex-1 px-6 py-6 w-full">
+
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+
+</div>
+<script>
+  lucide.createIcons();
+</script>
+<script>
+  lucide.createIcons();
+
+  const notifBtn = document.getElementById("notifBtn");
+  const notifMenu = document.getElementById("notifMenu");
+
+  const langBtn = document.getElementById("langBtn");
+  const langMenu = document.getElementById("langMenu");
+  const langLabel = document.getElementById("langLabel");
+  const htmlRoot = document.getElementById("htmlRoot");
+
+  // Load saved language
+  const savedLang = localStorage.getItem("lang") || "EN";
+  applyLanguage(savedLang);
+
+  function applyLanguage(lang) {
+    langLabel.innerText = lang;
+
+    if (lang === "AR") {
+      htmlRoot.setAttribute("dir", "rtl");
+      htmlRoot.setAttribute("lang", "ar");
+    } else {
+      htmlRoot.setAttribute("dir", "ltr");
+      htmlRoot.setAttribute("lang", "en");
+    }
+
+    localStorage.setItem("lang", lang);
+  }
+
+  // Toggle Notifications
+  notifBtn?.addEventListener("click", () => {
+    notifMenu.classList.toggle("hidden");
+    langMenu.classList.add("hidden");
+  });
+
+  // Toggle Language
+  langBtn?.addEventListener("click", () => {
+    langMenu.classList.toggle("hidden");
+    notifMenu.classList.add("hidden");
+  });
+
+  // Change Language
+  document.querySelectorAll(".lang-option").forEach(btn => {
+    btn.addEventListener("click", () => {
+      applyLanguage(btn.innerText);
+      langMenu.classList.add("hidden");
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener("click", (e) => {
+    if (!notifBtn.contains(e.target)) {
+      notifMenu.classList.add("hidden");
+    }
+    if (!langBtn.contains(e.target)) {
+      langMenu.classList.add("hidden");
+    }
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobileMenuBtn");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+
+  menuBtn?.addEventListener("click", () => {
+    const isOpen = !sidebar.classList.contains("-translate-x-full");
+
+    if (isOpen) {
+      // Close
+      sidebar.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+    } else {
+      // Open
+      sidebar.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+    }
+  });
+
+  
+  overlay?.addEventListener("click", () => {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  });
+</script>
+
+
+</body>
+</html>
