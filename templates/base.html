@@ -4,7 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Tizahab{% endblock %}</title>
-  {% tailwind_css %}
+ <script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { brand: '#7E1CA1' }
+      }
+    }
+  }
+</script>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen">
 
