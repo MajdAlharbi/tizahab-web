@@ -14,6 +14,11 @@ class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+    def list(self, request, *args, **kwargs):
+        print("DEBUG USER:", request.user)
+        print("DEBUG AUTH:", request.auth)
+        return super().list(request, *args, **kwargs)    
 
 
 class DailyPlanRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):

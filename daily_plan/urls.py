@@ -5,7 +5,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", DailyPlanListCreateAPIView.as_view(), name="daily-plan-list-create"),
     path("", DailyPlanListCreateAPIView.as_view(), name="daily-plan"),
     path("<int:pk>/", DailyPlanRetrieveUpdateAPIView.as_view(), name="daily-plan-detail"),
 ]
