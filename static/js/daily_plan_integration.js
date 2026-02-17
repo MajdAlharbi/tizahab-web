@@ -8,7 +8,7 @@ async function generateDailyPlan() {
 
   // sourcery skip: security
 
-  const USE_MOCK = true;
+  const USE_MOCK = false;
 
   if (USE_MOCK) {
     return {
