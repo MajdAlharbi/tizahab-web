@@ -2,9 +2,14 @@
 // This file handles Generate button behavior and UI updates
 // TODO: Connect to real backend endpoint once available
 
+console.log("Daily Plan JS Loaded");
+
 async function generateDailyPlan() {
+  console.log("generateDailyPlan started");
+
   const token = requireAuth();
-  if (!token) return null;
+console.log("Token:", token);
+
 
   // sourcery skip: security
 
@@ -21,13 +26,23 @@ async function generateDailyPlan() {
   }
 
   // TODO: Confirm endpoint URL with backend team
-  const response = await fetch("/api/daily-plan/generate/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  });
+ // Get selected date from UI
+const today = new Date();
+const selectedDate = today.toISOString().split("T")[0];
+
+console.log("Selected date:", selectedDate);
+console.log("About to call API...");
+
+const response = await fetch("/api/daily-plan/generate/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    date: selectedDate
+  })
+});
 
   if (response.status === 401) {
     handleUnauthorized();
@@ -116,6 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!generateBtn) return;
 
   generateBtn.addEventListener("click", async () => {
+    console.log("Button clicked");
+
     try {
       setLoading(true);
       const data = await generateDailyPlan();

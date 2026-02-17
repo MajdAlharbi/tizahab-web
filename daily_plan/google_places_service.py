@@ -8,44 +8,25 @@ def fetch_places_for_interest(interest: str, city: str = "Riyadh", limit: int = 
     api_key = os.environ.get("GOOGLE_PLACES_API_KEY")
 
     if not api_key:
-        return _mock_places(interest, city)
+        raise ValueError("GOOGLE_PLACES_API_KEY is not set")
 
-    try:
-        query = f"{interest} in {city}"
-        params = {"query": query, "key": api_key}
+    query = f"{interest} in {city}"
+    params = {"query": query, "key": api_key}
 
-        resp = requests.get(TEXT_SEARCH_URL, params=params, timeout=10)
-        data = resp.json()
+    resp = requests.get(TEXT_SEARCH_URL, params=params, timeout=10)
+    data = resp.json()
 
-        if data.get("status") != "OK":
-            return _mock_places(interest, city)
+    if data.get("status") != "OK":
+        raise ValueError(f"Google API Error: {data.get('status')}")
 
-        results = data.get("results", [])[:limit]
+    results = data.get("results", [])[:limit]
 
-        places = []
-        for r in results:
-            places.append({
-                "name": r.get("name"),
-                "address": r.get("formatted_address") or city,
-                "rating": r.get("rating"),
-            })
+    places = []
+    for r in results:
+        places.append({
+            "name": r.get("name"),
+            "address": r.get("formatted_address") or city,
+            "rating": r.get("rating"),
+        })
 
-        return places
-
-    except Exception:
-        return _mock_places(interest, city)
-
-
-def _mock_places(interest, city):
-    return [
-        {
-            "name": f"{interest.title()} Place 1",
-            "address": city,
-            "rating": 4.5
-        },
-        {
-            "name": f"{interest.title()} Place 2",
-            "address": city,
-            "rating": 4.2
-        }
-    ]
+    return places

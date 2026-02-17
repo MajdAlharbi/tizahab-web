@@ -9,18 +9,22 @@ def generate_recommendations(user, date_str):
     try:
         preferences = user.preferences
     except UserPreferences.DoesNotExist:
-        return Event.objects.none()
+        return None  # No preferences at all
 
     interests = preferences.interests or []
     if not interests:
-        return Event.objects.none()
+        return None  # Preferences exist but no interests
 
     target_date = timezone.make_aware(datetime.fromisoformat(date_str))
 
     created_events = []
 
     for interest in interests:
-        places = fetch_places_for_interest(interest=interest, city="Riyadh", limit=2)
+        places = fetch_places_for_interest(
+            interest=interest,
+            city="Riyadh",
+            limit=2
+        )
 
         for place in places:
             title = place.get("name")
