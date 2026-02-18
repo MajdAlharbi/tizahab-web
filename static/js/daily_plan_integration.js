@@ -1,17 +1,10 @@
-// Daily Plan - Frontend Integration
-// This file handles Generate button behavior and UI updates
-// TODO: Connect to real backend endpoint once available
-
 console.log("Daily Plan JS Loaded");
 
 async function generateDailyPlan() {
   console.log("generateDailyPlan started");
 
   const token = requireAuth();
-console.log("Token:", token);
-
-
-  // sourcery skip: security
+  console.log("Token:", token);
 
   const USE_MOCK = false;
 
@@ -25,24 +18,22 @@ console.log("Token:", token);
     };
   }
 
-  // TODO: Confirm endpoint URL with backend team
- // Get selected date from UI
-const today = new Date();
-const selectedDate = today.toISOString().split("T")[0];
+  const today = new Date();
+  const selectedDate = today.toISOString().split("T")[0];
 
-console.log("Selected date:", selectedDate);
-console.log("About to call API...");
+  console.log("Selected date:", selectedDate);
+  console.log("About to call API...");
 
-const response = await fetch("/api/daily-plan/generate/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify({
-    date: selectedDate
-  })
-});
+  const response = await fetch("/api/daily-plan/generate/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      date: selectedDate
+    })
+  });
 
   if (response.status === 401) {
     handleUnauthorized();
@@ -63,7 +54,6 @@ function renderDailyPlan(data) {
   const message = document.getElementById("plan-message");
   if (!container) return;
 
-  // Clear previous content safely
   container.replaceChildren();
 
   const events = (data && Array.isArray(data.events)) ? data.events : [];
@@ -77,44 +67,48 @@ function renderDailyPlan(data) {
   }
 
   events.forEach(event => {
-  const card = document.createElement("div");
-  card.className = `
-    bg-white border rounded-2xl p-5 shadow-sm
-    flex justify-between items-center
-    hover:shadow-md transition
-  `;
+    const card = document.createElement("div");
+    card.className = `
+      bg-white border rounded-2xl p-5 shadow-sm
+      flex justify-between items-center
+      hover:shadow-md transition
+    `;
 
-  const left = document.createElement("div");
-  left.className = "space-y-1";
+    const left = document.createElement("div");
+    left.className = "space-y-1";
 
-  const time = document.createElement("div");
-  time.className = "text-sm text-brand font-medium";
-  time.textContent = "09:00 AM • 1 hour";
+    const time = document.createElement("div");
+    time.className = "text-sm text-brand font-medium";
+    time.textContent = "09:00 AM • 1 hour";
 
-  const title = document.createElement("div");
-  title.className = "text-lg font-semibold";
-  title.textContent = event?.title ?? "";
+    const title = document.createElement("div");
+    title.className = "text-lg font-semibold";
+    title.textContent = event?.title ?? "";
 
-  const location = document.createElement("div");
-  location.className = "text-sm text-gray-500";
-  location.textContent = event?.category ?? "";
+    const location = document.createElement("div");
+    location.className = "text-sm text-gray-500";
+    location.textContent = event?.category ?? "";
 
-  left.appendChild(time);
-  left.appendChild(title);
-  left.appendChild(location);
+    left.appendChild(time);
+    left.appendChild(title);
+    left.appendChild(location);
 
-  const actionBtn = document.createElement("button");
-  actionBtn.className = "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90";
-  actionBtn.textContent = "Navigate";
+    const actionBtn = document.createElement("button");
+    actionBtn.className = "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90";
+    actionBtn.textContent = "Navigate";
 
-  card.appendChild(left);
-  card.appendChild(actionBtn);
+    card.appendChild(left);
+    card.appendChild(actionBtn);
 
-  container.appendChild(card);
-});
-
+    container.appendChild(card);
+  });
 
   if (message) message.innerText = "";
+
+  const mapPoints = extractPlanPointsFromDOM();
+  if (window.__TZ_DP_MAP && window.__TZ_DP_MARKERS) {
+    renderDailyPlanMarkers(mapPoints);
+  }
 }
 
 function setLoading(isLoading) {
@@ -124,7 +118,6 @@ function setLoading(isLoading) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Ensure page is protected
   requireAuth();
 
   const generateBtn = document.getElementById("generate-btn");
@@ -145,3 +138,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function initDailyPlanMap() {
+  if (!window.TZMap) return;
+
+  const points = [
+    { id: "dp-1", title: "Start Point", location: "Riyadh", lat: 24.7136, lng: 46.6753 },
+    { id: "dp-2", title: "Diriyah", location: "Diriyah", lat: 24.7342, lng: 46.5762 },
+    { id: "dp-3", title: "KAFD", location: "King Abdullah Financial District", lat: 24.7667, lng: 46.6439 },
+  ];
+
+  window.__TZ_DP_POINTS = points;
+  window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", points, { zoom: 11 });
+  window.__TZ_DP_MARKERS = window.__TZ_DP_MARKERS || {};
+}
+
+function extractPlanPointsFromDOM() {
+  return window.__TZ_DP_POINTS || [];
+}
+
+function renderDailyPlanMarkers(points) {
+  if (!window.google || !google.maps || !window.__TZ_DP_MAP) return;
+
+  Object.values(window.__TZ_DP_MARKERS).forEach(m => {
+    if (m && typeof m.setMap === "function") m.setMap(null);
+  });
+  window.__TZ_DP_MARKERS = {};
+
+  const map = window.__TZ_DP_MAP;
+  const info = new google.maps.InfoWindow();
+  const bounds = new google.maps.LatLngBounds();
+
+  (Array.isArray(points) ? points : []).forEach(p => {
+    if (!p || typeof p.lat !== "number" || typeof p.lng !== "number") return;
+
+    const pos = { lat: p.lat, lng: p.lng };
+    const marker = new google.maps.Marker({ position: pos, map });
+
+    if (p.id) window.__TZ_DP_MARKERS[p.id] = marker;
+
+    const title = (p.title || "Stop").toString();
+    const location = (p.location || "").toString();
+
+    marker.addListener("click", () => {
+      info.setContent(
+        `<div style="font-weight:600;margin-bottom:4px;">${escapeHtml(title)}</div>
+         <div style="font-size:12px;opacity:.85;">${escapeHtml(location)}</div>`
+      );
+      info.open({ anchor: marker, map });
+    });
+
+    bounds.extend(pos);
+  });
+
+  if (!bounds.isEmpty()) map.fitBounds(bounds);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
