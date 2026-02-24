@@ -6,7 +6,6 @@
 
 <main class="px-6 py-6 max-w-[1200px] mx-auto space-y-8">
 
-  <!-- Page Header -->
   <div class="flex items-start justify-between">
     <div>
       <h1 class="text-3xl font-semibold">Daily Plan</h1>
@@ -16,17 +15,24 @@
     <div class="flex gap-3">
       <button id="generate-btn"
         class="flex items-center gap-2 px-5 h-11 rounded-xl border border-brand text-brand font-medium hover:bg-brand/5 transition">
-        ✨ Generate AI Plan
+        Generate AI Plan
       </button>
 
       <button
         class="flex items-center gap-2 px-5 h-11 rounded-xl bg-brand text-white font-medium hover:opacity-90 transition">
-        ＋ Add Activity
+        Add Activity
       </button>
     </div>
   </div>
 
-  <!-- Week Card -->
+  <section class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Map</h2>
+      <span class="text-sm text-gray-500">View plan on map</span>
+    </div>
+    <div id="dailyPlanMap" class="w-full rounded-2xl border overflow-hidden bg-white" style="height: 380px;"></div>
+  </section>
+
   <div class="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
 
     <div class="flex items-center justify-between">
@@ -35,320 +41,263 @@
       <button class="text-gray-400 text-xl">&gt;</button>
     </div>
 
-    <div id="week-days"
-     class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar">
-</div>
+    <div id="week-days" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"></div>
 
-<!-- Today's Activities -->
-<section class="space-y-5">
-
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <i data-lucide="calendar-check" class="w-6 h-6 text-brand"></i>
-      <h2 class="text-xl font-semibold">Today's Activities</h2>
-      <span class="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-600">
-        Drag to reorder
-      </span>
-    </div>
-  </div>
-
-  <div id="plan-container" class="space-y-4">
-    <!-- JS injects cards here -->
-  </div>
-
-</section>
-<!-- Recommended Restaurants -->
-<section class="space-y-5">
-
-  <div class="flex items-center gap-3">
-    <i data-lucide="utensils" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">Recommended Restaurants</h2>
-  </div>
-
-  <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-
-      <div class="h-40 bg-gray-200 relative">
-        <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-          Traditional
-        </span>
+    <section class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="calendar-check" class="w-6 h-6 text-brand"></i>
+          <h2 class="text-xl font-semibold">Today's Activities</h2>
+          <span class="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-600">
+            Drag to reorder
+          </span>
+        </div>
       </div>
 
-      <div class="p-4">
-        <div class="font-semibold">Najd Village</div>
-        <div class="text-sm text-gray-500 mt-1">Saudi Cuisine</div>
+      <div id="plan-container" class="space-y-4"></div>
+    </section>
+
+    <section class="space-y-5">
+      <div class="flex items-center gap-3">
+        <i data-lucide="utensils" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">Recommended Restaurants</h2>
       </div>
 
-    </div>
+      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
 
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+              Traditional
+            </span>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">Najd Village</div>
+            <div class="text-sm text-gray-500 mt-1">Saudi Cuisine</div>
+          </div>
+        </div>
 
-      <div class="h-40 bg-gray-200 relative">
-        <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-          Fine Dining
-        </span>
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+              Fine Dining
+            </span>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">The Globe</div>
+            <div class="text-sm text-gray-500 mt-1">Luxury Dining</div>
+          </div>
+        </div>
+
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+              Mediterranean
+            </span>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">Takya</div>
+            <div class="text-sm text-gray-500 mt-1">Modern Cuisine</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="space-y-5">
+      <div class="flex items-center gap-3">
+        <i data-lucide="flame" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">Popular Activities</h2>
       </div>
 
-      <div class="p-4">
-        <div class="font-semibold">The Globe</div>
-        <div class="text-sm text-gray-500 mt-1">Luxury Dining</div>
+      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <i data-lucide="mountain" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">Desert Safari</div>
+          </div>
+        </div>
+
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <i data-lucide="building-2" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">Sky Bridge</div>
+          </div>
+        </div>
+
+        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <i data-lucide="landmark" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
+          </div>
+          <div class="p-4">
+            <div class="font-semibold">National Museum</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="space-y-5">
+      <div class="flex items-center gap-3">
+        <i data-lucide="ticket" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">Upcoming Events</h2>
       </div>
 
-    </div>
+      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
 
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+        <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+              Festival
+            </span>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="font-semibold">Riyadh Season</div>
+            <div class="text-sm text-gray-500">Nov 20 • 6:00 PM</div>
+            <button class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
+              View Event
+            </button>
+          </div>
+        </div>
 
-      <div class="h-40 bg-gray-200 relative">
-        <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-          Mediterranean
-        </span>
+        <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+          <div class="h-40 bg-gray-200 relative">
+            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+              Concert
+            </span>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="font-semibold">Concert Night</div>
+            <div class="text-sm text-gray-500">Nov 25 • 8:00 PM</div>
+            <button class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
+              View Event
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="rounded-2xl overflow-hidden shadow-sm">
+      <div class="bg-gradient-to-r from-purple-600 to-purple-400 text-white px-5 py-3 font-medium flex items-center gap-2">
+        <i data-lucide="map" class="w-4 h-4"></i>
+        Route Preview
       </div>
 
-      <div class="p-4">
-        <div class="font-semibold">Takya</div>
-        <div class="text-sm text-gray-500 mt-1">Modern Cuisine</div>
+      <div class="bg-white p-4">
+        <div class="relative h-56 rounded-xl overflow-hidden">
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=Riyadh&zoom=13&size=600x300&key={{ GOOGLE_MAPS_API_KEY }}"
+               class="w-full h-full object-cover">
+          <button class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-brand px-4 py-2 rounded-lg text-sm shadow hover:bg-gray-50">
+            View Full Map
+          </button>
+        </div>
       </div>
-
-    </div>
-
-  </div>
-
-</section>
-<!-- Popular Activities -->
-<section class="space-y-5">
-
-  <div class="flex items-center gap-3">
-    <i data-lucide="flame" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">Popular Activities</h2>
-  </div>
-
-  <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-
-      <div class="h-40 bg-gray-200 relative">
-        <i data-lucide="mountain" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-      </div>
-
-      <div class="p-4">
-        <div class="font-semibold">Desert Safari</div>
-      </div>
-
-    </div>
-
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-
-      <div class="h-40 bg-gray-200 relative">
-        <i data-lucide="building-2" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-      </div>
-
-      <div class="p-4">
-        <div class="font-semibold">Sky Bridge</div>
-      </div>
-
-    </div>
-
-    <!-- Card -->
-    <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-
-      <div class="h-40 bg-gray-200 relative">
-        <i data-lucide="landmark" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-      </div>
-
-      <div class="p-4">
-        <div class="font-semibold">National Museum</div>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-<!-- Upcoming Events -->
-<section class="space-y-5">
-
-  <div class="flex items-center gap-3">
-    <i data-lucide="ticket" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">Upcoming Events</h2>
-  </div>
-
-  <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-    <!-- Card -->
-    <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-
-      <div class="h-40 bg-gray-200 relative">
-        <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-          Festival
-        </span>
-      </div>
-
-      <div class="p-4 space-y-2">
-        <div class="font-semibold">Riyadh Season</div>
-        <div class="text-sm text-gray-500">Nov 20 • 6:00 PM</div>
-        <button class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
-          View Event
-        </button>
-      </div>
-
     </div>
 
-    <!-- Card -->
-    <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+    <div class="bg-purple-50 rounded-2xl p-6 shadow-sm">
+      <h3 class="font-semibold mb-6">Today's Summary</h3>
 
-      <div class="h-40 bg-gray-200 relative">
-        <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-          Concert
-        </span>
+      <div class="space-y-4 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Activities</span>
+          <span class="font-semibold text-brand">6</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">Duration</span>
+          <span class="font-semibold text-brand">9.5h</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">Distance</span>
+          <span class="font-semibold text-brand">15km</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">Completed</span>
+          <span class="font-semibold text-green-500">1</span>
+        </div>
       </div>
-
-      <div class="p-4 space-y-2">
-        <div class="font-semibold">Concert Night</div>
-        <div class="text-sm text-gray-500">Nov 25 • 8:00 PM</div>
-        <button class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
-          View Event
-        </button>
-      </div>
-
     </div>
 
-  </div>
+    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+      <h3 class="font-semibold">Quick Actions</h3>
 
-</section>
-<!-- Route Preview -->
-<div class="rounded-2xl overflow-hidden shadow-sm">
+      <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
+        <i data-lucide="download" class="w-4 h-4 text-brand"></i>
+        Export Plan
+      </button>
 
-  <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-purple-400 text-white px-5 py-3 font-medium flex items-center gap-2">
-    <i data-lucide="map" class="w-4 h-4"></i>
-    Route Preview
-  </div>
-
-  <!-- Map -->
-  <div class="bg-white p-4">
-    <div class="relative h-56 rounded-xl overflow-hidden">
-      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Riyadh&zoom=13&size=600x300&key=YOUR_KEY"
-           class="w-full h-full object-cover">
-      <button class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-brand px-4 py-2 rounded-lg text-sm shadow hover:bg-gray-50">
-        View Full Map
+      <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
+        <i data-lucide="share-2" class="w-4 h-4 text-brand"></i>
+        Share Route
       </button>
     </div>
-  </div>
-
-</div>
-<!-- Today's Summary -->
-<div class="bg-purple-50 rounded-2xl p-6 shadow-sm">
-
-  <h3 class="font-semibold mb-6">Today's Summary</h3>
-
-  <div class="space-y-4 text-sm">
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">Activities</span>
-      <span class="font-semibold text-brand">6</span>
-    </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">Duration</span>
-      <span class="font-semibold text-brand">9.5h</span>
-    </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">Distance</span>
-      <span class="font-semibold text-brand">15km</span>
-    </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">Completed</span>
-      <span class="font-semibold text-green-500">1</span>
-    </div>
 
   </div>
 
-</div>
-<!-- Quick Actions -->
-<div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+  <script>
+    const weekContainer = document.getElementById("week-days");
 
-  <h3 class="font-semibold">Quick Actions</h3>
+    function generateWeek() {
+      const today = new Date();
 
-  <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-    <i data-lucide="download" class="w-4 h-4 text-brand"></i>
-    Export Plan
-  </button>
+      const dayIndex = today.getDay();
+      const diffToMonday = (dayIndex === 0 ? -6 : 1) - dayIndex;
 
-  <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-    <i data-lucide="share-2" class="w-4 h-4 text-brand"></i>
-    Share Route
-  </button>
+      const monday = new Date(today);
+      monday.setDate(today.getDate() + diffToMonday);
 
-</div>
+      weekContainer.innerHTML = "";
 
+      for (let i = 0; i < 7; i++) {
+        const day = new Date(monday);
+        day.setDate(monday.getDate() + i);
 
+        const isToday = day.toDateString() === today.toDateString();
 
-  </div>
-<script>
-  const weekContainer = document.getElementById("week-days");
+        const dayName = day.toLocaleDateString("en-US", {
+          weekday: "short",
+        });
 
-  function generateWeek() {
-    const today = new Date();
+        const dayNumber = day.getDate();
 
-    
-    const dayIndex = today.getDay(); // Sunday=0
-    const diffToMonday = (dayIndex === 0 ? -6 : 1) - dayIndex;
+        const dayEl = document.createElement("div");
 
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + diffToMonday);
+        dayEl.className = `
+          min-w-[90px] px-6 py-4 rounded-xl text-center cursor-pointer transition shrink-0
+          ${isToday ? "bg-brand text-white" : "bg-purple-200 text-gray-700"}
+        `;
 
-    weekContainer.innerHTML = "";
+        dayEl.innerHTML = `
+          <div class="text-sm">${dayName}</div>
+          <div class="text-lg font-medium mt-1">${dayNumber}</div>
+          ${isToday ? '<div class="w-1 h-1 bg-white rounded-full mx-auto mt-2"></div>' : ""}
+        `;
 
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(monday);
-      day.setDate(monday.getDate() + i);
-
-      const isToday =
-        day.toDateString() === today.toDateString();
-
-      const dayName = day.toLocaleDateString("en-US", {
-        weekday: "short",
-      });
-
-      const dayNumber = day.getDate();
-
-      const dayEl = document.createElement("div");
-
-      dayEl.className = `
-  min-w-[90px] px-6 py-4 rounded-xl text-center cursor-pointer transition shrink-0
-  ${isToday
-    ? "bg-brand text-white"
-    : "bg-purple-200 text-gray-700"}
-`;
-
-
-      dayEl.innerHTML = `
-        <div class="text-sm">${dayName}</div>
-        <div class="text-lg font-medium mt-1">${dayNumber}</div>
-        ${
-          isToday
-            ? '<div class="w-1 h-1 bg-white rounded-full mx-auto mt-2"></div>'
-            : ""
-        }
-      `;
-
-      weekContainer.appendChild(dayEl);
+        weekContainer.appendChild(dayEl);
+      }
     }
-  }
 
-  generateWeek();
-</script>
+    generateWeek();
+  </script>
 
+  <script src="{% static 'js/daily_plan_guard.js' %}"></script>
+  <script src="{% static 'js/map.js' %}"></script>
+  <script src="{% static 'js/daily_plan_integration.js' %}"></script>
 
-<script src="{% static 'js/daily_plan_guard.js' %}"></script>
-<script src="{% static 'js/daily_plan_integration.js' %}"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDailyPlanMap"
+    async
+    defer
+  ></script>
+
+</main>
 
 {% endblock %}
