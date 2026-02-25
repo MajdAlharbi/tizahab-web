@@ -5,59 +5,47 @@
 console.log("Daily Plan JS Loaded");
 
 async function generateDailyPlan() {
-  console.log("generateDailyPlan started");
-
-  const token = requireAuth();
-console.log("Token:", token);
-
-
-  // sourcery skip: security
-
-  const USE_MOCK = false;
-
-  if (USE_MOCK) {
-    return {
-      day: "Today",
-      events: [
-        { title: "Mock Event 1", category: "Culture", date: "2026-02-10" },
-        { title: "Mock Event 2", category: "Food", date: "2026-02-10" }
-      ]
-    };
+  const today = new Date();
+  const selectedDate = today.toISOString().split("T")[0];
+  console.log("Origin:", location.origin);
+  const token = localStorage.getItem("access");
+  if (!token) {
+    redirectToLogin();
+    return null;
   }
-
-  // TODO: Confirm endpoint URL with backend team
- // Get selected date from UI
-const today = new Date();
-const selectedDate = today.toISOString().split("T")[0];
-
-console.log("Selected date:", selectedDate);
-console.log("About to call API...");
-
-const response = await fetch("/api/daily-plan/generate/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify({
-    date: selectedDate
-  })
-});
+console.log("Token exists:", !!token);
+console.log("Token preview:", token ? token.slice(0, 20) : null);
+  const response = await fetch("/api/daily-plan/generate/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ date: selectedDate }),
+  });
 
   if (response.status === 401) {
-    handleUnauthorized();
+      console.warn("401 from generate endpoint. Redirect blocked for debugging.");
+   // handleUnauthorized();
     return null;
   }
 
+  const contentType = response.headers.get("content-type") || "";
+  const isJson = contentType.includes("application/json");
+
+  const payload = isJson ? await response.json() : await response.text();
+
   if (!response.ok) {
-    let err = {};
-    try { err = await response.json(); } catch (_) {}
-    throw new Error(err.detail || "Failed to generate daily plan");
+    console.error("Generate API failed:", response.status, payload);
+    const msg =
+      (isJson && payload?.detail) ? payload.detail :
+      (typeof payload === "string" && payload.slice(0, 200)) ? payload.slice(0, 200) :
+      "Failed to generate daily plan";
+    throw new Error(msg);
   }
 
-  return await response.json();
+  return payload;
 }
-
 function renderDailyPlan(data) {
   const container = document.getElementById("plan-container");
   const message = document.getElementById("plan-message");
@@ -125,7 +113,6 @@ function setLoading(isLoading) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Ensure page is protected
-  requireAuth();
 
   const generateBtn = document.getElementById("generate-btn");
   if (!generateBtn) return;

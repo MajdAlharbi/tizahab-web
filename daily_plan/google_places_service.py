@@ -1,6 +1,9 @@
 import os
 import requests
 
+from django.conf import settings
+
+
 TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 
 
