@@ -8,7 +8,7 @@ from django.utils import timezone
 from .models import DailyPlan
 from .serializers import DailyPlanSerializer
 from .services import generate_recommendations
-
+from events.serializers import EventSerializer
 
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = DailyPlanSerializer
@@ -57,11 +57,13 @@ class GenerateDailyPlanAPIView(APIView):
 
         daily_plan.events.set(recommended_events)
 
+        events_data = EventSerializer(recommended_events, many=True).data
+
         return Response(
             {
-                "message": "Daily plan generated successfully",
+                "id": daily_plan.id,
                 "date": date_str,
-                "events_count": len(recommended_events)
+                "events": events_data,
             },
             status=status.HTTP_201_CREATED
         )

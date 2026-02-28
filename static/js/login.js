@@ -6,14 +6,16 @@ if (document.getElementById("login-form")) {
     const password = e.target.password.value;
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
+      const res = await fetch("/api/auth/login/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  body: JSON.stringify({ username, password })
+});
 
-      const data = await res.json();
-
+const data = await res.json();
       if (!res.ok) {
         let errorMsg = "";
         for (const key in data) {
@@ -24,7 +26,7 @@ if (document.getElementById("login-form")) {
         alert("Login successful!");
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
-        window.location.href ="/"; 
+     window.location.href = "/daily-plan/";
       }
     } catch (err) {
       document.getElementById("login-error").innerText = "Network error";

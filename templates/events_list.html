@@ -436,6 +436,9 @@
     function renderFavoritesSection() {
       if (!favoritesGrid) return;
 
+<<<<<<< HEAD
+<script src="{% static 'js/events.js' %}"></script>
+=======
       const favs = getFavs();
       const cards = document.querySelectorAll('.event-card, .trend-card');
       const favCards = [...cards].filter(card => favs.has(card.getAttribute('data-id')));
@@ -513,6 +516,7 @@
     async
     defer
   ></script>
+>>>>>>> origin/dev
 
 </body>
 </html>
