@@ -14,5 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
             "start_date",
             "end_date",
             "external_booking_url",
+            "latitude",
+"longitude",
         ]
         fields = '__all__'

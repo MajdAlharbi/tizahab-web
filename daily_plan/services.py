@@ -26,21 +26,32 @@ def generate_recommendations(user, date_str):
             limit=2
         )
 
-        for place in places:
-            title = place.get("name")
-            location = place.get("address") or "Riyadh"
+    for place in places:
+     title = place.get("name")
+     location = place.get("address") or "Riyadh"
+     latitude = place.get("latitude")
+     longitude = place.get("longitude")
 
-            event, _ = Event.objects.get_or_create(
-                title=title,
-                date=target_date,
-                location=location,
-                defaults={
-                    "category": interest,
-                    "description": f"Generated from Google Places (rating: {place.get('rating')})",
-                    "price_range": "Unknown",
-                }
-            )
+     event, created = Event.objects.get_or_create(
+        title=title,
+        date=target_date,
+        location=location,
+        defaults={
+            "category": interest,
+            "description": f"Generated from Google Places (rating: {place.get('rating')})",
+            "price_range": "Unknown",
+            "latitude": latitude,
+            "longitude": longitude,
+        }
+    )
 
-            created_events.append(event)
 
+    if not created:
+        if event.latitude is None and latitude is not None:
+            event.latitude = latitude
+        if event.longitude is None and longitude is not None:
+            event.longitude = longitude
+        event.save()
+
+    created_events.append(event)
     return created_events[:5]
