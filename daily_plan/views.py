@@ -42,7 +42,18 @@ class GenerateDailyPlanAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        recommended_events = generate_recommendations(user, date_str)
+        try:
+            recommended_events = generate_recommendations(user, date_str)
+        except ValueError as e:
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception:
+            return Response(
+                {"detail": "Unexpected error while generating plan."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
         if not recommended_events:
             return Response(
