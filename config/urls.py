@@ -6,7 +6,8 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("admin/", admin.site.urls),
-
+    path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
+  
     # Auth
     path("api/auth/", include("accounts.urls")),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
