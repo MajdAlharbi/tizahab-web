@@ -1,7 +1,7 @@
 console.log("Daily Plan JS Loaded");
 
 /* =========================
-   Generate Daily Plan
+  Generate Daily Plan
 ========================= */
 
 async function generateDailyPlan() {
@@ -24,10 +24,10 @@ async function generateDailyPlan() {
   });
 
   if (response.status === 401) {
-    redirectToLogin();
-    return null;
-  }
-
+  localStorage.removeItem("access");
+  window.location.href = "/login/";
+  return null;
+}
   const contentType = response.headers.get("content-type") || "";
   const isJson = contentType.includes("application/json");
   const payload = isJson ? await response.json() : await response.text();
