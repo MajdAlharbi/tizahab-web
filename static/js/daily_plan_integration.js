@@ -5,8 +5,11 @@ console.log("Daily Plan JS Loaded");
 ========================= */
 
 async function generateDailyPlan() {
-  const token = requireAuth();
-  if (!token) return null;
+  const token = localStorage.getItem("access");
+  if (!token) {
+    window.location.href = "/login/";
+    return null;
+  }
 
   const today = new Date();
   const selectedDate = today.toISOString().split("T")[0];
@@ -132,8 +135,6 @@ function setLoading(isLoading) {
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-  requireAuth();
-
   initDailyPlanMap();
 
   const generateBtn = document.getElementById("generate-btn");
