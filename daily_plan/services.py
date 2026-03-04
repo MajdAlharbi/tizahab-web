@@ -2,51 +2,32 @@ from datetime import datetime
 from django.utils import timezone
 from events.models import Event
 from accounts.models import UserPreferences
-from .google_places_service import fetch_places_for_interest
 
 
 def generate_recommendations(user, date_str):
+
     try:
         preferences = user.preferences
     except UserPreferences.DoesNotExist:
-        return None  # No preferences at all
+        return None
 
     interests = preferences.interests or []
     if not interests:
-        return None  # Preferences exist but no interests
+        return None
 
     target_date = timezone.make_aware(datetime.fromisoformat(date_str))
 
-    created_events = []
+    # get events matching interests
+    events = Event.objects.filter(category__in=interests)
 
-    for interest in interests:
+    recommended_events = []
 
-        places = fetch_places_for_interest(
-            interest=interest,
-            city="Riyadh",
-            limit=2
-        )
+    for event in events[:10]:
 
-        for place in places:
+        # update event date for the generated plan
+        event.date = target_date
+        event.save()
 
-            title = place.get("name")
-            location = place.get("address") or "Riyadh"
-            latitude = place.get("latitude")
-            longitude = place.get("longitude")
+        recommended_events.append(event)
 
-            event, created = Event.objects.get_or_create(
-                title=title,
-                date=target_date,
-                location=location,
-                defaults={
-                    "category": interest,
-                    "description": f"Generated from Google Places (rating: {place.get('rating')})",
-                    "price_range": "Unknown",
-                    "latitude": latitude,
-                    "longitude": longitude,
-                }
-            )
-
-        created_events.append(event)
-
-    return created_events[:5]
+    return recommended_events[:5]
