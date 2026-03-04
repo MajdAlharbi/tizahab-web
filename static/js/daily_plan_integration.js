@@ -14,7 +14,7 @@ async function generateDailyPlan() {
   const today = new Date();
   const selectedDate = today.toISOString().split("T")[0];
 
-  const response = await fetch("/api/daily-plan/generate/", {
+  const response = await fetch("/api/daily_plan/generate/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

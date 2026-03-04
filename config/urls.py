@@ -17,6 +17,6 @@ urlpatterns = [
     path("events/", include("events.urls")),
 
     # Daily Plan
-    path("api/daily-plan/", include("daily_plan.urls")),
-    path("daily-plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
+    path("/api/daily-plan/", include("daily_plan.urls")),
+    path("daily_plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
 ]
