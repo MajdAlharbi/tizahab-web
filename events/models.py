@@ -2,10 +2,10 @@ from django.db import models
 
 class Event(models.Model):
     CATEGORY_CHOICES = [
-        ('music', 'Music'),
-        ('sports', 'Sports'),
-        ('culture', 'Culture'),
         ('food', 'Food'),
+        ('culture', 'Culture'),
+        ('outdoor', 'Outdoor'),
+        ('shopping', 'Shopping'),
         ('other', 'Other'),
     ]
 
@@ -15,6 +15,9 @@ class Event(models.Model):
     date = models.DateTimeField()
     location = models.CharField(max_length=255)
     price_range = models.CharField(max_length=100)
+
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.title

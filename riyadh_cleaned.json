@@ -1,0 +1,7626 @@
+[
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6904926,
+    "longitude": 46.7232179,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Firdays",
+    "category": "food",
+    "latitude": 24.7675896,
+    "longitude": 46.7597589,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KFC/Hardys",
+    "category": "food",
+    "latitude": 24.7672194,
+    "longitude": 46.7590293,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Roma Cafe",
+    "category": "food",
+    "latitude": 24.7016088,
+    "longitude": 46.6915377,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KFC",
+    "category": "food",
+    "latitude": 24.7118004,
+    "longitude": 46.6969673,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shiraz Restaurant (Iranian)",
+    "category": "food",
+    "latitude": 24.7014755,
+    "longitude": 46.6916745,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardees",
+    "category": "food",
+    "latitude": 24.7117224,
+    "longitude": 46.6970049,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Mansaf",
+    "category": "food",
+    "latitude": 24.711061,
+    "longitude": 46.6977886,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawerma House",
+    "category": "food",
+    "latitude": 24.7085594,
+    "longitude": 46.6874735,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7132672,
+    "longitude": 46.6735034,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffee hill cafe",
+    "category": "food",
+    "latitude": 24.7246035,
+    "longitude": 46.6818599,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6898413,
+    "longitude": 46.6864482,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.6896464,
+    "longitude": 46.6863087,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hashim Restaurant",
+    "category": "food",
+    "latitude": 24.7062361,
+    "longitude": 46.6993868,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.696811,
+    "longitude": 46.7037431,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Wooden Bakery",
+    "category": "food",
+    "latitude": 24.6940126,
+    "longitude": 46.7226448,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krispy Kreme",
+    "category": "food",
+    "latitude": 24.7375342,
+    "longitude": 46.7976946,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.7373198,
+    "longitude": 46.7973512,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krispy Creme",
+    "category": "food",
+    "latitude": 24.7233164,
+    "longitude": 46.7748207,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.710519,
+    "longitude": 46.693732,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم باب توما",
+    "category": "food",
+    "latitude": 24.710645,
+    "longitude": 46.693098,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.7297602,
+    "longitude": 46.7873048,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا هت",
+    "category": "food",
+    "latitude": 24.7329056,
+    "longitude": 46.6779552,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Roma Restaurant",
+    "category": "food",
+    "latitude": 24.703405,
+    "longitude": 46.6820536,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا هت",
+    "category": "food",
+    "latitude": 24.7052277,
+    "longitude": 46.6854976,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Makani",
+    "category": "food",
+    "latitude": 24.7099548,
+    "longitude": 46.6911624,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Lebanon Al Kabeer",
+    "category": "food",
+    "latitude": 24.7104422,
+    "longitude": 46.6924391,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Indonesian",
+    "category": "food",
+    "latitude": 24.7098964,
+    "longitude": 46.6909907,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Pizza Company",
+    "category": "food",
+    "latitude": 24.7026567,
+    "longitude": 46.6799824,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chinese Golden Palace",
+    "category": "food",
+    "latitude": 24.7034733,
+    "longitude": 46.6813777,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Gulf Royal Chinese Restaurant",
+    "category": "food",
+    "latitude": 24.7028885,
+    "longitude": 46.6811631,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Starbucks",
+    "category": "food",
+    "latitude": 24.6930778,
+    "longitude": 46.6948692,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.6922053,
+    "longitude": 46.6709063,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مقهى التحلية",
+    "category": "food",
+    "latitude": 24.7025498,
+    "longitude": 46.6973556,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6920006,
+    "longitude": 46.6710029,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Steak House",
+    "category": "food",
+    "latitude": 24.6937435,
+    "longitude": 46.6977074,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chinese restaurant",
+    "category": "food",
+    "latitude": 24.6941334,
+    "longitude": 46.6852727,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Hut",
+    "category": "food",
+    "latitude": 24.6878167,
+    "longitude": 46.6878047,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.68678,
+    "longitude": 46.733841,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "د.كيف",
+    "category": "food",
+    "latitude": 24.6926207,
+    "longitude": 46.7324952,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Rabe'a",
+    "category": "food",
+    "latitude": 24.6975196,
+    "longitude": 46.7805034,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Yamamah Restaurant",
+    "category": "food",
+    "latitude": 24.7159663,
+    "longitude": 46.7918184,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krispy Kreme",
+    "category": "food",
+    "latitude": 24.7676074,
+    "longitude": 46.759626,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Seatle's Best",
+    "category": "food",
+    "latitude": 24.7672177,
+    "longitude": 46.7557637,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Donut House",
+    "category": "food",
+    "latitude": 24.7119322,
+    "longitude": 46.6751475,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Planet Hollywood",
+    "category": "food",
+    "latitude": 24.7116691,
+    "longitude": 46.6752226,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shanghai Express",
+    "category": "food",
+    "latitude": 24.7121272,
+    "longitude": 46.6750938,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Aladdin",
+    "category": "food",
+    "latitude": 24.7117763,
+    "longitude": 46.6750402,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7008015,
+    "longitude": 46.6767139,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Domino's Pizza",
+    "category": "food",
+    "latitude": 24.7009672,
+    "longitude": 46.6765959,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kany Restaurant",
+    "category": "food",
+    "latitude": 24.7008307,
+    "longitude": 46.6770358,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Inn",
+    "category": "food",
+    "latitude": 24.7008989,
+    "longitude": 46.676671,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.7007004,
+    "longitude": 46.6785082,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6987643,
+    "longitude": 46.6901893,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.7233725,
+    "longitude": 46.7750539,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fish & Chips",
+    "category": "food",
+    "latitude": 24.7006869,
+    "longitude": 46.6928923,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Finzione",
+    "category": "food",
+    "latitude": 24.7044347,
+    "longitude": 46.7016953,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Barbecue Nation",
+    "category": "food",
+    "latitude": 24.7045947,
+    "longitude": 46.7018562,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Reyash",
+    "category": "food",
+    "latitude": 24.7045029,
+    "longitude": 46.7019314,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7118957,
+    "longitude": 46.6973019,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Saadiddin Restaurant",
+    "category": "food",
+    "latitude": 24.725446,
+    "longitude": 46.778086,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardees",
+    "category": "food",
+    "latitude": 24.724666,
+    "longitude": 46.778862,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Forchetta Italian Grill",
+    "category": "food",
+    "latitude": 24.724413,
+    "longitude": 46.778962,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krispy Kreme",
+    "category": "food",
+    "latitude": 24.724476,
+    "longitude": 46.77885,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cinnabon",
+    "category": "food",
+    "latitude": 24.7375941,
+    "longitude": 46.7978042,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Seatle's Best",
+    "category": "food",
+    "latitude": 24.7375307,
+    "longitude": 46.7973375,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Prince Salman Science Oasis",
+    "category": "outdoor",
+    "latitude": 24.6788131,
+    "longitude": 46.6311467,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6821702,
+    "longitude": 46.6235951,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Java Cafe",
+    "category": "food",
+    "latitude": 24.6883445,
+    "longitude": 46.7185334,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Kafoura Rest. & Sweets",
+    "category": "food",
+    "latitude": 24.68434,
+    "longitude": 46.718445,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7430676,
+    "longitude": 46.8084664,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KFC",
+    "category": "food",
+    "latitude": 24.7420354,
+    "longitude": 46.8069711,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Domino's",
+    "category": "food",
+    "latitude": 24.6879164,
+    "longitude": 46.7246219,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Nafoura Rest. & Sweets",
+    "category": "food",
+    "latitude": 24.6884918,
+    "longitude": 46.7238554,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Shurfa Cafe & Restaurant",
+    "category": "food",
+    "latitude": 24.7036329,
+    "longitude": 46.743159,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sakr al Jazeera Aviation Museum",
+    "category": "culture",
+    "latitude": 24.754052,
+    "longitude": 46.7402015,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cafe Coffee",
+    "category": "food",
+    "latitude": 24.7545012,
+    "longitude": 46.7423114,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7997785,
+    "longitude": 46.7409664,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7765118,
+    "longitude": 46.7287145,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Crown Plaza hotel Riyadh",
+    "category": "food",
+    "latitude": 24.6897441,
+    "longitude": 46.7173539,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Quattro",
+    "category": "food",
+    "latitude": 24.7112433,
+    "longitude": 46.6732363,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ديري كوين",
+    "category": "food",
+    "latitude": 24.7007697,
+    "longitude": 46.6923201,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.6756062,
+    "longitude": 46.6751345,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Yamal Asham",
+    "category": "food",
+    "latitude": 24.6894742,
+    "longitude": 46.700071,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماما نورة",
+    "category": "food",
+    "latitude": 24.6915798,
+    "longitude": 46.7017661,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "French Corner",
+    "category": "food",
+    "latitude": 24.6925351,
+    "longitude": 46.7019271,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Italian",
+    "category": "food",
+    "latitude": 24.7707353,
+    "longitude": 46.6720081,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Buffalo",
+    "category": "food",
+    "latitude": 24.7017399,
+    "longitude": 46.6951667,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Vapiano",
+    "category": "food",
+    "latitude": 24.6988545,
+    "longitude": 46.6907787,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم هرفي",
+    "category": "food",
+    "latitude": 24.7310396,
+    "longitude": 46.7625149,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.848512,
+    "longitude": 46.7641784,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.6898109,
+    "longitude": 46.6866028,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Fusion",
+    "category": "food",
+    "latitude": 24.6936617,
+    "longitude": 46.6974285,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Darbar Restaurant",
+    "category": "food",
+    "latitude": 24.6833024,
+    "longitude": 46.6885331,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Lucky Cafe",
+    "category": "food",
+    "latitude": 24.6830044,
+    "longitude": 46.6892504,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بر وسمن",
+    "category": "food",
+    "latitude": 24.5867466,
+    "longitude": 46.6673033,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Khozana - Garden BBQ",
+    "category": "food",
+    "latitude": 24.6914913,
+    "longitude": 46.6854179,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.6912903,
+    "longitude": 46.7106915,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Abdel Wahab",
+    "category": "food",
+    "latitude": 24.6949652,
+    "longitude": 46.6996622,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "على خفيف",
+    "category": "food",
+    "latitude": 24.6822342,
+    "longitude": 46.6978598,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.5946384,
+    "longitude": 46.6036741,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.6703155,
+    "longitude": 46.7277571,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Koushari Express",
+    "category": "food",
+    "latitude": 24.670807,
+    "longitude": 46.7303883,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Gad",
+    "category": "food",
+    "latitude": 24.6708964,
+    "longitude": 46.7309483,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawaya house",
+    "category": "food",
+    "latitude": 24.6713485,
+    "longitude": 46.7333422,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم هاشم",
+    "category": "food",
+    "latitude": 24.6676583,
+    "longitude": 46.7332618,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم النقاء",
+    "category": "food",
+    "latitude": 24.6673268,
+    "longitude": 46.7334763,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ghawar",
+    "category": "food",
+    "latitude": 24.6697399,
+    "longitude": 46.7315827,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Omda",
+    "category": "food",
+    "latitude": 24.6704321,
+    "longitude": 46.7313627,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Jarir",
+    "category": "food",
+    "latitude": 24.6707095,
+    "longitude": 46.7297606,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Mama Mashael",
+    "category": "food",
+    "latitude": 24.6706803,
+    "longitude": 46.7295246,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أكثر من قهوة",
+    "category": "food",
+    "latitude": 24.7811556,
+    "longitude": 46.6617395,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.6828568,
+    "longitude": 46.69716,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا كفيه",
+    "category": "food",
+    "latitude": 24.5842784,
+    "longitude": 46.6911104,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "منتزه سد وادي نمار",
+    "category": "outdoor",
+    "latitude": 24.5730216,
+    "longitude": 46.6829673,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Baskin Robbins",
+    "category": "food",
+    "latitude": 24.7640166,
+    "longitude": 46.7142571,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Najd Village",
+    "category": "food",
+    "latitude": 24.742561,
+    "longitude": 46.7046388,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawaya House",
+    "category": "food",
+    "latitude": 24.7429454,
+    "longitude": 46.6724232,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.7312342,
+    "longitude": 46.6666555,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Golden Saj",
+    "category": "food",
+    "latitude": 24.7396443,
+    "longitude": 46.6707885,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الرومانسية",
+    "category": "food",
+    "latitude": 24.6958274,
+    "longitude": 46.7923604,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فطيرة هت",
+    "category": "food",
+    "latitude": 24.6956985,
+    "longitude": 46.7921909,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "العثيم مول",
+    "category": "shopping",
+    "latitude": 24.6857467,
+    "longitude": 46.7748506,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم الصاج الذهبي",
+    "category": "food",
+    "latitude": 24.7004579,
+    "longitude": 46.7792878,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "arocaria",
+    "category": "food",
+    "latitude": 24.7089154,
+    "longitude": 46.6630009,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "قصر حلو عبد الرحمن الحلاب وأولاده ١٨٨١",
+    "category": "food",
+    "latitude": 24.7088068,
+    "longitude": 46.7076196,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "قوة الرياضي",
+    "category": "outdoor",
+    "latitude": 24.5677679,
+    "longitude": 46.8394232,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7522379,
+    "longitude": 46.7203202,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.8455916,
+    "longitude": 46.7587777,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tony Roma's",
+    "category": "food",
+    "latitude": 24.7027286,
+    "longitude": 46.6801722,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Mensa",
+    "category": "food",
+    "latitude": 24.8095361,
+    "longitude": 46.7072218,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sports Garden",
+    "category": "outdoor",
+    "latitude": 24.9590496,
+    "longitude": 46.5770464,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Starbucks",
+    "category": "food",
+    "latitude": 24.6734054,
+    "longitude": 46.6232542,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Dunkin' Donuts",
+    "category": "food",
+    "latitude": 24.6731463,
+    "longitude": 46.6231617,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffee Lounge",
+    "category": "food",
+    "latitude": 24.6882675,
+    "longitude": 46.6191666,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffee Shop",
+    "category": "food",
+    "latitude": 24.6888788,
+    "longitude": 46.6188778,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffee Shop",
+    "category": "food",
+    "latitude": 24.688813,
+    "longitude": 46.6198098,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كنتاكي",
+    "category": "food",
+    "latitude": 24.6517971,
+    "longitude": 46.7078563,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عمو حمزة",
+    "category": "food",
+    "latitude": 24.6518995,
+    "longitude": 46.7083525,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سلامة",
+    "category": "food",
+    "latitude": 24.6299338,
+    "longitude": 46.7180707,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اكسير البن",
+    "category": "food",
+    "latitude": 24.7343299,
+    "longitude": 46.6112465,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Steak Escape",
+    "category": "food",
+    "latitude": 24.7781,
+    "longitude": 46.7113951,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالز",
+    "category": "food",
+    "latitude": 24.811728,
+    "longitude": 46.7691345,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.8191097,
+    "longitude": 46.7745035,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "منتو يغمش",
+    "category": "food",
+    "latitude": 24.8005739,
+    "longitude": 46.7829763,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.8026886,
+    "longitude": 46.7949259,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7762816,
+    "longitude": 46.7773771,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شيخ البلد",
+    "category": "food",
+    "latitude": 24.6183082,
+    "longitude": 46.7245099,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.7321402,
+    "longitude": 46.8482623,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Mahboob",
+    "category": "food",
+    "latitude": 24.7590745,
+    "longitude": 46.6639915,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Herfy",
+    "category": "food",
+    "latitude": 24.767528,
+    "longitude": 46.6643418,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6851626,
+    "longitude": 46.6775493,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7053897,
+    "longitude": 46.6798149,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Herfy",
+    "category": "food",
+    "latitude": 24.7115383,
+    "longitude": 46.6753243,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7114181,
+    "longitude": 46.6754146,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6893045,
+    "longitude": 46.6826535,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.704312,
+    "longitude": 46.6833077,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.6283083,
+    "longitude": 46.5596714,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.6732652,
+    "longitude": 46.6730558,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6844372,
+    "longitude": 46.7936632,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7864773,
+    "longitude": 46.6337177,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7796537,
+    "longitude": 46.7883129,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.5888126,
+    "longitude": 46.7596054,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.5938096,
+    "longitude": 46.6334191,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7512369,
+    "longitude": 46.5737332,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6340408,
+    "longitude": 46.6755016,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7993375,
+    "longitude": 46.7402288,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.781792,
+    "longitude": 46.7316492,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7668483,
+    "longitude": 46.7553554,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.546587,
+    "longitude": 46.6509992,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7429529,
+    "longitude": 46.6786122,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7405302,
+    "longitude": 46.6819818,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7435537,
+    "longitude": 46.6590027,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.9591257,
+    "longitude": 46.7031972,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6871082,
+    "longitude": 46.7249542,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "المذاق الرومنسي",
+    "category": "food",
+    "latitude": 24.6197718,
+    "longitude": 46.7447373,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.603481,
+    "longitude": 46.7326476,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.6629211,
+    "longitude": 46.7009603,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7447418,
+    "longitude": 46.6208004,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7385468,
+    "longitude": 46.7986442,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6962438,
+    "longitude": 46.7514812,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7061304,
+    "longitude": 46.766761,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.685374,
+    "longitude": 46.7752747,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.7240475,
+    "longitude": 46.6648492,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.6901899,
+    "longitude": 46.7762705,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7108565,
+    "longitude": 46.7914725,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.75924,
+    "longitude": 46.7774933,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "السلام موال",
+    "category": "food",
+    "latitude": 24.55831,
+    "longitude": 46.6369712,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.5614612,
+    "longitude": 46.7079113,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.5987299,
+    "longitude": 46.6894311,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.5961358,
+    "longitude": 46.6975742,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kudu",
+    "category": "food",
+    "latitude": 24.8232293,
+    "longitude": 46.7993135,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شجرة الصفصاف",
+    "category": "food",
+    "latitude": 24.6493605,
+    "longitude": 46.7066287,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الرشيد للحلويات",
+    "category": "food",
+    "latitude": 24.6513981,
+    "longitude": 46.7065806,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "احلى حكاية",
+    "category": "food",
+    "latitude": 24.64861,
+    "longitude": 46.7065257,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Layali Cafe",
+    "category": "food",
+    "latitude": 24.6448952,
+    "longitude": 46.7037311,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دوران الخليج كافية",
+    "category": "food",
+    "latitude": 24.6451073,
+    "longitude": 46.7036627,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم روتي",
+    "category": "food",
+    "latitude": 24.6403353,
+    "longitude": 46.7083444,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بروستد كوفي",
+    "category": "food",
+    "latitude": 24.6401514,
+    "longitude": 46.7083399,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.5829936,
+    "longitude": 46.6867748,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بياتو",
+    "category": "food",
+    "latitude": 24.8242528,
+    "longitude": 46.6573739,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مها",
+    "category": "food",
+    "latitude": 24.7935813,
+    "longitude": 46.6277833,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "محمصة الدار",
+    "category": "food",
+    "latitude": 24.6514046,
+    "longitude": 46.7066725,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.7042627,
+    "longitude": 46.6651055,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.7047828,
+    "longitude": 46.6645614,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krespe Kreme Doughnuts",
+    "category": "food",
+    "latitude": 24.7048086,
+    "longitude": 46.6649739,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Friday's",
+    "category": "food",
+    "latitude": 24.7044957,
+    "longitude": 46.6646636,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم المراسيم",
+    "category": "food",
+    "latitude": 24.5735055,
+    "longitude": 46.7818385,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم ديرتي",
+    "category": "food",
+    "latitude": 24.5736652,
+    "longitude": 46.7852922,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيت الشواية",
+    "category": "food",
+    "latitude": 24.683857,
+    "longitude": 46.6525395,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الرومانسية",
+    "category": "food",
+    "latitude": 24.5997746,
+    "longitude": 46.7486201,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.5996118,
+    "longitude": 46.7458807,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برجر كنج",
+    "category": "food",
+    "latitude": 24.5992269,
+    "longitude": 46.7450868,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا وفطائر شامية",
+    "category": "food",
+    "latitude": 24.6479955,
+    "longitude": 46.7066944,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فلافل ابو بشار مطعم سوري",
+    "category": "food",
+    "latitude": 24.6476752,
+    "longitude": 46.7067854,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال و فلافل مصري",
+    "category": "food",
+    "latitude": 24.6477987,
+    "longitude": 46.7067636,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "B1 burger",
+    "category": "food",
+    "latitude": 24.6021606,
+    "longitude": 46.6461011,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "واحد فول",
+    "category": "food",
+    "latitude": 24.6609768,
+    "longitude": 46.7013086,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مايسترو",
+    "category": "food",
+    "latitude": 24.6611514,
+    "longitude": 46.7011863,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "صب واي",
+    "category": "food",
+    "latitude": 24.6612257,
+    "longitude": 46.701098,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم بخاري",
+    "category": "food",
+    "latitude": 24.8029841,
+    "longitude": 46.7933498,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.8025088,
+    "longitude": 46.7921321,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دان كن",
+    "category": "food",
+    "latitude": 24.8028053,
+    "longitude": 46.7929442,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.7644159,
+    "longitude": 46.785144,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "العباسية",
+    "category": "food",
+    "latitude": 24.6183482,
+    "longitude": 46.7270326,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دومينوز",
+    "category": "food",
+    "latitude": 24.6549575,
+    "longitude": 46.712033,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الرومانسيه",
+    "category": "food",
+    "latitude": 24.5747347,
+    "longitude": 46.6077444,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "B1 Burger",
+    "category": "food",
+    "latitude": 24.7544507,
+    "longitude": 46.7192574,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7330939,
+    "longitude": 46.6781766,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KFC",
+    "category": "food",
+    "latitude": 24.7324305,
+    "longitude": 46.6740464,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فخر الكيف للقهوة العربية",
+    "category": "food",
+    "latitude": 24.5645465,
+    "longitude": 46.6981456,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الوسام",
+    "category": "food",
+    "latitude": 24.6807883,
+    "longitude": 46.7005638,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بروستد البيه",
+    "category": "food",
+    "latitude": 24.583683,
+    "longitude": 46.687793,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا ان",
+    "category": "food",
+    "latitude": 24.58378,
+    "longitude": 46.687974,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الشواية",
+    "category": "food",
+    "latitude": 24.583475,
+    "longitude": 46.687281,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الصاج الذهبي",
+    "category": "food",
+    "latitude": 24.6447405,
+    "longitude": 46.7006307,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.6381869,
+    "longitude": 46.7142261,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Pancake House",
+    "category": "food",
+    "latitude": 24.7079737,
+    "longitude": 46.6751704,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Pancake House",
+    "category": "food",
+    "latitude": 24.6859393,
+    "longitude": 46.6259104,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al al Fandi Brosted",
+    "category": "food",
+    "latitude": 24.6926247,
+    "longitude": 46.650158,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كنتاكي",
+    "category": "food",
+    "latitude": 24.6178334,
+    "longitude": 46.7531366,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "استراحة",
+    "category": "food",
+    "latitude": 24.4157751,
+    "longitude": 46.5234028,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.6910688,
+    "longitude": 46.7638293,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "القرية النجدية",
+    "category": "food",
+    "latitude": 24.7351821,
+    "longitude": 46.7075464,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.6805901,
+    "longitude": 46.7348961,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.6910244,
+    "longitude": 46.7638264,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Applebee's",
+    "category": "food",
+    "latitude": 24.658699,
+    "longitude": 46.7839466,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Smashburger-Hittin",
+    "category": "food",
+    "latitude": 24.753668,
+    "longitude": 46.5843261,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.6940896,
+    "longitude": 46.7321259,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ghazi Fast Food",
+    "category": "food",
+    "latitude": 24.6769341,
+    "longitude": 46.7435305,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.6898161,
+    "longitude": 46.7331563,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "باسكن روبنز",
+    "category": "food",
+    "latitude": 24.6896202,
+    "longitude": 46.7332326,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bombay Hotel",
+    "category": "food",
+    "latitude": 24.6784326,
+    "longitude": 46.7434388,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Express Arabic & Persian Restaurant",
+    "category": "food",
+    "latitude": 24.678041,
+    "longitude": 46.7435589,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم اللبنان الكبير",
+    "category": "food",
+    "latitude": 24.7102401,
+    "longitude": 46.692768,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Abo al haytham cafe",
+    "category": "food",
+    "latitude": 24.6874752,
+    "longitude": 46.8526402,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.5374923,
+    "longitude": 46.6580674,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فلفلة",
+    "category": "food",
+    "latitude": 24.7403049,
+    "longitude": 46.7793296,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "لقمه شهيه",
+    "category": "food",
+    "latitude": 24.6206217,
+    "longitude": 46.5458783,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم المشوي والشوايه",
+    "category": "food",
+    "latitude": 24.6508357,
+    "longitude": 46.5608642,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم بيتزا روما",
+    "category": "food",
+    "latitude": 24.7006387,
+    "longitude": 46.6922802,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.6818241,
+    "longitude": 46.6945886,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم فول وعدس",
+    "category": "food",
+    "latitude": 24.7090425,
+    "longitude": 46.6795473,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "د.كيف",
+    "category": "food",
+    "latitude": 24.6746514,
+    "longitude": 46.7799945,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الشراع",
+    "category": "food",
+    "latitude": 24.5835627,
+    "longitude": 46.6618948,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الرومانسية",
+    "category": "food",
+    "latitude": 24.5710246,
+    "longitude": 46.6675235,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم كرم العرب",
+    "category": "food",
+    "latitude": 24.6135832,
+    "longitude": 46.7336857,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.6892908,
+    "longitude": 46.8530093,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم نثري",
+    "category": "food",
+    "latitude": 24.5750926,
+    "longitude": 46.6758243,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حلويات ابو أنس",
+    "category": "food",
+    "latitude": 24.7112924,
+    "longitude": 46.6944795,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم و حلويات النافورة",
+    "category": "food",
+    "latitude": 24.6574201,
+    "longitude": 46.7060194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Hut",
+    "category": "food",
+    "latitude": 24.687062,
+    "longitude": 46.6840546,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا هت",
+    "category": "food",
+    "latitude": 24.7394822,
+    "longitude": 46.7598587,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيت سيد احمد الجديد",
+    "category": "food",
+    "latitude": 24.6268571,
+    "longitude": 46.5643414,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شارع سدير",
+    "category": "food",
+    "latitude": 24.5730724,
+    "longitude": 46.655093,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7538716,
+    "longitude": 46.8243562,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "توم توم",
+    "category": "food",
+    "latitude": 24.7100206,
+    "longitude": 46.7752609,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيت الشواية",
+    "category": "food",
+    "latitude": 24.7037993,
+    "longitude": 46.7812573,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم التنهات",
+    "category": "food",
+    "latitude": 24.5741241,
+    "longitude": 46.6744553,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "توم توم",
+    "category": "food",
+    "latitude": 24.6183241,
+    "longitude": 46.7452786,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كنافة تايم",
+    "category": "food",
+    "latitude": 24.7615142,
+    "longitude": 46.6740792,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جست تشل",
+    "category": "food",
+    "latitude": 24.7614566,
+    "longitude": 46.6739618,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7531868,
+    "longitude": 46.7695745,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.7403156,
+    "longitude": 46.7497606,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شباب البخاري",
+    "category": "food",
+    "latitude": 24.8843959,
+    "longitude": 46.6110214,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "کودو",
+    "category": "food",
+    "latitude": 24.8064789,
+    "longitude": 46.692986,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماکدونلدز",
+    "category": "food",
+    "latitude": 24.8056738,
+    "longitude": 46.6933701,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shikara Restaurant",
+    "category": "food",
+    "latitude": 24.7128171,
+    "longitude": 46.6711407,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tea Park for bubble tea",
+    "category": "food",
+    "latitude": 24.6948127,
+    "longitude": 46.7027024,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Akariya 3 Food Court",
+    "category": "food",
+    "latitude": 24.7053464,
+    "longitude": 46.6833325,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "La Piazza",
+    "category": "food",
+    "latitude": 24.7273506,
+    "longitude": 46.6651178,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Bustan",
+    "category": "food",
+    "latitude": 24.7273506,
+    "longitude": 46.6650473,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Starbucks",
+    "category": "food",
+    "latitude": 24.7432338,
+    "longitude": 46.6556457,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مقهى بلانو كافيه",
+    "category": "food",
+    "latitude": 24.7379427,
+    "longitude": 46.6889009,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أقوس",
+    "category": "food",
+    "latitude": 24.7039122,
+    "longitude": 46.7024194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برجرايزر١",
+    "category": "food",
+    "latitude": 24.8149607,
+    "longitude": 46.688816,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "صب واي",
+    "category": "food",
+    "latitude": 24.8139674,
+    "longitude": 46.6892774,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "د. كيف",
+    "category": "food",
+    "latitude": 24.8083239,
+    "longitude": 46.6919006,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برجر فيول",
+    "category": "food",
+    "latitude": 24.8071309,
+    "longitude": 46.6925067,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.8056365,
+    "longitude": 46.6931658,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.8178723,
+    "longitude": 46.6870169,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم النافورة",
+    "category": "food",
+    "latitude": 24.7990314,
+    "longitude": 46.78546,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "غرناطه مول",
+    "category": "shopping",
+    "latitude": 24.7817924,
+    "longitude": 46.7308063,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "batha hotel",
+    "category": "food",
+    "latitude": 24.6444291,
+    "longitude": 46.7156641,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Lahore Restaurent",
+    "category": "food",
+    "latitude": 24.6743841,
+    "longitude": 46.7445923,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bharath Restaurant",
+    "category": "food",
+    "latitude": 24.6747018,
+    "longitude": 46.7444784,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.5980523,
+    "longitude": 46.684862,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم السبيعي",
+    "category": "food",
+    "latitude": 24.598203,
+    "longitude": 46.685459,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كنتاكي",
+    "category": "food",
+    "latitude": 24.5963083,
+    "longitude": 46.6820226,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هارديز",
+    "category": "food",
+    "latitude": 24.5960543,
+    "longitude": 46.6815841,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.5957426,
+    "longitude": 46.6811264,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم تاكسي",
+    "category": "food",
+    "latitude": 24.5977115,
+    "longitude": 46.6843568,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم سبايس الهندي",
+    "category": "food",
+    "latitude": 24.5976593,
+    "longitude": 46.6842768,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم ديرتي",
+    "category": "food",
+    "latitude": 24.5881783,
+    "longitude": 46.6691344,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا هت",
+    "category": "food",
+    "latitude": 24.581642,
+    "longitude": 46.6587482,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كرم بيروت",
+    "category": "food",
+    "latitude": 24.7037638,
+    "longitude": 46.7020215,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جولت كوفي",
+    "category": "food",
+    "latitude": 24.7240862,
+    "longitude": 46.6454565,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم فروج الكروان",
+    "category": "food",
+    "latitude": 24.6938721,
+    "longitude": 46.6785357,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزاهت",
+    "category": "food",
+    "latitude": 24.7953067,
+    "longitude": 46.7424813,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا هت",
+    "category": "food",
+    "latitude": 24.8004341,
+    "longitude": 46.7399092,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هوت دوق اكسبرس",
+    "category": "food",
+    "latitude": 24.8004505,
+    "longitude": 46.7396469,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "OULU Lounge",
+    "category": "food",
+    "latitude": 24.7104405,
+    "longitude": 46.6631414,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دكتور كيف",
+    "category": "food",
+    "latitude": 24.7798477,
+    "longitude": 46.7312586,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كافيه دي جاردن",
+    "category": "food",
+    "latitude": 24.802743,
+    "longitude": 46.7165124,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ارببكا",
+    "category": "food",
+    "latitude": 24.6372046,
+    "longitude": 46.6931329,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "واينز كوفي",
+    "category": "food",
+    "latitude": 24.675876,
+    "longitude": 46.6756541,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Masaa Cafe",
+    "category": "food",
+    "latitude": 24.7135789,
+    "longitude": 46.6720732,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fairouz Garden",
+    "category": "food",
+    "latitude": 24.7080046,
+    "longitude": 46.675289,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مولتن",
+    "category": "food",
+    "latitude": 24.6742966,
+    "longitude": 46.6683789,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فرشي",
+    "category": "food",
+    "latitude": 24.6741686,
+    "longitude": 46.6683897,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مايسترو بيتزا",
+    "category": "food",
+    "latitude": 24.6742966,
+    "longitude": 46.6682167,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عالخفيف",
+    "category": "food",
+    "latitude": 24.6843449,
+    "longitude": 46.7911624,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "McDonald's",
+    "category": "food",
+    "latitude": 24.7616003,
+    "longitude": 46.6734739,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "AlRaja Park",
+    "category": "outdoor",
+    "latitude": 24.6976646,
+    "longitude": 46.7659844,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.7605254,
+    "longitude": 46.6727154,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جاي كو",
+    "category": "food",
+    "latitude": 24.7529767,
+    "longitude": 46.584153,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al-Rajhi Bank Operations Center Cafeteria",
+    "category": "food",
+    "latitude": 24.7524201,
+    "longitude": 46.63106,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم انار كلي",
+    "category": "food",
+    "latitude": 24.579005,
+    "longitude": 46.8186497,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Domino's Pizza - دومينوز بيتزا",
+    "category": "food",
+    "latitude": 24.7797836,
+    "longitude": 46.7877687,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "البيك",
+    "category": "food",
+    "latitude": 24.6328516,
+    "longitude": 46.5652681,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيت الشاورما",
+    "category": "food",
+    "latitude": 24.5740796,
+    "longitude": 46.6086127,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بول",
+    "category": "food",
+    "latitude": 24.7808456,
+    "longitude": 46.6974026,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Richard Coffee",
+    "category": "food",
+    "latitude": 24.6531982,
+    "longitude": 46.5837762,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فطور فارس",
+    "category": "food",
+    "latitude": 24.6754199,
+    "longitude": 46.6681878,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مندي الرياض",
+    "category": "food",
+    "latitude": 24.8124136,
+    "longitude": 46.6263538,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سنشري برجر",
+    "category": "food",
+    "latitude": 24.7460514,
+    "longitude": 46.6192607,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ad Diriyah",
+    "category": "culture",
+    "latitude": 24.7389262,
+    "longitude": 46.5784238,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم فول ورز بخاري",
+    "category": "food",
+    "latitude": 24.6111112,
+    "longitude": 46.8608744,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.664282,
+    "longitude": 46.6825235,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.6638131,
+    "longitude": 46.6830331,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عالخفيف",
+    "category": "food",
+    "latitude": 24.6645784,
+    "longitude": 46.6824001,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Domino's",
+    "category": "food",
+    "latitude": 24.6644224,
+    "longitude": 46.6824699,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.6742413,
+    "longitude": 46.6683859,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دوناتس",
+    "category": "food",
+    "latitude": 24.6761977,
+    "longitude": 46.6754344,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.6552105,
+    "longitude": 46.6880998,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.6807131,
+    "longitude": 46.6945961,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دوناتس",
+    "category": "food",
+    "latitude": 24.6618557,
+    "longitude": 46.7011112,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دوناتس",
+    "category": "food",
+    "latitude": 24.6823704,
+    "longitude": 46.7874547,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دوناتس",
+    "category": "food",
+    "latitude": 24.6861628,
+    "longitude": 46.7945759,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.7468121,
+    "longitude": 46.6549157,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "kayl Association for Obesity",
+    "category": "food",
+    "latitude": 24.7293889,
+    "longitude": 46.6414649,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "THOUB Coffee",
+    "category": "food",
+    "latitude": 24.6884422,
+    "longitude": 46.7788202,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الناضج",
+    "category": "food",
+    "latitude": 24.7871017,
+    "longitude": 46.746418,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شيوخ بني خالد",
+    "category": "food",
+    "latitude": 24.7889061,
+    "longitude": 46.7433052,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اوبليزر",
+    "category": "food",
+    "latitude": 24.739431,
+    "longitude": 46.6463767,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم مشاغيث",
+    "category": "food",
+    "latitude": 24.817417,
+    "longitude": 46.7329654,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شريمبلس",
+    "category": "food",
+    "latitude": 24.8180863,
+    "longitude": 46.6425574,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Em Sherif Cafe",
+    "category": "food",
+    "latitude": 24.7313364,
+    "longitude": 46.6494167,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تومسون",
+    "category": "food",
+    "latitude": 24.8047916,
+    "longitude": 46.6087721,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Starbucks",
+    "category": "food",
+    "latitude": 24.7342084,
+    "longitude": 46.6974366,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffe Day",
+    "category": "food",
+    "latitude": 24.7341694,
+    "longitude": 46.6973022,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Nano Kitchen",
+    "category": "food",
+    "latitude": 24.7340037,
+    "longitude": 46.6974471,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "coffee day cafe",
+    "category": "food",
+    "latitude": 24.863204,
+    "longitude": 46.588361,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Museum of arts",
+    "category": "culture",
+    "latitude": 24.8582108,
+    "longitude": 46.5925395,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Starbucks",
+    "category": "food",
+    "latitude": 24.8584299,
+    "longitude": 46.5935743,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الزعتر البري",
+    "category": "food",
+    "latitude": 24.8040635,
+    "longitude": 46.6941242,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كاريبو كافيه",
+    "category": "food",
+    "latitude": 24.748431,
+    "longitude": 46.7452618,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ركن السنافي للشورما",
+    "category": "food",
+    "latitude": 24.6898078,
+    "longitude": 46.7643928,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة النهضة",
+    "category": "outdoor",
+    "latitude": 24.6956092,
+    "longitude": 46.7511414,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم كمون البخاري",
+    "category": "food",
+    "latitude": 24.6851879,
+    "longitude": 46.7667693,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الربوة مضغوط مندي",
+    "category": "food",
+    "latitude": 24.6877925,
+    "longitude": 46.7657586,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال الخرطوم",
+    "category": "food",
+    "latitude": 24.6887974,
+    "longitude": 46.764801,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم ترمز البخاري",
+    "category": "food",
+    "latitude": 24.6836765,
+    "longitude": 46.7673858,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كرك جدي",
+    "category": "food",
+    "latitude": 24.8968841,
+    "longitude": 46.9078257,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بروكلي",
+    "category": "food",
+    "latitude": 24.896054,
+    "longitude": 46.9080356,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم بخاري",
+    "category": "food",
+    "latitude": 24.8962067,
+    "longitude": 46.9082482,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "وقت العصير",
+    "category": "food",
+    "latitude": 24.896728,
+    "longitude": 46.9079513,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغرايزر",
+    "category": "food",
+    "latitude": 24.8957275,
+    "longitude": 46.9075948,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سينابون",
+    "category": "food",
+    "latitude": 24.8968153,
+    "longitude": 46.9078807,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الرومانسية",
+    "category": "food",
+    "latitude": 24.896401,
+    "longitude": 46.9082854,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماما بنز كافيه",
+    "category": "food",
+    "latitude": 24.8965971,
+    "longitude": 46.9081119,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "المهرجان كافية",
+    "category": "food",
+    "latitude": 24.6492724,
+    "longitude": 46.7063867,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "إيت مي برجر",
+    "category": "food",
+    "latitude": 24.7777428,
+    "longitude": 46.7071663,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برو٩٢",
+    "category": "food",
+    "latitude": 24.8168984,
+    "longitude": 46.6876881,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ايغساكتلي",
+    "category": "food",
+    "latitude": 24.8171078,
+    "longitude": 46.6875647,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اسواق العثيم",
+    "category": "food",
+    "latitude": 24.8278,
+    "longitude": 46.8104,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اسواق العثيم",
+    "category": "food",
+    "latitude": 24.8292,
+    "longitude": 46.8115,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiny Bird cafe تايني بيرد كافيه",
+    "category": "food",
+    "latitude": 24.8618579,
+    "longitude": 46.6338657,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 25.0749,
+    "longitude": 46.7131,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم",
+    "category": "food",
+    "latitude": 25.0748,
+    "longitude": 46.7116,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "المنار مول",
+    "category": "shopping",
+    "latitude": 24.7252799,
+    "longitude": 46.8144691,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "latifa hospital",
+    "category": "food",
+    "latitude": 24.6364516,
+    "longitude": 46.711763,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "latifa restaurant",
+    "category": "food",
+    "latitude": 24.6368868,
+    "longitude": 46.7118971,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shimmers",
+    "category": "food",
+    "latitude": 24.7670034,
+    "longitude": 46.6593779,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fabrica de Cafe",
+    "category": "food",
+    "latitude": 24.7664558,
+    "longitude": 46.6236828,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كرتيكل",
+    "category": "food",
+    "latitude": 24.6490683,
+    "longitude": 46.5512058,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Gold Sushi Club",
+    "category": "food",
+    "latitude": 24.7527335,
+    "longitude": 46.6249425,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال عربة الفول",
+    "category": "food",
+    "latitude": 24.8271,
+    "longitude": 46.7963,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم حنيذ الجنوب",
+    "category": "food",
+    "latitude": 24.8299,
+    "longitude": 46.8098,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال الافراح",
+    "category": "food",
+    "latitude": 24.823,
+    "longitude": 46.7994,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم أسماك",
+    "category": "food",
+    "latitude": 24.8223,
+    "longitude": 46.7999,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.741723,
+    "longitude": 46.6036549,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورمر",
+    "category": "food",
+    "latitude": 24.8114498,
+    "longitude": 46.6261347,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورمر Shawarmer",
+    "category": "food",
+    "latitude": 24.81146,
+    "longitude": 46.6261625,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاك برجر Shack Burger",
+    "category": "food",
+    "latitude": 24.8115222,
+    "longitude": 46.6263078,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ذوق الحجازي",
+    "category": "food",
+    "latitude": 24.812489,
+    "longitude": 46.6285748,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عريشة أوراق العنب",
+    "category": "food",
+    "latitude": 24.8127717,
+    "longitude": 46.6292445,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تيستي تيس",
+    "category": "food",
+    "latitude": 24.8134507,
+    "longitude": 46.631227,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورما دالي",
+    "category": "food",
+    "latitude": 24.8134934,
+    "longitude": 46.6313248,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عثمان بيك",
+    "category": "food",
+    "latitude": 24.8135438,
+    "longitude": 46.631436,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أسماك الزيتون",
+    "category": "food",
+    "latitude": 24.8135877,
+    "longitude": 46.6315412,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "قصر المهراجا",
+    "category": "food",
+    "latitude": 24.813786,
+    "longitude": 46.6320281,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "العنابي",
+    "category": "food",
+    "latitude": 24.8148748,
+    "longitude": 46.6347003,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سستوريا",
+    "category": "food",
+    "latitude": 24.8149496,
+    "longitude": 46.6348677,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سمك",
+    "category": "food",
+    "latitude": 24.8151713,
+    "longitude": 46.6353868,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ديب فرايز",
+    "category": "food",
+    "latitude": 24.8151974,
+    "longitude": 46.6354608,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مكشكش",
+    "category": "food",
+    "latitude": 24.8152251,
+    "longitude": 46.6355218,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فطيرة الشاورما",
+    "category": "food",
+    "latitude": 24.8153103,
+    "longitude": 46.6357187,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "إبتسامة قهوة",
+    "category": "food",
+    "latitude": 24.8153366,
+    "longitude": 46.6357792,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "رول اند راب",
+    "category": "food",
+    "latitude": 24.8153639,
+    "longitude": 46.6358389,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الناضج",
+    "category": "food",
+    "latitude": 24.8156546,
+    "longitude": 46.6361308,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كوخ الكشري",
+    "category": "food",
+    "latitude": 24.8182046,
+    "longitude": 46.6421908,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شريمبلس",
+    "category": "food",
+    "latitude": 24.8182369,
+    "longitude": 46.6422566,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أكلات حجازية",
+    "category": "food",
+    "latitude": 24.8182656,
+    "longitude": 46.6423175,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم زهرة الزحل",
+    "category": "food",
+    "latitude": 24.8183203,
+    "longitude": 46.6424477,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دونربير",
+    "category": "food",
+    "latitude": 24.8183863,
+    "longitude": 46.6426174,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فلافل ثمار",
+    "category": "food",
+    "latitude": 24.8184052,
+    "longitude": 46.6426694,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال النعمان",
+    "category": "food",
+    "latitude": 24.8184228,
+    "longitude": 46.6427187,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم ذوق مغل",
+    "category": "food",
+    "latitude": 24.8185898,
+    "longitude": 46.6431326,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بارولي كافيه",
+    "category": "food",
+    "latitude": 24.8173852,
+    "longitude": 46.644058,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ميت لوفر",
+    "category": "food",
+    "latitude": 24.8173115,
+    "longitude": 46.6440981,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ديوان القرية",
+    "category": "food",
+    "latitude": 24.8172451,
+    "longitude": 46.6441344,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم القصر للمشويات العراقية",
+    "category": "food",
+    "latitude": 24.8171188,
+    "longitude": 46.6442025,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ديوان القرية",
+    "category": "food",
+    "latitude": 24.8170503,
+    "longitude": 46.6442351,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كوفليت",
+    "category": "food",
+    "latitude": 24.8131505,
+    "longitude": 46.6460734,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سموكي هاوس",
+    "category": "food",
+    "latitude": 24.8130409,
+    "longitude": 46.6461297,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "نورش",
+    "category": "food",
+    "latitude": 24.8129345,
+    "longitude": 46.6461754,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "د. كيف",
+    "category": "food",
+    "latitude": 24.8121903,
+    "longitude": 46.6466798,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "باستليتا",
+    "category": "food",
+    "latitude": 24.8119912,
+    "longitude": 46.6462956,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "خبز ونواشف",
+    "category": "food",
+    "latitude": 24.8119102,
+    "longitude": 46.6460917,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا كافيه",
+    "category": "food",
+    "latitude": 24.8110417,
+    "longitude": 46.6473017,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اليجرو",
+    "category": "food",
+    "latitude": 24.8105987,
+    "longitude": 46.6473842,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دوناتس",
+    "category": "food",
+    "latitude": 24.8070312,
+    "longitude": 46.6491598,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الكيمي",
+    "category": "food",
+    "latitude": 24.8027038,
+    "longitude": 46.6504113,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "٦ صباحا",
+    "category": "food",
+    "latitude": 24.8024327,
+    "longitude": 46.6497731,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم لبنى",
+    "category": "food",
+    "latitude": 24.8024132,
+    "longitude": 46.6497227,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "امبراطور الشاورما",
+    "category": "food",
+    "latitude": 24.8020207,
+    "longitude": 46.6491756,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فرست بورت",
+    "category": "food",
+    "latitude": 24.8019702,
+    "longitude": 46.649084,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "لامي مطعم وكافيه",
+    "category": "food",
+    "latitude": 24.8006306,
+    "longitude": 46.6458716,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "رغيف وجبنة",
+    "category": "food",
+    "latitude": 24.7952936,
+    "longitude": 46.6350728,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هاك شاورما",
+    "category": "food",
+    "latitude": 24.7953516,
+    "longitude": 46.6352325,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سلايدر هاوس",
+    "category": "food",
+    "latitude": 24.7981738,
+    "longitude": 46.6420718,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الصاج الريفي",
+    "category": "food",
+    "latitude": 24.7976669,
+    "longitude": 46.6418438,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونناتس",
+    "category": "food",
+    "latitude": 24.7976332,
+    "longitude": 46.64175,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أبو جبارة",
+    "category": "food",
+    "latitude": 24.7976486,
+    "longitude": 46.6413662,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانا كافيه",
+    "category": "food",
+    "latitude": 24.7984163,
+    "longitude": 46.6424103,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سلطان أحمد",
+    "category": "food",
+    "latitude": 24.7993942,
+    "longitude": 46.6450457,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا كافيه",
+    "category": "food",
+    "latitude": 24.7995803,
+    "longitude": 46.6451148,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بي برجر",
+    "category": "food",
+    "latitude": 24.8006544,
+    "longitude": 46.6482116,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كابريكافيه",
+    "category": "food",
+    "latitude": 24.7964102,
+    "longitude": 46.6504383,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هستل",
+    "category": "food",
+    "latitude": 24.7931528,
+    "longitude": 46.6491205,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مزاج العرب",
+    "category": "food",
+    "latitude": 24.7930716,
+    "longitude": 46.6490799,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تشيلو",
+    "category": "food",
+    "latitude": 24.792998,
+    "longitude": 46.6490511,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sweetella سويتلا",
+    "category": "food",
+    "latitude": 24.5762701,
+    "longitude": 46.6283512,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Jarlicious Lounge جارليشوز لاونج",
+    "category": "food",
+    "latitude": 24.7309081,
+    "longitude": 46.6480964,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ميلانا كافيه",
+    "category": "food",
+    "latitude": 24.8336702,
+    "longitude": 46.7334612,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Diriyyah Park حديقة الدرعية",
+    "category": "outdoor",
+    "latitude": 24.7379379,
+    "longitude": 46.5732065,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة منتزه البجيري",
+    "category": "outdoor",
+    "latitude": 24.7387948,
+    "longitude": 46.573269,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Artasty ارتيستي",
+    "category": "food",
+    "latitude": 24.7351915,
+    "longitude": 46.6476127,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "البيك",
+    "category": "food",
+    "latitude": 24.5880552,
+    "longitude": 46.6536236,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة لبن",
+    "category": "outdoor",
+    "latitude": 24.6368017,
+    "longitude": 46.5542958,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "SAYAKI",
+    "category": "food",
+    "latitude": 24.7665642,
+    "longitude": 46.6235273,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم وفلافل وفول",
+    "category": "food",
+    "latitude": 24.5977661,
+    "longitude": 46.7335812,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Jamra",
+    "category": "food",
+    "latitude": 24.7088336,
+    "longitude": 46.7740685,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سكة ٨",
+    "category": "food",
+    "latitude": 24.8154568,
+    "longitude": 46.6883291,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بريانك",
+    "category": "food",
+    "latitude": 24.8153668,
+    "longitude": 46.6883727,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فلكس كيتشن",
+    "category": "food",
+    "latitude": 24.8155085,
+    "longitude": 46.6883086,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شريمبلس",
+    "category": "food",
+    "latitude": 24.8171253,
+    "longitude": 46.6872426,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "القصر الأحمر",
+    "category": "culture",
+    "latitude": 24.6428435,
+    "longitude": 46.709801,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أوفردو لاونج",
+    "category": "food",
+    "latitude": 24.7155403,
+    "longitude": 46.659654,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Steak House",
+    "category": "food",
+    "latitude": 24.6917358,
+    "longitude": 46.7331194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.6915584,
+    "longitude": 46.7326589,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Costa",
+    "category": "food",
+    "latitude": 24.6917174,
+    "longitude": 46.7327699,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Turn Stone Pizza",
+    "category": "food",
+    "latitude": 24.6915708,
+    "longitude": 46.7329126,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ديل مار",
+    "category": "food",
+    "latitude": 24.7812144,
+    "longitude": 46.662308,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.6765436,
+    "longitude": 46.6760974,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Domino's",
+    "category": "food",
+    "latitude": 24.6759963,
+    "longitude": 46.6751367,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مقهى السيعينات 1974",
+    "category": "food",
+    "latitude": 24.7416445,
+    "longitude": 46.6453547,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shuwa Express شوا اكسبرس",
+    "category": "food",
+    "latitude": 24.7855994,
+    "longitude": 46.6340773,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغر فيول",
+    "category": "food",
+    "latitude": 24.6866995,
+    "longitude": 46.7473656,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغر فيول",
+    "category": "food",
+    "latitude": 24.6978182,
+    "longitude": 46.7041444,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغر فيول",
+    "category": "food",
+    "latitude": 24.8106225,
+    "longitude": 46.7344265,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغر فيول",
+    "category": "food",
+    "latitude": 24.7847178,
+    "longitude": 46.6616126,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.5873024,
+    "longitude": 46.6244924,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.5583496,
+    "longitude": 46.6372109,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورمر",
+    "category": "food",
+    "latitude": 24.6335086,
+    "longitude": 46.5651439,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.6320749,
+    "longitude": 46.5641592,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.645491,
+    "longitude": 46.5490373,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.5956597,
+    "longitude": 46.6477718,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.5375763,
+    "longitude": 46.6582947,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.5988355,
+    "longitude": 46.6900916,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarmer",
+    "category": "food",
+    "latitude": 24.7133696,
+    "longitude": 46.633842,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حمص الحارة",
+    "category": "food",
+    "latitude": 24.8546233,
+    "longitude": 46.6261115,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ليفاني كوفي - Leivani coffee",
+    "category": "food",
+    "latitude": 24.747746,
+    "longitude": 46.7018094,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سلف ميد",
+    "category": "food",
+    "latitude": 24.7593461,
+    "longitude": 46.6959056,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فروت ارت",
+    "category": "food",
+    "latitude": 24.7257628,
+    "longitude": 46.6846076,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كاشو",
+    "category": "food",
+    "latitude": 24.7804606,
+    "longitude": 46.6633466,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger King",
+    "category": "food",
+    "latitude": 24.8008755,
+    "longitude": 46.693003,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Dunkin' Donuts",
+    "category": "food",
+    "latitude": 24.8009444,
+    "longitude": 46.6931822,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Hamra Square - الحمراء سكوير",
+    "category": "shopping",
+    "latitude": 24.7665277,
+    "longitude": 46.7545927,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.7839565,
+    "longitude": 46.7480679,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سينسيز كوفي",
+    "category": "food",
+    "latitude": 24.7890307,
+    "longitude": 46.6486642,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جان برجر",
+    "category": "food",
+    "latitude": 24.7897495,
+    "longitude": 46.6483591,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مايسترو بيتزا",
+    "category": "food",
+    "latitude": 24.7895902,
+    "longitude": 46.6484843,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الجرعة الصحية",
+    "category": "food",
+    "latitude": 24.7896839,
+    "longitude": 46.6486533,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Dunkin' Donuts",
+    "category": "food",
+    "latitude": 24.7903175,
+    "longitude": 46.6486958,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.5860419,
+    "longitude": 46.65399,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرر كافية - Harar Cafe",
+    "category": "food",
+    "latitude": 24.6377603,
+    "longitude": 46.5732334,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8469814,
+    "longitude": 46.7334068,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "واينز",
+    "category": "food",
+    "latitude": 24.847172,
+    "longitude": 46.7334545,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "د.كيف",
+    "category": "food",
+    "latitude": 24.847569,
+    "longitude": 46.7336478,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزاراتزي",
+    "category": "food",
+    "latitude": 24.6863504,
+    "longitude": 46.7949666,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أبو جبارة",
+    "category": "food",
+    "latitude": 24.6863809,
+    "longitude": 46.7950384,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورمر",
+    "category": "food",
+    "latitude": 24.6864276,
+    "longitude": 46.7951329,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دومينوز",
+    "category": "food",
+    "latitude": 24.686402,
+    "longitude": 46.7950881,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورما بلس",
+    "category": "food",
+    "latitude": 24.6862892,
+    "longitude": 46.7948402,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "منؤشة",
+    "category": "food",
+    "latitude": 24.6863286,
+    "longitude": 46.7949193,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "TOPKAPI Tahlia",
+    "category": "food",
+    "latitude": 24.6942229,
+    "longitude": 46.6794301,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "iv cafe",
+    "category": "food",
+    "latitude": 24.8032868,
+    "longitude": 46.8708008,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بوفية لذيذة",
+    "category": "food",
+    "latitude": 24.789891,
+    "longitude": 46.6516004,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تاين",
+    "category": "food",
+    "latitude": 24.7929453,
+    "longitude": 46.6533342,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شيخ البلد",
+    "category": "food",
+    "latitude": 24.6183694,
+    "longitude": 46.7246125,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.6940726,
+    "longitude": 46.6073943,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.6936745,
+    "longitude": 46.6063807,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Core Coffee & Roastery",
+    "category": "food",
+    "latitude": 24.8179288,
+    "longitude": 46.6868459,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Core Coffee & Roastery",
+    "category": "food",
+    "latitude": 24.7662814,
+    "longitude": 46.7150917,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الرومانسية",
+    "category": "food",
+    "latitude": 24.8084558,
+    "longitude": 46.6494024,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Krispy Kreme",
+    "category": "food",
+    "latitude": 24.8008561,
+    "longitude": 46.7438247,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.8007019,
+    "longitude": 46.7435392,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.8007983,
+    "longitude": 46.7437233,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hashwa",
+    "category": "food",
+    "latitude": 24.7743793,
+    "longitude": 46.7254685,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ODD cafe",
+    "category": "food",
+    "latitude": 24.7735044,
+    "longitude": 46.6889856,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جاردن لاونج مطعم وكافيه",
+    "category": "food",
+    "latitude": 24.6823089,
+    "longitude": 46.7778529,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كافيه بيني",
+    "category": "food",
+    "latitude": 24.7174592,
+    "longitude": 46.6586641,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا ومناقيش الروشة‭",
+    "category": "food",
+    "latitude": 24.735636,
+    "longitude": 46.7629953,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سيد اوغلو",
+    "category": "food",
+    "latitude": 24.5642201,
+    "longitude": 46.6269778,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم بنات سارة‭",
+    "category": "food",
+    "latitude": 24.8203626,
+    "longitude": 46.7891863,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم حنيذ حمود‭",
+    "category": "food",
+    "latitude": 24.8404046,
+    "longitude": 46.7486088,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "لقمة",
+    "category": "food",
+    "latitude": 24.7312587,
+    "longitude": 46.6491455,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مستر صب",
+    "category": "food",
+    "latitude": 24.6938787,
+    "longitude": 46.6055084,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شوكليت ايتالياني",
+    "category": "food",
+    "latitude": 24.6969313,
+    "longitude": 46.6858361,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Piccolo Roasters",
+    "category": "food",
+    "latitude": 24.7967938,
+    "longitude": 46.6761147,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coffee Club نادي القهوة",
+    "category": "food",
+    "latitude": 24.7718406,
+    "longitude": 46.7195512,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم الخروف للمأكولات الكويتية",
+    "category": "food",
+    "latitude": 24.805779,
+    "longitude": 46.6605281,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Novels Bakery Narjes - نوفلز بيكري النرجس",
+    "category": "food",
+    "latitude": 24.8748206,
+    "longitude": 46.6382577,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بستريتو",
+    "category": "food",
+    "latitude": 24.793497,
+    "longitude": 46.6545685,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ترنكيلو لاونج Tranquillo Lounge",
+    "category": "food",
+    "latitude": 24.8080092,
+    "longitude": 46.6159994,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7897556,
+    "longitude": 46.6486763,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "La Rustica",
+    "category": "food",
+    "latitude": 24.6944926,
+    "longitude": 46.6834965,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "لاروستيكا بيتزارايا",
+    "category": "food",
+    "latitude": 24.6945971,
+    "longitude": 46.6835553,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بياتو",
+    "category": "food",
+    "latitude": 24.6910725,
+    "longitude": 46.6695807,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Entrecôte Café de Paris",
+    "category": "food",
+    "latitude": 24.6899848,
+    "longitude": 46.6848564,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Entrecôte Café de Paris",
+    "category": "food",
+    "latitude": 24.7602211,
+    "longitude": 46.603644,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "روا لاونج",
+    "category": "food",
+    "latitude": 24.7278517,
+    "longitude": 46.6631039,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7535378,
+    "longitude": 46.5842496,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "NOOR CAFE | نور كافيه",
+    "category": "food",
+    "latitude": 24.7739257,
+    "longitude": 46.7093414,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مقهى و لاونج كونسوليشن",
+    "category": "food",
+    "latitude": 24.8174657,
+    "longitude": 46.6440234,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Palace Museum",
+    "category": "culture",
+    "latitude": 24.6584815,
+    "longitude": 46.6702334,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "TACOSON تاكوسون",
+    "category": "food",
+    "latitude": 24.7900834,
+    "longitude": 46.6368206,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Achay | اچاي",
+    "category": "food",
+    "latitude": 24.8499457,
+    "longitude": 46.7651546,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الوجه الذهبي",
+    "category": "food",
+    "latitude": 24.7919336,
+    "longitude": 46.6254011,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Oasis",
+    "category": "food",
+    "latitude": 24.7458892,
+    "longitude": 46.6989347,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "VARI Brasserie and Grill",
+    "category": "food",
+    "latitude": 24.688076,
+    "longitude": 46.6651235,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "يوفوريا وي كافيه",
+    "category": "food",
+    "latitude": 24.7716076,
+    "longitude": 46.6515745,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ميوزد بيت القهوة",
+    "category": "food",
+    "latitude": 24.8035305,
+    "longitude": 46.6743369,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "درافت كافيه",
+    "category": "food",
+    "latitude": 24.8036447,
+    "longitude": 46.6742323,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "اوكاوا",
+    "category": "food",
+    "latitude": 24.8408601,
+    "longitude": 46.6733225,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جال الوادي",
+    "category": "food",
+    "latitude": 24.7433743,
+    "longitude": 46.5640768,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "نقطة | قهوة مختصة",
+    "category": "food",
+    "latitude": 24.7795758,
+    "longitude": 46.6826275,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "لاڤوريو",
+    "category": "food",
+    "latitude": 24.6926421,
+    "longitude": 46.6742725,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيو",
+    "category": "food",
+    "latitude": 24.6926929,
+    "longitude": 46.6743873,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Flod",
+    "category": "food",
+    "latitude": 24.7899973,
+    "longitude": 46.6487672,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.7580865,
+    "longitude": 46.7337826,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جافا تايم",
+    "category": "food",
+    "latitude": 24.8192834,
+    "longitude": 46.643008,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تيم هورتونز",
+    "category": "food",
+    "latitude": 24.8084506,
+    "longitude": 46.6695775,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.8088624,
+    "longitude": 46.6687871,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "السلطان",
+    "category": "food",
+    "latitude": 24.7499952,
+    "longitude": 46.6141769,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مذاق التحلية",
+    "category": "food",
+    "latitude": 24.70258,
+    "longitude": 46.6974275,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "23M",
+    "category": "food",
+    "latitude": 24.746056,
+    "longitude": 46.7084468,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هيتكا | hetkia",
+    "category": "food",
+    "latitude": 24.7323356,
+    "longitude": 46.6756975,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Macboos Restaurant",
+    "category": "food",
+    "latitude": 24.6941861,
+    "longitude": 46.6793722,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "chabo",
+    "category": "food",
+    "latitude": 24.7616418,
+    "longitude": 46.6732965,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7616196,
+    "longitude": 46.6732453,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Entrecôte Café de Paris",
+    "category": "food",
+    "latitude": 24.6904489,
+    "longitude": 46.6338535,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "CENTURY CAFE",
+    "category": "food",
+    "latitude": 24.8044397,
+    "longitude": 46.6738422,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.8357237,
+    "longitude": 46.684007,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كرسبي كريم",
+    "category": "food",
+    "latitude": 24.8356601,
+    "longitude": 46.6838059,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "bof - بوف",
+    "category": "food",
+    "latitude": 24.7501152,
+    "longitude": 46.722583,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Usta Asim",
+    "category": "food",
+    "latitude": 24.795466,
+    "longitude": 46.6983377,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Repository Coffee Roasters",
+    "category": "food",
+    "latitude": 24.8110205,
+    "longitude": 46.670064,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.8236273,
+    "longitude": 46.6552025,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عصير كيفان",
+    "category": "food",
+    "latitude": 24.8235373,
+    "longitude": 46.6552443,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دومينوز",
+    "category": "food",
+    "latitude": 24.8233595,
+    "longitude": 46.6555052,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مايسترو بيتزا",
+    "category": "food",
+    "latitude": 24.8234401,
+    "longitude": 46.6556942,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ووك كونج",
+    "category": "food",
+    "latitude": 24.8235439,
+    "longitude": 46.6559329,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برجري",
+    "category": "food",
+    "latitude": 24.8235673,
+    "longitude": 46.6559817,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن",
+    "category": "food",
+    "latitude": 24.8236352,
+    "longitude": 46.6560447,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.6854463,
+    "longitude": 46.800052,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.7439764,
+    "longitude": 46.6214222,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.8447594,
+    "longitude": 46.7576301,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.7967035,
+    "longitude": 46.780284,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.7386172,
+    "longitude": 46.7606341,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.5689184,
+    "longitude": 46.6563875,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.7444149,
+    "longitude": 46.6206874,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Tiko",
+    "category": "food",
+    "latitude": 24.8016024,
+    "longitude": 46.6485286,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.8308217,
+    "longitude": 46.5992403,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.7063451,
+    "longitude": 46.6865194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.7685186,
+    "longitude": 46.8032116,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.661715,
+    "longitude": 46.7269265,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.5683427,
+    "longitude": 46.6560442,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.739616,
+    "longitude": 46.7608272,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.7962408,
+    "longitude": 46.7793132,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.6351882,
+    "longitude": 46.5638942,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.8008476,
+    "longitude": 46.6489631,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sors",
+    "category": "food",
+    "latitude": 24.7057554,
+    "longitude": 46.6871631,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.5437123,
+    "longitude": 46.6917497,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.8306415,
+    "longitude": 46.598822,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.573075,
+    "longitude": 46.61094,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7052437,
+    "longitude": 46.6856344,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7440982,
+    "longitude": 46.6209984,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7668817,
+    "longitude": 46.7072939,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.6606537,
+    "longitude": 46.7269617,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7937913,
+    "longitude": 46.6546921,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.5682451,
+    "longitude": 46.6568755,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7389047,
+    "longitude": 46.7596526,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.6336278,
+    "longitude": 46.5650473,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.6855828,
+    "longitude": 46.8011945,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.8453094,
+    "longitude": 46.7582844,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7642321,
+    "longitude": 46.8032599,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سلطان دي لايت برجر",
+    "category": "food",
+    "latitude": 24.8201429,
+    "longitude": 46.6442879,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مذاق ورق عنب",
+    "category": "food",
+    "latitude": 24.7220806,
+    "longitude": 46.6463252,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كوفي بتيل",
+    "category": "food",
+    "latitude": 24.7343251,
+    "longitude": 46.5745274,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.7534435,
+    "longitude": 46.7265979,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.838724,
+    "longitude": 46.7318325,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تيم هورتونز",
+    "category": "food",
+    "latitude": 24.8387541,
+    "longitude": 46.7325597,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bateel El'an",
+    "category": "food",
+    "latitude": 24.8426989,
+    "longitude": 46.7339669,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Dhahia Juice",
+    "category": "food",
+    "latitude": 24.8393628,
+    "longitude": 46.732541,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.841741,
+    "longitude": 46.7330479,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "One Million",
+    "category": "food",
+    "latitude": 24.8417852,
+    "longitude": 46.7331393,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Jalsa Nard Cafe",
+    "category": "food",
+    "latitude": 24.7639301,
+    "longitude": 46.602982,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Frankie",
+    "category": "food",
+    "latitude": 24.7643375,
+    "longitude": 46.6026813,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sedre Tea",
+    "category": "food",
+    "latitude": 24.7650959,
+    "longitude": 46.6022867,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Public",
+    "category": "food",
+    "latitude": 24.7653395,
+    "longitude": 46.6022188,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shashi",
+    "category": "food",
+    "latitude": 24.7655812,
+    "longitude": 46.6021353,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kabana",
+    "category": "food",
+    "latitude": 24.7662527,
+    "longitude": 46.602094,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Buffalo Wings & Rings",
+    "category": "food",
+    "latitude": 24.7668038,
+    "longitude": 46.6029836,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Nakheel Boulevard",
+    "category": "food",
+    "latitude": 24.7661852,
+    "longitude": 46.6027322,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Phantom House",
+    "category": "food",
+    "latitude": 24.7662835,
+    "longitude": 46.6032259,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Houn Beirut",
+    "category": "food",
+    "latitude": 24.7661453,
+    "longitude": 46.6035582,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Harafish",
+    "category": "food",
+    "latitude": 24.7659293,
+    "longitude": 46.6042958,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Layali Adan",
+    "category": "food",
+    "latitude": 24.7651957,
+    "longitude": 46.6046666,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Petit Cafe",
+    "category": "food",
+    "latitude": 24.7648524,
+    "longitude": 46.6043862,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Karamna",
+    "category": "food",
+    "latitude": 24.7645528,
+    "longitude": 46.6043728,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Beirut Khanum",
+    "category": "food",
+    "latitude": 24.764244,
+    "longitude": 46.6042936,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Grand Cafe",
+    "category": "food",
+    "latitude": 24.7659528,
+    "longitude": 46.6038356,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.7690442,
+    "longitude": 46.6039054,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Creme",
+    "category": "food",
+    "latitude": 24.7690052,
+    "longitude": 46.6039871,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "North",
+    "category": "food",
+    "latitude": 24.769382,
+    "longitude": 46.6048893,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shake Shack",
+    "category": "food",
+    "latitude": 24.7692937,
+    "longitude": 46.6049349,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chuck E. Cheese",
+    "category": "food",
+    "latitude": 24.7685681,
+    "longitude": 46.60543,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.7683984,
+    "longitude": 46.6053792,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7682489,
+    "longitude": 46.605287,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Papa John's",
+    "category": "food",
+    "latitude": 24.768013,
+    "longitude": 46.6049306,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Burger Passion",
+    "category": "food",
+    "latitude": 24.7678679,
+    "longitude": 46.6048215,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Caliente Lounge",
+    "category": "food",
+    "latitude": 24.7677044,
+    "longitude": 46.6049875,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bafarat",
+    "category": "food",
+    "latitude": 24.7672468,
+    "longitude": 46.6045968,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chubby Chip",
+    "category": "food",
+    "latitude": 24.767138,
+    "longitude": 46.6047022,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fat Sal'a",
+    "category": "food",
+    "latitude": 24.7670436,
+    "longitude": 46.6047662,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Masami Sushi",
+    "category": "food",
+    "latitude": 24.7669223,
+    "longitude": 46.6048026,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "EL&N London",
+    "category": "food",
+    "latitude": 24.7665873,
+    "longitude": 46.6047326,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.7665454,
+    "longitude": 46.6046985,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "1/2 M",
+    "category": "food",
+    "latitude": 24.7664237,
+    "longitude": 46.6045374,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.766405,
+    "longitude": 46.6044883,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kutlet",
+    "category": "food",
+    "latitude": 24.7669053,
+    "longitude": 46.603735,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Okai",
+    "category": "food",
+    "latitude": 24.7667917,
+    "longitude": 46.6037387,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cafe Rutti",
+    "category": "food",
+    "latitude": 24.7665559,
+    "longitude": 46.6038443,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Layali",
+    "category": "food",
+    "latitude": 24.7666358,
+    "longitude": 46.6037792,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Samad Liraqi",
+    "category": "food",
+    "latitude": 24.7673012,
+    "longitude": 46.6041422,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Coffeeholics",
+    "category": "food",
+    "latitude": 24.7674529,
+    "longitude": 46.6042208,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Al Hilal",
+    "category": "food",
+    "latitude": 24.7701195,
+    "longitude": 46.6046423,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Randy's Donuts",
+    "category": "food",
+    "latitude": 24.7695001,
+    "longitude": 46.6048778,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Powr",
+    "category": "food",
+    "latitude": 24.7708578,
+    "longitude": 46.6038739,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Firstaiment",
+    "category": "outdoor",
+    "latitude": 24.7711812,
+    "longitude": 46.604618,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Coffee Address",
+    "category": "food",
+    "latitude": 24.8344179,
+    "longitude": 46.7353315,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8346375,
+    "longitude": 46.7354588,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Barn's",
+    "category": "food",
+    "latitude": 24.8334509,
+    "longitude": 46.733426,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ranosh",
+    "category": "food",
+    "latitude": 24.8336759,
+    "longitude": 46.733879,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Crepes Des Alpes",
+    "category": "food",
+    "latitude": 24.7672828,
+    "longitude": 46.6031682,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Blanca",
+    "category": "food",
+    "latitude": 24.8425484,
+    "longitude": 46.7341221,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Half Million",
+    "category": "food",
+    "latitude": 24.8277388,
+    "longitude": 46.59222,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kaman Lounge",
+    "category": "food",
+    "latitude": 24.8318742,
+    "longitude": 46.7325524,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Vero | فيرو",
+    "category": "food",
+    "latitude": 24.787034,
+    "longitude": 46.6472064,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7533837,
+    "longitude": 46.6918516,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.6862115,
+    "longitude": 46.7946768,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.8403976,
+    "longitude": 46.7487574,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.854461,
+    "longitude": 46.735629,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7637937,
+    "longitude": 46.7143285,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.557602,
+    "longitude": 46.703325,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.8034675,
+    "longitude": 46.6045833,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7057797,
+    "longitude": 46.7669428,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.666506,
+    "longitude": 46.683194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.78178,
+    "longitude": 46.601172,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7053119,
+    "longitude": 46.676858,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7797699,
+    "longitude": 46.7882341,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.859007,
+    "longitude": 46.646871,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7680169,
+    "longitude": 46.5772676,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.6914219,
+    "longitude": 46.7007083,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7331749,
+    "longitude": 46.7842323,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7449215,
+    "longitude": 46.7560798,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.662234,
+    "longitude": 46.7295,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7631683,
+    "longitude": 46.6721917,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.5431804,
+    "longitude": 46.6914332,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.7668209,
+    "longitude": 46.7066941,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.8445257,
+    "longitude": 46.7571205,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7967863,
+    "longitude": 46.7802303,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.7429582,
+    "longitude": 46.6725209,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا سوبر غذاء",
+    "category": "food",
+    "latitude": 24.8273582,
+    "longitude": 46.7781677,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Dose Cafe",
+    "category": "food",
+    "latitude": 24.8401038,
+    "longitude": 46.7323744,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.747532,
+    "longitude": 46.5703625,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8177774,
+    "longitude": 46.6862018,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8185961,
+    "longitude": 46.6866878,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة دوار الكويت",
+    "category": "outdoor",
+    "latitude": 24.666211,
+    "longitude": 46.72823,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.8060629,
+    "longitude": 46.755774,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.5663521,
+    "longitude": 46.6253006,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.6630084,
+    "longitude": 46.7290325,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Be Karam بي كرم",
+    "category": "food",
+    "latitude": 24.7413004,
+    "longitude": 46.6463797,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Vendor Coffee - مقهى فيندور",
+    "category": "food",
+    "latitude": 24.7558162,
+    "longitude": 46.7718623,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bukhara Alhara",
+    "category": "food",
+    "latitude": 24.7670622,
+    "longitude": 46.707419,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chkn",
+    "category": "food",
+    "latitude": 24.6540526,
+    "longitude": 46.5691138,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Ulb",
+    "category": "food",
+    "latitude": 24.654311,
+    "longitude": 46.5700094,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "The Hub",
+    "category": "food",
+    "latitude": 24.5693477,
+    "longitude": 46.6615215,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مقهى الكنافة",
+    "category": "food",
+    "latitude": 24.7007992,
+    "longitude": 46.6737246,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "LAS Cafe",
+    "category": "food",
+    "latitude": 24.6962967,
+    "longitude": 46.684199,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Foam",
+    "category": "food",
+    "latitude": 24.696121,
+    "longitude": 46.6842887,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تشيريه كافيه",
+    "category": "food",
+    "latitude": 24.6958713,
+    "longitude": 46.6843014,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن",
+    "category": "food",
+    "latitude": 24.6862858,
+    "longitude": 46.6750969,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "جوبي فرايز",
+    "category": "food",
+    "latitude": 24.6859072,
+    "longitude": 46.675264,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الطازج",
+    "category": "food",
+    "latitude": 24.686114,
+    "longitude": 46.6751447,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فوال حارة الشريف",
+    "category": "food",
+    "latitude": 24.6856071,
+    "longitude": 46.6771184,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بوفية صباح الوائد",
+    "category": "food",
+    "latitude": 24.6857777,
+    "longitude": 46.6775096,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Boss.co Roastery",
+    "category": "food",
+    "latitude": 24.6951606,
+    "longitude": 46.6846725,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ليمون كافيه",
+    "category": "food",
+    "latitude": 24.6949327,
+    "longitude": 46.684843,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Never Enough Bakehouse",
+    "category": "food",
+    "latitude": 24.8389908,
+    "longitude": 46.6679051,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مون كافيه",
+    "category": "food",
+    "latitude": 24.8493677,
+    "longitude": 46.6695439,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بِك كافيه",
+    "category": "food",
+    "latitude": 24.8508911,
+    "longitude": 46.6739497,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم العم خليل",
+    "category": "food",
+    "latitude": 24.8510513,
+    "longitude": 46.6743288,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "البيك",
+    "category": "food",
+    "latitude": 24.657252,
+    "longitude": 46.7105205,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KFC",
+    "category": "food",
+    "latitude": 24.6359825,
+    "longitude": 46.5339122,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8372899,
+    "longitude": 46.7421336,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bukhara Alhara",
+    "category": "food",
+    "latitude": 24.5683822,
+    "longitude": 46.6568262,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة حي النخيل",
+    "category": "outdoor",
+    "latitude": 24.7468932,
+    "longitude": 46.6495901,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Wayne's Coffee",
+    "category": "food",
+    "latitude": 24.7451726,
+    "longitude": 46.6203137,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تيم هورتونز",
+    "category": "food",
+    "latitude": 24.7450596,
+    "longitude": 46.6204348,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "NOC",
+    "category": "food",
+    "latitude": 24.7682095,
+    "longitude": 46.5768143,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bukhara Alhara",
+    "category": "food",
+    "latitude": 24.8008476,
+    "longitude": 46.6490973,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.8563331,
+    "longitude": 46.6471784,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.8078305,
+    "longitude": 46.6014262,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bliss Cafe",
+    "category": "food",
+    "latitude": 24.7655002,
+    "longitude": 46.5909279,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Nevermind",
+    "category": "food",
+    "latitude": 24.7049025,
+    "longitude": 46.6846816,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Traditional Architecture Museum",
+    "category": "culture",
+    "latitude": 24.733609,
+    "longitude": 46.5738151,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarma Avenue",
+    "category": "food",
+    "latitude": 24.7512891,
+    "longitude": 46.5738642,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarma Classic",
+    "category": "food",
+    "latitude": 24.7513718,
+    "longitude": 46.5739743,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Emperor Shawarma",
+    "category": "food",
+    "latitude": 24.7511256,
+    "longitude": 46.5736693,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Countryside Grapes",
+    "category": "food",
+    "latitude": 24.8084572,
+    "longitude": 46.6370693,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم ذوق الرواد",
+    "category": "food",
+    "latitude": 24.5514835,
+    "longitude": 46.5141621,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Chotto Matte Riyadh",
+    "category": "food",
+    "latitude": 24.7677084,
+    "longitude": 46.6404435,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ساندوتشات سعيد",
+    "category": "food",
+    "latitude": 24.6405468,
+    "longitude": 46.7029103,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.8116846,
+    "longitude": 46.6241848,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7405758,
+    "longitude": 46.6335083,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.7562198,
+    "longitude": 46.6302112,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.7622544,
+    "longitude": 46.5754465,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.6749932,
+    "longitude": 46.6246864,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "إيرث كافيه",
+    "category": "food",
+    "latitude": 24.7609843,
+    "longitude": 46.6404549,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.705692,
+    "longitude": 46.7056408,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Urth Caffe",
+    "category": "food",
+    "latitude": 24.7842396,
+    "longitude": 46.591253,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7432578,
+    "longitude": 46.6792533,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7509815,
+    "longitude": 46.8225625,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.742659,
+    "longitude": 46.658732,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7679633,
+    "longitude": 46.7154415,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.8114338,
+    "longitude": 46.7694112,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.758633,
+    "longitude": 46.7144332,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7813131,
+    "longitude": 46.7311684,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.684872,
+    "longitude": 46.7751744,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7506921,
+    "longitude": 46.8225745,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.6914305,
+    "longitude": 46.6698724,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.8016463,
+    "longitude": 46.6038323,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.808371,
+    "longitude": 46.6698492,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.6863651,
+    "longitude": 46.6475898,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.5420874,
+    "longitude": 46.6904448,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.8250499,
+    "longitude": 46.7505652,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.624114,
+    "longitude": 46.5528249,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.8543659,
+    "longitude": 46.6481638,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.7879677,
+    "longitude": 46.8774476,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.6711944,
+    "longitude": 46.732203,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.580356,
+    "longitude": 46.6308958,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.601063,
+    "longitude": 46.698922,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Beefbar",
+    "category": "food",
+    "latitude": 24.7043323,
+    "longitude": 46.7059386,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Signor Sassi",
+    "category": "food",
+    "latitude": 24.6996074,
+    "longitude": 46.7047665,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Crazy Pizza",
+    "category": "food",
+    "latitude": 24.7057895,
+    "longitude": 46.7053592,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Crazy Pizza",
+    "category": "food",
+    "latitude": 24.6752569,
+    "longitude": 46.6249792,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Crazy Pizza",
+    "category": "food",
+    "latitude": 24.7840729,
+    "longitude": 46.5912956,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Myazu",
+    "category": "food",
+    "latitude": 24.6999939,
+    "longitude": 46.7048928,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Kayzo",
+    "category": "food",
+    "latitude": 24.7039425,
+    "longitude": 46.7064966,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Agio",
+    "category": "food",
+    "latitude": 24.7521049,
+    "longitude": 46.624429,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "San Carlo Cicchetti",
+    "category": "food",
+    "latitude": 24.7012182,
+    "longitude": 46.705378,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حديقة السعودية",
+    "category": "outdoor",
+    "latitude": 25.0051742,
+    "longitude": 46.6439506,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "QEUZ",
+    "category": "food",
+    "latitude": 24.8049729,
+    "longitude": 46.6607622,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sports Boulevard - المسار الرياضي",
+    "category": "outdoor",
+    "latitude": 24.755431,
+    "longitude": 46.5868573,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Coya",
+    "category": "food",
+    "latitude": 24.7045628,
+    "longitude": 46.7057789,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.6132011,
+    "longitude": 46.6820093,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سرمديه كافيه",
+    "category": "food",
+    "latitude": 24.7896153,
+    "longitude": 46.8150774,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.5457179,
+    "longitude": 46.6935816,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.6925033,
+    "longitude": 46.810431,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كانتون",
+    "category": "food",
+    "latitude": 24.6790804,
+    "longitude": 46.6812919,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "PICK",
+    "category": "food",
+    "latitude": 24.67467,
+    "longitude": 46.6252762,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Loom",
+    "category": "food",
+    "latitude": 24.7587139,
+    "longitude": 46.6864604,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Mood Master Specialty Coffee Roasters and Cafe",
+    "category": "food",
+    "latitude": 24.8013936,
+    "longitude": 46.7071438,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Bow Specialty Coffee",
+    "category": "food",
+    "latitude": 24.7954245,
+    "longitude": 46.7037951,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاي شبرا",
+    "category": "food",
+    "latitude": 24.7976824,
+    "longitude": 46.7082359,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Shawarma House",
+    "category": "food",
+    "latitude": 24.756185,
+    "longitude": 46.6568924,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cacti Cafe",
+    "category": "food",
+    "latitude": 24.8340533,
+    "longitude": 46.7355671,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "KHVA Cafe",
+    "category": "food",
+    "latitude": 24.8340814,
+    "longitude": 46.7356202,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Inspiration Cafe",
+    "category": "food",
+    "latitude": 24.8340695,
+    "longitude": 46.7355907,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Jadeel",
+    "category": "food",
+    "latitude": 24.7692758,
+    "longitude": 46.6910404,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Camel Step",
+    "category": "food",
+    "latitude": 24.7693423,
+    "longitude": 46.6910138,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ذوق المذاق",
+    "category": "food",
+    "latitude": 24.7509161,
+    "longitude": 46.6994231,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.7495119,
+    "longitude": 46.6999424,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تيم هورتونز",
+    "category": "food",
+    "latitude": 24.7491964,
+    "longitude": 46.7000912,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الطازج",
+    "category": "food",
+    "latitude": 24.7561287,
+    "longitude": 46.6561546,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.7559937,
+    "longitude": 46.6575232,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Lorenzo Pizza",
+    "category": "food",
+    "latitude": 24.7557346,
+    "longitude": 46.6568871,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.754999,
+    "longitude": 46.6551,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "O2 Coffee",
+    "category": "food",
+    "latitude": 24.7664811,
+    "longitude": 46.6799527,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كبدة وفحمة",
+    "category": "food",
+    "latitude": 24.7665838,
+    "longitude": 46.6799056,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم الافراح",
+    "category": "food",
+    "latitude": 24.7645343,
+    "longitude": 46.692568,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.5645508,
+    "longitude": 46.5752495,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.5648486,
+    "longitude": 46.5753409,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Hut",
+    "category": "food",
+    "latitude": 24.5649633,
+    "longitude": 46.575345,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Okrio Coffee",
+    "category": "food",
+    "latitude": 24.7803282,
+    "longitude": 46.666938,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ماكدونالدز",
+    "category": "food",
+    "latitude": 24.7608687,
+    "longitude": 46.6952563,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "قريب",
+    "category": "food",
+    "latitude": 24.7699242,
+    "longitude": 46.7115361,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.770343,
+    "longitude": 46.7123114,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.7702785,
+    "longitude": 46.7123328,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cacti Cafe",
+    "category": "food",
+    "latitude": 24.7647429,
+    "longitude": 46.7026472,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7628126,
+    "longitude": 46.6981263,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.7615722,
+    "longitude": 46.6950259,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.7615475,
+    "longitude": 46.6949481,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم وادى الزمرد",
+    "category": "food",
+    "latitude": 24.7583909,
+    "longitude": 46.6866194,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطاعم الزلال",
+    "category": "food",
+    "latitude": 24.7616213,
+    "longitude": 46.6742,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كودو",
+    "category": "food",
+    "latitude": 24.7602037,
+    "longitude": 46.6736773,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دوار السعادة",
+    "category": "food",
+    "latitude": 24.7582768,
+    "longitude": 46.674634,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "777 برجر مشوي",
+    "category": "food",
+    "latitude": 24.7582186,
+    "longitude": 46.6746602,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Animal burger",
+    "category": "food",
+    "latitude": 24.7618752,
+    "longitude": 46.6728143,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بخاري",
+    "category": "food",
+    "latitude": 24.7616992,
+    "longitude": 46.6728833,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم مصري مأكولات نعمه",
+    "category": "food",
+    "latitude": 24.7658938,
+    "longitude": 46.6828036,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاي رسلان",
+    "category": "food",
+    "latitude": 24.7615565,
+    "longitude": 46.6850076,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دار رمان",
+    "category": "food",
+    "latitude": 24.7591845,
+    "longitude": 46.6862123,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "قهوة صحبة",
+    "category": "food",
+    "latitude": 24.7575877,
+    "longitude": 46.6870622,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تسالي بيان عبدالله",
+    "category": "food",
+    "latitude": 24.6997696,
+    "longitude": 46.8100669,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.7059308,
+    "longitude": 46.6793578,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سالدوتش",
+    "category": "food",
+    "latitude": 24.6942439,
+    "longitude": 46.6069838,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شاورما عرب",
+    "category": "food",
+    "latitude": 24.7305435,
+    "longitude": 46.8421397,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Cinnabon",
+    "category": "food",
+    "latitude": 24.8062938,
+    "longitude": 46.692708,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مولتن",
+    "category": "food",
+    "latitude": 24.8064239,
+    "longitude": 46.6928146,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.8063444,
+    "longitude": 46.6926832,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Papa John's",
+    "category": "food",
+    "latitude": 24.8060982,
+    "longitude": 46.6928208,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "برغرايزر",
+    "category": "food",
+    "latitude": 24.8060276,
+    "longitude": 46.6928535,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "روزاليا برجر",
+    "category": "food",
+    "latitude": 24.8060683,
+    "longitude": 46.6928391,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "تنجه",
+    "category": "food",
+    "latitude": 24.7522673,
+    "longitude": 46.6749519,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "وقت العصير",
+    "category": "food",
+    "latitude": 24.7525172,
+    "longitude": 46.6751615,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "حاشي باشا",
+    "category": "food",
+    "latitude": 24.754934,
+    "longitude": 46.6789905,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "٥٠ فاكهة",
+    "category": "food",
+    "latitude": 24.7528941,
+    "longitude": 46.6760015,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "كنافة علي ابو الهوس",
+    "category": "food",
+    "latitude": 24.7529547,
+    "longitude": 46.6761779,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "عناب",
+    "category": "food",
+    "latitude": 24.7530078,
+    "longitude": 46.676322,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Joe & The Juice",
+    "category": "food",
+    "latitude": 24.737877,
+    "longitude": 46.6422873,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Hut",
+    "category": "food",
+    "latitude": 24.7561431,
+    "longitude": 46.6840885,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.7562113,
+    "longitude": 46.6842388,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Subway",
+    "category": "food",
+    "latitude": 24.7559388,
+    "longitude": 46.6835904,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "هرفي",
+    "category": "food",
+    "latitude": 24.7608633,
+    "longitude": 46.673573,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "منتجع السلاطين",
+    "category": "outdoor",
+    "latitude": 24.7993749,
+    "longitude": 46.4121777,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Hardee's",
+    "category": "food",
+    "latitude": 24.7852362,
+    "longitude": 46.5674114,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.7332742,
+    "longitude": 46.678414,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "OJI",
+    "category": "food",
+    "latitude": 24.7774223,
+    "longitude": 46.7255933,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "نهار NAHAR",
+    "category": "food",
+    "latitude": 24.8314319,
+    "longitude": 46.6600229,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "طائرات كانيون",
+    "category": "culture",
+    "latitude": 24.5890744,
+    "longitude": 46.3335475,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الأدرينا-لاين",
+    "category": "culture",
+    "latitude": 24.5876014,
+    "longitude": 46.3321673,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فالكون فلايت",
+    "category": "culture",
+    "latitude": 24.5874318,
+    "longitude": 46.3331062,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "توايلايت إكسبرس",
+    "category": "culture",
+    "latitude": 24.5894897,
+    "longitude": 46.3331302,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بالونات كلايدوسكوب",
+    "category": "culture",
+    "latitude": 24.590091,
+    "longitude": 46.3332056,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الخيول العربية",
+    "category": "culture",
+    "latitude": 24.5880258,
+    "longitude": 46.3344151,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الدلو المائي",
+    "category": "culture",
+    "latitude": 24.5889732,
+    "longitude": 46.3321215,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "العملاق",
+    "category": "culture",
+    "latitude": 24.5874853,
+    "longitude": 46.3341213,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سبروكنايتر",
+    "category": "culture",
+    "latitude": 24.5895833,
+    "longitude": 46.3347405,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سكاي واتش",
+    "category": "culture",
+    "latitude": 24.5893394,
+    "longitude": 46.3338341,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "الدُوار",
+    "category": "culture",
+    "latitude": 24.588293,
+    "longitude": 46.333278,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "راتلر",
+    "category": "culture",
+    "latitude": 24.5898947,
+    "longitude": 46.3322603,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سي ستاليون",
+    "category": "culture",
+    "latitude": 24.588476,
+    "longitude": 46.3316351,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "درب الكنز",
+    "category": "culture",
+    "latitude": 24.5888723,
+    "longitude": 46.3337811,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مُلتقى المغامرات",
+    "category": "culture",
+    "latitude": 24.5893301,
+    "longitude": 46.3324531,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "إنشانتد جرينهاوس",
+    "category": "culture",
+    "latitude": 24.5899188,
+    "longitude": 46.3331035,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستيل ستامبيد",
+    "category": "culture",
+    "latitude": 24.5896641,
+    "longitude": 46.3317738,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أميرة البُحيرة",
+    "category": "culture",
+    "latitude": 24.5901529,
+    "longitude": 46.3336065,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "أكواتوبيا",
+    "category": "culture",
+    "latitude": 24.5888333,
+    "longitude": 46.331767,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "سبتفاير",
+    "category": "culture",
+    "latitude": 24.5890266,
+    "longitude": 46.3325383,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Breehant",
+    "category": "food",
+    "latitude": 24.706384,
+    "longitude": 46.809894,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بريهانت",
+    "category": "food",
+    "latitude": 24.8128563,
+    "longitude": 46.6254879,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ويستر",
+    "category": "food",
+    "latitude": 24.7129194,
+    "longitude": 46.7941364,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "محمصة كيرف",
+    "category": "food",
+    "latitude": 24.6975992,
+    "longitude": 46.7612447,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "المسار الرياضي - ذا قروف",
+    "category": "outdoor",
+    "latitude": 24.7629696,
+    "longitude": 46.6059637,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "بيتزا لمة",
+    "category": "food",
+    "latitude": 24.5959349,
+    "longitude": 46.6613148,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مهد آل سعود",
+    "category": "culture",
+    "latitude": 24.7340566,
+    "longitude": 46.575797,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مهد الوهابية",
+    "category": "culture",
+    "latitude": 24.9027814,
+    "longitude": 46.3737336,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مطعم شواية النخبة البخاري",
+    "category": "food",
+    "latitude": 24.5901386,
+    "longitude": 46.5929318,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فطيرة الفلافل",
+    "category": "food",
+    "latitude": 24.5961247,
+    "longitude": 46.6362412,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "شواية الخليج",
+    "category": "food",
+    "latitude": 24.5962576,
+    "longitude": 46.6364544,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دجاج كنتاكي",
+    "category": "food",
+    "latitude": 24.8523546,
+    "longitude": 46.8634136,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "% Arabica Roastery ‎",
+    "category": "food",
+    "latitude": 24.7668649,
+    "longitude": 46.6218755,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Lorenzo",
+    "category": "food",
+    "latitude": 24.7855041,
+    "longitude": 46.7033988,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ستاربكس",
+    "category": "food",
+    "latitude": 24.678181,
+    "longitude": 46.772221,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "مولتو",
+    "category": "food",
+    "latitude": 24.8000079,
+    "longitude": 46.6467521,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Social Cafe & Roastery",
+    "category": "food",
+    "latitude": 24.7256873,
+    "longitude": 46.6435527,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "خب / زه",
+    "category": "food",
+    "latitude": 24.7257951,
+    "longitude": 46.6433582,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Sushi Library",
+    "category": "food",
+    "latitude": 24.726406,
+    "longitude": 46.6423442,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "ARCOMI",
+    "category": "food",
+    "latitude": 24.7266455,
+    "longitude": 46.6422747,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Calo Right",
+    "category": "food",
+    "latitude": 24.7420418,
+    "longitude": 46.6040997,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "BZT Murvey Food",
+    "category": "food",
+    "latitude": 24.7415755,
+    "longitude": 46.6039941,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "دانكن دونتس",
+    "category": "food",
+    "latitude": 24.7416013,
+    "longitude": 46.6040472,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fish Face",
+    "category": "food",
+    "latitude": 24.741664,
+    "longitude": 46.6042019,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Pizza Hut",
+    "category": "food",
+    "latitude": 24.7416426,
+    "longitude": 46.6041362,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Fatte w Snoubar",
+    "category": "food",
+    "latitude": 24.7421169,
+    "longitude": 46.604063,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Acus",
+    "category": "food",
+    "latitude": 24.7416255,
+    "longitude": 46.6040909,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "Olla",
+    "category": "food",
+    "latitude": 24.7419654,
+    "longitude": 46.6041378,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  },
+  {
+    "title": "فلافل ثمار",
+    "category": "food",
+    "latitude": 24.6946938,
+    "longitude": 46.8146931,
+    "description": "Imported from OpenStreetMap",
+    "price_range": "Unknown"
+  }
+]

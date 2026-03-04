@@ -9,10 +9,10 @@ class EventSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "category",
+            "description",
+            "date",
             "location",
-            "price",
-            "start_date",
-            "end_date",
-            "external_booking_url",
+            "price_range",
+            "latitude",
+            "longitude",
         ]
-        fields = '__all__'
