@@ -1,14 +1,15 @@
-from rest_framework import generics
+from datetime import date
+
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from django.utils import timezone
 
 from .models import DailyPlan
 from .serializers import DailyPlanSerializer
 from .services import generate_recommendations
 from events.serializers import EventSerializer
+
 
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = DailyPlanSerializer
@@ -33,9 +34,10 @@ class GenerateDailyPlanAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        user = request.user
 
+        user = request.user
         date_str = request.data.get("date")
+
         if not date_str:
             return Response(
                 {"detail": "Date is required."},
@@ -43,12 +45,15 @@ class GenerateDailyPlanAPIView(APIView):
             )
 
         try:
+            plan_date = date.fromisoformat(date_str)
             recommended_events = generate_recommendations(user, date_str)
+
         except ValueError as e:
             return Response(
                 {"detail": str(e)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         except Exception:
             return Response(
                 {"detail": "Unexpected error while generating plan."},
@@ -61,9 +66,9 @@ class GenerateDailyPlanAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        daily_plan = DailyPlan.objects.create(
+        daily_plan, created = DailyPlan.objects.get_or_create(
             user=user,
-            date=date_str
+            date=plan_date
         )
 
         daily_plan.events.set(recommended_events)
