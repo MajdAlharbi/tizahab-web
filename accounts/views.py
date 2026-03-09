@@ -16,6 +16,50 @@ from .serializers import (
 def login_page(request):
     return render(request, "login.html")
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import redirect
+
+User = get_user_model()
+
+
+def forgot_password_page(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+
+            # نرسل المستخدم لصفحة تغيير كلمة المرور
+            return redirect(f"/api/auth/ui/reset-password/{user.id}/")
+
+        except User.DoesNotExist:
+            return render(
+                request,
+                "forgot_password.html",
+                {"error": "No account found with this email"},
+            )
+
+    return render(request, "forgot_password.html")
+
+
+def reset_password_page(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return redirect("/api/auth/ui/login/")
+
+    if request.method == "POST":
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+
+        if password1 == password2:
+            user.password = make_password(password1)
+            user.save()
+
+            return redirect("/api/auth/ui/login/")
+
+    return render(request, "reset_password.html")
 
 def signup_page(request):
     return render(request, "signup.html")

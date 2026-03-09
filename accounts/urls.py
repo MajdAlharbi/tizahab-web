@@ -7,7 +7,9 @@ from .views import (
     UserPreferencesView,
     login_page,
     signup_page,
-    preferences_page,   
+    preferences_page,  
+     forgot_password_page,
+    reset_password_page,
 )
 
 urlpatterns = [
@@ -20,5 +22,6 @@ urlpatterns = [
     path("ui/login/", login_page, name="login-page"),
     path("ui/signup/", signup_page, name="signup-page"),
     path("ui/preferences/", preferences_page, name="preferences-page"),
-
+   path("ui/forgot-password/", forgot_password_page, name="forgot-password"),
+path("ui/reset-password/<int:user_id>/", reset_password_page, name="reset-password"),
 ]
