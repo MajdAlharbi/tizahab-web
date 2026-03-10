@@ -20,4 +20,6 @@ urlpatterns = [
 
     # Daily Plan page
     path("daily_plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
+    
+    path('api/daily_plan/', include('itinerary.urls')),
 ]
