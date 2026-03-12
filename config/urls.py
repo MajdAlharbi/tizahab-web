@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Home Page
@@ -11,6 +12,8 @@ urlpatterns = [
     # Auth Pages (This is the fix!)
     path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
 
     # Auth APIs
     path("api/auth/", include("accounts.urls")),

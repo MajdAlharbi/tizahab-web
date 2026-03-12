@@ -1,257 +1,311 @@
+{% extends "dashboard_base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Home | Tizahab{% endblock %}
 
-  <title>Tizahab</title>
+{% block content %}
 
-  <script src="https://cdn.tailwindcss.com"></script>
+<!-- HERO -->
 
-</head>
+<section class="relative -mx-4 lg:-mx-8 -mt-4 lg:-mt-8 min-h-[90vh] flex items-center justify-center overflow-hidden">
 
-<body>
+  <div class="absolute inset-0 bg-gradient-to-b from-[#679AF8] via-[#B58FE5] to-[#8034E0]"></div>
 
-  <!-- HERO -->
-  <section class="bg-gradient-to-b from-purple-500 to-purple-700 text-white pt-20 pb-32">
+  <div class="relative z-10 text-center px-6">
 
-    <div class="max-w-6xl mx-auto text-center px-6">
+    <h1 class="text-7xl md:text-[110px] text-white font-serif mb-2">
+      Tizahab
+    </h1>
 
-      <h1 class="text-6xl font-bold mb-2">
-        Tizahab
-      </h1>
-
-      <p class="text-3xl font-light mb-6">
-        تزهب - Your Smart Riyadh Tourism Companion
-      </p>
-
-      <img src="{% static 'images/riyadh.png' %}" class="mx-auto w-[420px] mb-6">
-
-      <p class="uppercase tracking-widest text-sm mb-8">
-        FOR BETTER TOURISM IN RIYADH
-      </p>
-
-      <div class="flex justify-center gap-4">
-
-        <a href="/events" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100">
-          Explore Riyadh
-        </a>
-
-        <a href="/daily-plan" class="border border-white px-6 py-3 rounded-lg hover:bg-white/10">
-          Plan Your Trip
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- WHY CHOOSE -->
-  <section class="py-20 bg-gray-50">
-
-    <div class="max-w-6xl mx-auto px-6">
-
-      <h2 class="text-3xl font-semibold text-center mb-12 text-purple-700">
-        Why Choose Tizahab
-      </h2>
-
-      <p class="text-center text-gray-500 mb-12">
-        Experience Riyadh like never before with our comprehensive tourism services
-      </p>
-
-      <div class="grid md:grid-cols-3 gap-8">
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">AI Trip Planning</h3>
-          <p class="text-gray-600 text-sm">
-            Advanced AI recommends personalized travel plans.
-          </p>
-        </div>
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">Real-Time Event Updates</h3>
-          <p class="text-gray-600 text-sm">
-            Stay updated with latest events happening in Riyadh.
-          </p>
-        </div>
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">Smart Daily Schedules</h3>
-          <p class="text-gray-600 text-sm">
-            Generate optimized daily itineraries.
-          </p>
-        </div>
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">Integrated Maps</h3>
-          <p class="text-gray-600 text-sm">
-            Explore locations easily with interactive maps.
-          </p>
-        </div>
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">Bilingual Support</h3>
-          <p class="text-gray-600 text-sm">
-            Full support in Arabic and English.
-          </p>
-        </div>
-
-        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold mb-2">Special Offers</h3>
-          <p class="text-gray-600 text-sm">
-            Discover exclusive tourism offers.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- POPULAR DESTINATIONS -->
-  <section class="py-20">
-
-    <div class="max-w-6xl mx-auto px-6">
-
-      <h2 class="text-3xl text-center font-semibold mb-12 text-purple-700">
-        Popular Destinations
-      </h2>
-
-      <div class="grid md:grid-cols-3 gap-10">
-
-        <div class="bg-white rounded-xl shadow overflow-hidden">
-
-          <img src="{% static 'images/event1.jpg' %}" class="w-full h-48 object-cover">
-
-          <div class="p-4">
-
-            <h3 class="font-semibold">Kingdom Centre Tower</h3>
-
-            <p class="text-sm text-gray-500 mb-3">
-              Iconic Riyadh landmark
-            </p>
-
-            <a href="/events" class="bg-purple-600 text-white px-4 py-2 rounded text-sm">
-              Explore
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="bg-white rounded-xl shadow overflow-hidden">
-
-          <img src="{% static 'images/event2.jpg' %}" class="w-full h-48 object-cover">
-
-          <div class="p-4">
-
-            <h3 class="font-semibold">Edge of the World</h3>
-
-            <p class="text-sm text-gray-500 mb-3">
-              Spectacular desert cliffs
-            </p>
-
-            <a href="/events" class="bg-purple-600 text-white px-4 py-2 rounded text-sm">
-              Explore
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="bg-white rounded-xl shadow overflow-hidden">
-
-          <img src="{% static 'images/event3.jpg' %}" class="w-full h-48 object-cover">
-
-          <div class="p-4">
-
-            <h3 class="font-semibold">Al Masmak Fortress</h3>
-
-            <p class="text-sm text-gray-500 mb-3">
-              Historic Riyadh landmark
-            </p>
-
-            <a href="/events" class="bg-purple-600 text-white px-4 py-2 rounded text-sm">
-              Explore
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- CTA -->
-  <section class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-20 text-center">
-
-    <h2 class="text-3xl font-bold mb-4">
-      Ready to Explore Riyadh?
+    <h2 class="text-5xl md:text-[70px] text-white font-['Cairo'] mb-6">
+      تزهب
     </h2>
 
-    <p class="mb-6">
-      Start planning your perfect Riyadh adventure today
+    <img src="{% static 'images/riyadh.png' %}" class="mx-auto w-[500px] mb-10">
+
+    <p class="tracking-widest text-xl text-white mb-10">
+      FOR BETTER TOURISM IN RIYADH
     </p>
 
     <div class="flex justify-center gap-4">
 
-      <a href="/signup" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100">
-        Get Started
+      <a href="/events" class="bg-white text-brand px-8 py-3 rounded-xl font-semibold hover:shadow-lg">
+        Explore Riyadh →
       </a>
 
-      <a href="/login" class="border border-white px-6 py-3 rounded-lg hover:bg-white/10">
-        Sign In
+      <a href="/daily-plan" class="border border-white text-white px-8 py-3 rounded-xl hover:bg-white/10">
+        Plan Your Trip
       </a>
 
     </div>
 
-  </section>
+  </div>
+
+  <div class="absolute bottom-0 left-0 w-full overflow-hidden">
+
+    <svg class="w-full h-[120px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+
+      <path
+        d="M321.39 56.44C379 45.65 435 26.31 493 14.58C575.39 -2.14 661.19 -3.15 743.45 14.19C823.78 31 906.67 72 985.66 92.83C1055.71 111.31 1132.19 118.92 1200 95V120H0V95.8C59.71 118.08 130.83 119.93 197.36 97.35Z"
+        fill="#F6F7FB"></path>
+
+    </svg>
+
+  </div>
+
+</section>
 
 
-  <!-- FOOTER -->
-  <footer class="bg-purple-900 text-white py-12">
+<!-- WHY CHOOSE -->
 
-    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+<section class="py-24">
 
-      <div>
-        <h3 class="font-bold mb-3">Tizahab</h3>
-        <p class="text-sm text-purple-200">
-          Smart tourism platform designed to help visitors
-          explore Riyadh efficiently.
+  <div class="max-w-6xl mx-auto px-6 text-center">
+
+    <h2 class="text-5xl font-bold text-brand mb-4">
+      Why Choose Tizahab
+    </h2>
+
+    <p class="text-gray-500 mb-14">
+      Experience Riyadh like never before with our comprehensive tourism services
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+
+        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
+          <i data-lucide="brain"></i>
+        </div>
+
+        <h3 class="font-semibold mb-2">
+          AI Trip Planning
+        </h3>
+
+        <p class="text-gray-500 text-sm">
+          Personalized itineraries powered by AI
         </p>
+
       </div>
 
-      <div>
-        <h3 class="font-semibold mb-3">Quick Links</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/">Home</a></li>
-          <li><a href="/events">Events</a></li>
-          <li><a href="/daily-plan">Daily Plan</a></li>
-        </ul>
+      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+
+        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
+          <i data-lucide="zap"></i>
+        </div>
+
+        <h3 class="font-semibold mb-2">
+          Real-Time Event Updates
+        </h3>
+
+        <p class="text-gray-500 text-sm">
+          Stay informed about events and activities
+        </p>
+
       </div>
 
-      <div>
-        <h3 class="font-semibold mb-3">Contact</h3>
-        <p class="text-sm">info@tizahab.com</p>
+      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+
+        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
+          <i data-lucide="calendar"></i>
+        </div>
+
+        <h3 class="font-semibold mb-2">
+          Smart Daily Schedules
+        </h3>
+
+        <p class="text-gray-500 text-sm">
+          Optimized daily planning tools
+        </p>
+
       </div>
 
     </div>
 
-  </footer>
+  </div>
+
+</section>
 
 
-</body>
+<!-- DESTINATIONS -->
 
-</html>
+<section class="py-24 bg-white">
+
+  <div class="max-w-7xl mx-auto px-6 text-center">
+
+    <h2 class="text-5xl font-bold text-brand mb-4">
+      Popular Destinations
+    </h2>
+
+    <p class="text-gray-500 mb-14">
+      Discover the most captivating attractions in Riyadh
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-10">
+
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
+
+        <img src="{% static 'images/event1.jpg' %}" class="h-60 w-full object-cover">
+
+        <div class="p-6">
+
+          <h3 class="font-bold text-lg mb-2">
+            Kingdom Centre Tower
+          </h3>
+
+          <p class="text-gray-500 text-sm mb-4">
+            Iconic skyscraper with panoramic views
+          </p>
+
+          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
+            Learn More
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
+
+        <img src="{% static 'images/event2.jpg' %}" class="h-60 w-full object-cover">
+
+        <div class="p-6">
+
+          <h3 class="font-bold text-lg mb-2">
+            Edge of the World
+          </h3>
+
+          <p class="text-gray-500 text-sm mb-4">
+            Dramatic desert cliffs and views
+          </p>
+
+          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
+            Learn More
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
+
+        <img src="{% static 'images/event3.jpg' %}" class="h-60 w-full object-cover">
+
+        <div class="p-6">
+
+          <h3 class="font-bold text-lg mb-2">
+            Al Masmak Fortress
+          </h3>
+
+          <p class="text-gray-500 text-sm mb-4">
+            Historic fortress of Riyadh
+          </p>
+
+          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
+            Learn More
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<footer class="bg-[#111827] text-white pt-20 pb-10 mt-20">
+
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-16">
+
+    <div class="md:col-span-2">
+
+      <h3 class="text-3xl font-bold mb-4">
+        Tizahab
+      </h3>
+
+      <p class="text-gray-400 max-w-sm leading-relaxed mb-6">
+        Discover the beauty, culture, and excitement of Riyadh with the ultimate AI tourism companion.
+      </p>
+
+      <div class="flex gap-4">
+
+        <a href="#"
+          class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand transition">
+          <i data-lucide="twitter" class="w-5 h-5"></i>
+        </a>
+
+        <a href="#"
+          class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand transition">
+          <i data-lucide="instagram" class="w-5 h-5"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+
+      <ul class="space-y-3 text-gray-400">
+
+        <li>
+          <a href="/home" class="hover:text-brand transition">Home</a>
+        </li>
+
+        <li>
+          <a href="/events" class="hover:text-brand transition">Events</a>
+        </li>
+
+        <li>
+          <a href="/daily-plan" class="hover:text-brand transition">Daily Plan</a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div>
+
+      <h4 class="font-bold text-lg mb-6">Contact</h4>
+
+      <ul class="space-y-3 text-gray-400">
+
+        <li class="flex items-center gap-3">
+          <i data-lucide="phone" class="w-4 h-4 text-brand"></i>
+          +966 11 234 5678
+        </li>
+
+        <li class="flex items-center gap-3">
+          <i data-lucide="mail" class="w-4 h-4 text-brand"></i>
+          info@tizahab.sa
+        </li>
+
+        <li class="flex items-center gap-3">
+          <i data-lucide="map-pin" class="w-4 h-4 text-brand"></i>
+          Riyadh, Saudi Arabia
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
+
+    © 2026 Tizahab Platform. All rights reserved.
+
+  </div>
+
+</footer>
+
+<script>
+  lucide.createIcons();
+</script>
+
+{% endblock %}
