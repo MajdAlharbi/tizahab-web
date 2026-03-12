@@ -1,23 +1,22 @@
-from datetime import datetime
-from django.utils import timezone
 from events.models import Event
 from accounts.models import UserPreferences
 
 
-def generate_recommendations(user, date_str):
+def generate_recommendations(user, date_str=None):
     """
-    Generate event recommendations for a user on a specific date.
-    
+    Generate event recommendations for a user.
+
+    Filters by the user's interests and budget. Date is accepted for
+    API compatibility but not used to filter — the dataset contains
+    permanent places (restaurants, parks, museums) that are always available.
+
     Args:
         user: Authenticated user object
-        date_str: ISO format date string (YYYY-MM-DD)
-        
+        date_str: Unused; kept for API compatibility
+
     Returns:
-        list: Up to 5 recommended Event objects
-        None: If user has no preferences or no matching events
-        
-    Raises:
-        ValueError: If date_str is invalid format
+        list: Up to 5 recommended Event objects (empty list if no match)
+        None: If user has no preferences configured
     """
     try:
         preferences = user.preferences
@@ -28,31 +27,18 @@ def generate_recommendations(user, date_str):
     if not interests:
         return None
 
-    try:
-        target_date = datetime.fromisoformat(date_str).date()
-    except (ValueError, AttributeError) as e:
-        raise ValueError(f"Invalid date format. Expected YYYY-MM-DD: {e}")
+    queryset = Event.objects.filter(category__in=interests)
 
-    # Build query: Filter by interests and budget
-    events = Event.objects.filter(category__in=interests)
-    
-    # Apply budget filtering if user has budget constraints
-    if preferences.budget_max:
-        events = events.filter(price__lte=preferences.budget_max)
-    if preferences.budget_min:
-        events = events.filter(price__gte=preferences.budget_min)
-    
-    # Filter by date if start_date is populated
-    events = events.filter(
-        start_date__date__lte=target_date,
-        end_date__date__gte=target_date
-    ) | events.filter(
-        start_date__isnull=True,
-        end_date__isnull=True,
-        date__date=target_date
-    )
-    
-    # Limit to 5 recommendations and return WITHOUT modifying
-    recommended_events = list(events[:5])
-    
-    return recommended_events if recommended_events else None
+    if preferences.budget_max is not None:
+        from django.db.models import Q
+        queryset = queryset.filter(
+            Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
+        )
+    if preferences.budget_min is not None:
+        from django.db.models import Q
+        queryset = queryset.filter(
+            Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
+        )
+
+    recommended_events = list(queryset[:5])
+    return recommended_events if recommended_events else []

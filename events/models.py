@@ -30,7 +30,6 @@ class Event(models.Model):
         ordering = ['-date']
         indexes = [
             models.Index(fields=['category', 'date']),
-            models.Index(fields=['user_id', 'date']) if hasattr(models, 'user_id') else None,
         ]
 
     def __str__(self):

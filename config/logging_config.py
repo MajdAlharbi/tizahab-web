@@ -15,18 +15,25 @@ LOGS_DIR = BASE_DIR / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
 
+import re as _re
+
 class SensitiveDataFilter(logging.Filter):
-    """Filter to mask sensitive data in logs."""
-    
+    """Mask values of sensitive fields in log messages while preserving context."""
+
+    _PATTERNS = [
+        _re.compile(r'(password\s*[=:]\s*)\S+', _re.IGNORECASE),
+        _re.compile(r'(token\s*[=:]\s*)\S+', _re.IGNORECASE),
+        _re.compile(r'(secret\s*[=:]\s*)\S+', _re.IGNORECASE),
+        _re.compile(r'(api_key\s*[=:]\s*)\S+', _re.IGNORECASE),
+        _re.compile(r'(Authorization:\s*Bearer\s+)\S+', _re.IGNORECASE),
+    ]
+
     def filter(self, record):
-        """Remove sensitive fields from log messages."""
-        sensitive_fields = ['password', 'token', 'secret', 'api_key', 'email']
-        
-        if hasattr(record, 'msg') and isinstance(record.msg, str):
-            for field in sensitive_fields:
-                if field.lower() in record.msg.lower():
-                    record.msg = record.msg.replace(record.msg, "***REDACTED***")
-        
+        if isinstance(record.msg, str):
+            msg = record.msg
+            for pattern in self._PATTERNS:
+                msg = pattern.sub(r'\1***REDACTED***', msg)
+            record.msg = msg
         return True
 
 

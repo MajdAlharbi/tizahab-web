@@ -52,9 +52,10 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-        """Validate that budget_min <= budget_max."""
-        min_b = attrs.get("budget_min")
-        max_b = attrs.get("budget_max")
+        """Validate that budget_min <= budget_max, including against existing instance values."""
+        instance = self.instance
+        min_b = attrs.get("budget_min", getattr(instance, "budget_min", None) if instance else None)
+        max_b = attrs.get("budget_max", getattr(instance, "budget_max", None) if instance else None)
 
         if min_b is not None and max_b is not None and min_b > max_b:
             raise serializers.ValidationError(

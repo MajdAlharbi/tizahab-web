@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'events',
-    'itinerary',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
@@ -67,6 +66,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
 }
 
 SIMPLE_JWT = {
@@ -164,9 +165,9 @@ STATICFILES_DIRS = [
 # Logging
 # ========================
 
-from config.logging_config import LOGGING_CONFIG
+from config.logging_config import LOGGING_CONFIG as _LOGGING_CONFIG
 
-LOGGING = LOGGING_CONFIG
+LOGGING = _LOGGING_CONFIG
 
 
 # ========================

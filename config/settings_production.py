@@ -32,7 +32,7 @@ CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_SECURITY_POLICY = {
     "default-src": ("'self'",),
-    "script-src": ("'self'", "'unsafe-inline'"),  # For Django admin
+    "script-src": ("'self'",),
     "style-src": ("'self'", "'unsafe-inline'"),
     "img-src": ("'self'", "data:", "https:"),
 }
@@ -47,7 +47,9 @@ SECURE_HSTS_PRELOAD = True
 # ========================
 
 # Must configure in environment for production database
-DB_ENGINE = os.environ.get("DB_ENGINE", "django.db.backends.sqlite3")
+DB_ENGINE = os.environ.get("DB_ENGINE", "")
+if not DB_ENGINE:
+    raise ValueError("DB_ENGINE environment variable must be set in production")
 if DB_ENGINE == "django.db.backends.postgresql":
     DATABASES = {
         "default": {
