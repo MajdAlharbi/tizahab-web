@@ -1,7 +1,13 @@
-from django.urls import path
-from .views import generate_daily_plan
+"""
+DEPRECATED: Use daily_plan.urls instead.
 
+This file is kept for backward compatibility but all URLs should use /daily_plan/ endpoints.
+"""
+
+from django.urls import path, include
+
+# Redirect to daily_plan instead
 urlpatterns = [
-    # Route for generating the daily plan
-    path('generate/', generate_daily_plan, name='generate_daily_plan'),
+    # Forward all requests to daily_plan.urls
+    path('', include('daily_plan.urls')),
 ]

@@ -1,11 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
-from events.models import Event
+"""
+DEPRECATED: This model is deprecated.
 
-class DailyPlan(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
-    events = models.ManyToManyField(Event)
+The canonical DailyPlan model is in daily_plan.models.
+This module is kept for backward compatibility with migrations.
 
-    def __str__(self):
-        return f"{self.user.username} - {self.date}"
+Do not import from here - use daily_plan.models.DailyPlan instead.
+"""
+
+from daily_plan.models import DailyPlan
+
+__all__ = ['DailyPlan']
+
