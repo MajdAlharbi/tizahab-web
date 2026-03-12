@@ -1,12 +1,27 @@
-from typing import Dict, List
-from .recommendation_service import recommend_events
+"""
+DEPRECATED: Do not use.
+
+All daily plan generation logic is now in daily_plan.services.generate_recommendations()
+and daily_plan.views.GenerateDailyPlanAPIView
+
+This is kept for backward compatibility but should not be called directly.
+"""
+
+import warnings
 
 
-def generate_daily_plan(user_preferences: Dict, events: List[Dict]) -> Dict:
-    recommended_events = recommend_events(user_preferences, events)
-
+def generate_daily_plan(user_preferences, events):
+    """
+    DEPRECATED: Use daily_plan.views.GenerateDailyPlanAPIView instead.
+    """
+    warnings.warn(
+        "generate_daily_plan() is deprecated. Use GenerateDailyPlanAPIView from daily_plan.views",
+        DeprecationWarning,
+        stacklevel=2
+    )
     return {
-        "morning": recommended_events[:2],
-        "afternoon": recommended_events[2:4],
-        "evening": recommended_events[4:6],
+        "morning": [],
+        "afternoon": [],
+        "evening": [],
     }
+
