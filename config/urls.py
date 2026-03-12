@@ -9,11 +9,10 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("admin/", admin.site.urls),
 
-    # Auth Pages (This is the fix!)
+    # Auth Pages
     path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
 
     # Auth APIs
     path("api/auth/", include("accounts.urls")),
@@ -23,7 +22,7 @@ urlpatterns = [
     path("api/events/", include("events.urls")),
     path("events/", include("events.urls")),
 
-    # Daily Plan APIs & Pages
-    path("api/daily-plan/", include("itinerary.urls")),
+    # Daily Plan APIs & Pages (consolidated from itinerary)
+    path("api/daily-plan/", include("daily_plan.urls")),
     path("daily-plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
 ]

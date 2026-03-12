@@ -2,7 +2,12 @@ from datetime import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
 from django.shortcuts import render
+from django.db.models import Q
+from .models import Event
+from .serializers import EventSerializer
+
 
 # Events list page
 def events_list(request):
@@ -14,63 +19,82 @@ def event_details(request, event_id):
     return render(request, "event_details.html", {
         "event_id": event_id
     })
-from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
-from .models import Event
-from .serializers import EventSerializer
 
 
 def _parse_date(value):
+    """Parse ISO date string safely."""
     if not value:
         return None
     try:
         return datetime.fromisoformat(value).date()
-    except Exception:
+    except (ValueError, TypeError):
         return None
 
 
 class FilteredEventsAPIView(APIView):
+    """
+    Filter events by user interests and date range.
+    Replaces manual list iteration with efficient ORM queries.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         prefs = getattr(request.user, "preferences", None)
-        interests = []
+        
+        # Start with all events
+        queryset = Event.objects.all()
+
+        # Filter by interests if user has preferences
         if prefs and prefs.interests:
             interests = [str(x).strip().lower() for x in prefs.interests if str(x).strip()]
+            if interests:
+                queryset = queryset.filter(category__in=interests)
 
-        qs = Event.objects.all()
-
-        if interests:
-            filtered = []
-            for ev in qs:
-                if (ev.category or "").strip().lower() in interests:
-                    filtered.append(ev)
-            qs = filtered
-
+        # Parse and filter by date range (ORM-based, not Python loops)
         date_from = _parse_date(request.query_params.get("date_from"))
         date_to = _parse_date(request.query_params.get("date_to"))
 
         if date_from or date_to:
-            if not isinstance(qs, list):
-                qs = list(qs)
+            # Use Q objects for complex OR logic
+            date_query = Q()
+            
+            if date_from and date_to:
+                # Events that overlap with date range
+                date_query = (
+                    Q(start_date__date__lte=date_to) & Q(end_date__date__gte=date_from)
+                ) | (
+                    Q(start_date__isnull=True) & Q(end_date__isnull=True) & 
+                    Q(date__date__gte=date_from) & Q(date__date__lte=date_to)
+                )
+            elif date_from:
+                date_query = (
+                    Q(end_date__date__gte=date_from)
+                ) | (
+                    Q(start_date__isnull=True) & Q(date__date__gte=date_from)
+                )
+            elif date_to:
+                date_query = (
+                    Q(start_date__date__lte=date_to)
+                ) | (
+                    Q(end_date__isnull=True) & Q(date__date__lte=date_to)
+                )
+            
+            queryset = queryset.filter(date_query)
 
-            date_filtered = []
-            for ev in qs:
-                ev_start = ev.start_date
-                ev_end = ev.end_date
+        # Apply budget filtering if user has budget constraints
+        if prefs and prefs.budget_max:
+            queryset = queryset.filter(price__lte=prefs.budget_max)
+        if prefs and prefs.budget_min:
+            queryset = queryset.filter(price__gte=prefs.budget_min)
 
-                if date_from and ev_end and ev_end < date_from:
-                    continue
-                if date_to and ev_start and ev_start > date_to:
-                    continue
-
-                date_filtered.append(ev)
-
-            qs = date_filtered
-
-        serializer = EventSerializer(qs, many=True)
+        serializer = EventSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
 class EventListAPIView(ListAPIView):
+    """
+    List all events with filtering by category and date.
+    """
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
@@ -84,6 +108,8 @@ class EventListAPIView(ListAPIView):
             queryset = queryset.filter(category=category)
 
         if date:
-            queryset = queryset.filter(date__date=date)
+            parsed_date = _parse_date(date)
+            if parsed_date:
+                queryset = queryset.filter(date__date=parsed_date)
 
         return queryset
