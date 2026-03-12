@@ -7,6 +7,16 @@ from .models import UserPreferences
 
 
 class UserPreferencesSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user preferences including language, budget, and interests.
+    
+    Validates:
+    - budget_min <= budget_max
+    - interests are valid event categories
+    - budget values are non-negative
+    """
+    VALID_INTERESTS = ['food', 'culture', 'outdoor', 'shopping', 'other']
+    
     class Meta:
         model = UserPreferences
         fields = [
@@ -16,7 +26,33 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             "interests",
         ]
 
+    def validate_interests(self, value):
+        """Validate that interests only contain valid event categories."""
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Interests must be a list.")
+        
+        invalid_interests = [i for i in value if str(i).lower() not in self.VALID_INTERESTS]
+        if invalid_interests:
+            raise serializers.ValidationError(
+                f"Invalid interests: {invalid_interests}. Valid options: {self.VALID_INTERESTS}"
+            )
+        
+        return value
+
+    def validate_budget_min(self, value):
+        """Validate budget_min is non-negative."""
+        if value is not None and value < 0:
+            raise serializers.ValidationError("Budget minimum cannot be negative.")
+        return value
+
+    def validate_budget_max(self, value):
+        """Validate budget_max is non-negative."""
+        if value is not None and value < 0:
+            raise serializers.ValidationError("Budget maximum cannot be negative.")
+        return value
+
     def validate(self, attrs):
+        """Validate that budget_min <= budget_max."""
         min_b = attrs.get("budget_min")
         max_b = attrs.get("budget_max")
 
@@ -26,6 +62,7 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             )
 
         return attrs
+
 
 
 class SignupSerializer(serializers.ModelSerializer):
