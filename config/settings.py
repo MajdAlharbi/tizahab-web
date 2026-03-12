@@ -159,3 +159,25 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+# ========================
+# Logging
+# ========================
+
+from config.logging_config import LOGGING_CONFIG
+
+LOGGING = LOGGING_CONFIG
+
+
+# ========================
+# Custom Settings
+# ========================
+
+# API Rate Limiting
+API_RATE_LIMIT = os.environ.get("API_RATE_LIMIT", "100/hour")
+
+# Max events per API response
+MAX_EVENTS_PER_RESPONSE = 100
+
+# Daily plan batch size
+DAILY_PLAN_BATCH_SIZE = 5

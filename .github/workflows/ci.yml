@@ -1,0 +1,133 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: tizahab_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with flake8
+      run: |
+        flake8 accounts events daily_plan core --count --select=E9,F63,F7,F82 --show-source --statistics
+    
+    - name: Format check with black
+      run: black --check accounts events daily_plan core
+      continue-on-error: true
+    
+    - name: Run Django checks
+      env:
+        DJANGO_SETTINGS_MODULE: config.settings
+      run: python manage.py check
+    
+    - name: Run tests with coverage
+      env:
+        DJANGO_SETTINGS_MODULE: config.settings
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tizahab_test
+        REDIS_URL: redis://localhost:6379/1
+      run: |
+        pytest --cov=accounts --cov=events --cov=daily_plan --cov=core \
+               --cov-report=xml --cov-report=html
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+    
+    - name: Security check with bandit
+      run: bandit -r accounts events daily_plan core -f json -o bandit-report.json
+      continue-on-error: true
+    
+    - name: Upload test results
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: |
+          htmlcov/
+          bandit-report.json
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t tizahab:${{ github.sha }} .
+        docker tag tizahab:${{ github.sha }} tizahab:latest
+    
+    - name: Upload to registry
+      run: |
+        # Upload to your container registry (ECS, Docker Hub, etc.)
+        # echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+        # docker push tizahab:${{ github.sha }}
+        echo "Docker image built successfully"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to production
+      run: |
+        # Deploy using your preferred method:
+        # - AWS CodeDeploy
+        # - Heroku
+        # - DigitalOcean
+        # - Manual SSH
+        echo "Deployment would happen here"
+      # env:
+      #   DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      #   DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
