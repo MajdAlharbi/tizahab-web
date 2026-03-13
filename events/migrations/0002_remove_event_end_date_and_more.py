@@ -7,57 +7,66 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0001_initial'),
+        ("events", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='event',
-            name='end_date',
+            model_name="event",
+            name="end_date",
         ),
         migrations.RemoveField(
-            model_name='event',
-            name='external_booking_url',
+            model_name="event",
+            name="external_booking_url",
         ),
         migrations.RemoveField(
-            model_name='event',
-            name='price',
+            model_name="event",
+            name="price",
         ),
         migrations.RemoveField(
-            model_name='event',
-            name='start_date',
+            model_name="event",
+            name="start_date",
         ),
         migrations.AddField(
-            model_name='event',
-            name='date',
+            model_name="event",
+            name="date",
             field=models.DateTimeField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='event',
-            name='description',
-            field=models.TextField(default=''),
+            model_name="event",
+            name="description",
+            field=models.TextField(default=""),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='event',
-            name='price_range',
-            field=models.CharField(default='', max_length=100),
+            model_name="event",
+            name="price_range",
+            field=models.CharField(default="", max_length=100),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='event',
-            name='category',
-            field=models.CharField(choices=[('music', 'Music'), ('sports', 'Sports'), ('culture', 'Culture'), ('food', 'Food'), ('other', 'Other')], max_length=50),
+            model_name="event",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("music", "Music"),
+                    ("sports", "Sports"),
+                    ("culture", "Culture"),
+                    ("food", "Food"),
+                    ("other", "Other"),
+                ],
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='location',
+            model_name="event",
+            name="location",
             field=models.CharField(max_length=255),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='title',
+            model_name="event",
+            name="title",
             field=models.CharField(max_length=255),
         ),
     ]

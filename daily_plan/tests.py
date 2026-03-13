@@ -43,6 +43,7 @@ YESTERDAY = (date.today() - timedelta(days=1)).isoformat()
 # Recommendation service
 # ---------------------------------------------------------------------------
 
+
 class RecommendationServiceTests(TestCase):
     def setUp(self):
         self.user = make_user("rec@test.com")
@@ -127,9 +128,11 @@ class RecommendationServiceTests(TestCase):
 # DailyPlan model
 # ---------------------------------------------------------------------------
 
+
 class DailyPlanModelTests(TestCase):
     def test_unique_together_user_date(self):
         from django.db import IntegrityError
+
         user = make_user("unique@test.com")
         DailyPlan.objects.create(user=user, date=date.today())
         with self.assertRaises(IntegrityError):
@@ -146,6 +149,7 @@ class DailyPlanModelTests(TestCase):
 # ---------------------------------------------------------------------------
 # Generate endpoint
 # ---------------------------------------------------------------------------
+
 
 class GenerateDailyPlanAPITests(TestCase):
     def setUp(self):
@@ -208,6 +212,7 @@ class GenerateDailyPlanAPITests(TestCase):
 # DailyPlan CRUD endpoints
 # ---------------------------------------------------------------------------
 
+
 class DailyPlanCRUDTests(TestCase):
     def setUp(self):
         self.user = make_user("crud@test.com")
@@ -223,7 +228,9 @@ class DailyPlanCRUDTests(TestCase):
         self.assertEqual(len(results), 1)
 
     def test_create_plan(self):
-        response = self.client.post("/api/daily-plan/", {"date": TOMORROW, "events": []})
+        response = self.client.post(
+            "/api/daily-plan/", {"date": TOMORROW, "events": []}
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_retrieve_own_plan(self):

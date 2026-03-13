@@ -52,6 +52,7 @@ def forgot_password_page(request):
             token = _make_reset_token(user.pk)
             # URL-encode the token (TimestampSigner uses ':' as separator)
             from urllib.parse import quote
+
             safe_token = quote(token, safe="")
             return redirect(f"/api/auth/ui/reset-password/{safe_token}/")
         except User.DoesNotExist:
@@ -68,6 +69,7 @@ def forgot_password_page(request):
 
 def reset_password_page(request, token):
     from urllib.parse import unquote
+
     safe_token = unquote(token)
 
     try:
@@ -85,10 +87,18 @@ def reset_password_page(request, token):
         password2 = request.POST.get("password2", "")
 
         if not password1:
-            return render(request, "reset_password.html", {"token": token, "error": "Password cannot be empty."})
+            return render(
+                request,
+                "reset_password.html",
+                {"token": token, "error": "Password cannot be empty."},
+            )
 
         if password1 != password2:
-            return render(request, "reset_password.html", {"token": token, "error": "Passwords do not match."})
+            return render(
+                request,
+                "reset_password.html",
+                {"token": token, "error": "Passwords do not match."},
+            )
 
         user.set_password(password1)
         user.save()

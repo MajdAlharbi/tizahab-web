@@ -7,21 +7,28 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('category', models.CharField(max_length=100)),
-                ('location', models.CharField(max_length=200)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('start_date', models.DateField()),
-                ('end_date', models.DateField()),
-                ('external_booking_url', models.URLField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("category", models.CharField(max_length=100)),
+                ("location", models.CharField(max_length=200)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=8)),
+                ("start_date", models.DateField()),
+                ("end_date", models.DateField()),
+                ("external_booking_url", models.URLField()),
             ],
         ),
     ]

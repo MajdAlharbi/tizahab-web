@@ -45,15 +45,11 @@ def _apply_date_range_filter(queryset, date_from, date_to):
             & Q(date__date__lte=date_to)
         )
     elif date_from:
-        date_query = (
-            Q(end_date__date__gte=date_from)
-        ) | (
+        date_query = (Q(end_date__date__gte=date_from)) | (
             Q(end_date__isnull=True) & Q(date__date__gte=date_from)
         )
     elif date_to:
-        date_query = (
-            Q(start_date__date__lte=date_to)
-        ) | (
+        date_query = (Q(start_date__date__lte=date_to)) | (
             Q(start_date__isnull=True) & Q(date__date__lte=date_to)
         )
 
@@ -65,6 +61,7 @@ class FilteredEventsAPIView(APIView):
     Filter events by user interests, budget, and date range.
     Query params: date_from, date_to (YYYY-MM-DD)
     """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -72,7 +69,9 @@ class FilteredEventsAPIView(APIView):
         queryset = Event.objects.all()
 
         if prefs and prefs.interests:
-            interests = [str(x).strip().lower() for x in prefs.interests if str(x).strip()]
+            interests = [
+                str(x).strip().lower() for x in prefs.interests if str(x).strip()
+            ]
             if interests:
                 queryset = queryset.filter(category__in=interests)
 
@@ -80,9 +79,13 @@ class FilteredEventsAPIView(APIView):
         date_to_raw = request.query_params.get("date_to")
 
         if date_from_raw and _parse_date(date_from_raw) is None:
-            return Response({"detail": "Invalid date_from format. Use YYYY-MM-DD."}, status=400)
+            return Response(
+                {"detail": "Invalid date_from format. Use YYYY-MM-DD."}, status=400
+            )
         if date_to_raw and _parse_date(date_to_raw) is None:
-            return Response({"detail": "Invalid date_to format. Use YYYY-MM-DD."}, status=400)
+            return Response(
+                {"detail": "Invalid date_to format. Use YYYY-MM-DD."}, status=400
+            )
 
         date_from = _parse_date(date_from_raw)
         date_to = _parse_date(date_to_raw)
@@ -107,6 +110,7 @@ class EventListAPIView(ListAPIView):
     List events with optional filtering.
     Query params: category, date (YYYY-MM-DD), search
     """
+
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
@@ -138,6 +142,7 @@ class EventListAPIView(ListAPIView):
 
 class EventRetrieveAPIView(RetrieveAPIView):
     """Return a single event by primary key."""
+
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()

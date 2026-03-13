@@ -15,11 +15,11 @@ from events.models import Event
 # Deterministic category-based pricing (SAR).
 # Uses abs(hash(title)) % spread + base so each place gets a consistent price.
 _PRICE_CONFIG = {
-    "food":     {"base": 20,  "spread": 130},  # 20–150 SAR
-    "culture":  {"base": 0,   "spread": 50},   # 0–50 SAR (many are free)
-    "outdoor":  {"base": 0,   "spread": 0},    # free
-    "shopping": {"base": 0,   "spread": 0},    # no entry fee
-    "other":    {"base": 0,   "spread": 30},
+    "food": {"base": 20, "spread": 130},  # 20–150 SAR
+    "culture": {"base": 0, "spread": 50},  # 0–50 SAR (many are free)
+    "outdoor": {"base": 0, "spread": 0},  # free
+    "shopping": {"base": 0, "spread": 0},  # no entry fee
+    "other": {"base": 0, "spread": 30},
 }
 
 _DATA_FILE = Path(__file__).resolve().parents[3] / "riyadh_cleaned.json"
@@ -71,7 +71,8 @@ class Command(BaseCommand):
                 title=title,
                 defaults={
                     "category": category,
-                    "description": item.get("description") or "Imported from OpenStreetMap",
+                    "description": item.get("description")
+                    or "Imported from OpenStreetMap",
                     "price_range": item.get("price_range") or "Unknown",
                     "price": price,
                     "date": now,

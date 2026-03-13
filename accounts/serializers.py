@@ -9,14 +9,15 @@ from .models import UserPreferences
 class UserPreferencesSerializer(serializers.ModelSerializer):
     """
     Serializer for user preferences including language, budget, and interests.
-    
+
     Validates:
     - budget_min <= budget_max
     - interests are valid event categories
     - budget values are non-negative
     """
-    VALID_INTERESTS = ['food', 'culture', 'outdoor', 'shopping', 'other']
-    
+
+    VALID_INTERESTS = ["food", "culture", "outdoor", "shopping", "other"]
+
     class Meta:
         model = UserPreferences
         fields = [
@@ -30,13 +31,15 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         """Validate that interests only contain valid event categories."""
         if not isinstance(value, list):
             raise serializers.ValidationError("Interests must be a list.")
-        
-        invalid_interests = [i for i in value if str(i).lower() not in self.VALID_INTERESTS]
+
+        invalid_interests = [
+            i for i in value if str(i).lower() not in self.VALID_INTERESTS
+        ]
         if invalid_interests:
             raise serializers.ValidationError(
                 f"Invalid interests: {invalid_interests}. Valid options: {self.VALID_INTERESTS}"
             )
-        
+
         return value
 
     def validate_budget_min(self, value):
@@ -54,8 +57,12 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         """Validate that budget_min <= budget_max, including against existing instance values."""
         instance = self.instance
-        min_b = attrs.get("budget_min", getattr(instance, "budget_min", None) if instance else None)
-        max_b = attrs.get("budget_max", getattr(instance, "budget_max", None) if instance else None)
+        min_b = attrs.get(
+            "budget_min", getattr(instance, "budget_min", None) if instance else None
+        )
+        max_b = attrs.get(
+            "budget_max", getattr(instance, "budget_max", None) if instance else None
+        )
 
         if min_b is not None and max_b is not None and min_b > max_b:
             raise serializers.ValidationError(
@@ -63,7 +70,6 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             )
 
         return attrs
-
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -99,7 +105,6 @@ class SignupSerializer(serializers.ModelSerializer):
             password=validated_data["password"],
         )
         return user
-
 
 
 class LoginSerializer(serializers.Serializer):

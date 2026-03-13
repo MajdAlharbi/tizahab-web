@@ -20,11 +20,10 @@ class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return (
-            DailyPlan.objects
-            .filter(user=self.request.user)
-            .select_related('user')
-            .prefetch_related('events')
-            .order_by('-date')
+            DailyPlan.objects.filter(user=self.request.user)
+            .select_related("user")
+            .prefetch_related("events")
+            .order_by("-date")
         )
 
     def perform_create(self, serializer):
@@ -36,10 +35,8 @@ class DailyPlanRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVie
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return (
-            DailyPlan.objects
-            .filter(user=self.request.user)
-            .prefetch_related('events')
+        return DailyPlan.objects.filter(user=self.request.user).prefetch_related(
+            "events"
         )
 
 
@@ -53,6 +50,7 @@ class GenerateDailyPlanAPIView(APIView):
     Response:
         { "id": 1, "date": "2026-03-15", "events": [...], "count": 3 }
     """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -82,7 +80,12 @@ class GenerateDailyPlanAPIView(APIView):
         try:
             recommended_events = generate_recommendations(user, date_str)
         except Exception as e:
-            logger.error("Unexpected error generating plan for user %s: %s", user.id, e, exc_info=True)
+            logger.error(
+                "Unexpected error generating plan for user %s: %s",
+                user.id,
+                e,
+                exc_info=True,
+            )
             return Response(
                 {"detail": "Unexpected error while generating plan."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -90,7 +93,9 @@ class GenerateDailyPlanAPIView(APIView):
 
         if recommended_events is None:
             return Response(
-                {"detail": "Please set your interests in preferences before generating a plan."},
+                {
+                    "detail": "Please set your interests in preferences before generating a plan."
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -121,7 +126,9 @@ class GenerateDailyPlanAPIView(APIView):
                 status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
             )
         except Exception as e:
-            logger.error("Error saving daily plan for user %s: %s", user.id, e, exc_info=True)
+            logger.error(
+                "Error saving daily plan for user %s: %s", user.id, e, exc_info=True
+            )
             return Response(
                 {"detail": "Error saving daily plan."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,

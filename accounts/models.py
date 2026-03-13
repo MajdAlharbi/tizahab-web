@@ -11,31 +11,20 @@ class UserPreferences(models.Model):
     ]
 
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="preferences"
+        User, on_delete=models.CASCADE, related_name="preferences"
     )
 
     preferred_language = models.CharField(
         max_length=5,
         choices=LANGUAGE_CHOICES,
-        default="en",   
+        default="en",
     )
 
-    budget_min = models.PositiveIntegerField(
-        null=True,
-        blank=True
-    )
+    budget_min = models.PositiveIntegerField(null=True, blank=True)
 
-    budget_max = models.PositiveIntegerField(
-        null=True,
-        blank=True
-    )
+    budget_max = models.PositiveIntegerField(null=True, blank=True)
 
-    interests = models.JSONField(
-        default=list,
-        blank=True
-    )
+    interests = models.JSONField(default=list, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

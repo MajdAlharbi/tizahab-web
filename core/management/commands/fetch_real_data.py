@@ -26,42 +26,42 @@ RADIUS_M = 25_000  # 25 km
 
 # OSM tag → (Event category, human-readable type label)
 QUERIES = [
-    ('amenity', 'restaurant', 'food',     'Restaurant'),
-    ('amenity', 'cafe',       'food',     'Café'),
-    ('tourism', 'museum',     'culture',  'Museum'),
-    ('tourism', 'attraction', 'culture',  'Attraction'),
-    ('leisure', 'park',       'outdoor',  'Park'),
-    ('shop',    'mall',       'shopping', 'Shopping Mall'),
+    ("amenity", "restaurant", "food", "Restaurant"),
+    ("amenity", "cafe", "food", "Café"),
+    ("tourism", "museum", "culture", "Museum"),
+    ("tourism", "attraction", "culture", "Attraction"),
+    ("leisure", "park", "outdoor", "Park"),
+    ("shop", "mall", "shopping", "Shopping Mall"),
 ]
 
 # Realistic SAR price ranges per category
 PRICE_RANGES = {
-    'food':     (25, 180),
-    'culture':  (0,  50),
-    'outdoor':  (0,  0),
-    'shopping': (0,  0),
+    "food": (25, 180),
+    "culture": (0, 50),
+    "outdoor": (0, 0),
+    "shopping": (0, 0),
 }
 
 DESCRIPTIONS = {
-    'food': [
+    "food": [
         "A popular dining destination in Riyadh offering a variety of dishes.",
         "Enjoy an authentic culinary experience in the heart of Riyadh.",
         "A beloved local eatery known for fresh ingredients and great flavors.",
         "From traditional Saudi cuisine to international fare — a great choice.",
     ],
-    'culture': [
+    "culture": [
         "Explore the rich history and heritage of Saudi Arabia at this landmark.",
         "A cultural gem in Riyadh showcasing art, history, and tradition.",
         "An unmissable attraction offering a window into Saudi culture.",
         "Discover fascinating exhibits and stories from the Arabian Peninsula.",
     ],
-    'outdoor': [
+    "outdoor": [
         "A scenic green space perfect for relaxation and outdoor activities.",
         "Enjoy fresh air and open skies at this well-maintained Riyadh park.",
         "A family-friendly outdoor destination in the city.",
         "A peaceful retreat from the hustle of urban life.",
     ],
-    'shopping': [
+    "shopping": [
         "One of Riyadh's premier shopping destinations with top brands.",
         "A world-class mall offering fashion, dining, and entertainment.",
         "Shop, dine, and explore at this iconic Riyadh mall.",
@@ -74,6 +74,7 @@ DEFAULT_MAX = 500
 # ---------------------------------------------------------------------------
 # Overpass query builder
 # ---------------------------------------------------------------------------
+
 
 def _build_query(key: str, value: str) -> str:
     """Return an Overpass QL query for nodes/ways/relations near Riyadh."""
@@ -91,13 +92,10 @@ out center tags;
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _extract_name(tags: dict) -> str | None:
     """Prefer English name, fall back to Arabic, then generic name."""
-    return (
-        tags.get("name:en")
-        or tags.get("name:ar")
-        or tags.get("name")
-    )
+    return tags.get("name:en") or tags.get("name:ar") or tags.get("name")
 
 
 def _pick_price(category: str) -> float:
@@ -123,6 +121,7 @@ def _get_coords(element: dict) -> tuple[float | None, float | None]:
 # ---------------------------------------------------------------------------
 # Command
 # ---------------------------------------------------------------------------
+
 
 class Command(BaseCommand):
     help = "Fetch real Riyadh places from Overpass API and save them as Events."
@@ -181,12 +180,14 @@ class Command(BaseCommand):
                 if not name:
                     continue
                 lat, lng = _get_coords(el)
-                all_places.append({
-                    "title":    name.strip(),
-                    "category": category,
-                    "lat":      lat,
-                    "lng":      lng,
-                })
+                all_places.append(
+                    {
+                        "title": name.strip(),
+                        "category": category,
+                        "lat": lat,
+                        "lng": lng,
+                    }
+                )
                 count += 1
 
             self.stdout.write(self.style.SUCCESS(f"{count} places found."))

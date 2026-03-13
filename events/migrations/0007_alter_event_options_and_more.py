@@ -6,32 +6,42 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0006_alter_event_price_range_nullable'),
+        ("events", "0006_alter_event_price_range_nullable"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='event',
-            options={'ordering': ['-date']},
+            name="event",
+            options={"ordering": ["-date"]},
         ),
         migrations.RenameIndex(
-            model_name='event',
-            new_name='events_even_categor_f93bb1_idx',
-            old_name='events_even_categor_idx',
+            model_name="event",
+            new_name="events_even_categor_f93bb1_idx",
+            old_name="events_even_categor_idx",
         ),
         migrations.AlterField(
-            model_name='event',
-            name='category',
-            field=models.CharField(choices=[('food', 'Food'), ('culture', 'Culture'), ('outdoor', 'Outdoor'), ('shopping', 'Shopping'), ('other', 'Other')], db_index=True, max_length=50),
+            model_name="event",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("food", "Food"),
+                    ("culture", "Culture"),
+                    ("outdoor", "Outdoor"),
+                    ("shopping", "Shopping"),
+                    ("other", "Other"),
+                ],
+                db_index=True,
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='date',
+            model_name="event",
+            name="date",
             field=models.DateTimeField(db_index=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='title',
+            model_name="event",
+            name="title",
             field=models.CharField(db_index=True, max_length=255),
         ),
     ]

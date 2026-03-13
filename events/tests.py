@@ -27,7 +27,9 @@ def make_event(title="Test Event", category="food", price=50.00, **kwargs):
 
 def auth_client(user, password="StrongPass1!"):
     client = APIClient()
-    response = client.post("/api/auth/login/", {"email": user.email, "password": password})
+    response = client.post(
+        "/api/auth/login/", {"email": user.email, "password": password}
+    )
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {response.data['access']}")
     return client
 

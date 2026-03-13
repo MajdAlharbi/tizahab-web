@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_remove_userpreferences_budget_and_more'),
+        ("accounts", "0002_remove_userpreferences_budget_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userpreferences',
-            name='preferred_language',
-            field=models.CharField(choices=[('ar', 'Arabic'), ('en', 'English')], default='en', max_length=5),
+            model_name="userpreferences",
+            name="preferred_language",
+            field=models.CharField(
+                choices=[("ar", "Arabic"), ("en", "English")],
+                default="en",
+                max_length=5,
+            ),
         ),
     ]

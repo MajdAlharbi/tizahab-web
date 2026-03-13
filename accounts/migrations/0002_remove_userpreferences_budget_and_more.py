@@ -6,32 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0001_initial'),
+        ("accounts", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='userpreferences',
-            name='budget',
+            model_name="userpreferences",
+            name="budget",
         ),
         migrations.AddField(
-            model_name='userpreferences',
-            name='budget_max',
+            model_name="userpreferences",
+            name="budget_max",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='userpreferences',
-            name='budget_min',
+            model_name="userpreferences",
+            name="budget_min",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='userpreferences',
-            name='interests',
+            model_name="userpreferences",
+            name="interests",
             field=models.JSONField(blank=True, default=list),
         ),
         migrations.AlterField(
-            model_name='userpreferences',
-            name='preferred_language',
-            field=models.CharField(choices=[('ar', 'Arabic'), ('en', 'English')], default='ar', max_length=2),
+            model_name="userpreferences",
+            name="preferred_language",
+            field=models.CharField(
+                choices=[("ar", "Arabic"), ("en", "English")],
+                default="ar",
+                max_length=2,
+            ),
         ),
     ]

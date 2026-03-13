@@ -16,7 +16,9 @@ def make_user(email="user@test.com", password="StrongPass1!"):
 
 def auth_client(user):
     client = APIClient()
-    response = client.post("/api/auth/login/", {"email": user.email, "password": "StrongPass1!"})
+    response = client.post(
+        "/api/auth/login/", {"email": user.email, "password": "StrongPass1!"}
+    )
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {response.data['access']}")
     return client
 
@@ -26,11 +28,14 @@ class SignupTests(TestCase):
         self.client = APIClient()
 
     def test_signup_creates_user_and_returns_tokens(self):
-        response = self.client.post("/api/auth/signup/", {
-            "email": "new@test.com",
-            "password": "StrongPass1!",
-            "password2": "StrongPass1!",
-        })
+        response = self.client.post(
+            "/api/auth/signup/",
+            {
+                "email": "new@test.com",
+                "password": "StrongPass1!",
+                "password2": "StrongPass1!",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
@@ -38,27 +43,36 @@ class SignupTests(TestCase):
 
     def test_signup_rejects_duplicate_email(self):
         make_user("dup@test.com")
-        response = self.client.post("/api/auth/signup/", {
-            "email": "dup@test.com",
-            "password": "StrongPass1!",
-            "password2": "StrongPass1!",
-        })
+        response = self.client.post(
+            "/api/auth/signup/",
+            {
+                "email": "dup@test.com",
+                "password": "StrongPass1!",
+                "password2": "StrongPass1!",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_signup_rejects_mismatched_passwords(self):
-        response = self.client.post("/api/auth/signup/", {
-            "email": "mismatch@test.com",
-            "password": "StrongPass1!",
-            "password2": "Different1!",
-        })
+        response = self.client.post(
+            "/api/auth/signup/",
+            {
+                "email": "mismatch@test.com",
+                "password": "StrongPass1!",
+                "password2": "Different1!",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_signup_rejects_weak_password(self):
-        response = self.client.post("/api/auth/signup/", {
-            "email": "weak@test.com",
-            "password": "123",
-            "password2": "123",
-        })
+        response = self.client.post(
+            "/api/auth/signup/",
+            {
+                "email": "weak@test.com",
+                "password": "123",
+                "password2": "123",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
@@ -68,26 +82,35 @@ class LoginTests(TestCase):
         self.user = make_user()
 
     def test_login_returns_tokens(self):
-        response = self.client.post("/api/auth/login/", {
-            "email": self.user.email,
-            "password": "StrongPass1!",
-        })
+        response = self.client.post(
+            "/api/auth/login/",
+            {
+                "email": self.user.email,
+                "password": "StrongPass1!",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
 
     def test_login_wrong_password(self):
-        response = self.client.post("/api/auth/login/", {
-            "email": self.user.email,
-            "password": "wrongpassword",
-        })
+        response = self.client.post(
+            "/api/auth/login/",
+            {
+                "email": self.user.email,
+                "password": "wrongpassword",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_unknown_email(self):
-        response = self.client.post("/api/auth/login/", {
-            "email": "nobody@test.com",
-            "password": "StrongPass1!",
-        })
+        response = self.client.post(
+            "/api/auth/login/",
+            {
+                "email": "nobody@test.com",
+                "password": "StrongPass1!",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
@@ -102,28 +125,39 @@ class UserPreferencesTests(TestCase):
         self.assertIn("interests", response.data)
 
     def test_set_valid_preferences(self):
-        response = self.client.post("/api/auth/preferences/", {
-            "interests": ["food", "culture"],
-            "budget_min": 0,
-            "budget_max": 300,
-            "preferred_language": "ar",
-        })
-        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED])
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["food", "culture"],
+                "budget_min": 0,
+                "budget_max": 300,
+                "preferred_language": "ar",
+            },
+        )
+        self.assertIn(
+            response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
+        )
         pref = UserPreferences.objects.get(user=self.user)
         self.assertEqual(pref.interests, ["food", "culture"])
         self.assertEqual(pref.budget_max, 300)
 
     def test_invalid_interest_rejected(self):
-        response = self.client.post("/api/auth/preferences/", {
-            "interests": ["music"],
-        })
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["music"],
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_budget_min_greater_than_max_rejected(self):
-        response = self.client.post("/api/auth/preferences/", {
-            "budget_min": 500,
-            "budget_max": 100,
-        })
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "budget_min": 500,
+                "budget_max": 100,
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_partial_update_budget_max_below_existing_min(self):
@@ -170,6 +204,7 @@ class PasswordResetTokenTests(TestCase):
         user = make_user("resetme@test.com")
         token = _make_reset_token(user.pk)
         from urllib.parse import quote
+
         safe_token = quote(token, safe="")
 
         response = self.client.post(

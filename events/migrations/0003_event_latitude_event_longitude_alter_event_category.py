@@ -6,23 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0002_remove_event_end_date_and_more'),
+        ("events", "0002_remove_event_end_date_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='event',
-            name='latitude',
+            model_name="event",
+            name="latitude",
             field=models.FloatField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='event',
-            name='longitude',
+            model_name="event",
+            name="longitude",
             field=models.FloatField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='category',
-            field=models.CharField(choices=[('food', 'Food'), ('culture', 'Culture'), ('outdoor', 'Outdoor'), ('shopping', 'Shopping'), ('other', 'Other')], max_length=50),
+            model_name="event",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("food", "Food"),
+                    ("culture", "Culture"),
+                    ("outdoor", "Outdoor"),
+                    ("shopping", "Shopping"),
+                    ("other", "Other"),
+                ],
+                max_length=50,
+            ),
         ),
     ]

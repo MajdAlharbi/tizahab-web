@@ -31,11 +31,13 @@ def generate_recommendations(user, date_str=None):
 
     if preferences.budget_max is not None:
         from django.db.models import Q
+
         queryset = queryset.filter(
             Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
         )
     if preferences.budget_min is not None:
         from django.db.models import Q
+
         queryset = queryset.filter(
             Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
         )

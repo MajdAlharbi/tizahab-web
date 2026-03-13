@@ -31,12 +31,10 @@ jobs:
         pip install -r requirements.txt
 
     - name: Lint with flake8
-      run: |
-        flake8 accounts events daily_plan core --count --select=E9,F63,F7,F82 --show-source --statistics
+      run: flake8 accounts events daily_plan core --count --select=E9,F63,F7,F82 --show-source --statistics
 
     - name: Format check with black
       run: black --check accounts events daily_plan core
-      continue-on-error: true
 
     - name: Run Django checks
       run: python manage.py check
@@ -48,12 +46,10 @@ jobs:
       run: python manage.py collectstatic --noinput
 
     - name: Run tests with coverage
-      run: |
-        pytest --cov=accounts --cov=events --cov=daily_plan --cov=core \
-               --cov-report=xml --cov-report=html
+      run: pytest --cov-report=xml
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         files: ./coverage.xml
         flags: unittests
@@ -61,8 +57,7 @@ jobs:
         fail_ci_if_error: false
 
     - name: Security check with bandit
-      run: bandit -r accounts events daily_plan core -f json -o bandit-report.json
-      continue-on-error: true
+      run: bandit -r accounts events daily_plan core -ll -f json -o bandit-report.json
 
     - name: Upload test results
       if: failure()
