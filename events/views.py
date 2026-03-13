@@ -2,7 +2,7 @@ from datetime import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.shortcuts import render
 from django.db.models import Q
 from django.conf import settings
@@ -134,3 +134,10 @@ class EventListAPIView(ListAPIView):
 
         limit = getattr(settings, "MAX_EVENTS_PER_RESPONSE", 100)
         return queryset[:limit]
+
+
+class EventRetrieveAPIView(RetrieveAPIView):
+    """Return a single event by primary key."""
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Event.objects.all()

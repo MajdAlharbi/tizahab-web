@@ -4,308 +4,273 @@
 {% block title %}Home | Tizahab{% endblock %}
 
 {% block content %}
+<div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
 
-<!-- HERO -->
+  <!-- Welcome + Starting Soon -->
+  <section class="grid grid-cols-1 lg:grid-cols-5 gap-5">
 
-<section class="relative -mx-4 lg:-mx-8 -mt-4 lg:-mt-8 min-h-[90vh] flex items-center justify-center overflow-hidden">
-
-  <div class="absolute inset-0 bg-gradient-to-b from-[#679AF8] via-[#B58FE5] to-[#8034E0]"></div>
-
-  <div class="relative z-10 text-center px-6">
-
-    <h1 class="text-7xl md:text-[110px] text-white font-serif mb-2">
-      Tizahab
-    </h1>
-
-    <h2 class="text-5xl md:text-[70px] text-white font-['Cairo'] mb-6">
-      تزهب
-    </h2>
-
-    <img src="{% static 'images/riyadh.png' %}" class="mx-auto w-[500px] mb-10">
-
-    <p class="tracking-widest text-xl text-white mb-10">
-      FOR BETTER TOURISM IN RIYADH
-    </p>
-
-    <div class="flex justify-center gap-4">
-
-      <a href="/events" class="bg-white text-brand px-8 py-3 rounded-xl font-semibold hover:shadow-lg">
-        Explore Riyadh →
-      </a>
-
-      <a href="/daily-plan" class="border border-white text-white px-8 py-3 rounded-xl hover:bg-white/10">
-        Plan Your Trip
-      </a>
-
-    </div>
-
-  </div>
-
-  <div class="absolute bottom-0 left-0 w-full overflow-hidden">
-
-    <svg class="w-full h-[120px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
-
-      <path
-        d="M321.39 56.44C379 45.65 435 26.31 493 14.58C575.39 -2.14 661.19 -3.15 743.45 14.19C823.78 31 906.67 72 985.66 92.83C1055.71 111.31 1132.19 118.92 1200 95V120H0V95.8C59.71 118.08 130.83 119.93 197.36 97.35Z"
-        fill="#F6F7FB"></path>
-
-    </svg>
-
-  </div>
-
-</section>
-
-
-<!-- WHY CHOOSE -->
-
-<section class="py-24">
-
-  <div class="max-w-6xl mx-auto px-6 text-center">
-
-    <h2 class="text-5xl font-bold text-brand mb-4">
-      Why Choose Tizahab
-    </h2>
-
-    <p class="text-gray-500 mb-14">
-      Experience Riyadh like never before with our comprehensive tourism services
-    </p>
-
-    <div class="grid md:grid-cols-3 gap-8">
-
-      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
-
-        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
-          <i data-lucide="brain"></i>
-        </div>
-
-        <h3 class="font-semibold mb-2">
-          AI Trip Planning
-        </h3>
-
-        <p class="text-gray-500 text-sm">
-          Personalized itineraries powered by AI
-        </p>
-
+    <!-- Welcome card -->
+    <div class="lg:col-span-3 bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[200px]">
+      <div>
+        <p class="text-sm text-white/70 mb-1">Welcome back 👋</p>
+        <h1 class="text-2xl font-bold leading-snug" style="font-family:'Cantata One',serif">
+          Discover Riyadh<br>Your Way
+        </h1>
+        <p class="text-sm text-white/80 mt-2">Personalized plans, popular events, and local gems — all in one place.</p>
       </div>
-
-      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
-
-        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
-          <i data-lucide="zap"></i>
-        </div>
-
-        <h3 class="font-semibold mb-2">
-          Real-Time Event Updates
-        </h3>
-
-        <p class="text-gray-500 text-sm">
-          Stay informed about events and activities
-        </p>
-
-      </div>
-
-      <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
-
-        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
-          <i data-lucide="calendar"></i>
-        </div>
-
-        <h3 class="font-semibold mb-2">
-          Smart Daily Schedules
-        </h3>
-
-        <p class="text-gray-500 text-sm">
-          Optimized daily planning tools
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- DESTINATIONS -->
-
-<section class="py-24 bg-white">
-
-  <div class="max-w-7xl mx-auto px-6 text-center">
-
-    <h2 class="text-5xl font-bold text-brand mb-4">
-      Popular Destinations
-    </h2>
-
-    <p class="text-gray-500 mb-14">
-      Discover the most captivating attractions in Riyadh
-    </p>
-
-    <div class="grid md:grid-cols-3 gap-10">
-
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-
-        <img src="{% static 'images/event1.jpg' %}" class="h-60 w-full object-cover">
-
-        <div class="p-6">
-
-          <h3 class="font-bold text-lg mb-2">
-            Kingdom Centre Tower
-          </h3>
-
-          <p class="text-gray-500 text-sm mb-4">
-            Iconic skyscraper with panoramic views
-          </p>
-
-          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
-            Learn More
-          </a>
-
-        </div>
-
-      </div>
-
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-
-        <img src="{% static 'images/event2.jpg' %}" class="h-60 w-full object-cover">
-
-        <div class="p-6">
-
-          <h3 class="font-bold text-lg mb-2">
-            Edge of the World
-          </h3>
-
-          <p class="text-gray-500 text-sm mb-4">
-            Dramatic desert cliffs and views
-          </p>
-
-          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
-            Learn More
-          </a>
-
-        </div>
-
-      </div>
-
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-
-        <img src="{% static 'images/event3.jpg' %}" class="h-60 w-full object-cover">
-
-        <div class="p-6">
-
-          <h3 class="font-bold text-lg mb-2">
-            Al Masmak Fortress
-          </h3>
-
-          <p class="text-gray-500 text-sm mb-4">
-            Historic fortress of Riyadh
-          </p>
-
-          <a href="/events" class="bg-brand text-white px-5 py-2 rounded-lg text-sm">
-            Learn More
-          </a>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-<footer class="bg-[#111827] text-white pt-20 pb-10 mt-20">
-
-  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-16">
-
-    <div class="md:col-span-2">
-
-      <h3 class="text-3xl font-bold mb-4">
-        Tizahab
-      </h3>
-
-      <p class="text-gray-400 max-w-sm leading-relaxed mb-6">
-        Discover the beauty, culture, and excitement of Riyadh with the ultimate AI tourism companion.
-      </p>
-
-      <div class="flex gap-4">
-
-        <a href="#"
-          class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand transition">
-          <i data-lucide="twitter" class="w-5 h-5"></i>
+      <div class="flex gap-3 mt-6">
+        <a href="/events/page/"
+          class="px-5 py-2.5 bg-white text-brand rounded-xl text-sm font-semibold hover:shadow-md transition">
+          Explore Riyadh →
         </a>
-
-        <a href="#"
-          class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand transition">
-          <i data-lucide="instagram" class="w-5 h-5"></i>
+        <a href="/daily-plan/"
+          class="px-5 py-2.5 border border-white/50 text-white rounded-xl text-sm hover:bg-white/10 transition">
+          Plan My Trip
         </a>
+      </div>
+    </div>
 
+    <!-- Starting Soon card -->
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold text-gray-800">Starting Soon</h2>
+        <a href="/events/page/" class="text-xs text-brand hover:underline">See all</a>
       </div>
 
+      <div id="startingSoonList" class="space-y-3 flex-1">
+        <!-- Skeletons -->
+        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
+        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
+        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
+      </div>
+
+      <a href="/daily-plan/"
+        class="block w-full h-10 rounded-xl bg-brand text-white text-sm font-medium text-center leading-10 hover:opacity-90 transition">
+        View My Plan
+      </a>
     </div>
 
+  </section>
 
-    <div>
-
-      <h4 class="font-bold text-lg mb-6">Quick Links</h4>
-
-      <ul class="space-y-3 text-gray-400">
-
-        <li>
-          <a href="/home" class="hover:text-brand transition">Home</a>
-        </li>
-
-        <li>
-          <a href="/events" class="hover:text-brand transition">Events</a>
-        </li>
-
-        <li>
-          <a href="/daily-plan" class="hover:text-brand transition">Daily Plan</a>
-        </li>
-
-      </ul>
-
+  <!-- Today's Plan -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-gray-800">Your Daily Plan</h2>
+      <a href="/daily-plan/" class="text-sm text-brand hover:underline">Manage →</a>
     </div>
 
+    <div id="todayPlanContainer" class="space-y-3">
+      <!-- JS populated or empty state -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-5 text-center text-sm text-gray-400">
+        <p>No plan for today yet.</p>
+        <a href="/daily-plan/" class="text-brand font-medium hover:underline mt-1 inline-block">Generate with AI →</a>
+      </div>
+    </div>
+  </section>
 
-    <div>
-
-      <h4 class="font-bold text-lg mb-6">Contact</h4>
-
-      <ul class="space-y-3 text-gray-400">
-
-        <li class="flex items-center gap-3">
-          <i data-lucide="phone" class="w-4 h-4 text-brand"></i>
-          +966 11 234 5678
-        </li>
-
-        <li class="flex items-center gap-3">
-          <i data-lucide="mail" class="w-4 h-4 text-brand"></i>
-          info@tizahab.sa
-        </li>
-
-        <li class="flex items-center gap-3">
-          <i data-lucide="map-pin" class="w-4 h-4 text-brand"></i>
-          Riyadh, Saudi Arabia
-        </li>
-
-      </ul>
-
+  <!-- Recommended for You -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-gray-800">Recommended for You</h2>
+      <a href="/events/page/" class="text-sm text-brand hover:underline">See all</a>
     </div>
 
-  </div>
+    <div id="recommendedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="h-48 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-48 bg-white border rounded-2xl animate-pulse hidden sm:block"></div>
+      <div class="h-48 bg-white border rounded-2xl animate-pulse hidden lg:block"></div>
+    </div>
+  </section>
 
+  <!-- Current Offers -->
+  <section class="space-y-4">
+    <h2 class="text-lg font-semibold text-gray-800">Popular Places</h2>
+    <div id="offersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="h-32 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-32 bg-white border rounded-2xl animate-pulse"></div>
+    </div>
+  </section>
 
-  <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
+  <!-- Quick Links -->
+  <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <a href="/events/page/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
+      <span class="text-2xl">🎫</span>
+      <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">Events</p>
+    </a>
+    <a href="/map/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
+      <span class="text-2xl">🗺️</span>
+      <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">Explore Map</p>
+    </a>
+    <a href="/daily-plan/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
+      <span class="text-2xl">📅</span>
+      <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">Daily Plan</p>
+    </a>
+    <a href="/api/auth/ui/preferences/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
+      <span class="text-2xl">⚙️</span>
+      <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">Preferences</p>
+    </a>
+  </section>
 
-    © 2026 Tizahab Platform. All rights reserved.
-
-  </div>
-
-</footer>
+</div>
 
 <script>
-  lucide.createIcons();
-</script>
+  function escHtml(s) {
+    return String(s || "")
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+  }
 
+  function getToken() { return localStorage.getItem("access"); }
+
+  /* ---- Starting Soon: load first 3 events ---- */
+  async function loadStartingSoon() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 3);
+
+      const list = document.getElementById("startingSoonList");
+      list.innerHTML = "";
+      if (!events.length) {
+        list.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No upcoming events</p>';
+        return;
+      }
+      events.forEach(ev => {
+        const item = document.createElement("a");
+        item.href = `/events/page/${ev.id}/`;
+        item.className = "flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition";
+        item.innerHTML = `
+          <div class="w-10 h-10 rounded-xl bg-[#faf5ff] flex items-center justify-center shrink-0 text-lg">
+            ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-gray-800 truncate">${escHtml(ev.title || "Event")}</p>
+            <p class="text-xs text-gray-500 truncate">📍 ${escHtml(ev.location || "Riyadh")}</p>
+          </div>
+          <span class="text-xs text-brand font-semibold shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+        `;
+        list.appendChild(item);
+      });
+    } catch { /* silent */ }
+  }
+
+  /* ---- Today's plan ---- */
+  async function loadTodayPlan() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/daily-plan/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const plans = Array.isArray(data) ? data : (data.results || []);
+
+      if (!plans.length) return;
+
+      const today = new Date().toISOString().split("T")[0];
+      const todayPlan = plans.find(p => p.date === today) || plans[0];
+      const events = Array.isArray(todayPlan.events) ? todayPlan.events : [];
+      if (!events.length) return;
+
+      const container = document.getElementById("todayPlanContainer");
+      container.innerHTML = "";
+
+      const times = ["09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM"];
+      events.slice(0, 5).forEach((ev, i) => {
+        const item = document.createElement("div");
+        item.className = "flex items-start gap-4 bg-white rounded-2xl border border-gray-200 p-4 shadow-sm";
+        item.innerHTML = `
+          <div class="shrink-0 text-center">
+            <div class="text-xs font-semibold text-brand bg-[#faf5ff] rounded-lg px-2 py-1">${times[i] || ""}</div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800">${escHtml(ev.title || "Activity")}</p>
+            <p class="text-xs text-gray-500 mt-0.5">📍 ${escHtml(ev.location || "Riyadh")}</p>
+          </div>
+          <a href="/events/page/${ev.id}/" class="shrink-0 px-3 py-1.5 rounded-lg border border-brand text-brand text-xs font-medium hover:bg-[#faf5ff] transition">View</a>
+        `;
+        container.appendChild(item);
+      });
+    } catch { /* silent */ }
+  }
+
+  /* ---- Recommended: load events filtered by preference ---- */
+  async function loadRecommended() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 6);
+
+      const grid = document.getElementById("recommendedGrid");
+      grid.innerHTML = "";
+      events.forEach(ev => {
+        const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
+        const card = document.createElement("a");
+        card.href = `/events/page/${ev.id}/`;
+        card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
+        card.innerHTML = `
+          <div class="h-28 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-3xl">
+            ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
+          </div>
+          <div class="p-3 space-y-1">
+            <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Untitled")}</p>
+            <p class="text-xs text-gray-500">📍 ${escHtml(ev.location || "Riyadh")}</p>
+            <p class="text-xs text-brand font-semibold">${escHtml(price)}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch { /* silent */ }
+  }
+
+  /* ---- Popular Places / Offers ---- */
+  async function loadOffers() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/events/?category=food", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 4);
+
+      const grid = document.getElementById("offersGrid");
+      grid.innerHTML = "";
+      events.forEach((ev, i) => {
+        const gradients = [
+          "from-orange-400 to-rose-500",
+          "from-blue-400 to-indigo-500",
+          "from-green-400 to-emerald-500",
+          "from-purple-400 to-violet-500"
+        ];
+        const card = document.createElement("a");
+        card.href = `/events/page/${ev.id}/`;
+        card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
+        card.innerHTML = `
+          <div class="h-2 bg-gradient-to-r ${gradients[i % gradients.length]}"></div>
+          <div class="p-4 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0">🍽️</div>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Place")}</p>
+              <p class="text-xs text-gray-500 truncate">📍 ${escHtml(ev.location || "Riyadh")}</p>
+            </div>
+            <span class="text-sm font-bold text-brand shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch { /* silent */ }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadStartingSoon();
+    loadTodayPlan();
+    loadRecommended();
+    loadOffers();
+  });
+</script>
 {% endblock %}

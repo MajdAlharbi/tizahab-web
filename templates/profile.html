@@ -1,0 +1,205 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Profile | Tizahab{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
+
+  <!-- Profile Header Card -->
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+
+      <!-- Avatar -->
+      <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
+        AM
+      </div>
+
+      <!-- Info -->
+      <div class="flex-1 min-w-0">
+        <h1 id="profileName" class="text-xl font-bold text-gray-900">Ahmed Mohammed</h1>
+        <p class="text-sm text-gray-500 mt-0.5">📍 Riyadh, Saudi Arabia</p>
+
+        <!-- Stats -->
+        <div class="flex gap-8 mt-4">
+          <div>
+            <p id="statPlans" class="text-xl font-bold text-brand">—</p>
+            <p class="text-xs text-gray-500">Past Plans</p>
+          </div>
+          <div>
+            <p id="statFavs" class="text-xl font-bold text-brand">0</p>
+            <p class="text-xs text-gray-500">Favorites</p>
+          </div>
+          <div>
+            <p id="statActivities" class="text-xl font-bold text-brand">—</p>
+            <p class="text-xs text-gray-500">Activities</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit button -->
+      <a href="/api/auth/ui/preferences/"
+        class="shrink-0 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-[#faf5ff] transition">
+        Edit Preferences
+      </a>
+    </div>
+  </div>
+
+  <!-- My Preferences -->
+  <section class="space-y-4">
+    <h2 class="text-lg font-semibold text-gray-800">My Preferences</h2>
+    <div id="prefChips" class="flex flex-wrap gap-2">
+      <span class="text-sm text-gray-400">Loading preferences…</span>
+    </div>
+  </section>
+
+  <!-- Past Plans -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-gray-800">Past Plans</h2>
+      <a href="/daily-plan/" class="text-sm text-brand hover:underline">View all</a>
+    </div>
+    <div id="pastPlansGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- skeleton -->
+      <div class="h-36 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-36 bg-white border rounded-2xl animate-pulse hidden sm:block"></div>
+      <div class="h-36 bg-white border rounded-2xl animate-pulse hidden lg:block"></div>
+    </div>
+  </section>
+
+  <!-- My Favorites -->
+  <section class="space-y-4">
+    <h2 class="text-lg font-semibold text-gray-800">My Favorites</h2>
+    <div id="favsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <p id="favsEmpty" class="text-sm text-gray-400 col-span-2">No favorites saved yet. Heart an event to save it here.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const CATEGORY_LABELS = { food: "Restaurants & Cafes", culture: "Heritage Places", outdoor: "Outdoor / Kids", shopping: "Shopping", other: "Entertainment" };
+  const CATEGORY_COLORS = { food: "bg-green-100 text-green-700", culture: "bg-amber-100 text-amber-700", outdoor: "bg-yellow-100 text-yellow-700", shopping: "bg-purple-100 text-purple-700", other: "bg-blue-100 text-blue-700" };
+  const FAV_KEY = "tizahab_favorites";
+
+  function getToken() { return localStorage.getItem("access"); }
+
+  /* ---- Load Preferences ---- */
+  async function loadPrefs() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/auth/preferences/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      const chips = document.getElementById("prefChips");
+      const interests = Array.isArray(data.interests) ? data.interests : [];
+      if (!interests.length) {
+        chips.innerHTML = '<span class="text-sm text-gray-400">No preferences set. <a href="/api/auth/ui/preferences/" class="text-brand underline">Set them now →</a></span>';
+        return;
+      }
+      chips.innerHTML = "";
+      interests.forEach(cat => {
+        const color = CATEGORY_COLORS[cat] || "bg-gray-100 text-gray-600";
+        const label = CATEGORY_LABELS[cat] || cat;
+        const chip = document.createElement("span");
+        chip.className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${color}`;
+        chip.textContent = label;
+        chips.appendChild(chip);
+      });
+    } catch { /* silent */ }
+  }
+
+  /* ---- Load Past Plans ---- */
+  async function loadPlans() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/daily-plan/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const plans = Array.isArray(data) ? data : (data.results || []);
+
+      const grid = document.getElementById("pastPlansGrid");
+      const stat = document.getElementById("statPlans");
+      stat.textContent = plans.length;
+      grid.innerHTML = "";
+
+      if (!plans.length) {
+        grid.innerHTML = '<p class="text-sm text-gray-400 col-span-3">No plans yet. <a href="/daily-plan/" class="text-brand underline">Create your first plan →</a></p>';
+        return;
+      }
+
+      let totalActivities = 0;
+      plans.slice(0, 3).forEach(plan => {
+        const evCount = Array.isArray(plan.events) ? plan.events.length : 0;
+        totalActivities += evCount;
+        const card = document.createElement("a");
+        card.href = "/daily-plan/";
+        card.className = "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition block space-y-2";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-gray-800">📅 ${plan.date || "Plan"}</span>
+            <span class="text-xs text-brand font-medium">${evCount} activities</span>
+          </div>
+          <p class="text-xs text-gray-500">${evCount ? plan.events.slice(0,2).map(e => e.title || "Activity").join(", ") + (evCount > 2 ? "…" : "") : "No activities"}</p>
+        `;
+        grid.appendChild(card);
+      });
+      document.getElementById("statActivities").textContent = totalActivities;
+    } catch { /* silent */ }
+  }
+
+  /* ---- Load Favorites ---- */
+  function loadFavs() {
+    const favIds = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
+    const stat = document.getElementById("statFavs");
+    stat.textContent = favIds.size;
+    if (!favIds.size) return;
+
+    const grid = document.getElementById("favsGrid");
+    const empty = document.getElementById("favsEmpty");
+    if (empty) empty.remove();
+
+    // Fetch events and filter by favIds
+    const token = getToken();
+    if (!token) return;
+    fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        const events = Array.isArray(data) ? data : (data.results || []);
+        const favEvents = events.filter(e => favIds.has(String(e.id)));
+        grid.innerHTML = "";
+        if (!favEvents.length) {
+          grid.innerHTML = '<p class="text-sm text-gray-400 col-span-2">Your favorited events aren\'t in the current list.</p>';
+          return;
+        }
+        favEvents.slice(0, 4).forEach(ev => {
+          const card = document.createElement("a");
+          card.href = `/events/page/${ev.id}/`;
+          card.className = "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-start gap-3";
+          card.innerHTML = `
+            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center shrink-0 text-lg">
+              ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-gray-800 truncate">${ev.title || "Untitled"}</p>
+              <p class="text-xs text-gray-500 mt-0.5">📍 ${ev.location || "Riyadh"}</p>
+              <p class="text-xs text-brand font-medium mt-1">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</p>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      })
+      .catch(() => {});
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPrefs();
+    loadPlans();
+    loadFavs();
+  });
+</script>
+{% endblock %}

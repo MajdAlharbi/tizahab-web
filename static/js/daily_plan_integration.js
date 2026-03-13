@@ -14,7 +14,7 @@ async function generateDailyPlan() {
   const today = new Date();
   const selectedDate = today.toISOString().split("T")[0];
 
-  const response = await fetch("/api/daily_plan/generate/", {
+  const response = await fetch("/api/daily-plan/generate/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -101,6 +101,12 @@ function renderDailyPlan(data) {
 
   if (message) message.innerText = "";
 
+  /* ===== Summary Stats ===== */
+  const activityCount = document.getElementById("summary-activities");
+  const durationEl = document.getElementById("summary-duration");
+  if (activityCount) activityCount.textContent = events.length;
+  if (durationEl) durationEl.textContent = `${events.length}h`;
+
   /* ===== Map Binding ===== */
 
   const mapPoints = events
@@ -163,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function initDailyPlanMap() {
   if (!window.TZMap) return;
 
-  window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", [], { zoom: 11 });
+  window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
   window.__TZ_DP_MARKERS = {};
 }
 
@@ -220,3 +226,107 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+
+/* =========================
+   Carousel helpers
+========================= */
+
+function buildMiniCard(ev, badgeLabel) {
+  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
+  const card = document.createElement("div");
+  card.className =
+    "min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition flex-shrink-0";
+  card.innerHTML = `
+    <div class="h-40 bg-gray-200 relative">
+      <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+        ${escapeHtml(badgeLabel)}
+      </span>
+    </div>
+    <div class="p-4 space-y-1">
+      <div class="font-semibold truncate">${escapeHtml(ev.title || "Untitled")}</div>
+      <div class="text-sm text-gray-500">${escapeHtml(price)}</div>
+    </div>
+  `;
+  card.style.cursor = "pointer";
+  card.addEventListener("click", () => {
+    window.location.href = `/events/page/${ev.id}/`;
+  });
+  return card;
+}
+
+async function loadCarousel(containerId, category, badgeLabel) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const token = localStorage.getItem("access");
+  if (!token) return;
+
+  try {
+    const qs = category ? `?category=${category}` : "";
+    const res = await fetch(`/api/events/${qs}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const events = Array.isArray(data) ? data : data.results || [];
+
+    container.innerHTML = "";
+    events.slice(0, 6).forEach((ev) =>
+      container.appendChild(buildMiniCard(ev, badgeLabel))
+    );
+  } catch {
+    // Silently fail — carousels are non-critical
+  }
+}
+
+function buildUpcomingCard(ev) {
+  const card = document.createElement("div");
+  card.className =
+    "min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition flex-shrink-0";
+  card.innerHTML = `
+    <div class="h-40 bg-gray-200 relative">
+      <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
+        ${escapeHtml(ev.category || "Place")}
+      </span>
+    </div>
+    <div class="p-4 space-y-2">
+      <div class="font-semibold truncate">${escapeHtml(ev.title || "Untitled")}</div>
+      <div class="text-sm text-gray-500">📍 ${escapeHtml(ev.location || "Riyadh")}</div>
+      <a href="/events/page/${ev.id}/"
+        class="block w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90 text-center leading-9">
+        View Event
+      </a>
+    </div>
+  `;
+  return card;
+}
+
+async function loadUpcomingCarousel() {
+  const container = document.getElementById("upcomingCarousel");
+  if (!container) return;
+
+  const token = localStorage.getItem("access");
+  if (!token) return;
+
+  try {
+    const res = await fetch("/api/events/", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const events = Array.isArray(data) ? data : data.results || [];
+
+    container.innerHTML = "";
+    events.slice(0, 6).forEach((ev) => container.appendChild(buildUpcomingCard(ev)));
+  } catch {
+    // Silently fail
+  }
+}
+
+/* Load all three carousels on page load */
+document.addEventListener("DOMContentLoaded", () => {
+  loadCarousel("restaurantsCarousel", "food", "Restaurant");
+  loadCarousel("activitiesCarousel", "outdoor", "Outdoor");
+  loadUpcomingCarousel();
+});

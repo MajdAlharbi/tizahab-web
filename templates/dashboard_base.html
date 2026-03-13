@@ -13,8 +13,9 @@
       theme: {
         extend: {
           colors: {
-            brand: '#4D1B76',
-            'brand-light': '#7E1CA1',
+            brand: '#7e1ca1',
+            'brand-dark': '#4D1B76',
+            'brand-light': '#9d3cbf',
             background: '#F6F7FB'
           },
           fontFamily: {
@@ -25,127 +26,113 @@
     }
   </script>
 
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600;700&family=Cantata+One&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600;700&display=swap"
-    rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
 
   <style>
-    body {
-      background-color: #F6F7FB;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-   
-    .nav-item.active {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-left: 4px solid white;
-      font-weight: 700;
-    }
-
-    [dir="rtl"] .nav-item.active {
-      border-left: none;
-      border-right: 4px solid white;
-    }
+    body { background-color: #F6F7FB; }
   </style>
+
+  {% block head %}{% endblock %}
 </head>
 
 <body class="flex h-screen overflow-hidden text-gray-800 antialiased">
 
-  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-gray-900/50 z-40 transition-opacity backdrop-blur-sm"></div>
+  <!-- Mobile overlay -->
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-gray-900/50 z-40 lg:hidden"></div>
 
+  <!-- Sidebar -->
   <aside id="sidebar"
-    class="fixed inset-y-0 left-0 w-64 bg-brand text-white flex flex-col z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl">
+    class="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-100 flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
-    <div class="h-20 flex items-center justify-between px-6 border-b border-white/10">
-      <a href="/" class="flex flex-col">
-        <span class="text-2xl font-bold tracking-wider">Tizahab</span>
-        <span class="text-xs text-white/70 font-medium font-['Cairo']">تزهب</span>
+    <!-- Logo -->
+    <div class="h-16 flex items-center px-5 border-b border-gray-100 shrink-0">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shrink-0">
+          <span class="text-white font-bold text-sm">T</span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-semibold text-gray-800 text-sm">Tizahab</div>
+          <div class="text-[11px] text-gray-400" style="font-family:'Cairo',sans-serif">تزهب</div>
+        </div>
       </a>
-      <button id="closeSidebarBtn" class="text-white/70 hover:text-white">
-        <i data-lucide="x" class="w-6 h-6"></i>
+      <button id="closeSidebarBtn" class="ml-auto text-gray-400 hover:text-gray-600 lg:hidden p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
 
-    <nav class="flex-1 px-3 py-6 space-y-2 overflow-y-auto no-scrollbar">
-
-      <a href="/home"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="home" class="w-5 h-5"></i>
-        <span class="text-sm">Home</span>
+    <!-- Nav items -->
+    <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">
+      <a href="/home/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="home" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Home</span>
+      </a>
+      <a href="/daily-plan/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Daily Plan</span>
+      </a>
+      <a href="/events/page/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="ticket" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Events</span>
+      </a>
+      <a href="/map/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="map-pin" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Map</span>
       </a>
 
-      <a href="/daily-plan"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="calendar-days" class="w-5 h-5"></i>
-        <span class="text-sm">Daily Plan</span>
+      <div class="my-2 border-t border-gray-100"></div>
+
+      <a href="/profile/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="user" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Profile</span>
       </a>
-
-      <a href="/events"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="ticket" class="w-5 h-5"></i>
-        <span class="text-sm">Events</span>
-      </a>
-
-      <a href="/map"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="map-pin" class="w-5 h-5"></i>
-        <span class="text-sm">Map</span>
-      </a>
-
-      <div class="pt-4 mt-4 border-t border-white/10"></div>
-
-      <a href="/profile"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="user" class="w-5 h-5"></i>
-        <span class="text-sm">Profile</span>
-      </a>
-
-      <a href="/settings"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors text-white/90 hover:text-white">
-        <i data-lucide="settings" class="w-5 h-5"></i>
-        <span class="text-sm">Settings</span>
+      <a href="/settings/"
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        <i data-lucide="settings" class="w-[18px] h-[18px] shrink-0"></i>
+        <span>Settings</span>
       </a>
     </nav>
 
-    <div class="p-4 border-t border-white/10">
-      <a href="/logout"
-        class="flex items-center gap-3 px-4 py-3 w-full text-red-300 rounded-lg hover:bg-red-500/10 transition-colors text-sm">
-        <i data-lucide="log-out" class="w-5 h-5"></i>
+    <!-- Logout -->
+    <div class="p-3 border-t border-gray-100 shrink-0">
+      <a href="/logout/"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors w-full">
+        <i data-lucide="log-out" class="w-[18px] h-[18px] shrink-0"></i>
         <span>Logout</span>
       </a>
     </div>
   </aside>
 
-  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+  <!-- Main wrapper — offset by sidebar width on desktop -->
+  <div class="flex-1 flex flex-col min-h-screen overflow-hidden lg:ml-64">
 
-    <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-4 lg:px-8 z-30">
+    <!-- Top header -->
+    <header class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 lg:px-6 z-30 shrink-0">
 
-      <div class="flex items-center gap-4 flex-1">
-        <button id="mobileMenuBtn" class="p-2 text-gray-500 hover:text-brand rounded-lg">
-          <i data-lucide="menu" class="w-6 h-6"></i>
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <!-- Hamburger (mobile only) -->
+        <button id="mobileMenuBtn" class="lg:hidden p-2 text-gray-500 hover:text-brand rounded-lg shrink-0">
+          <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
 
-        <div class="relative w-full max-w-lg hidden sm:block">
-          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+        <!-- Search -->
+        <div class="relative w-full max-w-sm hidden sm:block">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
           <input type="text" placeholder="Search destinations, events..."
-            class="w-full bg-gray-50 border border-gray-200 rounded-xl h-11 pl-11 pr-4 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all">
+            class="w-full bg-gray-50 border border-gray-200 rounded-xl h-10 pl-10 pr-4 text-sm focus:outline-none focus:border-brand transition-all">
         </div>
       </div>
 
-      <div class="flex items-center gap-3 sm:gap-5 ml-4">
-
+      <!-- Right actions -->
+      <div class="flex items-center gap-2 ml-3 shrink-0">
         <button id="langBtn"
-          class="flex items-center gap-2 px-3 h-10 rounded-xl hover:bg-gray-50 transition text-sm font-semibold text-gray-600">
+          class="flex items-center gap-1.5 px-2.5 h-9 rounded-xl hover:bg-gray-50 transition text-sm font-medium text-gray-600">
           <i data-lucide="globe" class="w-4 h-4"></i>
           <span id="langLabel">EN</span>
         </button>
@@ -155,18 +142,18 @@
           <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
 
-        <div class="h-6 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="h-5 w-px bg-gray-200 hidden sm:block"></div>
 
-        <a href="/profile"
-          class="h-10 w-10 bg-gradient-to-tr from-brand to-brand-light text-white rounded-full flex items-center justify-center text-sm font-bold shadow-sm cursor-pointer hover:opacity-90 transition-all border-2 border-transparent hover:border-gray-200">
+        <a href="/profile/"
+          class="h-9 w-9 bg-gradient-to-tr from-brand-dark to-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm hover:opacity-90 transition shrink-0">
           AM
         </a>
       </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4 lg:p-8 scroll-smooth w-full relative">
-      {% block content %}
-      {% endblock %}
+    <!-- Page content -->
+    <main class="flex-1 overflow-y-auto scroll-smooth">
+      {% block content %}{% endblock %}
     </main>
 
   </div>
@@ -174,22 +161,25 @@
   <script>
     lucide.createIcons();
 
-    // 1. Sidebar Toggle Logic
+    // Sidebar toggle
     const menuBtn = document.getElementById("mobileMenuBtn");
     const closeBtn = document.getElementById("closeSidebarBtn");
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
 
-    function toggleSidebar() {
-      sidebar.classList.toggle("-translate-x-full");
-      overlay.classList.toggle("hidden");
+    function openSidebar() {
+      sidebar.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
     }
+    function closeSidebar() {
+      sidebar.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+    }
+    menuBtn?.addEventListener("click", openSidebar);
+    closeBtn?.addEventListener("click", closeSidebar);
+    overlay?.addEventListener("click", closeSidebar);
 
-    menuBtn?.addEventListener("click", toggleSidebar);
-    closeBtn?.addEventListener("click", toggleSidebar);
-    overlay?.addEventListener("click", toggleSidebar);
-
-    // 2. Language Switcher Logic (EN/AR)
+    // Language switcher
     const langBtn = document.getElementById("langBtn");
     const langLabel = document.getElementById("langLabel");
     const htmlRoot = document.getElementById("htmlRoot");
@@ -203,30 +193,29 @@
     });
 
     function applyLanguage(lang) {
-      langLabel.innerText = lang;
-      if (lang === "AR") {
-        htmlRoot.setAttribute("dir", "rtl");
-        htmlRoot.setAttribute("lang", "ar");
-        document.body.classList.add("font-['Cairo']");
-      } else {
-        htmlRoot.setAttribute("dir", "ltr");
-        htmlRoot.setAttribute("lang", "en");
-        document.body.classList.remove("font-['Cairo']");
-      }
+      if (langLabel) langLabel.innerText = lang;
+      htmlRoot.setAttribute("dir", lang === "AR" ? "rtl" : "ltr");
+      htmlRoot.setAttribute("lang", lang === "AR" ? "ar" : "en");
       localStorage.setItem("lang", lang);
     }
 
-    // 3. Auto-Highlight Active Menu Item
+    // Active nav highlight
     document.addEventListener("DOMContentLoaded", () => {
-      const currentPath = window.location.pathname;
+      const path = window.location.pathname;
       document.querySelectorAll(".nav-item").forEach(item => {
-        const link = item.getAttribute("href");
-        if (currentPath.includes(link) && link !== "/") {
-          item.classList.add("active");
+        const href = item.getAttribute("href");
+        if (!href || href === "/") return;
+        // Normalize both paths (strip trailing slash)
+        const norm = href.replace(/\/$/, "");
+        if (path === norm || path === norm + "/" || path.startsWith(norm + "/")) {
+          item.classList.add("bg-[#faf5ff]", "!text-[#7e1ca1]", "font-medium");
+          item.classList.remove("text-gray-600");
         }
       });
     });
   </script>
+
+  {% block scripts %}{% endblock %}
 </body>
 
 </html>

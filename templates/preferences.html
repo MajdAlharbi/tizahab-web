@@ -1,241 +1,315 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Profile | Tizahab</title>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Cantata+One&family=Bona+Nova+SC&display=swap"
-        rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        arimo: ['Arimo', 'sans-serif'],
-                        cantata: ['Cantata One', 'serif'],
-                        bona: ['Bona Nova SC', 'serif'],
-                    },
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preferences | Tizahab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: '#7e1ca1' } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cantata+One&family=Arimo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
 </head>
 
-<body class="min-h-screen bg-[#F6F7FB] font-arimo">
+<body class="min-h-screen bg-[#f6f7fb]" style="font-family:'Arimo',sans-serif">
 
-    <!-- Main Container -->
-    <div class="max-w-6xl mx-auto px-6 py-10">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-10">
-            <div>
-                <h1 class="text-2xl font-bold text-[#7E1CA1]">Profile</h1>
-                <p class="text-sm text-gray-500">Manage your preferences and plans</p>
-            </div>
-
-            <button class="px-4 py-2 rounded-lg text-sm font-bold text-white
-        bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
-                Edit Profile
-            </button>
-        </div>
-
-        <!-- Profile Summary Card -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 flex items-center gap-8">
-
-            <!-- Avatar -->
-            <div class="w-20 h-20 rounded-full bg-[#E9D5FF] flex items-center justify-center
-        text-[#7E1CA1] text-2xl font-bold">
-                AM
-            </div>
-
-            <!-- User Info -->
-            <div class="flex-1">
-                <h2 class="text-xl font-bold">Ahmed Mohammed</h2>
-                <p class="text-sm text-gray-500">Riyadh, Saudi Arabia</p>
-
-                <!-- Stats -->
-                <div class="flex gap-10 mt-4">
-                    <div>
-                        <p class="text-lg font-bold text-[#7E1CA1]">3</p>
-                        <p class="text-xs text-gray-500">Trips</p>
-                    </div>
-                    <div>
-                        <p class="text-lg font-bold text-[#7E1CA1]">4</p>
-                        <p class="text-xs text-gray-500">Plans</p>
-                    </div>
-                    <div>
-                        <p class="text-lg font-bold text-[#7E1CA1]">10</p>
-                        <p class="text-xs text-gray-500">Favorites</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-100">
+    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shrink-0">
+        <span class="text-white font-bold text-sm">T</span>
+      </div>
+      <span class="font-semibold text-gray-800">Tizahab</span>
     </div>
-    <!-- My Preferences -->
-    <div class="mt-12">
-        <h3 class="text-lg font-bold mb-6">My Preferences</h3>
+  </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+  <main class="max-w-3xl mx-auto px-4 py-10 space-y-8">
 
-            <!-- Preference Card -->
-            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
-                    hover:shadow-lg transition">
-                <img src="{% static 'images/preferences/adventure.jpg' %}" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Adventure</p>
-                    <p class="text-xs text-gray-500 mt-1">Hiking, desert, activities</p>
-                </div>
-            </div>
-
-            <!-- Preference Card -->
-            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
-                    hover:shadow-lg transition">
-                <img src="{% static 'images/preferences/nature.jpg' %}" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Nature</p>
-                    <p class="text-xs text-gray-500 mt-1">Parks, views, relaxation</p>
-                </div>
-            </div>
-
-            <!-- Preference Card -->
-            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
-                    hover:shadow-lg transition">
-                <img src="{% static 'images/preferences/culture.jpg' %}" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Culture</p>
-                    <p class="text-xs text-gray-500 mt-1">Museums, heritage</p>
-                </div>
-            </div>
-
-            <!-- Preference Card -->
-            <div class="rounded-xl overflow-hidden shadow bg-white cursor-pointer
-                    hover:shadow-lg transition">
-                <img src="{% static 'images/preferences/shopping.jpg' %}" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Shopping</p>
-                    <p class="text-xs text-gray-500 mt-1">Malls & markets</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- Past Plans -->
-    <div class="mt-14">
-        <h3 class="text-lg font-bold mb-6">Past Plans</h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- Plan Card -->
-            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-                <img src="{% static 'images/plans/desert.jpg' %}" class="w-full h-36 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Red Sand Trip</p>
-                    <p class="text-xs text-gray-500 mt-1">Desert Adventure</p>
-                    <p class="text-xs text-gray-400 mt-2">📅 Jan 2025 · ⏱ 5 hrs</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-                <img src="{% static 'images/plans/diriyah.jpg' %}" class="w-full h-36 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Diriyah Walk</p>
-                    <p class="text-xs text-gray-500 mt-1">Culture & Heritage</p>
-                    <p class="text-xs text-gray-400 mt-2">📅 Dec 2024 · ⏱ 3 hrs</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-                <img src="{% static 'images/plans/cafe.jpg' %}" class="w-full h-36 object-cover">
-                <div class="p-4">
-                    <p class="font-bold text-sm">Cafe Hopping</p>
-                    <p class="text-xs text-gray-500 mt-1">Relax & Coffee</p>
-                    <p class="text-xs text-gray-400 mt-2">📅 Nov 2024 · ⏱ 4 hrs</p>
-                </div>
-            </div>
-
-        </div>
+    <!-- Title -->
+    <div class="text-center space-y-2">
+      <h1 class="text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+        Customize Your Experience
+      </h1>
+      <p class="text-gray-500 text-sm">Tell us what you love and we'll build your perfect Riyadh itinerary</p>
     </div>
 
-    <!-- My Favorites -->
-    <div class="mt-14">
-        <h3 class="text-lg font-bold mb-6">My Favorites</h3>
+    <!-- Interests -->
+    <section class="space-y-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-800">Your Interests</h2>
+        <p class="text-sm text-gray-500 mt-0.5">Select all categories that interest you</p>
+      </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
 
-            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
-                <p class="font-bold text-sm">Edge of the World</p>
-                <p class="text-xs text-gray-500 mt-1">Nature · ⭐ 4.8</p>
-            </div>
+        <button type="button" data-cat="culture"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-amber-400 to-orange-600 flex items-end p-3">
+            <span class="text-2xl">🏛️</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Heritage Places</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
 
-            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
-                <p class="font-bold text-sm">Boulevard Riyadh</p>
-                <p class="text-xs text-gray-500 mt-1">Entertainment · ⭐ 4.6</p>
-            </div>
+        <button type="button" data-cat="other"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-end p-3">
+            <span class="text-2xl">🎠</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Entertainment</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
 
-            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
-                <p class="font-bold text-sm">Al Masmak Fort</p>
-                <p class="text-xs text-gray-500 mt-1">Culture · ⭐ 4.7</p>
-            </div>
+        <button type="button" data-cat="other" data-label="Concerts"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-pink-400 to-rose-600 flex items-end p-3">
+            <span class="text-2xl">🎶</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Concerts</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
 
-            <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg transition">
-                <p class="font-bold text-sm">Nakheel Mall</p>
-                <p class="text-xs text-gray-500 mt-1">Shopping · ⭐ 4.5</p>
-            </div>
+        <button type="button" data-cat="food"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-green-400 to-emerald-600 flex items-end p-3">
+            <span class="text-2xl">🍽️</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Restaurants & Cafes</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
 
+        <button type="button" data-cat="shopping"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-purple-400 to-violet-600 flex items-end p-3">
+            <span class="text-2xl">🛍️</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Shopping</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="outdoor"
+          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-yellow-400 to-amber-500 flex items-end p-3">
+            <span class="text-2xl">🎡</span>
+          </div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Kids Activities</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Trip Details -->
+    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-800">Trip Details</h2>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">Trip Duration (days)</label>
+          <input id="tripDuration" type="number" min="1" max="30" placeholder="e.g. 3"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
         </div>
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">Number of Travelers</label>
+          <input id="tripTravelers" type="number" min="1" max="20" placeholder="e.g. 2"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+        </div>
+      </div>
+    </section>
+
+    <!-- Age Groups -->
+    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-800">Age Groups in Your Party</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+          <input type="checkbox" value="kids" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
+          <span class="text-sm text-gray-700">👶 Kids (0–12)</span>
+        </label>
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+          <input type="checkbox" value="teens" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
+          <span class="text-sm text-gray-700">🧑 Teens (13–17)</span>
+        </label>
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+          <input type="checkbox" value="adults" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1" checked>
+          <span class="text-sm text-gray-700">👨 Adults (18–59)</span>
+        </label>
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+          <input type="checkbox" value="seniors" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
+          <span class="text-sm text-gray-700">👴 Seniors (60+)</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Budget Range -->
+    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-gray-800">Budget Range</h2>
+        <span class="text-sm text-brand font-semibold">
+          <span id="budgetMinLabel">500</span> – <span id="budgetMaxLabel">5,000</span> SAR
+        </span>
+      </div>
+      <div class="space-y-4">
+        <div class="space-y-1.5">
+          <label class="text-xs text-gray-500 font-medium">Minimum (SAR)</label>
+          <input id="budgetMin" type="range" min="0" max="5000" step="50" value="500"
+            class="w-full h-2 cursor-pointer rounded-full" style="accent-color:#7e1ca1">
+          <div class="flex justify-between text-xs text-gray-400"><span>0</span><span>5,000</span></div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs text-gray-500 font-medium">Maximum (SAR)</label>
+          <input id="budgetMax" type="range" min="500" max="10000" step="100" value="5000"
+            class="w-full h-2 cursor-pointer rounded-full" style="accent-color:#7e1ca1">
+          <div class="flex justify-between text-xs text-gray-400"><span>500</span><span>10,000</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preferred Language -->
+    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-800">Preferred Language</h2>
+      <div class="flex gap-3">
+        <label class="flex-1">
+          <input type="radio" name="prefLang" value="en" class="hidden peer" checked>
+          <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+            🇬🇧 English
+          </div>
+        </label>
+        <label class="flex-1">
+          <input type="radio" name="prefLang" value="ar" class="hidden peer">
+          <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+            🇸🇦 العربية
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Status messages -->
+    <p id="prefMessage" class="text-center text-sm text-green-600 hidden font-medium"></p>
+    <p id="prefError" class="text-center text-sm text-red-500 hidden"></p>
+
+    <!-- Actions -->
+    <div class="flex gap-4 pb-8">
+      <a href="/home/"
+        class="flex-1 h-12 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center">
+        Back
+      </a>
+      <button id="savePrefsBtn" type="button"
+        class="flex-1 h-12 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
+        Save Preferences
+      </button>
     </div>
-    <!-- Footer -->
-    <div class="mt-20 text-center text-sm text-gray-400">
-        <p>
-            © 2026 Tizahab. All rights reserved.
-        </p>
-    </div>
 
-    <!-- Back to Home -->
-    <a href="/" class="fixed bottom-6 left-6 text-sm text-white
-            bg-[#7E1CA1]/90 px-4 py-2 rounded-lg shadow hover:bg-[#7E1CA1] transition">
-        ← Back to Home
-    </a>
+  </main>
 
-    <script>
-        const token = localStorage.getItem("access");
+  <script>
+    /* ---- Interest cards ---- */
+    const selectedCards = new Set();
 
-        fetch("/api/auth/preferences/", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Unauthorized");
-                return res.json();
-            })
-            .then(data => {
-                console.log("Preferences:", data);
+    document.querySelectorAll(".interest-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const check = card.querySelector(".interest-check");
+        if (selectedCards.has(card)) {
+          selectedCards.delete(card);
+          card.classList.remove("border-brand");
+          check.classList.add("hidden");
+        } else {
+          selectedCards.add(card);
+          card.classList.add("border-brand");
+          check.classList.remove("hidden");
+        }
+      });
+    });
 
-                if (data.preferred_language === "ar") {
-                    document.documentElement.lang = "ar";
-                } else {
-                    document.documentElement.lang = "en";
-                }
-            })
-            .catch(err => {
-                console.error("Failed to load preferences", err);
-            });
-    </script>
+    /* ---- Budget sliders ---- */
+    const budgetMin = document.getElementById("budgetMin");
+    const budgetMax = document.getElementById("budgetMax");
+    const budgetMinLabel = document.getElementById("budgetMinLabel");
+    const budgetMaxLabel = document.getElementById("budgetMaxLabel");
 
+    budgetMin.addEventListener("input", () => {
+      budgetMinLabel.textContent = parseInt(budgetMin.value).toLocaleString();
+      if (+budgetMin.value > +budgetMax.value) { budgetMax.value = budgetMin.value; budgetMaxLabel.textContent = budgetMinLabel.textContent; }
+    });
+    budgetMax.addEventListener("input", () => {
+      budgetMaxLabel.textContent = parseInt(budgetMax.value).toLocaleString();
+      if (+budgetMax.value < +budgetMin.value) { budgetMin.value = budgetMax.value; budgetMinLabel.textContent = budgetMaxLabel.textContent; }
+    });
+
+    /* ---- Load existing preferences ---- */
+    async function loadPreferences() {
+      const token = localStorage.getItem("access");
+      if (!token) return;
+      try {
+        const res = await fetch("/api/auth/preferences/", { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const interests = Array.isArray(data.interests) ? data.interests : [];
+        document.querySelectorAll(".interest-card").forEach(card => {
+          if (interests.includes(card.dataset.cat)) {
+            selectedCards.add(card);
+            card.classList.add("border-brand");
+            card.querySelector(".interest-check").classList.remove("hidden");
+          }
+        });
+
+        if (data.budget_min != null) { budgetMin.value = data.budget_min; budgetMinLabel.textContent = parseInt(data.budget_min).toLocaleString(); }
+        if (data.budget_max != null) { budgetMax.value = data.budget_max; budgetMaxLabel.textContent = parseInt(data.budget_max).toLocaleString(); }
+        if (data.preferred_language) {
+          const radio = document.querySelector(`input[name="prefLang"][value="${data.preferred_language}"]`);
+          if (radio) radio.checked = true;
+        }
+      } catch { /* silent */ }
+    }
+    loadPreferences();
+
+    /* ---- Save ---- */
+    document.getElementById("savePrefsBtn").addEventListener("click", async () => {
+      const token = localStorage.getItem("access");
+      if (!token) { window.location.href = "/login/"; return; }
+
+      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
+      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
+      const payload = { interests, budget_min: parseInt(budgetMin.value), budget_max: parseInt(budgetMax.value), preferred_language: lang };
+
+      const msgEl = document.getElementById("prefMessage");
+      const errEl = document.getElementById("prefError");
+      const btn = document.getElementById("savePrefsBtn");
+      btn.disabled = true; btn.textContent = "Saving…";
+      msgEl.classList.add("hidden"); errEl.classList.add("hidden");
+
+      try {
+        const res = await fetch("/api/auth/preferences/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify(payload)
+        });
+        if (res.status === 401) { localStorage.removeItem("access"); window.location.href = "/login/"; return; }
+        if (!res.ok) { const d = await res.json(); throw new Error(d?.detail || "Failed to save."); }
+        msgEl.textContent = "Preferences saved! Redirecting…";
+        msgEl.classList.remove("hidden");
+        setTimeout(() => { window.location.href = "/home/"; }, 1200);
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Save Preferences";
+      }
+    });
+  </script>
 
 </body>
-
 </html>

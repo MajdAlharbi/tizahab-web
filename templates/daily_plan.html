@@ -63,44 +63,11 @@
         <h2 class="text-xl font-semibold">Recommended Restaurants</h2>
       </div>
 
-      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-              Traditional
-            </span>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">Najd Village</div>
-            <div class="text-sm text-gray-500 mt-1">Saudi Cuisine</div>
-          </div>
-        </div>
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-              Fine Dining
-            </span>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">The Globe</div>
-            <div class="text-sm text-gray-500 mt-1">Luxury Dining</div>
-          </div>
-        </div>
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-              Mediterranean
-            </span>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">Takya</div>
-            <div class="text-sm text-gray-500 mt-1">Modern Cuisine</div>
-          </div>
-        </div>
-
+      <!-- Populated by daily_plan_integration.js loadCarousel() -->
+      <div id="restaurantsCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
       </div>
     </section>
 
@@ -110,35 +77,11 @@
         <h2 class="text-xl font-semibold">Popular Activities</h2>
       </div>
 
-      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <i data-lucide="mountain" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">Desert Safari</div>
-          </div>
-        </div>
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <i data-lucide="building-2" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">Sky Bridge</div>
-          </div>
-        </div>
-
-        <div class="min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <i data-lucide="landmark" class="absolute top-3 right-3 w-5 h-5 text-brand"></i>
-          </div>
-          <div class="p-4">
-            <div class="font-semibold">National Museum</div>
-          </div>
-        </div>
-
+      <!-- Populated by daily_plan_integration.js loadCarousel() -->
+      <div id="activitiesCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
       </div>
     </section>
 
@@ -148,57 +91,21 @@
         <h2 class="text-xl font-semibold">Upcoming Events</h2>
       </div>
 
-      <div class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-
-        <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-              Festival
-            </span>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="font-semibold">Riyadh Season</div>
-            <div class="text-sm text-gray-500">Nov 20 • 6:00 PM</div>
-            <button type="button" class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
-              View Event
-            </button>
-          </div>
-        </div>
-
-        <div class="min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
-          <div class="h-40 bg-gray-200 relative">
-            <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-              Concert
-            </span>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="font-semibold">Concert Night</div>
-            <div class="text-sm text-gray-500">Nov 25 • 8:00 PM</div>
-            <button type="button" class="w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90">
-              View Event
-            </button>
-          </div>
-        </div>
-
+      <!-- Populated by daily_plan_integration.js loadUpcomingCarousel() -->
+      <div id="upcomingCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+        <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+        <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
       </div>
     </section>
 
-    <div class="rounded-2xl overflow-hidden shadow-sm">
+    <div class="rounded-2xl overflow-hidden border shadow-sm">
       <div class="bg-gradient-to-r from-purple-600 to-purple-400 text-white px-5 py-3 font-medium flex items-center gap-2">
         <i data-lucide="map" class="w-4 h-4"></i>
         Route Preview
       </div>
-
-      <div class="bg-white p-4">
-        <div class="relative h-56 rounded-xl overflow-hidden">
-          <img
-            src="https://maps.googleapis.com/maps/api/staticmap?center=Riyadh&zoom=13&size=600x300&key={{ GOOGLE_MAPS_API_KEY }}"
-            class="w-full h-full object-cover">
-          <button type="button"
-            class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-brand px-4 py-2 rounded-lg text-sm shadow hover:bg-gray-50">
-            View Full Map
-          </button>
-        </div>
+      <div class="bg-white p-5 text-sm text-gray-500 text-center">
+        Generate a plan above to see your route on the map.
       </div>
     </div>
 

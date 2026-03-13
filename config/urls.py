@@ -5,16 +5,18 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    # Home Page
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    # Home Page (root and /home/)
+    path("", TemplateView.as_view(template_name="home.html"), name="root"),
+    path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
+
     path("admin/", admin.site.urls),
 
     # Auth Pages
     path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path("logout/", auth_views.LogoutView.as_view(next_page="/login/"), name="logout"),
 
-    # Auth APIs
+    # Auth APIs (includes ui/preferences/, ui/login/, etc.)
     path("api/auth/", include("accounts.urls")),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
@@ -22,7 +24,12 @@ urlpatterns = [
     path("api/events/", include("events.urls")),
     path("events/", include("events.urls")),
 
-    # Daily Plan APIs & Pages (consolidated from itinerary)
+    # Daily Plan APIs & Pages
     path("api/daily-plan/", include("daily_plan.urls")),
     path("daily-plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
+
+    # Dashboard Pages
+    path("map/", TemplateView.as_view(template_name="map.html"), name="map"),
+    path("profile/", TemplateView.as_view(template_name="profile.html"), name="profile"),
+    path("settings/", TemplateView.as_view(template_name="settings.html"), name="settings"),
 ]

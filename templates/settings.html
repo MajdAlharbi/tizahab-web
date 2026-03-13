@@ -1,0 +1,215 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Settings | Tizahab{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 lg:px-6 py-6 space-y-5">
+
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
+    <p class="text-sm text-gray-500 mt-1">Manage your account preferences</p>
+  </div>
+
+  <!-- Language -->
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-800">Language</h2>
+      <p class="text-xs text-gray-500 mt-0.5">Choose your preferred display language</p>
+    </div>
+    <div class="p-4 flex gap-3">
+      <label class="flex-1">
+        <input type="radio" name="appLang" value="en" class="hidden peer" checked>
+        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+          🇬🇧 English
+        </div>
+      </label>
+      <label class="flex-1">
+        <input type="radio" name="appLang" value="ar" class="hidden peer">
+        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+          🇸🇦 العربية
+        </div>
+      </label>
+    </div>
+  </section>
+
+  <!-- Appearance -->
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-800">Appearance</h2>
+      <p class="text-xs text-gray-500 mt-0.5">Choose your display theme</p>
+    </div>
+    <div class="p-4 flex gap-3">
+      <label class="flex-1">
+        <input type="radio" name="appTheme" value="light" class="hidden peer" checked>
+        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+          ☀️ Light Mode
+        </div>
+      </label>
+      <label class="flex-1">
+        <input type="radio" name="appTheme" value="dark" class="hidden peer">
+        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+          🌙 Dark Mode
+        </div>
+      </label>
+    </div>
+  </section>
+
+  <!-- Notifications -->
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-800">Notifications</h2>
+      <p class="text-xs text-gray-500 mt-0.5">Control what notifications you receive</p>
+    </div>
+    <div class="divide-y divide-gray-100">
+
+      <div class="px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-800">Push Notifications</p>
+          <p class="text-xs text-gray-500">Receive alerts on your device</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="togglePush" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-800">Plan Reminders</p>
+          <p class="text-xs text-gray-500">Get reminded about upcoming plans</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleReminders" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-800">App Updates</p>
+          <p class="text-xs text-gray-500">Be notified about new features</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleUpdates">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-800">Recommendations</p>
+          <p class="text-xs text-gray-500">Personalized place suggestions</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleRecs" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-800">Newsletter</p>
+          <p class="text-xs text-gray-500">Weekly highlights from Riyadh</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleNewsletter">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Account -->
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-800">Account</h2>
+    </div>
+    <div class="p-4 space-y-3">
+      <a href="/api/auth/ui/preferences/"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
+        <span class="text-lg">✏️</span>
+        Edit Preferences
+      </a>
+      <a href="/api/auth/ui/forgot-password/"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
+        <span class="text-lg">🔒</span>
+        Change Password
+      </a>
+      <a href="/logout/"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 text-sm text-red-600 hover:bg-red-50 transition">
+        <span class="text-lg">🚪</span>
+        Logout
+      </a>
+    </div>
+  </section>
+
+  <!-- Save button -->
+  <div class="flex justify-end pb-6">
+    <button id="saveSettingsBtn" type="button"
+      class="px-8 h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
+      Save Settings
+    </button>
+  </div>
+  <p id="settingsSaved" class="text-center text-sm text-green-600 hidden font-medium">Settings saved!</p>
+
+</div>
+
+<script>
+  // Persist notification toggles in localStorage
+  const NOTIF_KEY = "tz_notifications";
+  const toggleIds = ["togglePush", "toggleReminders", "toggleUpdates", "toggleRecs", "toggleNewsletter"];
+
+  function loadNotifSettings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(NOTIF_KEY) || "{}");
+      toggleIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && id in saved) el.checked = saved[id];
+      });
+    } catch {}
+  }
+
+  function saveNotifSettings() {
+    const state = {};
+    toggleIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) state[id] = el.checked;
+    });
+    localStorage.setItem(NOTIF_KEY, JSON.stringify(state));
+  }
+
+  // Language
+  function loadLangSetting() {
+    const saved = localStorage.getItem("lang");
+    if (saved === "AR") {
+      const radio = document.querySelector('input[name="appLang"][value="ar"]');
+      if (radio) radio.checked = true;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadNotifSettings();
+    loadLangSetting();
+
+    document.getElementById("saveSettingsBtn").addEventListener("click", () => {
+      saveNotifSettings();
+
+      // Apply language
+      const langVal = document.querySelector('input[name="appLang"]:checked')?.value;
+      if (langVal) {
+        const mapped = langVal === "ar" ? "AR" : "EN";
+        localStorage.setItem("lang", mapped);
+        document.getElementById("htmlRoot")?.setAttribute("dir", langVal === "ar" ? "rtl" : "ltr");
+        const label = document.getElementById("langLabel");
+        if (label) label.innerText = mapped;
+      }
+
+      const msg = document.getElementById("settingsSaved");
+      msg.classList.remove("hidden");
+      setTimeout(() => msg.classList.add("hidden"), 2500);
+    });
+  });
+</script>
+{% endblock %}

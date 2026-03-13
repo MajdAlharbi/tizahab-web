@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import EventListAPIView, FilteredEventsAPIView
+from .views import EventListAPIView, FilteredEventsAPIView, EventRetrieveAPIView
 
 urlpatterns = [
     # HTML pages
@@ -10,4 +10,5 @@ urlpatterns = [
     # APIs
     path("", EventListAPIView.as_view(), name="events-api"),
     path("filtered/", FilteredEventsAPIView.as_view(), name="events-filtered-api"),
+    path("<int:pk>/", EventRetrieveAPIView.as_view(), name="event-detail-api"),
 ]

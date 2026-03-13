@@ -6,517 +6,215 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Events | Tizahab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: { brand: '#7E1CA1' }
-        }
-      }
+      theme: { extend: { colors: { brand: "#7E1CA1" } } }
     }
   </script>
 </head>
 
 <body class="bg-gray-50 text-gray-900">
+<div class="min-h-screen flex">
 
-  <div class="min-h-screen flex">
-
-    <!-- Sidebar (Desktop) -->
-    <aside id="sidebar" class="hidden lg:flex w-64 shrink-0 bg-white border-r">
-      <div class="w-full flex flex-col justify-between p-4">
-        <div>
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-2">
-              <div class="h-9 w-9 rounded-xl bg-brand text-white grid place-items-center font-bold">T</div>
-              <div class="leading-tight">
-                <div class="font-semibold">Tizahab</div>
-                <div class="text-xs text-gray-500">Riyadh</div>
-              </div>
-            </div>
-            <button id="sidebarCloseDesktop" class="hidden lg:inline-flex h-9 w-9 items-center justify-center rounded-lg border hover:bg-gray-50" title="Collapse">
-              Γ£ò
-            </button>
-          </div>
-
-          <nav class="space-y-1">
-            <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒÅá <span>Home</span></a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒùô∩╕Å <span>Daily Plan</span></a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/">≡ƒÄë <span>Events</span></a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒù║∩╕Å <span>Map</span></a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒæñ <span>Profile</span></a>
-          </nav>
-        </div>
-
-        <div class="space-y-1">
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">ΓÜÖ∩╕Å <span>Settings</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒÜ¬ <span>Logout</span></a>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Mobile Sidebar (Overlay) -->
-    <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
-    <aside id="sidebarMobile" class="hidden fixed z-50 inset-y-0 left-0 w-72 bg-white border-r lg:hidden">
-      <div class="p-4 flex items-center justify-between border-b">
-        <div class="flex items-center gap-2">
+  <!-- Sidebar (Desktop) -->
+  <aside class="hidden lg:flex w-64 shrink-0 bg-white border-r">
+    <div class="w-full flex flex-col justify-between p-4">
+      <div>
+        <div class="flex items-center gap-2 mb-6">
           <div class="h-9 w-9 rounded-xl bg-brand text-white grid place-items-center font-bold">T</div>
-          <div class="font-semibold">Tizahab</div>
+          <div class="leading-tight">
+            <div class="font-semibold">Tizahab</div>
+            <div class="text-xs text-gray-500">Riyadh</div>
+          </div>
         </div>
-        <button id="sidebarClose" class="h-9 w-9 rounded-lg border hover:bg-gray-50">Γ£ò</button>
-      </div>
-      <div class="p-4">
         <nav class="space-y-1">
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒÅá <span>Home</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒùô∩╕Å <span>Daily Plan</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/">≡ƒÄë <span>Events</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒù║∩╕Å <span>Map</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒæñ <span>Profile</span></a>
-          <div class="h-px bg-gray-100 my-3"></div>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">ΓÜÖ∩╕Å <span>Settings</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">≡ƒÜ¬ <span>Logout</span></a>
+          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/">🏠 <span>Home</span></a>
+          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/daily-plan/">🗓 <span>Daily Plan</span></a>
+          <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/page/">🎫 <span>Events</span></a>
+          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">🗺 <span>Map</span></a>
+          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">👤 <span>Profile</span></a>
         </nav>
       </div>
-    </aside>
-
-    <!-- Main -->
-    <div class="flex-1 min-w-0">
-
-      <!-- Top Bar -->
-      <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
-        <div class="px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <button id="sidebarOpen" class="lg:hidden h-10 w-10 rounded-xl border hover:bg-gray-50">Γÿ░</button>
-            <div>
-              <div class="text-xl sm:text-2xl font-semibold">Events & Experiences</div>
-              <div class="text-xs sm:text-sm text-gray-500 -mt-0.5">Discover what's happening in Riyadh</div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <!-- Search -->
-            <div class="hidden sm:flex items-center gap-2 h-10 w-[320px] rounded-xl border px-3 bg-white">
-              <span class="text-gray-400">≡ƒöÄ</span>
-              <input id="searchInput" class="w-full outline-none text-sm" placeholder="Search destinations, events..." />
-            </div>
-
-            <!-- Preferences toggle -->
-            <button id="prefBtn" type="button"
-              class="h-9 px-3 rounded-lg border border-black/10 bg-white text-sm">
-              Favorites
-            </button>
-
-            <!-- Filters -->
-            <button id="filtersBtn" class="h-10 px-3 rounded-xl border bg-white hover:bg-gray-50 text-sm flex items-center gap-2">
-              ΓÜÖ∩╕Å Filters
-            </button>
-          </div>
-        </div>
-
-        <!-- Search (Mobile) -->
-        <div class="sm:hidden px-4 pb-3">
-          <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
-            <span class="text-gray-400">≡ƒöÄ</span>
-            <input id="searchInputMobile" class="w-full outline-none text-sm" placeholder="Search destinations, events..." />
-          </div>
-        </div>
-      </header>
-
-      <main class="px-4 sm:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
-
-        <!-- Trending -->
-        <section class="space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span>≡ƒöÑ</span>
-              <h2 class="text-lg font-semibold">Trending Events</h2>
-            </div>
-            <div class="flex items-center gap-2">
-              <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">ΓÇ╣</button>
-              <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">ΓÇ║</button>
-            </div>
-          </div>
-
-          <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth pb-2">
-            <!-- card -->
-            <article data-id="trend-1" class="relative min-w-[320px] sm:min-w-[420px] bg-white border rounded-2xl overflow-hidden shadow-sm">
-
-              <!-- Image area -->
-              <div class="trend-card relative h-44 bg-gray-200">
-                <div class="absolute top-3 left-3 bg-white/90 rounded-full px-3 py-1 text-xs font-medium">Trending</div>
-
-                <button
-                  type="button"
-                  class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white"
-                  data-id="trend-1">
-                  <span class="fav-icon text-lg leading-none">ΓÖí</span>
-                </button>
-              </div>
-
-              <div class="p-4 space-y-3">
-                <div class="flex flex-wrap items-center gap-2 text-xs text-gray-600">
-                  <span class="inline-flex items-center gap-1">≡ƒôà <span>Nov 20 ΓÇô Dec 15</span></span>
-                  <span class="inline-flex items-center gap-1">ΓÅ░ <span>5:00 PM</span></span>
-                  <span class="inline-flex items-center gap-1">≡ƒôì <span>Prince Turki Ibn Abd</span></span>
-                </div>
-
-                <div class="flex items-center justify-between gap-3">
-                  <div>
-                    <div class="inline-flex px-2 py-1 rounded-full bg-brand/10 text-brand text-xs font-medium">Festival</div>
-                    <h3 class="font-semibold mt-2">Boulevard World 2025</h3>
-                    <div class="text-sm text-gray-500 mt-1">RiyadhΓÇÖs Cultural Wonderland</div>
-                  </div>
-                  <div class="text-right">
-                    <div class="font-semibold">45 SAR</div>
-                    <div class="text-xs text-gray-500 mt-1">Γ¡É 4.9 ┬╖ ≡ƒæÑ 125k</div>
-                  </div>
-                </div>
-
-                <div class="flex gap-2">
-                  <a href="/events/1/" class="flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">View</a>
-                  <button class="flex-1 h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-                </div>
-              </div>
-            </article>
-
-            <article data-id="trend-2" class="trend-card min-w-[320px] sm:min-w-[420px] bg-white border rounded-2xl overflow-hidden shadow-sm">
-              <div class="relative h-44 bg-gray-200">
-                <div class="absolute top-3 left-3 bg-white/90 rounded-full px-3 py-1 text-xs font-medium">Trending</div>
-                <button
-                  type="button"
-                  class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white grid place-items-center border z-10"
-                  data-id="trend-2">
-                  <span class="fav-icon">ΓÖí</span>
-                </button>
-              </div>
-
-              <div class="p-4 space-y-3">
-                <div class="flex flex-wrap items-center gap-2 text-xs text-gray-600">
-                  <span class="inline-flex items-center gap-1">≡ƒôà <span>Nov 23</span></span>
-                  <span class="inline-flex items-center gap-1">ΓÅ░ <span>8:00 PM</span></span>
-                  <span class="inline-flex items-center gap-1">≡ƒôì <span>King Fahd Cultural Center</span></span>
-                </div>
-                <div class="flex items-center justify-between gap-3">
-                  <div>
-                    <div class="inline-flex px-2 py-1 rounded-full bg-brand/10 text-brand text-xs font-medium">Food & Dining</div>
-                    <h3 class="font-semibold mt-2">The Groves</h3>
-                  </div>
-                  <div class="text-right">
-                    <div class="font-semibold">250 SAR</div>
-                    <div class="text-xs text-gray-500 mt-1">Γ¡É 4.8 ┬╖ ≡ƒæÑ 15k</div>
-                  </div>
-                </div>
-                <div class="flex gap-2">
-                  <a href="/events/2/" class="flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">View</a>
-                  <button class="flex-1 h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-                </div>
-              </div>
-            </article>
-
-            <article data-id="trend-3" class="trend-card min-w-[320px] sm:min-w-[420px] bg-white border rounded-2xl overflow-hidden shadow-sm">
-              <div class="relative h-44 bg-gray-200">
-                <div class="absolute top-3 left-3 bg-white/90 rounded-full px-3 py-1 text-xs font-medium">Trending</div>
-                <button
-                  type="button"
-                  class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white grid place-items-center border z-10"
-                  data-id="trend-3">
-                  <span class="fav-icon">ΓÖí</span>
-                </button>
-              </div>
-
-              <div class="p-4 space-y-3">
-                <div class="flex flex-wrap items-center gap-2 text-xs text-gray-600">
-                  <span class="inline-flex items-center gap-1">≡ƒôà <span>Nov 25 ΓÇô 27</span></span>
-                  <span class="inline-flex items-center gap-1">ΓÅ░ <span>9:00 AM</span></span>
-                  <span class="inline-flex items-center gap-1">≡ƒôì <span>Riyadh Intl Convention Center</span></span>
-                </div>
-                <div class="flex items-center justify-between gap-3">
-                  <div>
-                    <div class="inline-flex px-2 py-1 rounded-full bg-brand/10 text-brand text-xs font-medium">Sports</div>
-                    <h3 class="font-semibold mt-2">Desert Adventure Expo</h3>
-                  </div>
-                  <div class="text-right">
-                    <div class="font-semibold">75 SAR</div>
-                    <div class="text-xs text-gray-500 mt-1">Γ¡É 4.7 ┬╖ ≡ƒæÑ 9k</div>
-                  </div>
-                </div>
-                <div class="flex gap-2">
-                  <a href="/events/3/" class="flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">View</a>
-                  <button class="flex-1 h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <!-- ✅ MAP SECTION (Google Maps) -->
-        <section class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold">Map</h2>
-            <span class="text-sm text-gray-500">View events on map</span>
-          </div>
-          <div id="eventsMap" class="w-full rounded-2xl border overflow-hidden bg-white" style="height: 380px;"></div>
-        </section>
-
-        <!-- favoritesSection -->
-        <section id="favoritesSection" class="hidden space-y-4">
-          <div class="flex items-center justify-between border-b border-black/10 pb-3">
-            <h2 class="text-lg font-semibold">Favorites</h2>
-            <span id="favoritesCount" class="text-sm text-gray-500"></span>
-          </div>
-
-          <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-        </section>
-
-        <!-- All events -->
-        <section id="allEventsSection" class="space-y-4">
-          <div class="flex items-end justify-between gap-3">
-            <div>
-              <h2 class="text-lg font-semibold">All Events</h2>
-              <p id="countText" class="text-sm text-gray-500">6 events found</p>
-            </div>
-
-            <div class="text-sm text-gray-500 hidden sm:block" id="loadingText"> </div>
-          </div>
-
-          <!-- Grid -->
-          <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <!-- Card -->
-            <a href="/events/10/"
-              data-id="10"
-              data-category="Food & Dining"
-              class="event-card group bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative">
-
-              <div class="h-40 bg-gray-200"></div>
-              <button
-                type="button"
-                class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white"
-                data-id="10">
-                <span class="fav-icon text-lg leading-none">ΓÖí</span>
-              </button>
-
-              <div class="p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/10 text-brand">Food & Dining</span>
-                  <span class="text-xs text-gray-500">Nov 22 ┬╖ 12:00 PM</span>
-                </div>
-                <h3 class="font-semibold group-hover:underline">Traditional Saudi Food Festival</h3>
-                <div class="text-sm text-gray-500">≡ƒôì Diriyah Square</div>
-                <div class="flex items-center justify-between">
-                  <div class="text-sm text-gray-600">Γ¡É 4.7 ┬╖ ≡ƒæÑ 5.0k</div>
-                  <div class="font-semibold">50 SAR</div>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-              </div>
-            </a>
-
-            <a href="/events/11/"
-              data-id="11"
-              data-category="Art & Culture"
-              class="event-card group bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative">
-
-              <div class="h-40 bg-gray-200"></div>
-              <button
-                type="button"
-                class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white"
-                data-id="11">
-                <span class="fav-icon text-lg leading-none">ΓÖí</span>
-              </button>
-
-              <div class="p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/10 text-brand">Art & Culture</span>
-                  <span class="text-xs text-gray-500">Nov 18ΓÇô30 ┬╖ 10:00 AM</span>
-                </div>
-                <h3 class="font-semibold group-hover:underline">Art Exhibition: Modern Saudi Artists</h3>
-                <div class="text-sm text-gray-500">≡ƒôì King Abdullah Financial District</div>
-                <div class="flex items-center justify-between">
-                  <div class="text-sm text-gray-600">Γ¡É 4.8 ┬╖ ≡ƒæÑ 3.5k</div>
-                  <div class="font-semibold">30 SAR</div>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-              </div>
-            </a>
-
-            <a href="/events/12/"
-              data-id="12"
-              data-category="Family"
-              class="event-card group bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative">
-
-              <div class="h-40 bg-gray-200"></div>
-              <button
-                type="button"
-                class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white"
-                data-id="12">
-                <span class="fav-icon text-lg leading-none">ΓÖí</span>
-              </button>
-
-              <div class="p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/10 text-brand">Family</span>
-                  <span class="text-xs text-gray-500">Nov 21 ┬╖ 3:00 PM</span>
-                </div>
-                <h3 class="font-semibold group-hover:underline">Boulevard Riyadh City</h3>
-                <div class="text-sm text-gray-500">≡ƒôì Hittin, Riyadh</div>
-                <div class="flex items-center justify-between">
-                  <div class="text-sm text-gray-600">Γ¡É 4.6 ┬╖ ≡ƒæÑ 12.0k</div>
-                  <div class="font-semibold">Free</div>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-              </div>
-            </a>
-
-            <a href="/events/13/"
-              data-id="13"
-              data-category="Tech"
-              class="event-card group bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative">
-
-              <div class="h-40 bg-gray-200"></div>
-              <button
-                type="button"
-                class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white"
-                data-id="13">
-                <span class="fav-icon text-lg leading-none">ΓÖí</span>
-              </button>
-
-              <div class="p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/10 text-brand">Tech</span>
-                  <span class="text-xs text-gray-500">Nov 24ΓÇô25 ┬╖ 9:00 AM</span>
-                </div>
-                <h3 class="font-semibold group-hover:underline">Tech Innovation Summit</h3>
-                <div class="text-sm text-gray-500">≡ƒôì KAFD Conference Center</div>
-                <div class="flex items-center justify-between">
-                  <div class="text-sm text-gray-600">Γ¡É 4.9 ┬╖ ≡ƒæÑ 4.2k</div>
-                  <div class="font-semibold">150 SAR</div>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-brand text-white hover:opacity-90 text-sm">Book Now</button>
-              </div>
-            </a>
-          </div>
-        </section>
-
-      </main>
+      <div class="space-y-1">
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">⚙ <span>Settings</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/logout/">🚪 <span>Logout</span></a>
+      </div>
     </div>
+  </aside>
+
+  <!-- Mobile Sidebar overlay -->
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
+  <aside id="sidebarMobile" class="hidden fixed z-50 inset-y-0 left-0 w-72 bg-white border-r lg:hidden">
+    <div class="p-4 flex items-center justify-between border-b">
+      <div class="flex items-center gap-2">
+        <div class="h-9 w-9 rounded-xl bg-brand text-white grid place-items-center font-bold">T</div>
+        <div class="font-semibold">Tizahab</div>
+      </div>
+      <button id="sidebarClose" class="h-9 w-9 rounded-lg border hover:bg-gray-50">✕</button>
+    </div>
+    <div class="p-4">
+      <nav class="space-y-1">
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/">🏠 <span>Home</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/daily-plan/">🗓 <span>Daily Plan</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/page/">🎫 <span>Events</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">🗺 <span>Map</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">👤 <span>Profile</span></a>
+        <div class="h-px bg-gray-100 my-3"></div>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">⚙ <span>Settings</span></a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/logout/">🚪 <span>Logout</span></a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 min-w-0">
+
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
+      <div class="px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button id="sidebarOpen" class="lg:hidden h-10 w-10 rounded-xl border hover:bg-gray-50">☰</button>
+          <div>
+            <div class="text-xl sm:text-2xl font-semibold">Events & Experiences</div>
+            <div class="text-xs sm:text-sm text-gray-500 -mt-0.5">Discover what's happening in Riyadh</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Search -->
+          <div class="hidden sm:flex items-center gap-2 h-10 w-[300px] rounded-xl border px-3 bg-white">
+            <span class="text-gray-400">🔍</span>
+            <input id="searchInput" class="w-full outline-none text-sm" placeholder="Search places, events..." />
+          </div>
+
+          <!-- Favorites toggle -->
+          <button id="prefBtn" type="button"
+            class="h-9 px-3 rounded-lg border border-black/10 bg-white text-gray-700 text-sm">
+            Favorites
+          </button>
+        </div>
+      </div>
+
+      <!-- Search (Mobile) -->
+      <div class="sm:hidden px-4 pb-3">
+        <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
+          <span class="text-gray-400">🔍</span>
+          <input id="searchInputMobile" class="w-full outline-none text-sm" placeholder="Search places, events..." />
+        </div>
+      </div>
+    </header>
+
+    <main class="px-4 sm:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
+
+      <!-- Category filter pills -->
+      <section class="flex gap-2 flex-wrap">
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-brand text-white border-brand text-sm font-medium" data-cat="">All</button>
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">Food & Dining</button>
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">Culture</button>
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="outdoor">Outdoor</button>
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">Shopping</button>
+        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="other">Other</button>
+      </section>
+
+      <!-- Trending -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span>🔥</span>
+            <h2 class="text-lg font-semibold">Trending Places</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
+            <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
+          </div>
+        </div>
+        <!-- JS renders trending cards here -->
+        <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth pb-2">
+          <!-- skeleton placeholder while loading -->
+          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
+          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
+          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
+        </div>
+      </section>
+
+      <!-- Map -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Map</h2>
+          <span class="text-sm text-gray-500">Click a pin to see details</span>
+        </div>
+        <div id="eventsMap" class="w-full rounded-2xl border overflow-hidden bg-gray-100" style="height: 380px;"></div>
+      </section>
+
+      <!-- Favorites section (hidden by default) -->
+      <section id="favoritesSection" class="hidden space-y-4">
+        <div class="flex items-center justify-between border-b border-black/10 pb-3">
+          <h2 class="text-lg font-semibold">Favorites</h2>
+          <span id="favoritesCount" class="text-sm text-gray-500"></span>
+        </div>
+        <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      </section>
+
+      <!-- All Places -->
+      <section id="allEventsSection" class="space-y-4">
+        <div class="flex items-end justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-semibold">All Places</h2>
+            <p id="countText" class="text-sm text-gray-500"></p>
+          </div>
+          <div class="text-sm text-gray-400" id="loadingText"></div>
+        </div>
+
+        <!-- JS renders event cards here -->
+        <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- skeleton placeholders while loading -->
+          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+        </div>
+      </section>
+
+    </main>
   </div>
+</div>
 
-  <!-- Existing inline JS (favorites etc.) -->
-  <script>
-    const prefBtn = document.getElementById('prefBtn');
-    const favoritesSection = document.getElementById('favoritesSection');
-    const favoritesGrid = document.getElementById('favoritesGrid');
-    const favoritesCount = document.getElementById('favoritesCount');
-    const allEventsSection = document.getElementById('allEventsSection');
+<!-- Mobile sidebar JS -->
+<script>
+  document.getElementById("sidebarOpen")?.addEventListener("click", () => {
+    document.getElementById("sidebarMobile").classList.remove("hidden");
+    document.getElementById("sidebarOverlay").classList.remove("hidden");
+  });
+  ["sidebarClose", "sidebarOverlay"].forEach((id) => {
+    document.getElementById(id)?.addEventListener("click", () => {
+      document.getElementById("sidebarMobile").classList.add("hidden");
+      document.getElementById("sidebarOverlay").classList.add("hidden");
+    });
+  });
+</script>
 
-    const countText = document.getElementById('countText');
+<!-- Category filter: "All" button active state syncs with events.js onCategorySelect -->
+<script>
+  // When "All" is clicked, clear the active category
+  document.querySelector('[data-cat=""]')?.addEventListener("click", () => {
+    document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
+      const isAll = btn.dataset.cat === "";
+      btn.classList.toggle("bg-brand", isAll);
+      btn.classList.toggle("text-white", isAll);
+      btn.classList.toggle("border-brand", isAll);
+      btn.classList.toggle("bg-white", !isAll);
+      btn.classList.toggle("text-gray-700", !isAll);
+    });
+  });
+</script>
 
-    const allCards = document.querySelectorAll('.event-card, .trend-card');
-
-    const FAV_KEY = 'tizahab_favorites';
-    const getFavs = () => new Set(JSON.parse(localStorage.getItem(FAV_KEY) || '[]'));
-    const saveFavs = (set) => localStorage.setItem(FAV_KEY, JSON.stringify([...set]));
-
-    function paintFav(btn, isFav) {
-      const icon = btn.querySelector('.fav-icon');
-      if (!icon) return;
-      icon.textContent = isFav ? 'ΓÖÑ' : 'ΓÖí';
-      icon.classList.toggle('text-brand', isFav);
-      icon.classList.toggle('text-gray-700', !isFav);
-      btn.classList.toggle('ring-2', isFav);
-      btn.classList.toggle('ring-brand/30', isFav);
-    }
-
-    function syncFavs() {
-      const favs = getFavs();
-      document.querySelectorAll('.fav-btn').forEach(btn => {
-        paintFav(btn, favs.has(btn.dataset.id));
-      });
-    }
-
-    function renderFavoritesSection() {
-      if (!favoritesGrid) return;
-
-<<<<<<< HEAD
+<script src="{% static 'js/map.js' %}"></script>
 <script src="{% static 'js/events.js' %}"></script>
-=======
-      const favs = getFavs();
-      const cards = document.querySelectorAll('.event-card, .trend-card');
-      const favCards = [...cards].filter(card => favs.has(card.getAttribute('data-id')));
-
-      favoritesGrid.innerHTML = '';
-
-      const seen = new Set();
-      favCards.forEach(card => {
-        const id = card.getAttribute('data-id');
-        if (!id || seen.has(id)) return;
-        seen.add(id);
-        favoritesGrid.appendChild(card.cloneNode(true));
-      });
-
-      if (favoritesCount) {
-        favoritesCount.textContent = seen.size ? `${seen.size} favorites` : '';
-      }
-
-      syncFavs();
-    }
-
-    let favsOnly = false;
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.fav-btn');
-      if (!btn) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const favs = getFavs();
-      const id = btn.dataset.id;
-      if (!id) return;
-
-      if (favs.has(id)) favs.delete(id);
-      else favs.add(id);
-
-      saveFavs(favs);
-
-      syncFavs();
-
-      if (favsOnly) renderFavoritesSection();
-    });
-
-    prefBtn?.addEventListener('click', () => {
-      favsOnly = !favsOnly;
-      prefBtn.textContent = 'Favorites';
-
-      if (favsOnly) {
-        prefBtn.classList.add('bg-brand', 'text-white', 'border-brand');
-        prefBtn.classList.remove('bg-white', 'text-gray-700', 'border-black/10');
-
-        renderFavoritesSection();
-        favoritesSection?.classList.remove('hidden');
-        allEventsSection?.classList.add('hidden');
-      } else {
-        prefBtn.classList.remove('bg-brand', 'text-white', 'border-brand');
-        prefBtn.classList.add('bg-white', 'text-gray-700', 'border-black/10');
-
-        favoritesSection?.classList.add('hidden');
-        allEventsSection?.classList.remove('hidden');
-      }
-    });
-
-    syncFavs();
-  </script>
-
-  <!-- ✅ Our reusable Google Maps helper + events markers -->
-  <script src="{% static 'js/map.js' %}"></script>
-  <script src="{% static 'js/events.js' %}"></script>
-
-  <!-- ✅ Google Maps loader (uses env key via context processor) -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initEventsMap"
-    async
-    defer
-  ></script>
->>>>>>> origin/dev
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initEventsMap"
+  async
+  defer>
+</script>
 
 </body>
 </html>

@@ -1,0 +1,160 @@
+/* ============================================
+   Tizahab Design System
+   Primary: #7e1ca1 | Secondary: #679af8
+   Accent: #beaa56 | Dark: #3d3d40
+   Breakpoints: 375px / 768px / 1144px
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cantata+One&family=Arimo:ital,wght@0,400;0,600;0,700;1,400&family=Bona+Nova+SC:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
+
+/* ---- CSS Variables ---- */
+:root {
+  --color-primary:   #7e1ca1;
+  --color-primary-dark: #4d1b76;
+  --color-primary-light: #9d3cbf;
+  --color-primary-bg: #faf5ff;
+  --color-secondary: #679af8;
+  --color-accent:    #beaa56;
+  --color-dark:      #3d3d40;
+  --color-bg:        #f6f7fb;
+  --color-surface:   #ffffff;
+  --color-border:    #e5e7eb;
+  --color-text:      #1f2937;
+  --color-muted:     #6b7280;
+
+  --font-heading: 'Cantata One', serif;
+  --font-body:    'Arimo', sans-serif;
+  --font-arabic:  'Bona Nova SC', serif;
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-2xl: 22px;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+}
+
+/* ---- Base Reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ---- Scrollbar ---- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---- Typography ---- */
+.font-heading  { font-family: var(--font-heading); }
+.font-arabic   { font-family: var(--font-arabic); }
+
+/* ---- Buttons ---- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: opacity 0.15s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: background 0.15s, color 0.15s;
+  background: transparent;
+  cursor: pointer;
+}
+.btn-outline:hover { background: var(--color-primary); color: white; }
+
+/* ---- Card ---- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Interest / Category Card ---- */
+.interest-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.interest-card:hover { transform: translateY(-2px); }
+.interest-card.selected { border-color: var(--color-primary); }
+.interest-card.selected .interest-check { display: flex; }
+.interest-check {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* ---- Toggle Switch ---- */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: #d1d5db;
+  border-radius: 999px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.toggle-switch input:checked + .toggle-track { background: var(--color-primary); }
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(20px); }
+
+/* ---- Responsive layout helpers ---- */
+@media (max-width: 767px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 1143px) {
+  .hide-tablet { display: none !important; }
+}
+@media (min-width: 1144px) {
+  .hide-desktop { display: none !important; }
+}
