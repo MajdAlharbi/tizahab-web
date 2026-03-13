@@ -387,35 +387,107 @@ function renderEventDetails(ev) {
 
   const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
   const label = catLabel(ev.category);
-  const color = catColor(ev.category);
+  const catEmojis = { food: "🍽️", culture: "🏛️", outdoor: "🌿", shopping: "🛍️" };
 
   container.innerHTML = `
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-2 bg-white border rounded-2xl overflow-hidden">
-        <div class="h-64 bg-gray-200"></div>
-        <div class="p-6 space-y-4">
-          <div class="flex items-center gap-2 flex-wrap text-xs text-gray-600">
-            <span class="px-2 py-1 rounded-full ${color} font-medium">${escapeHtml(label)}</span>
-            <span>📍 ${escapeHtml(ev.location || "Riyadh")}</span>
-          </div>
-          <h2 class="text-2xl font-semibold">${escapeHtml(ev.title || "")}</h2>
-          <p class="text-gray-600">${escapeHtml(ev.description || "No description available.")}</p>
+    <!-- Hero -->
+    <div class="relative rounded-2xl overflow-hidden mb-6 h-72 bg-gradient-to-br from-purple-200 to-purple-500 flex items-end">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <div class="relative z-10 p-6 w-full">
+        <span class="inline-block bg-yellow-300 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full mb-2">${escapeHtml(label)}</span>
+        <h1 class="text-2xl font-bold text-white leading-snug">${escapeHtml(ev.title || "")}</h1>
+        <div class="flex items-center gap-1 mt-1">
+          <span class="text-yellow-400 text-sm">★★★★★</span>
+          <span class="text-white/70 text-xs ml-1">4.8</span>
         </div>
       </div>
-      <aside class="bg-white border rounded-2xl p-6 space-y-4 h-fit">
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Category</span>
-          <span class="text-sm font-semibold">${escapeHtml(label)}</span>
+    </div>
+
+    <!-- Body: 2-col -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Left column -->
+      <div class="lg:col-span-2 space-y-5">
+
+        <!-- Metadata 2×2 grid -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-lg shrink-0">📅</div>
+              <div>
+                <p class="text-xs text-gray-500">Date</p>
+                <p class="text-sm font-semibold text-gray-800">${ev.start_date ? escapeHtml(ev.start_date) : "Available Daily"}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-lg shrink-0">🕐</div>
+              <div>
+                <p class="text-xs text-gray-500">Opening Hours</p>
+                <p class="text-sm font-semibold text-gray-800">9:00 AM – 10:00 PM</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-lg shrink-0">📍</div>
+              <div>
+                <p class="text-xs text-gray-500">Location</p>
+                <p class="text-sm font-semibold text-gray-800">${escapeHtml(ev.location || "Riyadh")}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-lg shrink-0">🏷️</div>
+              <div>
+                <p class="text-xs text-gray-500">Category</p>
+                <p class="text-sm font-semibold text-gray-800">${escapeHtml(label)}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Price</span>
-          <span class="text-xl font-semibold">${escapeHtml(price)}</span>
+
+        <!-- Tabs -->
+        <div class="flex gap-1 bg-gray-100 rounded-xl p-1">
+          <button class="flex-1 h-9 rounded-lg bg-white text-sm font-medium text-brand shadow-sm">Overview</button>
+          <button class="flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition">Schedule</button>
+          <button class="flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition">Reviews</button>
         </div>
-        <a href="/daily-plan/"
-          class="block w-full h-11 rounded-xl bg-brand text-white hover:opacity-90 text-sm text-center leading-[44px]">
-          Add to Plan
-        </a>
+
+        <!-- About -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+          <h3 class="font-semibold text-gray-800">About</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">${escapeHtml(ev.description || "Experience one of Riyadh's unique destinations. Enjoy the atmosphere, explore the surroundings, and create lasting memories.")}</p>
+          <div class="space-y-2 pt-1">
+            <p class="text-sm font-medium text-gray-700">Highlights</p>
+            <ul class="space-y-1.5">
+              <li class="flex items-center gap-2 text-sm text-gray-600"><span class="text-green-500">✓</span> Accessible location in Riyadh</li>
+              <li class="flex items-center gap-2 text-sm text-gray-600"><span class="text-green-500">✓</span> Suitable for all ages</li>
+              <li class="flex items-center gap-2 text-sm text-gray-600"><span class="text-green-500">✓</span> ${escapeHtml(label)} experience</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Booking card -->
+      <aside class="space-y-4">
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 sticky top-6">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Entry Fee</p>
+            <p class="text-3xl font-bold text-brand">${escapeHtml(price)}</p>
+          </div>
+          <a href="/daily-plan/"
+            class="block w-full h-11 rounded-xl bg-brand text-white text-sm font-semibold text-center leading-[44px] hover:opacity-90 transition">
+            Get Tickets
+          </a>
+          <a href="https://maps.google.com/?q=${encodeURIComponent(ev.location || 'Riyadh')}" target="_blank" rel="noopener"
+            class="block w-full h-11 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 text-center leading-[44px] hover:bg-gray-50 transition">
+            Get Directions
+          </a>
+          <div class="flex gap-2 flex-wrap pt-1">
+            <span class="text-xs bg-purple-50 text-brand px-3 py-1 rounded-full border border-purple-100">👨‍👩‍👧 Family Friendly</span>
+            <span class="text-xs bg-purple-50 text-brand px-3 py-1 rounded-full border border-purple-100">📸 Photography Allowed</span>
+          </div>
+        </div>
       </aside>
+
     </div>
   `;
 }

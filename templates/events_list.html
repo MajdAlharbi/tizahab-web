@@ -1,201 +1,113 @@
+{% extends "dashboard_base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Events | Tizahab</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: { extend: { colors: { brand: "#7E1CA1" } } }
-    }
-  </script>
-</head>
 
-<body class="bg-gray-50 text-gray-900">
-<div class="min-h-screen flex">
+{% block title %}Events | Tizahab{% endblock %}
 
-  <!-- Sidebar (Desktop) -->
-  <aside class="hidden lg:flex w-64 shrink-0 bg-white border-r">
-    <div class="w-full flex flex-col justify-between p-4">
-      <div>
-        <div class="flex items-center gap-2 mb-6">
-          <div class="h-9 w-9 rounded-xl bg-brand text-white grid place-items-center font-bold">T</div>
-          <div class="leading-tight">
-            <div class="font-semibold">Tizahab</div>
-            <div class="text-xs text-gray-500">Riyadh</div>
-          </div>
-        </div>
-        <nav class="space-y-1">
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/">🏠 <span>Home</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/daily-plan/">🗓 <span>Daily Plan</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/page/">🎫 <span>Events</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">🗺 <span>Map</span></a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">👤 <span>Profile</span></a>
-        </nav>
-      </div>
-      <div class="space-y-1">
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">⚙ <span>Settings</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/logout/">🚪 <span>Logout</span></a>
-      </div>
+{% block head %}
+<style>
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="px-4 lg:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
+
+  <!-- Page Header -->
+  <div class="flex items-center justify-between gap-3 flex-wrap">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Events & Experiences</h1>
+      <p class="text-sm text-gray-500 mt-0.5">Discover what's happening in Riyadh</p>
     </div>
-  </aside>
-
-  <!-- Mobile Sidebar overlay -->
-  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
-  <aside id="sidebarMobile" class="hidden fixed z-50 inset-y-0 left-0 w-72 bg-white border-r lg:hidden">
-    <div class="p-4 flex items-center justify-between border-b">
-      <div class="flex items-center gap-2">
-        <div class="h-9 w-9 rounded-xl bg-brand text-white grid place-items-center font-bold">T</div>
-        <div class="font-semibold">Tizahab</div>
+    <div class="flex items-center gap-2">
+      <div class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
+        <span class="text-gray-400">🔍</span>
+        <input id="searchInput" class="w-full outline-none text-sm bg-transparent" placeholder="Search places, events..." />
       </div>
-      <button id="sidebarClose" class="h-9 w-9 rounded-lg border hover:bg-gray-50">✕</button>
+      <button id="prefBtn" type="button"
+        class="h-10 px-4 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm hover:bg-gray-50 transition">
+        ♡ Favorites
+      </button>
     </div>
-    <div class="p-4">
-      <nav class="space-y-1">
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/">🏠 <span>Home</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/daily-plan/">🗓 <span>Daily Plan</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand/10 text-brand font-medium" href="/events/page/">🎫 <span>Events</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">🗺 <span>Map</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">👤 <span>Profile</span></a>
-        <div class="h-px bg-gray-100 my-3"></div>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="#">⚙ <span>Settings</span></a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 text-gray-700" href="/logout/">🚪 <span>Logout</span></a>
-      </nav>
-    </div>
-  </aside>
-
-  <!-- Main -->
-  <div class="flex-1 min-w-0">
-
-    <!-- Top Bar -->
-    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
-      <div class="px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <button id="sidebarOpen" class="lg:hidden h-10 w-10 rounded-xl border hover:bg-gray-50">☰</button>
-          <div>
-            <div class="text-xl sm:text-2xl font-semibold">Events & Experiences</div>
-            <div class="text-xs sm:text-sm text-gray-500 -mt-0.5">Discover what's happening in Riyadh</div>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <!-- Search -->
-          <div class="hidden sm:flex items-center gap-2 h-10 w-[300px] rounded-xl border px-3 bg-white">
-            <span class="text-gray-400">🔍</span>
-            <input id="searchInput" class="w-full outline-none text-sm" placeholder="Search places, events..." />
-          </div>
-
-          <!-- Favorites toggle -->
-          <button id="prefBtn" type="button"
-            class="h-9 px-3 rounded-lg border border-black/10 bg-white text-gray-700 text-sm">
-            Favorites
-          </button>
-        </div>
-      </div>
-
-      <!-- Search (Mobile) -->
-      <div class="sm:hidden px-4 pb-3">
-        <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
-          <span class="text-gray-400">🔍</span>
-          <input id="searchInputMobile" class="w-full outline-none text-sm" placeholder="Search places, events..." />
-        </div>
-      </div>
-    </header>
-
-    <main class="px-4 sm:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
-
-      <!-- Category filter pills -->
-      <section class="flex gap-2 flex-wrap">
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-brand text-white border-brand text-sm font-medium" data-cat="">All</button>
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">Food & Dining</button>
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">Culture</button>
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="outdoor">Outdoor</button>
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">Shopping</button>
-        <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="other">Other</button>
-      </section>
-
-      <!-- Trending -->
-      <section class="space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span>🔥</span>
-            <h2 class="text-lg font-semibold">Trending Places</h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
-            <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
-          </div>
-        </div>
-        <!-- JS renders trending cards here -->
-        <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth pb-2">
-          <!-- skeleton placeholder while loading -->
-          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
-          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
-          <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse"></div>
-        </div>
-      </section>
-
-      <!-- Map -->
-      <section class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">Map</h2>
-          <span class="text-sm text-gray-500">Click a pin to see details</span>
-        </div>
-        <div id="eventsMap" class="w-full rounded-2xl border overflow-hidden bg-gray-100" style="height: 380px;"></div>
-      </section>
-
-      <!-- Favorites section (hidden by default) -->
-      <section id="favoritesSection" class="hidden space-y-4">
-        <div class="flex items-center justify-between border-b border-black/10 pb-3">
-          <h2 class="text-lg font-semibold">Favorites</h2>
-          <span id="favoritesCount" class="text-sm text-gray-500"></span>
-        </div>
-        <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
-      </section>
-
-      <!-- All Places -->
-      <section id="allEventsSection" class="space-y-4">
-        <div class="flex items-end justify-between gap-3">
-          <div>
-            <h2 class="text-lg font-semibold">All Places</h2>
-            <p id="countText" class="text-sm text-gray-500"></p>
-          </div>
-          <div class="text-sm text-gray-400" id="loadingText"></div>
-        </div>
-
-        <!-- JS renders event cards here -->
-        <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <!-- skeleton placeholders while loading -->
-          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-          <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-        </div>
-      </section>
-
-    </main>
   </div>
+
+  <!-- Search (Mobile) -->
+  <div class="sm:hidden">
+    <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
+      <span class="text-gray-400">🔍</span>
+      <input id="searchInputMobile" class="w-full outline-none text-sm bg-transparent" placeholder="Search places, events..." />
+    </div>
+  </div>
+
+  <!-- Category filter pills -->
+  <section class="flex gap-2 flex-wrap">
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-brand text-white border-brand text-sm font-medium" data-cat="">All</button>
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">🍽️ Food & Dining</button>
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="outdoor">🌿 Outdoor</button>
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
+    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="other">Other</button>
+  </section>
+
+  <!-- Trending -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span>🔥</span>
+        <h2 class="text-lg font-semibold">Trending Places</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
+        <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
+      </div>
+    </div>
+    <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Map</h2>
+      <span class="text-sm text-gray-500">Click a pin to see details</span>
+    </div>
+    <div id="eventsMap" class="w-full rounded-2xl border overflow-hidden bg-gray-100" style="height: 380px;"></div>
+  </section>
+
+  <!-- Favorites section (hidden by default) -->
+  <section id="favoritesSection" class="hidden space-y-4">
+    <div class="flex items-center justify-between border-b border-black/10 pb-3">
+      <h2 class="text-lg font-semibold">Favorites</h2>
+      <span id="favoritesCount" class="text-sm text-gray-500"></span>
+    </div>
+    <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+  </section>
+
+  <!-- All Places -->
+  <section id="allEventsSection" class="space-y-4">
+    <div class="flex items-end justify-between gap-3">
+      <div>
+        <h2 class="text-lg font-semibold">All Places</h2>
+        <p id="countText" class="text-sm text-gray-500"></p>
+      </div>
+      <div class="text-sm text-gray-400" id="loadingText"></div>
+    </div>
+    <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+    </div>
+  </section>
+
 </div>
+{% endblock %}
 
-<!-- Mobile sidebar JS -->
+{% block scripts %}
 <script>
-  document.getElementById("sidebarOpen")?.addEventListener("click", () => {
-    document.getElementById("sidebarMobile").classList.remove("hidden");
-    document.getElementById("sidebarOverlay").classList.remove("hidden");
-  });
-  ["sidebarClose", "sidebarOverlay"].forEach((id) => {
-    document.getElementById(id)?.addEventListener("click", () => {
-      document.getElementById("sidebarMobile").classList.add("hidden");
-      document.getElementById("sidebarOverlay").classList.add("hidden");
-    });
-  });
-</script>
-
-<!-- Category filter: "All" button active state syncs with events.js onCategorySelect -->
-<script>
-  // When "All" is clicked, clear the active category
   document.querySelector('[data-cat=""]')?.addEventListener("click", () => {
     document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
       const isAll = btn.dataset.cat === "";
@@ -207,14 +119,10 @@
     });
   });
 </script>
-
 <script src="{% static 'js/map.js' %}"></script>
 <script src="{% static 'js/events.js' %}"></script>
 <script
   src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initEventsMap"
-  async
-  defer>
+  async defer>
 </script>
-
-</body>
-</html>
+{% endblock %}

@@ -35,6 +35,32 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+
+  /* ── Theme tokens (light defaults) ── */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f9fafb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --sidebar-bg:   #ffffff;
+  --card-bg:      #ffffff;
+}
+
+/* ---- Dark Mode Tokens ---- */
+[data-theme="dark"] {
+  --bg-primary:    #0f0f0f;
+  --bg-secondary:  #1a1a1a;
+  --text-primary:  #f9fafb;
+  --text-secondary:#9ca3af;
+  --border-color:  #2d2d2d;
+  --sidebar-bg:    #141414;
+  --card-bg:       #1e1e1e;
+  /* keep design-system aliases in sync */
+  --color-bg:      #0f0f0f;
+  --color-surface: #1e1e1e;
+  --color-border:  #2d2d2d;
+  --color-text:    #f9fafb;
+  --color-muted:   #9ca3af;
 }
 
 /* ---- Base Reset ---- */
@@ -158,3 +184,64 @@
 @media (min-width: 1144px) {
   .hide-desktop { display: none !important; }
 }
+
+/* ================================================================
+   Dark Mode Overrides
+   Targets Tailwind utility classes used throughout the dashboard.
+   !important is required to beat Tailwind's specificity.
+   ================================================================ */
+
+[data-theme="dark"] body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Backgrounds */
+[data-theme="dark"] .bg-white          { background-color: var(--card-bg)       !important; }
+[data-theme="dark"] .bg-gray-50        { background-color: var(--bg-secondary)   !important; }
+[data-theme="dark"] .bg-gray-100       { background-color: #262626               !important; }
+[data-theme="dark"] .bg-gray-200       { background-color: #333333               !important; }
+
+/* Text */
+[data-theme="dark"] .text-gray-900     { color: var(--text-primary)   !important; }
+[data-theme="dark"] .text-gray-800     { color: var(--text-primary)   !important; }
+[data-theme="dark"] .text-gray-700     { color: #d1d5db               !important; }
+[data-theme="dark"] .text-gray-600     { color: var(--text-secondary) !important; }
+[data-theme="dark"] .text-gray-500     { color: var(--text-secondary) !important; }
+[data-theme="dark"] .text-gray-400     { color: #6b7280               !important; }
+
+/* Borders */
+[data-theme="dark"] .border-gray-100   { border-color: var(--border-color) !important; }
+[data-theme="dark"] .border-gray-200   { border-color: var(--border-color) !important; }
+[data-theme="dark"] .divide-gray-100 > * + * { border-color: var(--border-color) !important; }
+
+/* Sidebar + header structural elements */
+[data-theme="dark"] aside#sidebar      { background-color: var(--sidebar-bg) !important;
+                                         border-color: var(--border-color)   !important; }
+[data-theme="dark"] header             { background-color: var(--sidebar-bg) !important;
+                                         border-color: var(--border-color)   !important; }
+
+/* Hover states */
+[data-theme="dark"] .hover\:bg-gray-50:hover   { background-color: #262626 !important; }
+[data-theme="dark"] .hover\:bg-red-50:hover    { background-color: #2d1010 !important; }
+
+/* Active nav item purple tint */
+[data-theme="dark"] .bg-\[\#faf5ff\]  { background-color: #2d1f3d !important; }
+
+/* Inputs */
+[data-theme="dark"] input:not([type="radio"]):not([type="checkbox"]),
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: #262626 !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+[data-theme="dark"] input::placeholder { color: #6b7280 !important; }
+
+/* Cards & sections */
+[data-theme="dark"] .card             { background-color: var(--card-bg)       !important;
+                                        border-color: var(--border-color)       !important; }
+
+/* Gradient cards that use from-purple-* classes — leave brand gradient untouched */
+/* Toggle track off-state */
+[data-theme="dark"] .toggle-track     { background: #4b5563; }

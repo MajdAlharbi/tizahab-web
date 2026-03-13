@@ -5,9 +5,10 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    # Home Page (root and /home/)
-    path("", TemplateView.as_view(template_name="home.html"), name="root"),
+    # Public landing page (root) + authenticated home
+    path("", TemplateView.as_view(template_name="landing.html"), name="root"),
     path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("dashboard/", TemplateView.as_view(template_name="home.html"), name="dashboard"),
 
     path("admin/", admin.site.urls),
 
@@ -32,4 +33,6 @@ urlpatterns = [
     path("map/", TemplateView.as_view(template_name="map.html"), name="map"),
     path("profile/", TemplateView.as_view(template_name="profile.html"), name="profile"),
     path("settings/", TemplateView.as_view(template_name="settings.html"), name="settings"),
+    path("admin-panel/", TemplateView.as_view(template_name="admin.html"), name="admin_panel"),
+    path("onboarding/", TemplateView.as_view(template_name="preferences.html"), name="onboarding"),
 ]

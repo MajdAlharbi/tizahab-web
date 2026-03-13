@@ -157,7 +157,7 @@
 </div>
 
 <script>
-  // Persist notification toggles in localStorage
+  // Notification toggles
   const NOTIF_KEY = "tz_notifications";
   const toggleIds = ["togglePush", "toggleReminders", "toggleUpdates", "toggleRecs", "toggleNewsletter"];
 
@@ -180,32 +180,38 @@
     localStorage.setItem(NOTIF_KEY, JSON.stringify(state));
   }
 
-  // Language
-  function loadLangSetting() {
-    const saved = localStorage.getItem("lang");
-    if (saved === "AR") {
-      const radio = document.querySelector('input[name="appLang"][value="ar"]');
-      if (radio) radio.checked = true;
-    }
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
     loadNotifSettings();
-    loadLangSetting();
 
+    // ── Sync radio buttons to current stored values ──────────────────────
+    const savedTheme = localStorage.getItem("tz_theme") || "light";
+    const savedLang  = localStorage.getItem("tz_lang")  || "en";
+
+    const themeRadio = document.querySelector(`input[name="appTheme"][value="${savedTheme}"]`);
+    if (themeRadio) themeRadio.checked = true;
+
+    const langRadio = document.querySelector(`input[name="appLang"][value="${savedLang}"]`);
+    if (langRadio) langRadio.checked = true;
+
+    // ── Theme: apply immediately when radio changes ───────────────────────
+    // toggleTheme() is defined in dashboard_base.html
+    document.querySelectorAll('input[name="appTheme"]').forEach(radio => {
+      radio.addEventListener("change", () => {
+        if (radio.checked) toggleTheme(radio.value);
+      });
+    });
+
+    // ── Language: apply immediately when radio changes ────────────────────
+    // applyLang() is defined in dashboard_base.html
+    document.querySelectorAll('input[name="appLang"]').forEach(radio => {
+      radio.addEventListener("change", () => {
+        if (radio.checked) applyLang(radio.value);
+      });
+    });
+
+    // ── Save button — persists notifications, shows confirmation ─────────
     document.getElementById("saveSettingsBtn").addEventListener("click", () => {
       saveNotifSettings();
-
-      // Apply language
-      const langVal = document.querySelector('input[name="appLang"]:checked')?.value;
-      if (langVal) {
-        const mapped = langVal === "ar" ? "AR" : "EN";
-        localStorage.setItem("lang", mapped);
-        document.getElementById("htmlRoot")?.setAttribute("dir", langVal === "ar" ? "rtl" : "ltr");
-        const label = document.getElementById("langLabel");
-        if (label) label.innerText = mapped;
-      }
-
       const msg = document.getElementById("settingsSaved");
       msg.classList.remove("hidden");
       setTimeout(() => msg.classList.add("hidden"), 2500);

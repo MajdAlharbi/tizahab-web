@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | Tizahab</title>
+
+  <!-- Apply theme + lang before paint (same pattern as other pages) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tz_theme") || "light";
+        var l = localStorage.getItem("tz_lang")  || "en";
+        document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
+        document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
+      } catch (e) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: '#7e1ca1', 'brand-dark': '#4D1B76' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cantata+One&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 font-[Arimo,sans-serif]">
+
+  <!-- Logo -->
+  <a href="/" class="flex items-center gap-2.5 mb-10">
+    <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center shadow">
+      <span class="text-white font-bold text-lg">T</span>
+    </div>
+    <span class="text-xl font-semibold text-gray-800" style="font-family:'Cantata One',serif">Tizahab</span>
+  </a>
+
+  <!-- Card -->
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-10 max-w-md w-full text-center space-y-5">
+
+    <!-- 404 number -->
+    <p class="text-8xl font-bold text-brand/20 leading-none select-none">404</p>
+
+    <!-- Heading -->
+    <h1 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+      Page Not Found
+    </h1>
+
+    <!-- Sub-text -->
+    <p class="text-sm text-gray-500 leading-relaxed">
+      The page you're looking for doesn't exist or has been moved.<br>
+      Let's get you back to exploring Riyadh.
+    </p>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+      <a href="/"
+        class="flex-1 h-11 rounded-xl bg-brand text-white text-sm font-semibold flex items-center justify-center hover:opacity-90 transition">
+        ← Back to Home
+      </a>
+      <a href="/events/page/"
+        class="flex-1 h-11 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 flex items-center justify-center hover:bg-gray-50 transition">
+        Browse Events
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer note -->
+  <p class="mt-8 text-xs text-gray-400">
+    Tizahab &mdash; Tourism Planning for Riyadh
+  </p>
+
+</body>
+</html>

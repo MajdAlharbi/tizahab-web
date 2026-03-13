@@ -6,6 +6,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Tizahab | تزهب{% endblock %}</title>
+  <!-- Prevent search engines from indexing authenticated dashboard pages -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Apply theme + lang BEFORE any paint to prevent flash of wrong theme -->
+  <script>
+    (function () {
+      var t = localStorage.getItem("tz_theme") || "light";
+      var l = localStorage.getItem("tz_lang")  || "en";
+      document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
+      document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
+    })();
+  </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -31,13 +44,13 @@
   <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
 
   <style>
-    body { background-color: #F6F7FB; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); }
   </style>
 
   {% block head %}{% endblock %}
 </head>
 
-<body class="flex h-screen overflow-hidden text-gray-800 antialiased">
+<body class="flex h-screen overflow-hidden antialiased">
 
   <!-- Mobile overlay -->
   <div id="sidebarOverlay" class="hidden fixed inset-0 bg-gray-900/50 z-40 lg:hidden"></div>
@@ -64,25 +77,33 @@
 
     <!-- Nav items -->
     <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">
+
       <a href="/home/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="home" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Home</span>
+        <span class="nav-label-en">Home</span>
+        <span class="nav-label-ar hidden">الرئيسية</span>
       </a>
+
       <a href="/daily-plan/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Daily Plan</span>
+        <span class="nav-label-en">Daily Plan</span>
+        <span class="nav-label-ar hidden">خطة اليوم</span>
       </a>
+
       <a href="/events/page/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="ticket" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Events</span>
+        <span class="nav-label-en">Events</span>
+        <span class="nav-label-ar hidden">الأماكن</span>
       </a>
+
       <a href="/map/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="map-pin" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Map</span>
+        <span class="nav-label-en">Map</span>
+        <span class="nav-label-ar hidden">الخريطة</span>
       </a>
 
       <div class="my-2 border-t border-gray-100"></div>
@@ -90,13 +111,17 @@
       <a href="/profile/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="user" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Profile</span>
+        <span class="nav-label-en">Profile</span>
+        <span class="nav-label-ar hidden">ملفي</span>
       </a>
+
       <a href="/settings/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="settings" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Settings</span>
+        <span class="nav-label-en">Settings</span>
+        <span class="nav-label-ar hidden">الإعدادات</span>
       </a>
+
     </nav>
 
     <!-- Logout -->
@@ -104,7 +129,8 @@
       <a href="/logout/"
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors w-full">
         <i data-lucide="log-out" class="w-[18px] h-[18px] shrink-0"></i>
-        <span>Logout</span>
+        <span class="nav-label-en">Logout</span>
+        <span class="nav-label-ar hidden">تسجيل الخروج</span>
       </a>
     </div>
   </aside>
@@ -131,12 +157,15 @@
 
       <!-- Right actions -->
       <div class="flex items-center gap-2 ml-3 shrink-0">
+
+        <!-- Language toggle -->
         <button id="langBtn"
           class="flex items-center gap-1.5 px-2.5 h-9 rounded-xl hover:bg-gray-50 transition text-sm font-medium text-gray-600">
           <i data-lucide="globe" class="w-4 h-4"></i>
           <span id="langLabel">EN</span>
         </button>
 
+        <!-- Notifications -->
         <button class="relative p-2 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
           <i data-lucide="bell" class="w-5 h-5"></i>
           <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -144,6 +173,7 @@
 
         <div class="h-5 w-px bg-gray-200 hidden sm:block"></div>
 
+        <!-- Avatar -->
         <a href="/profile/"
           class="h-9 w-9 bg-gradient-to-tr from-brand-dark to-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm hover:opacity-90 transition shrink-0">
           AM
@@ -161,13 +191,53 @@
   <script>
     lucide.createIcons();
 
-    // Sidebar toggle
-    const menuBtn = document.getElementById("mobileMenuBtn");
-    const closeBtn = document.getElementById("closeSidebarBtn");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
+    // ── Theme ─────────────────────────────────────────────────────────────────
+    // (Already applied before paint via <head> inline script)
+    function toggleTheme(mode) {
+      document.documentElement.setAttribute("data-theme", mode);
+      localStorage.setItem("tz_theme", mode);
+    }
 
-    function openSidebar() {
+    // ── Language ──────────────────────────────────────────────────────────────
+    const langBtn   = document.getElementById("langBtn");
+    const langLabel = document.getElementById("langLabel");
+
+    function applyLang(lang) {
+      const html = document.documentElement;
+      if (lang === "ar") {
+        html.setAttribute("dir",  "rtl");
+        html.setAttribute("lang", "ar");
+        document.body.style.fontFamily = "'Cairo', sans-serif";
+        if (langLabel) langLabel.innerText = "AR";
+      } else {
+        html.setAttribute("dir",  "ltr");
+        html.setAttribute("lang", "en");
+        document.body.style.fontFamily = "'Arimo', sans-serif";
+        if (langLabel) langLabel.innerText = "EN";
+      }
+      // Toggle bilingual nav labels
+      document.querySelectorAll(".nav-label-en").forEach(el =>
+        el.classList.toggle("hidden", lang === "ar"));
+      document.querySelectorAll(".nav-label-ar").forEach(el =>
+        el.classList.toggle("hidden", lang !== "ar"));
+      localStorage.setItem("tz_lang", lang);
+    }
+
+    let _lang = localStorage.getItem("tz_lang") || "en";
+    applyLang(_lang);
+
+    langBtn?.addEventListener("click", () => {
+      _lang = _lang === "en" ? "ar" : "en";
+      applyLang(_lang);
+    });
+
+    // ── Sidebar toggle ────────────────────────────────────────────────────────
+    const menuBtn  = document.getElementById("mobileMenuBtn");
+    const closeBtn = document.getElementById("closeSidebarBtn");
+    const sidebar  = document.getElementById("sidebar");
+    const overlay  = document.getElementById("sidebarOverlay");
+
+    function openSidebar()  {
       sidebar.classList.remove("-translate-x-full");
       overlay.classList.remove("hidden");
     }
@@ -175,37 +245,16 @@
       sidebar.classList.add("-translate-x-full");
       overlay.classList.add("hidden");
     }
-    menuBtn?.addEventListener("click", openSidebar);
+    menuBtn?.addEventListener("click",  openSidebar);
     closeBtn?.addEventListener("click", closeSidebar);
-    overlay?.addEventListener("click", closeSidebar);
+    overlay?.addEventListener("click",  closeSidebar);
 
-    // Language switcher
-    const langBtn = document.getElementById("langBtn");
-    const langLabel = document.getElementById("langLabel");
-    const htmlRoot = document.getElementById("htmlRoot");
-
-    let currentLang = localStorage.getItem("lang") || "EN";
-    applyLanguage(currentLang);
-
-    langBtn?.addEventListener("click", () => {
-      currentLang = currentLang === "EN" ? "AR" : "EN";
-      applyLanguage(currentLang);
-    });
-
-    function applyLanguage(lang) {
-      if (langLabel) langLabel.innerText = lang;
-      htmlRoot.setAttribute("dir", lang === "AR" ? "rtl" : "ltr");
-      htmlRoot.setAttribute("lang", lang === "AR" ? "ar" : "en");
-      localStorage.setItem("lang", lang);
-    }
-
-    // Active nav highlight
+    // ── Active nav highlight ──────────────────────────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
       const path = window.location.pathname;
       document.querySelectorAll(".nav-item").forEach(item => {
         const href = item.getAttribute("href");
         if (!href || href === "/") return;
-        // Normalize both paths (strip trailing slash)
         const norm = href.replace(/\/$/, "");
         if (path === norm || path === norm + "/" || path.startsWith(norm + "/")) {
           item.classList.add("bg-[#faf5ff]", "!text-[#7e1ca1]", "font-medium");

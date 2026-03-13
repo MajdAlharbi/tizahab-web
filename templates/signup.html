@@ -6,6 +6,17 @@
   <meta charset="UTF-8">
   <title>Create Account | Tizahab</title>
 
+  <!-- Apply theme + lang before paint -->
+  <script>
+    (function () {
+      var t = localStorage.getItem("tz_theme") || "light";
+      var l = localStorage.getItem("tz_lang")  || "en";
+      document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
+      document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
+    })();
+  </script>
+
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -179,7 +190,7 @@ font-arimo relative">
             "Unable to create account";
           throw new Error(message);
         }
-        window.location.href = "/api/auth/ui/login/";
+        window.location.href = "/onboarding/";
 
       } catch (err) {
         errorBox.textContent = err.message;
