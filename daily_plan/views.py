@@ -24,6 +24,7 @@ class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
             .filter(user=self.request.user)
             .select_related('user')
             .prefetch_related('events')
+            .order_by('-date')
         )
 
     def perform_create(self, serializer):
