@@ -45,8 +45,8 @@ def generate_recommendations(user, date_str=None):
         if event:
             recommended.append(event)
     if len(recommended) < 5:
-        remaining = queryset.exclude(
-            id__in=[e.id for e in recommended]
-        ).order_by("?")[: 5 - len(recommended)]
+        remaining = queryset.exclude(id__in=[e.id for e in recommended]).order_by("?")[
+            : 5 - len(recommended)
+        ]
         recommended += list(remaining)
     return recommended[:5]

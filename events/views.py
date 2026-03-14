@@ -78,7 +78,9 @@ class FilteredEventsAPIView(ListAPIView):
         date_to_raw = self.request.query_params.get("date_to")
 
         if date_from_raw and _parse_date(date_from_raw) is None:
-            raise ValidationError({"detail": "Invalid date_from format. Use YYYY-MM-DD."})
+            raise ValidationError(
+                {"detail": "Invalid date_from format. Use YYYY-MM-DD."}
+            )
         if date_to_raw and _parse_date(date_to_raw) is None:
             raise ValidationError({"detail": "Invalid date_to format. Use YYYY-MM-DD."})
 
