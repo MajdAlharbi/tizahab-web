@@ -1,20 +1,18 @@
 from datetime import datetime
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.shortcuts import render
 from django.db.models import Q
-from django.conf import settings
 from .models import Event
 from .serializers import EventSerializer
 
 
-def events_list(request):
+def events_list_page(request):
     return render(request, "events_list.html")
 
 
-def event_details(request, event_id):
+def event_detail_page(request, event_id):
     return render(request, "event_details.html", {"event_id": event_id})
 
 
@@ -56,16 +54,17 @@ def _apply_date_range_filter(queryset, date_from, date_to):
     return queryset.filter(date_query)
 
 
-class FilteredEventsAPIView(APIView):
+class FilteredEventsAPIView(ListAPIView):
     """
     Filter events by user interests, budget, and date range.
     Query params: date_from, date_to (YYYY-MM-DD)
     """
 
+    serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        prefs = getattr(request.user, "preferences", None)
+    def get_queryset(self):
+        prefs = getattr(self.request.user, "preferences", None)
         queryset = Event.objects.all()
 
         if prefs and prefs.interests:
@@ -75,17 +74,13 @@ class FilteredEventsAPIView(APIView):
             if interests:
                 queryset = queryset.filter(category__in=interests)
 
-        date_from_raw = request.query_params.get("date_from")
-        date_to_raw = request.query_params.get("date_to")
+        date_from_raw = self.request.query_params.get("date_from")
+        date_to_raw = self.request.query_params.get("date_to")
 
         if date_from_raw and _parse_date(date_from_raw) is None:
-            return Response(
-                {"detail": "Invalid date_from format. Use YYYY-MM-DD."}, status=400
-            )
+            raise ValidationError({"detail": "Invalid date_from format. Use YYYY-MM-DD."})
         if date_to_raw and _parse_date(date_to_raw) is None:
-            return Response(
-                {"detail": "Invalid date_to format. Use YYYY-MM-DD."}, status=400
-            )
+            raise ValidationError({"detail": "Invalid date_to format. Use YYYY-MM-DD."})
 
         date_from = _parse_date(date_from_raw)
         date_to = _parse_date(date_to_raw)
@@ -100,9 +95,7 @@ class FilteredEventsAPIView(APIView):
                 Q(price__gte=prefs.budget_min) | Q(price__isnull=True)
             )
 
-        limit = getattr(settings, "MAX_EVENTS_PER_RESPONSE", 100)
-        serializer = EventSerializer(queryset[:limit], many=True)
-        return Response(serializer.data)
+        return queryset
 
 
 class EventListAPIView(ListAPIView):
@@ -136,8 +129,7 @@ class EventListAPIView(ListAPIView):
                 | Q(location__icontains=search)
             )
 
-        limit = getattr(settings, "MAX_EVENTS_PER_RESPONSE", 100)
-        return queryset[:limit]
+        return queryset
 
 
 class EventRetrieveAPIView(RetrieveAPIView):

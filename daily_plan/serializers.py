@@ -10,5 +10,5 @@ class DailyPlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DailyPlan
-        fields = ["id", "user", "date", "events", "created_at"]
-        read_only_fields = ["id", "user", "created_at"]
+        fields = ["id", "date", "events", "created_at"]
+        read_only_fields = ["id", "created_at"]

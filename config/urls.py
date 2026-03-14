@@ -23,8 +23,8 @@ urlpatterns = [
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # Events APIs & Pages
-    path("api/events/", include("events.urls")),
-    path("events/", include("events.urls")),
+    path("api/events/", include("events.api_urls")),
+    path("events/", include("events.page_urls")),
 
     # Daily Plan APIs & Pages
     path("api/daily-plan/", include("daily_plan.urls")),

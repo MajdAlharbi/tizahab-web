@@ -109,16 +109,15 @@ class FilteredEventsAPITests(TestCase):
         make_event("Outdoor Park", category="outdoor", price=0)
 
     def test_filters_by_user_interests(self):
-        # FilteredEventsAPIView returns a plain list (not paginated)
         response = self.client.get("/api/events/filtered/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        results = response.data
+        results = response.data.get("results", response.data)
         categories = {e["category"] for e in results}
         self.assertNotIn("outdoor", categories)
 
     def test_budget_filter_excludes_expensive(self):
         response = self.client.get("/api/events/filtered/")
-        results = response.data
+        results = response.data.get("results", response.data)
         for event in results:
             price = event.get("price")
             if price is not None:
@@ -127,7 +126,7 @@ class FilteredEventsAPITests(TestCase):
     def test_null_price_events_included_with_budget(self):
         make_event("No Price Food", category="food", price=None)
         response = self.client.get("/api/events/filtered/")
-        results = response.data
+        results = response.data.get("results", response.data)
         titles = [e["title"] for e in results]
         self.assertIn("No Price Food", titles)
 
