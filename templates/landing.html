@@ -1,42 +1,11 @@
+{% extends "base_auth.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" id="htmlRoot" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tizahab | تزهب — Tourism in Riyadh</title>
 
-  <!-- Apply theme + lang before paint -->
-  <script>
-    (function () {
-      var t = localStorage.getItem("tz_theme") || "light";
-      var l = localStorage.getItem("tz_lang")  || "en";
-      document.documentElement.setAttribute("data-theme", t);
-      document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
-      document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
-    })();
-  </script>
+{% block title %}Tizahab | تزهب — Tourism in Riyadh{% endblock %}
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: '#7e1ca1',
-            'brand-dark': '#4D1B76',
-            accent: '#beaa56',
-          },
-          fontFamily: {
-            sans: ['Arimo', 'Cairo', 'sans-serif'],
-            cantata: ['"Cantata One"', 'serif'],
-            bona: ['"Bona Nova SC"', 'serif'],
-          }
-        }
-      }
-    }
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600&family=Cantata+One&family=Bona+Nova+SC&display=swap" rel="stylesheet">
+{% block body_class %}bg-white text-gray-800 antialiased{% endblock %}
+
+{% block head %}
   <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
   <style>
     .hero-gradient {
@@ -67,9 +36,9 @@
       border-radius: 2px;
     }
   </style>
-</head>
-<body class="bg-white text-gray-800 antialiased">
+{% endblock %}
 
+{% block content %}
   <!-- ========== HEADER ========== -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur border-b border-[#e9d4ff]">
     <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -408,6 +377,9 @@
     </div>
   </footer>
 
+{% endblock %}
+
+{% block scripts %}
   <script>
     // Mobile nav
     document.getElementById("mobileNavBtn")?.addEventListener("click", () => {
@@ -431,13 +403,5 @@
     document.getElementById("langSwitchBtn")?.addEventListener("click", () => {
       applyLang(lang === "EN" ? "AR" : "EN");
     });
-
-    // If already logged in, redirect to dashboard
-    if (localStorage.getItem("access")) {
-      // Optionally redirect authenticated users to dashboard
-      // window.location.href = "/home/";
-    }
   </script>
-
-</body>
-</html>
+{% endblock %}

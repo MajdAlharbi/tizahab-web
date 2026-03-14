@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Tizahab{% endblock %}</title>
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tz_theme") || "light";
+        var l = localStorage.getItem("tz_lang") || "en";
+        document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.setAttribute("dir", l === "ar" ? "rtl" : "ltr");
+        document.documentElement.setAttribute("lang", l === "ar" ? "ar" : "en");
+      } catch (e) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#7e1ca1',
+            'brand-dark': '#4D1B76',
+            accent: '#beaa56',
+          },
+          fontFamily: {
+            sans: ['Arimo', 'Cairo', 'sans-serif'],
+            arimo: ['Arimo', 'sans-serif'],
+            cantata: ['"Cantata One"', 'serif'],
+            bona: ['"Bona Nova SC"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600&family=Cantata+One&family=Bona+Nova+SC&display=swap" rel="stylesheet">
+
+  {% block head %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+  {% block content %}{% endblock %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>

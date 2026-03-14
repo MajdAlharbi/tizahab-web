@@ -5,42 +5,8 @@ console.log("Daily Plan JS Loaded");
 ========================= */
 
 async function generateDailyPlan() {
-  const token = localStorage.getItem("access");
-  if (!token) {
-    window.location.href = "/login/";
-    return null;
-  }
-
-  const today = new Date();
-  const selectedDate = today.toISOString().split("T")[0];
-
-  const response = await fetch("/api/daily-plan/generate/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({ date: selectedDate })
-  });
-
-  if (response.status === 401) {
-  localStorage.removeItem("access");
-  window.location.href = "/login/";
-  return null;
-}
-  const contentType = response.headers.get("content-type") || "";
-  const isJson = contentType.includes("application/json");
-  const payload = isJson ? await response.json() : await response.text();
-
-  if (!response.ok) {
-    const msg =
-      (isJson && payload?.detail)
-        ? payload.detail
-        : "Failed to generate daily plan";
-    throw new Error(msg);
-  }
-
-  return payload;
+  const today = new Date().toISOString().split("T")[0];
+  return apiPost("/api/daily-plan/generate/", { date: today });
 }
 
 
@@ -259,16 +225,10 @@ async function loadCarousel(containerId, category, badgeLabel) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const token = localStorage.getItem("access");
-  if (!token) return;
-
   try {
     const qs = category ? `?category=${category}` : "";
-    const res = await fetch(`/api/events/${qs}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
+    const data = await apiGet(`/api/events/${qs}`);
+    if (!data) return;
     const events = Array.isArray(data) ? data : data.results || [];
 
     container.innerHTML = "";
@@ -306,15 +266,9 @@ async function loadUpcomingCarousel() {
   const container = document.getElementById("upcomingCarousel");
   if (!container) return;
 
-  const token = localStorage.getItem("access");
-  if (!token) return;
-
   try {
-    const res = await fetch("/api/events/", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
+    const data = await apiGet("/api/events/");
+    if (!data) return;
     const events = Array.isArray(data) ? data : data.results || [];
 
     container.innerHTML = "";

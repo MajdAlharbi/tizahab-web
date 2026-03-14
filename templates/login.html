@@ -1,49 +1,11 @@
+{% extends "base_auth.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Login | Tizahab</title>
+{% block title %}Login | Tizahab{% endblock %}
 
-  <!-- Apply theme + lang before paint -->
-  <script>
-    (function () {
-      var t = localStorage.getItem("tz_theme") || "light";
-      var l = localStorage.getItem("tz_lang")  || "en";
-      document.documentElement.setAttribute("data-theme", t);
-      document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
-      document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
-    })();
-  </script>
+{% block body_class %}min-h-screen flex items-center justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0] font-arimo relative{% endblock %}
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Cantata+One&family=Bona+Nova+SC&display=swap"
-    rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            arimo: ['Arimo', 'sans-serif'],
-            cantata: ['Cantata One', 'serif'],
-            bona: ['Bona Nova SC', 'serif'],
-          },
-        }
-      }
-    }
-  </script>
-</head>
-
-<body class="min-h-screen flex items-center justify-center
-             bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0]
-             font-arimo relative">
-
+{% block content %}
   <!-- Language Switch -->
   <button class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
     🌐 العربية
@@ -128,8 +90,9 @@
   <a href="/" class="absolute bottom-6 text-white text-sm">
     ← Back to Home
   </a>
+{% endblock %}
 
-  <!-- Login Script -->
+{% block scripts %}
   <script>
     const form = document.querySelector("form");
     const errorBox = document.getElementById("login-error");
@@ -150,10 +113,7 @@
             "Content-Type": "application/json",
             "X-CSRFToken": "{{ csrf_token }}",
           },
-          body: JSON.stringify({
-              email: email,
-            password: password,
-          }),
+          body: JSON.stringify({ email: email, password: password }),
         });
 
         const data = await response.json();
@@ -176,7 +136,4 @@
       }
     });
   </script>
-
-</body>
-
-</html>
+{% endblock %}

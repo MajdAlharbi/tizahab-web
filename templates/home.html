@@ -120,53 +120,114 @@
       .replaceAll(">", "&gt;").replaceAll('"', "&quot;");
   }
 
-  function getToken() { return localStorage.getItem("access"); }
+  function showError(msg) {
+    console.error(msg);
+  }
 
-  /* ---- Starting Soon: load first 3 events ---- */
-  async function loadStartingSoon() {
-    const token = getToken();
-    if (!token) return;
-    try {
-      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 3);
+  /* ---- Render: Starting Soon ---- */
+  function renderStartingSoon(events) {
+    const list = document.getElementById("startingSoonList");
+    if (!list) return;
+    list.innerHTML = "";
+    if (!events.length) {
+      list.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No upcoming events</p>';
+      return;
+    }
+    events.forEach(ev => {
+      const item = document.createElement("a");
+      item.href = `/events/page/${ev.id}/`;
+      item.className = "flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition";
+      item.innerHTML = `
+        <div class="w-10 h-10 rounded-xl bg-[#faf5ff] flex items-center justify-center shrink-0 text-lg">
+          ${catEmoji(ev.category)}
+        </div>
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-gray-800 truncate">${escHtml(ev.title || "Event")}</p>
+          <p class="text-xs text-gray-500 truncate">📍 ${escHtml(ev.location || "Riyadh")}</p>
+        </div>
+        <span class="text-xs text-brand font-semibold shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+      `;
+      list.appendChild(item);
+    });
+  }
 
-      const list = document.getElementById("startingSoonList");
-      list.innerHTML = "";
-      if (!events.length) {
-        list.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No upcoming events</p>';
-        return;
-      }
-      events.forEach(ev => {
-        const item = document.createElement("a");
-        item.href = `/events/page/${ev.id}/`;
-        item.className = "flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition";
-        item.innerHTML = `
-          <div class="w-10 h-10 rounded-xl bg-[#faf5ff] flex items-center justify-center shrink-0 text-lg">
-            ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
-          </div>
-          <div class="min-w-0">
-            <p class="text-sm font-medium text-gray-800 truncate">${escHtml(ev.title || "Event")}</p>
+  /* ---- Render: Recommended ---- */
+  function renderRecommended(events) {
+    const grid = document.getElementById("recommendedGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    events.forEach(ev => {
+      const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
+      const card = document.createElement("a");
+      card.href = `/events/page/${ev.id}/`;
+      card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
+      card.innerHTML = `
+        <div class="h-28 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-3xl">
+          ${catEmoji(ev.category)}
+        </div>
+        <div class="p-3 space-y-1">
+          <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Untitled")}</p>
+          <p class="text-xs text-gray-500">📍 ${escHtml(ev.location || "Riyadh")}</p>
+          <p class="text-xs text-brand font-semibold">${escHtml(price)}</p>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---- Render: Popular Places / Offers ---- */
+  function renderOffers(events) {
+    const grid = document.getElementById("offersGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const gradients = [
+      "from-orange-400 to-rose-500",
+      "from-blue-400 to-indigo-500",
+      "from-green-400 to-emerald-500",
+      "from-purple-400 to-violet-500"
+    ];
+    events.forEach((ev, i) => {
+      const card = document.createElement("a");
+      card.href = `/events/page/${ev.id}/`;
+      card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
+      card.innerHTML = `
+        <div class="h-2 bg-gradient-to-r ${gradients[i % gradients.length]}"></div>
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0">🍽️</div>
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Place")}</p>
             <p class="text-xs text-gray-500 truncate">📍 ${escHtml(ev.location || "Riyadh")}</p>
           </div>
-          <span class="text-xs text-brand font-semibold shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
-        `;
-        list.appendChild(item);
-      });
-    } catch { /* silent */ }
+          <span class="text-sm font-bold text-brand shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---- Load home data: 2 API calls instead of 4 ---- */
+  async function loadHomeData() {
+    try {
+      const data = await apiGet("/api/events/?page_size=20");
+      if (!data) return;
+      const events = data.results || data;
+
+      renderStartingSoon(events.slice(0, 3));
+      renderOffers(events.filter(e => e.category === "food").slice(0, 4));
+
+      const filtered = await apiGet("/api/events/filtered/?page_size=6");
+      if (filtered) renderRecommended((filtered.results || filtered).slice(0, 6));
+    } catch (e) {
+      showError("Failed to load content. Please refresh.");
+    }
   }
 
   /* ---- Today's plan ---- */
   async function loadTodayPlan() {
-    const token = getToken();
-    if (!token) return;
     try {
-      const res = await fetch("/api/daily-plan/", { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
+      const data = await apiGet("/api/daily-plan/");
+      if (!data) return;
       const plans = Array.isArray(data) ? data : (data.results || []);
-
       if (!plans.length) return;
 
       const today = new Date().toISOString().split("T")[0];
@@ -196,81 +257,9 @@
     } catch { /* silent */ }
   }
 
-  /* ---- Recommended: load events filtered by preference ---- */
-  async function loadRecommended() {
-    const token = getToken();
-    if (!token) return;
-    try {
-      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 6);
-
-      const grid = document.getElementById("recommendedGrid");
-      grid.innerHTML = "";
-      events.forEach(ev => {
-        const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-        const card = document.createElement("a");
-        card.href = `/events/page/${ev.id}/`;
-        card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
-        card.innerHTML = `
-          <div class="h-28 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-3xl">
-            ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
-          </div>
-          <div class="p-3 space-y-1">
-            <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Untitled")}</p>
-            <p class="text-xs text-gray-500">📍 ${escHtml(ev.location || "Riyadh")}</p>
-            <p class="text-xs text-brand font-semibold">${escHtml(price)}</p>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    } catch { /* silent */ }
-  }
-
-  /* ---- Popular Places / Offers ---- */
-  async function loadOffers() {
-    const token = getToken();
-    if (!token) return;
-    try {
-      const res = await fetch("/api/events/?category=food", { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      const events = (Array.isArray(data) ? data : (data.results || [])).slice(0, 4);
-
-      const grid = document.getElementById("offersGrid");
-      grid.innerHTML = "";
-      events.forEach((ev, i) => {
-        const gradients = [
-          "from-orange-400 to-rose-500",
-          "from-blue-400 to-indigo-500",
-          "from-green-400 to-emerald-500",
-          "from-purple-400 to-violet-500"
-        ];
-        const card = document.createElement("a");
-        card.href = `/events/page/${ev.id}/`;
-        card.className = "bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition";
-        card.innerHTML = `
-          <div class="h-2 bg-gradient-to-r ${gradients[i % gradients.length]}"></div>
-          <div class="p-4 flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0">🍽️</div>
-            <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-gray-800 truncate">${escHtml(ev.title || "Place")}</p>
-              <p class="text-xs text-gray-500 truncate">📍 ${escHtml(ev.location || "Riyadh")}</p>
-            </div>
-            <span class="text-sm font-bold text-brand shrink-0">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    } catch { /* silent */ }
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
-    loadStartingSoon();
+    loadHomeData();
     loadTodayPlan();
-    loadRecommended();
-    loadOffers();
   });
 </script>
 {% endblock %}

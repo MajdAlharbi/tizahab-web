@@ -1,49 +1,11 @@
+{% extends "base_auth.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Create Account | Tizahab</title>
+{% block title %}Create Account | Tizahab{% endblock %}
 
-  <!-- Apply theme + lang before paint -->
-  <script>
-    (function () {
-      var t = localStorage.getItem("tz_theme") || "light";
-      var l = localStorage.getItem("tz_lang")  || "en";
-      document.documentElement.setAttribute("data-theme", t);
-      document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
-      document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
-    })();
-  </script>
+{% block body_class %}min-h-screen flex items-center justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0] font-arimo relative{% endblock %}
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Cantata+One&family=Bona+Nova+SC&display=swap"
-    rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            arimo: ['Arimo', 'sans-serif'],
-            cantata: ['Cantata One', 'serif'],
-            bona: ['Bona Nova SC', 'serif'],
-          },
-        }
-      }
-    }
-  </script>
-</head>
-
-<body class="min-h-screen flex items-center justify-center
-bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0]
-font-arimo relative">
-
+{% block content %}
   <!-- Language Switch -->
   <button class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
     🌐 العربية
@@ -101,7 +63,6 @@ font-arimo relative">
         text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
       </div>
 
-
       <!-- Error -->
       <p id="signup-error" class="text-sm text-red-600 hidden"></p>
 
@@ -148,8 +109,9 @@ font-arimo relative">
   <a href="/" class="absolute bottom-6 text-white text-sm">
     ← Back to Home
   </a>
+{% endblock %}
 
-  <!-- Signup Script -->
+{% block scripts %}
   <script>
     const form = document.querySelector("form");
     const errorBox = document.getElementById("signup-error");
@@ -160,7 +122,6 @@ font-arimo relative">
       errorBox.classList.add("hidden");
       errorBox.textContent = "";
 
-      const fullName = form.querySelector("input[name='full_name']").value;
       const email = form.querySelector("input[name='email']").value;
       const password = form.querySelector("input[name='password']").value;
 
@@ -177,7 +138,6 @@ font-arimo relative">
             password: password,
             password2: password,
           }),
-
         });
 
         const data = await response.json();
@@ -198,7 +158,4 @@ font-arimo relative">
       }
     });
   </script>
-
-</body>
-
-</html>
+{% endblock %}

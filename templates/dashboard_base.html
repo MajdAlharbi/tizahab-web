@@ -174,9 +174,9 @@
         <div class="h-5 w-px bg-gray-200 hidden sm:block"></div>
 
         <!-- Avatar -->
-        <a href="/profile/"
+        <a href="/profile/" id="avatarBtn"
           class="h-9 w-9 bg-gradient-to-tr from-brand-dark to-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm hover:opacity-90 transition shrink-0">
-          AM
+          <span id="avatarInitials">?</span>
         </a>
       </div>
     </header>
@@ -264,6 +264,21 @@
     });
   </script>
 
+  <script src="{% static 'js/api.js' %}"></script>
+  <script>
+    // Dynamic avatar initials from JWT
+    (function () {
+      try {
+        const token = localStorage.getItem("access");
+        if (!token) return;
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const name = payload.username || payload.email || "";
+        const initials = name.slice(0, 2).toUpperCase();
+        const el = document.getElementById("avatarInitials");
+        if (el && initials) el.textContent = initials;
+      } catch (e) {}
+    })();
+  </script>
   {% block scripts %}{% endblock %}
 </body>
 

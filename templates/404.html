@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" id="htmlRoot" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found | Tizahab</title>
+{% extends "base_auth.html" %}
 
-  <!-- Apply theme + lang before paint (same pattern as other pages) -->
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem("tz_theme") || "light";
-        var l = localStorage.getItem("tz_lang")  || "en";
-        document.documentElement.setAttribute("data-theme", t);
-        document.documentElement.setAttribute("dir",  l === "ar" ? "rtl" : "ltr");
-        document.documentElement.setAttribute("lang", l === "ar" ? "ar"  : "en");
-      } catch (e) {}
-    })();
-  </script>
+{% block title %}Page Not Found | Tizahab{% endblock %}
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: { extend: { colors: { brand: '#7e1ca1', 'brand-dark': '#4D1B76' } } }
-    }
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cantata+One&display=swap" rel="stylesheet">
-</head>
+{% block body_class %}min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 font-[Arimo,sans-serif]{% endblock %}
 
-<body class="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 font-[Arimo,sans-serif]">
-
+{% block content %}
   <!-- Logo -->
   <a href="/" class="flex items-center gap-2.5 mb-10">
     <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center shadow">
@@ -71,6 +47,4 @@
   <p class="mt-8 text-xs text-gray-400">
     Tizahab &mdash; Tourism Planning for Riyadh
   </p>
-
-</body>
-</html>
+{% endblock %}

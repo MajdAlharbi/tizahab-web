@@ -1,38 +1,7 @@
 // ======================
-//  Auth helpers
-// ======================
-
-function getAccessToken() {
-  return localStorage.getItem("access");
-}
-
-function authHeaders() {
-  const token = getAccessToken();
-  if (!token) return null;
-  return { Authorization: `Bearer ${token}` };
-}
-
-async function apiGet(url) {
-  const headers = authHeaders();
-  if (!headers) {
-    window.location.href = "/api/auth/ui/login/";
-    return null;
-  }
-  const res = await fetch(url, { headers });
-  if (res.status === 401) {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    window.location.href = "/api/auth/ui/login/";
-    return null;
-  }
-  const data = await res.json();
-  if (!res.ok) throw new Error(data?.detail || "Request failed");
-  return data;
-}
-
-// ======================
 //  Utilities
 // ======================
+// Auth helpers (getToken, apiGet, catLabel, catEmoji, catColor) come from api.js
 
 function escapeHtml(str) {
   return String(str || "")
@@ -41,30 +10,6 @@ function escapeHtml(str) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-const CATEGORY_LABELS = {
-  food: "Food & Dining",
-  culture: "Culture",
-  outdoor: "Outdoor",
-  shopping: "Shopping",
-  other: "Other",
-};
-
-const CATEGORY_COLORS = {
-  food: "bg-orange-100 text-orange-700",
-  culture: "bg-purple-100 text-purple-700",
-  outdoor: "bg-green-100 text-green-700",
-  shopping: "bg-blue-100 text-blue-700",
-  other: "bg-gray-100 text-gray-600",
-};
-
-function catLabel(cat) {
-  return CATEGORY_LABELS[cat] || cat || "Other";
-}
-
-function catColor(cat) {
-  return CATEGORY_COLORS[cat] || CATEGORY_COLORS.other;
 }
 
 // ======================
