@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from django.core.exceptions import ImproperlyConfigured
+import dj_database_url
 
 # ========================
 # Base
@@ -137,10 +138,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ========================
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # ========================
@@ -224,3 +226,17 @@ MAX_EVENTS_PER_RESPONSE = 100
 
 # Daily plan batch size
 DAILY_PLAN_BATCH_SIZE = 5
+
+# ========================
+# Production Security
+# ========================
+
+if not DEBUG:
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = "DENY"
+    CSRF_TRUSTED_ORIGINS = [
+        h.strip()
+        for h in os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
+        if h.strip()
+    ]

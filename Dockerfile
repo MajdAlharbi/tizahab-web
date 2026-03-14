@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -28,9 +28,6 @@ RUN useradd -m -u 1000 tizahab && \
 
 USER tizahab
 
-# Collect static files
-RUN python manage.py collectstatic --noinput --clear
-
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/').read()"
@@ -38,6 +35,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 # Expose port
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "sync", \
-     "--timeout", "30", "--access-logfile", "-", "--error-logfile", "-", "config.wsgi:application"]
+# Copy and wire entrypoint (migrate + collectstatic + gunicorn at runtime)
+COPY --chown=tizahab:tizahab entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

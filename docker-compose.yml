@@ -39,12 +39,12 @@ services:
              python manage.py collectstatic --noinput &&
              gunicorn --bind 0.0.0.0:8000 --workers 4 config.wsgi:application"
     environment:
-      - DEBUG=${DEBUG:-True}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
       - DJANGO_SETTINGS_MODULE=config.settings
       - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-tizahab_db}
       - REDIS_URL=redis://redis:6379/1
       - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-}
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-dev-secret-key}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:?Error: DJANGO_SECRET_KEY must be set}
     ports:
       - "8000:8000"
     depends_on:
@@ -52,8 +52,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - .:/app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
