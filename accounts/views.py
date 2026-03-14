@@ -5,7 +5,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.conf import settings
+from django_ratelimit.decorators import ratelimit
 
 from .models import UserPreferences
 from .serializers import (
@@ -31,10 +37,12 @@ def _read_reset_token(token):
     return signer.unsign(token, max_age=_RESET_MAX_AGE)
 
 
+@ratelimit(key="ip", rate="5/m", block=True)
 def login_page(request):
     return render(request, "login.html")
 
 
+@ratelimit(key="ip", rate="5/m", block=True)
 def signup_page(request):
     return render(request, "signup.html")
 
@@ -43,18 +51,26 @@ def preferences_page(request):
     return render(request, "preferences.html")
 
 
+@ratelimit(key="ip", rate="3/m", block=True)
 def forgot_password_page(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
-        # Always show the same message to prevent user enumeration
         try:
             user = User.objects.get(email=email)
             token = _make_reset_token(user.pk)
-            # URL-encode the token (TimestampSigner uses ':' as separator)
             from urllib.parse import quote
 
             safe_token = quote(token, safe="")
-            return redirect(f"/api/auth/ui/reset-password/{safe_token}/")
+            reset_url = request.build_absolute_uri(
+                f"/api/auth/ui/reset-password/{safe_token}/"
+            )
+            send_mail(
+                subject="Reset your Tizahab password",
+                message=f"Click to reset your password: {reset_url}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=True,
+            )
         except User.DoesNotExist:
             pass
 
@@ -98,6 +114,15 @@ def reset_password_page(request, token):
                 request,
                 "reset_password.html",
                 {"token": token, "error": "Passwords do not match."},
+            )
+
+        try:
+            validate_password(password1, user=user)
+        except ValidationError as e:
+            return render(
+                request,
+                "reset_password.html",
+                {"token": token, "error": e.messages[0]},
             )
 
         user.set_password(password1)
@@ -158,3 +183,8 @@ class UserPreferencesView(APIView):
 
     def put(self, request):
         return self.post(request)
+
+
+@staff_member_required(login_url="/login/")
+def admin_panel_view(request):
+    return render(request, "admin.html")

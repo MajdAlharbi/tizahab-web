@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
+from accounts.views import admin_panel_view
 
 urlpatterns = [
     # Public landing page (root) + authenticated home
@@ -33,6 +34,6 @@ urlpatterns = [
     path("map/", TemplateView.as_view(template_name="map.html"), name="map"),
     path("profile/", TemplateView.as_view(template_name="profile.html"), name="profile"),
     path("settings/", TemplateView.as_view(template_name="settings.html"), name="settings"),
-    path("admin-panel/", TemplateView.as_view(template_name="admin.html"), name="admin_panel"),
+    path("admin-panel/", admin_panel_view, name="admin_panel"),
     path("onboarding/", TemplateView.as_view(template_name="preferences.html"), name="onboarding"),
 ]

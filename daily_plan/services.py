@@ -1,3 +1,4 @@
+from django.db.models import Q
 from events.models import Event
 from accounts.models import UserPreferences
 
@@ -30,17 +31,22 @@ def generate_recommendations(user, date_str=None):
     queryset = Event.objects.filter(category__in=interests)
 
     if preferences.budget_max is not None:
-        from django.db.models import Q
-
         queryset = queryset.filter(
             Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
         )
     if preferences.budget_min is not None:
-        from django.db.models import Q
-
         queryset = queryset.filter(
             Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
         )
 
-    recommended_events = list(queryset[:5])
-    return recommended_events if recommended_events else []
+    recommended = []
+    for category in interests:
+        event = queryset.filter(category=category).order_by("?").first()
+        if event:
+            recommended.append(event)
+    if len(recommended) < 5:
+        remaining = queryset.exclude(
+            id__in=[e.id for e in recommended]
+        ).order_by("?")[: 5 - len(recommended)]
+        recommended += list(remaining)
+    return recommended[:5]

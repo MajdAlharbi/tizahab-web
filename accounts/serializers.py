@@ -85,11 +85,6 @@ class SignupSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Passwords do not match.")
         return attrs
 
-    def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("Username already exists.")
-        return value
-
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Email already exists.")
@@ -117,13 +112,11 @@ class LoginSerializer(serializers.Serializer):
 
         try:
             user_obj = User.objects.get(email=email)
+            username = user_obj.username
         except User.DoesNotExist:
-            raise serializers.ValidationError("Invalid email or password.")
+            username = email
 
-        user = authenticate(
-            username=user_obj.username,
-            password=password,
-        )
+        user = authenticate(username=username, password=password)
 
         if not user:
             raise serializers.ValidationError("Invalid email or password.")

@@ -240,3 +240,9 @@ if not DEBUG:
         for h in os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
         if h.strip()
     ]
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
