@@ -73,37 +73,11 @@
       </button>
 
       <!-- Guest -->
-      <button type="button" class="w-full h-12 rounded-lg border font-bold">
+      <button type="button" onclick="window.location.href='/events/page/'"
+        class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
         Continue as Guest
       </button>
     </form>
-
-    <!-- Divider -->
-    <div class="flex items-center my-8 text-sm text-gray-400">
-      <div class="flex-1 h-px bg-gray-200"></div>
-      <span class="px-4">Or continue with</span>
-      <div class="flex-1 h-px bg-gray-200"></div>
-    </div>
-
-    <!-- Social -->
-    <div class="space-y-3">
-      <button class="w-full h-12 border rounded-lg flex items-center justify-center gap-2">
-        <img src="{% static 'images/google.svg' %}" class="w-4 h-4">
-        Google
-      </button>
-      <button class="w-full h-12 border rounded-lg flex items-center justify-center gap-2">
-        <img src="{% static 'images/facebook.svg' %}" class="w-4 h-4">
-        Facebook
-      </button>
-    </div>
-
-    <!-- Terms -->
-    <p class="text-center text-[11px] text-gray-400 mt-6 leading-4">
-      By creating an account, you agree to our
-      <span class="text-[#7E1CA1]">Terms of Service</span>
-      and
-      <span class="text-[#7E1CA1]">Privacy Policy</span>
-    </p>
   </div>
 
   <a href="/" class="absolute bottom-6 text-white text-sm">

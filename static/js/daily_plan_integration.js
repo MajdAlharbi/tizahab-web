@@ -25,13 +25,21 @@ function renderDailyPlan(data) {
 
   if (events.length === 0) {
     const empty = document.createElement("div");
-    empty.className = "text-gray-500";
-    empty.textContent = "No events found.";
+    empty.className = "py-10 text-center space-y-3";
+    empty.innerHTML = `
+      <p class="text-gray-400 text-sm">No activities planned yet.</p>
+      <button onclick="document.getElementById('generate-btn').click()"
+        class="px-5 py-2 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+        Generate My Plan
+      </button>`;
     container.appendChild(empty);
     return;
   }
 
-  events.forEach(event => {
+  const START_HOUR = 9;
+  const SLOT_HOURS = 2;
+
+  events.forEach((event, index) => {
     const card = document.createElement("div");
     card.className =
       "bg-white border rounded-2xl p-5 shadow-sm flex justify-between items-center hover:shadow-md transition";
@@ -39,9 +47,12 @@ function renderDailyPlan(data) {
     const left = document.createElement("div");
     left.className = "space-y-1";
 
+    const slotStart = START_HOUR + index * SLOT_HOURS;
+    const slotEnd = slotStart + SLOT_HOURS;
+    const fmt = h => `${h % 12 === 0 ? 12 : h % 12}:00 ${h < 12 ? "AM" : "PM"}`;
     const time = document.createElement("div");
     time.className = "text-sm text-brand font-medium";
-    time.textContent = "09:00 AM • 1 hour";
+    time.textContent = `${fmt(slotStart)} – ${fmt(slotEnd)}`;
 
     const title = document.createElement("div");
     title.className = "text-lg font-semibold";
@@ -103,11 +114,32 @@ function setLoading(isLoading) {
 
 
 /* =========================
+   Load Current Plan
+========================= */
+
+async function loadCurrentPlan() {
+  try {
+    const data = await apiGet("/api/daily-plan/");
+    if (!data) return;
+    const plans = Array.isArray(data) ? data : (data.results || []);
+    if (!plans.length) return;
+
+    const today = new Date().toISOString().split("T")[0];
+    const todayPlan = plans.find(p => p.date === today) || plans[0];
+    if (todayPlan && Array.isArray(todayPlan.events) && todayPlan.events.length > 0) {
+      renderDailyPlan(todayPlan);
+    }
+  } catch { /* silent */ }
+}
+
+
+/* =========================
    Page Init
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   initDailyPlanMap();
+  loadCurrentPlan();
 
   const generateBtn = document.getElementById("generate-btn");
   if (!generateBtn) return;
