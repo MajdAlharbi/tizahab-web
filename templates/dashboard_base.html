@@ -158,6 +158,19 @@
       <!-- Right actions -->
       <div class="flex items-center gap-2 ml-3 shrink-0">
 
+        <!-- Theme toggle -->
+        <button id="themeToggleBtn"
+          onclick="
+            const current = localStorage.getItem('tz_theme') || 'light';
+            const next = current === 'light' ? 'dark' : 'light';
+            toggleTheme(next);
+            this.textContent = next === 'dark' ? '☀️' : '🌙';
+          "
+          class="h-9 w-9 rounded-lg border border-gray-200 hover:bg-gray-50 transition flex items-center justify-center text-base"
+          title="Toggle theme">
+          🌙
+        </button>
+
         <!-- Language toggle -->
         <button id="langBtn"
           class="flex items-center gap-1.5 px-2.5 h-9 rounded-xl hover:bg-gray-50 transition text-sm font-medium text-gray-600">
@@ -251,6 +264,12 @@
 
     // ── Active nav highlight ──────────────────────────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("themeToggleBtn");
+      if (btn) {
+        const saved = localStorage.getItem("tz_theme") || "light";
+        btn.textContent = saved === "dark" ? "☀️" : "🌙";
+      }
+
       const path = window.location.pathname;
       document.querySelectorAll(".nav-item").forEach(item => {
         const href = item.getAttribute("href");
