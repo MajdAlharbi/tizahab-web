@@ -27,6 +27,7 @@ class Event(models.Model):
         validators=[MinValueValidator(0)],
     )
 
+    rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 

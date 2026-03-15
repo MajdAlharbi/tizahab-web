@@ -1,0 +1,1262 @@
+[
+    {
+        "Name":"المذاق العربي المعتق للآكلات الجنوبية والمشروبات المعتقه",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Tim Hortons",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Baby Roll",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"BUFIA ATHEER- بوفيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Lugano",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"حاره العسيري للفره",
+        "Type_of_Utility":"Cafe",
+        "Rating":5.0,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Larin sweet لارين سويت",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"سكوب لوب - Scoop Loop خبراء السلاشات الطبيعية",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Shucras",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"ديب لاب كافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"كما الريشة - KAMA ALRYSHA",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"كابيتال لاونج - Capital lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"شاي تذوق الدون",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"RAJA Fast Food & Café (BROASTED)",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"bez obareq",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"مزاج MEZAJ",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.9,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"وايت سبريد white spread",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.8,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"EGGS AND EGGS",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.8,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"بيتشي المرسلات BEACHY",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"GLEAM PIZZERIA",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Costa Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"diplab cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"صمونه وشاي",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"moon nights",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"B5 Lounges",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"بيت الفنجان",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"زياره",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"بوفية جبنة الشرق لتقديم الوجبات",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"74 Lounge & Specialty coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Beanery cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Dur Alhada Compound – مجمع دور الهدا السكني",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.7,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"L'ETO caffe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Alista | ألستا",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Served",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Weirdough",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Ree Café - ري كافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"It.",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Crepe House Riyadh",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Bateel Elan – Panorama Mall",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"La Palma",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"More Tea",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Tea Lab تي لاب",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"كاريبو كوفي - Caribou Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"وودن كوفي | Wooden Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Versai salad",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"HuQQa Riyadh",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"نودلز فقط لأجلك Noodles just for you",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.6,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"بوفية تسالي النظيم",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Barn's | بارنز",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Kohoo Cafe قهوة قوهو",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"BEIKA",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Arcomi",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Midi Mid Lounge Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Paul Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"dips plus",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"mallow - ملو",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Jazy",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"شاي روق",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Bateel Elan – Hamad Tower",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Bean Here - Coffee & Crumbs",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"نغم وكافي لاونج",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"Margin",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"On Snack Bar",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"The Coffee Address | عنوان القهوة",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.5,
+        "Price_Level":"$$$"
+    },
+    {
+        "Name":"تسالي الحديقة | ساحة السويدي الغربي",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Alf‎",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"مقهى و محمصة وودز | WOODS Specialty Café & Roastery‎",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"& Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"A PLUS | Drive thru",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Anis Restaurant",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Revup Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Mjabb",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Bebax coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"CHOCOMELT",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"شاهي وجباتي جريد",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Baby buns",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"CHOCOMELT (Roshn Front)",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Layali Cafe كافيه ليالي",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"costa",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"A PLUS",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"La Romana dal 1947",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"CHICA Lounge By Le Comptoir",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"نالان لاونج NALAN LOUNGE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Bateel Elan - Roshn Front",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Al Babtain Food",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.4,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"JOE & THE JUICE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"PAUL Bakery & Restaurant",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Oplaisir",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Urth Caffe - ROSHN Front",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Lemon Garden Lounge - حديقة ليمون لاونج",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Best coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Joe & The Juice",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Dr.Horde coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Oi",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Campagna di caffè",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"شاهي لمة",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"stir | ستر",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"شاهي في المخ",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"The Coffee Address",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"RNg.COFFEE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Smart Ideas Factory Co.",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"تحالف القهوه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.3,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"شورو لاند CHURROS LAND شورولاند التعاون ريفيير ووك",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Veloce qortuba - فيلوتشي قرطبة",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"سورس | SORS",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"شاي بستان",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Tim hortons",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Tims Horton",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Paul Bakery & Restaurant",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Coffee Sessions",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"PROTEINK Healthy Kitchen",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"مطعم و كافيه فريدم",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Yanni Coffee & lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"respire ar rabiea | تنفس الربيع",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Qamra Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Half Million",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"FOAM",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"ARCHI",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Godiva - Ar Rahmaniyah",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Café Boulud",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"QOOS CAFE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Urth Caffé - KAFD",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Caribou Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Doff",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Tutti Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Three Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"crepe and waffle",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"CHA",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.2,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"مزة عنب لاونج وكافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Izory Pâtisserie Factory- معمل ايزوري باتيسري (Cloud Kitchen)",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"CHOCOMELT (Boulevard City)",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Madhatter Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"PAO",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Mazagan Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"VELOCE CAFE - فيلوتشي كافية",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"My Life Café | ماي لايف كافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Margherita",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"بوفية وقهوة ساحل القمة",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Saadeddin Pastry Head Office",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"TEA SANDWICHES",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Los Primos Bakery & Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"PROTEINK LOUNGE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"YummyBunz",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"NOOR CAFE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Midtat cafe - ميدتات كافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"The Coffee Address | عنوان القهوة‎",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Mykonos Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.1,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"VELOCE CAFE فيلوتشي كافي",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Gourmet Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"بيت الكيف",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Golden Karak",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"ROSLIE Brunch & Cake",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"SOL OLAS",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Downtown Cairo Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"SORS",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Terrace cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"RAW SIP",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Bagelato I bagel & gelato | بيقل وجيلاتو I بيقلاتو",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Alma cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Godiva - Al Nakheel",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"IORTO LOUNGE",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Aquarium Boutique Hotel",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"حلويات سنابل البركة",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Continent Al Waha Hotel",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Vivenea Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"Bayat Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"EGGSACTLY",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"VELOCE CAFE -- فيلوتشي كافية",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"club tea",
+        "Type_of_Utility":"Cafe",
+        "Rating":4.0,
+        "Price_Level":"$$"
+    },
+    {
+        "Name":"SALLY CAFE",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Café Kitsuné – Laysen Valley",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Al Hokair Time",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"illy Caffe ايلي كافيه",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Calvin Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Blue cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Barn's",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Zinc Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Artal Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"illy Caffe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"اكسب كافيه ولاونج AKSEB CAFFEE",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"fontana caffè",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"توت مثلج",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Tranquillo Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"باهتشة BAHCE KITCHEN",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"كريب ولقيمات",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"BUR Bakery",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"مطعم و لاونچ بيت الورد",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Ophelia",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"VELOCE Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"THE FIRST LUXURY LOUNGE",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"تيم هورتنز",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Tea Club",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.8,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"OLE",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Rolllands Coffee",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Lover Lounge",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"كوستا",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Nara Cafe",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Shanab Café",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"خاتون لاونج",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.7,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Non Stop Breakfast",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.6,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"THISALI Fastfood&juice",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.6,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Karak Jadi",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.6,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Life With Cacao",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.6,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"مقهي و فوال المرسي السوداني",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.5,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Godiva - As Sulimaniyah",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.4,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"ALSHURFA",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.3,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"K lounge ( كي لاونج )",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.3,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Sugar Jar . شوجر جار",
+        "Type_of_Utility":"Cafe",
+        "Rating":3.2,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"Mini Mini Café",
+        "Type_of_Utility":"Cafe",
+        "Rating":2.9,
+        "Price_Level":"$"
+    },
+    {
+        "Name":"PAUL",
+        "Type_of_Utility":"Cafe",
+        "Rating":2.7,
+        "Price_Level":"$"
+    }
+]
