@@ -153,8 +153,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       setLoading(false);
       const message = document.getElementById("plan-message");
-      if (message)
-        message.innerText = error.message || "Something went wrong";
+      if (!message) return;
+      if (error.status === 400) {
+        message.innerHTML =
+          `Please set your preferences first.&nbsp;` +
+          `<a href="/onboarding/" ` +
+          `class="underline text-brand font-medium hover:opacity-80">` +
+          `Go to Onboarding</a>`;
+      } else {
+        message.textContent = "Something went wrong. Please try again.";
+      }
     }
   });
 });

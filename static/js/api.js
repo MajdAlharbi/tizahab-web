@@ -45,7 +45,16 @@ async function apiPost(url, data) {
     body: JSON.stringify(data),
   });
 
-  if (!res.ok) throw new Error(`API error ${res.status}`);
+  if (!res.ok) {
+    let detail = `API error ${res.status}`;
+    try {
+      const body = await res.json();
+      if (body.detail) detail = body.detail;
+    } catch {}
+    const err = new Error(detail);
+    err.status = res.status;
+    throw err;
+  }
   return res.json();
 }
 
