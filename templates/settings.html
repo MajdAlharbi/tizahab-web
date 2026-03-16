@@ -127,16 +127,37 @@
       <h2 class="font-semibold text-gray-800">Account</h2>
     </div>
     <div class="p-4 space-y-3">
+
       <a href="/api/auth/ui/preferences/"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
         <span class="text-lg">✏️</span>
         Edit Preferences
       </a>
-      <a href="/api/auth/ui/forgot-password/"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
-        <span class="text-lg">🔒</span>
-        Change Password
-      </a>
+
+      <!-- Change Password — expandable inline form -->
+      <div>
+        <button id="togglePwdForm" type="button"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
+          <span class="text-lg">🔒</span>
+          Change Password
+        </button>
+
+        <div id="pwdForm" class="hidden mt-3 space-y-3 px-1">
+          <input id="currentPwd" type="password" placeholder="Current password"
+            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+          <input id="newPwd" type="password" placeholder="New password"
+            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+          <input id="confirmPwd" type="password" placeholder="Confirm new password"
+            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+          <p id="pwdError"   class="hidden text-xs text-red-600 font-medium"></p>
+          <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">Password updated successfully!</p>
+          <button id="submitPwd" type="button"
+            class="w-full h-10 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
+            Update Password
+          </button>
+        </div>
+      </div>
+
       <a href="/logout/"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 text-sm text-red-600 hover:bg-red-50 transition">
         <span class="text-lg">🚪</span>
@@ -215,6 +236,59 @@
       const msg = document.getElementById("settingsSaved");
       msg.classList.remove("hidden");
       setTimeout(() => msg.classList.add("hidden"), 2500);
+    });
+
+    // ── Change Password — toggle form visibility ──────────────────────────
+    document.getElementById("togglePwdForm").addEventListener("click", () => {
+      document.getElementById("pwdForm").classList.toggle("hidden");
+    });
+
+    // ── Change Password — submit ──────────────────────────────────────────
+    document.getElementById("submitPwd").addEventListener("click", async () => {
+      const currentPwd  = document.getElementById("currentPwd").value.trim();
+      const newPwd      = document.getElementById("newPwd").value.trim();
+      const confirmPwd  = document.getElementById("confirmPwd").value.trim();
+      const errEl       = document.getElementById("pwdError");
+      const successEl   = document.getElementById("pwdSuccess");
+
+      errEl.classList.add("hidden");
+      successEl.classList.add("hidden");
+
+      if (!currentPwd || !newPwd || !confirmPwd) {
+        errEl.textContent = "Please fill in all password fields.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+      if (newPwd !== confirmPwd) {
+        errEl.textContent = "New passwords do not match.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      const token = localStorage.getItem("access");
+      if (!token) { window.location.href = "/login/"; return; }
+
+      try {
+        const res = await fetch("/api/auth/change-password/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+          body: JSON.stringify({ current_password: currentPwd, new_password: newPwd }),
+        });
+        const body = await res.json();
+        if (!res.ok) {
+          errEl.textContent = body.detail || "Failed to update password.";
+          errEl.classList.remove("hidden");
+        } else {
+          successEl.classList.remove("hidden");
+          document.getElementById("currentPwd").value = "";
+          document.getElementById("newPwd").value = "";
+          document.getElementById("confirmPwd").value = "";
+          setTimeout(() => document.getElementById("pwdForm").classList.add("hidden"), 2000);
+        }
+      } catch {
+        errEl.textContent = "Network error. Please try again.";
+        errEl.classList.remove("hidden");
+      }
     });
   });
 </script>

@@ -3,6 +3,8 @@ from .views import (
     SignupAPIView,
     LoginAPIView,
     UserPreferencesView,
+    CurrentUserView,
+    ChangePasswordView,
     login_page,
     signup_page,
     preferences_page,
@@ -15,6 +17,8 @@ urlpatterns = [
     path("signup/", SignupAPIView.as_view(), name="signup"),
     path("login/", LoginAPIView.as_view(), name="login"),
     path("preferences/", UserPreferencesView.as_view(), name="user-preferences"),
+    path("me/", CurrentUserView.as_view(), name="current-user"),
+    path("change-password/", ChangePasswordView.as_view(), name="change-password"),
     # UI pages
     path("ui/login/", login_page, name="login-page"),
     path("ui/signup/", signup_page, name="signup-page"),

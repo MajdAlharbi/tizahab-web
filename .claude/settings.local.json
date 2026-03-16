@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cd \"C:\\\\Users\\\\majd9\\\\OneDrive\\\\Desktop\\\\tizahab_project1\\\\tizahab-web\" && .venv/Scripts/python.exe -c \"\nfrom daily_plan.services import generate_recommendations\nfrom events.views import _apply_date_range_filter, _parse_date\nfrom accounts.views import _make_reset_token, _read_reset_token\nfrom core.context_processors import google_maps_api_key\nfrom events.management.commands.load_data import _price_for\nprint\\('All imports OK'\\)\nprint\\('Token roundtrip:', _read_reset_token\\(_make_reset_token\\(42\\)\\) == '42'\\)\nprint\\('Price food:', _price_for\\('Test Restaurant', 'food'\\)\\)\nprint\\('Price outdoor:', _price_for\\('Test Park', 'outdoor'\\)\\)\nprint\\('date parse valid:', _parse_date\\('2026-06-01'\\)\\)\nprint\\('date parse invalid:', _parse_date\\('not-a-date'\\)\\)\n\" 2>&1)",
       "Bash(cd \"C:\\\\Users\\\\majd9\\\\OneDrive\\\\Desktop\\\\tizahab_project1\\\\tizahab-web\" && DJANGO_SETTINGS_MODULE=config.settings .venv/Scripts/python.exe -c \"\nimport django, os\nos.environ.setdefault\\('DJANGO_SETTINGS_MODULE', 'config.settings'\\)\ndjango.setup\\(\\)\nfrom daily_plan.services import generate_recommendations\nfrom events.views import _apply_date_range_filter, _parse_date\nfrom accounts.views import _make_reset_token, _read_reset_token\nfrom core.context_processors import google_maps_api_key\nfrom events.management.commands.load_data import _price_for\nprint\\('All imports OK'\\)\nprint\\('Token roundtrip:', _read_reset_token\\(_make_reset_token\\(42\\)\\) == '42'\\)\nprint\\('Price food:', _price_for\\('Test Restaurant', 'food'\\)\\)\nprint\\('Price outdoor:', _price_for\\('Test Park', 'outdoor'\\)\\)\nprint\\('date parse valid:', _parse_date\\('2026-06-01'\\)\\)\nprint\\('date parse invalid:', _parse_date\\('not-a-date'\\)\\)\n\" 2>&1)",
-      "mcp__claude_ai_Figma__get_design_context"
+      "mcp__claude_ai_Figma__get_design_context",
+      "Bash(cd:*)"
     ]
   }
 }

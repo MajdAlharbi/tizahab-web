@@ -16,22 +16,50 @@ function getToken() {
 function authHeaders() {
   const token = getToken();
   const headers = { "Content-Type": "application/json" };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
+  if (token) headers.Authorization = `Bearer ${token}`;
   return headers;
 }
 
+/**
+ * Attempt a silent token refresh using the stored refresh token.
+ * Returns true if a new access token was obtained and stored, false otherwise.
+ */
+async function _tryRefresh() {
+  const refresh = localStorage.getItem("refresh");
+  if (!refresh) return false;
+
+  try {
+    const res = await fetch("/api/auth/token/refresh/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh }),
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    if (data.access) {
+      localStorage.setItem("access", data.access);
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+/** Redirect to login and clear stored tokens. */
+function _logout() {
+  localStorage.removeItem("access");
+  localStorage.removeItem("refresh");
+  window.location.href = "/login/";
+}
+
 async function apiGet(url) {
-  const res = await fetch(url, { headers: authHeaders() });
+  let res = await fetch(url, { headers: authHeaders() });
 
   if (res.status === 401) {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    window.location.href = "/login/";
-    return null;
+    const refreshed = await _tryRefresh();
+    if (!refreshed) { _logout(); return null; }
+    // Retry with the new access token
+    res = await fetch(url, { headers: authHeaders() });
+    if (res.status === 401) { _logout(); return null; }
   }
 
   if (!res.ok) throw new Error(`API error ${res.status}`);
@@ -39,11 +67,23 @@ async function apiGet(url) {
 }
 
 async function apiPost(url, data) {
-  const res = await fetch(url, {
+  let res = await fetch(url, {
     method: "POST",
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
+
+  if (res.status === 401) {
+    const refreshed = await _tryRefresh();
+    if (!refreshed) { _logout(); return null; }
+    // Retry with the new access token
+    res = await fetch(url, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (res.status === 401) { _logout(); return null; }
+  }
 
   if (!res.ok) {
     let detail = `API error ${res.status}`;

@@ -185,6 +185,65 @@ class UserPreferencesView(APIView):
         return self.post(request)
 
 
+class CurrentUserView(APIView):
+    """GET /api/auth/me/ — returns the authenticated user's profile data."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        preferences, _ = UserPreferences.objects.get_or_create(user=user)
+        return Response(
+            {
+                "email": user.email,
+                "username": user.username,
+                "interests": preferences.interests or [],
+                "budget_min": preferences.budget_min,
+                "budget_max": preferences.budget_max,
+                "preferred_language": preferences.preferred_language,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class ChangePasswordView(APIView):
+    """POST /api/auth/change-password/ — change password for authenticated user."""
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        current_password = request.data.get("current_password", "")
+        new_password = request.data.get("new_password", "")
+
+        if not current_password or not new_password:
+            return Response(
+                {"detail": "Both current_password and new_password are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user = request.user
+        if not user.check_password(current_password):
+            return Response(
+                {"detail": "Current password is incorrect."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            validate_password(new_password, user=user)
+        except ValidationError as e:
+            return Response(
+                {"detail": e.messages[0]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user.set_password(new_password)
+        user.save()
+        return Response(
+            {"detail": "Password updated successfully."},
+            status=status.HTTP_200_OK,
+        )
+
+
 @staff_member_required(login_url="/login/")
 def admin_panel_view(request):
     return render(request, "admin.html")

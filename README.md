@@ -1,607 +1,288 @@
-# 🌍 Tizahab – Smart Tourism Planner for Riyadh
+# Tizahab — Smart Tourism Planner for Riyadh
 
-**Version:** 1.0.0 (Production Ready)
+A Django web platform that helps users discover places in Riyadh (restaurants, museums, parks, malls) and generate personalized daily itineraries based on their interests and budget.
 
-Tizahab is a modern web platform that helps users discover events and generate personalized daily itineraries in Riyadh. Using AI-driven recommendations and smart filtering, it provides an intelligent tourism experience tailored to individual preferences and budgets.
-
----
-
-## ✨ Features
-
-### Core Functionality
-- 🔐 **Secure Authentication** - JWT-based authentication with token refresh
-- 👤 **User Profiles** - Personalized preferences (language, budget, interests)
-- 🎯 **Smart Event Discovery** - Browse 1000+ events with advanced filtering
-- 🤖 **AI Recommendations** - Generate personalized daily plans based on preferences
-- 📅 **Daily Itineraries** - Create and manage multiple daily plans
-- 🗺️ **Interactive Map** - View events on map with coordinates
-- 💰 **Budget Filtering** - Filter events by price range
-- 🌐 **Multi-language** - Support for Arabic and English
-
-### Technical Features
-- ✅ **Optimized Queries** - Indexed database, N+1 query prevention
-- 📊 **Comprehensive Logging** - Detailed logs with sensitive data masking
-- 🛡️ **Error Handling** - Custom exceptions, proper HTTP status codes
-- 🔒 **Security Hardened** - HTTPS enforced, CSRF protection, XSS prevention
-- 📈 **Scalable Architecture** - Service layer, clean separation of concerns
-- 🚀 **Production Ready** - Environment-based configuration, monitoring
+Developed as a graduation project at Princess Nourah bint Abdulrahman University (PNU), aligned with Saudi Vision 2030 tourism goals.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-Django REST Framework + TailwindCSS Monolith
-├── Authentication & Authorization (JWT)
-├── Event Discovery & Filtering (ORM-optimized)
-├── Recommendation Service (Rule-based AI)
-├── Daily Plan Generation & Management
-└── Integration with Google Places API
+tizahab-web/
+├── config/                    # Django project root: settings, URLs, WSGI
+│   ├── settings.py            # Development settings (SQLite, DEBUG=True)
+│   ├── settings_production.py # Production settings (PostgreSQL, Redis, HTTPS)
+│   └── urls.py                # Root URL routing
+│
+├── accounts/                  # Authentication and user preferences
+│   ├── models.py              # UserPreferences (interests, budget, language)
+│   ├── views.py               # Signup, login, preferences, /me, change-password
+│   ├── serializers.py         # Input validation for auth and preferences
+│   └── urls.py                # /api/auth/* endpoints
+│
+├── events/                    # Place catalog (953 Riyadh places)
+│   ├── models.py              # Event (title, category, price, lat/lng, rating)
+│   ├── views.py               # List, filter by category/search, filtered by preferences
+│   ├── serializers.py
+│   └── management/commands/load_data.py  # Imports riyadh_cleaned.json
+│
+├── daily_plan/                # Itinerary generation
+│   ├── models.py              # DailyPlan (user + date + M2M events)
+│   ├── services.py            # generate_recommendations() — the recommendation engine
+│   ├── views.py               # CRUD + generate endpoint
+│   └── urls.py                # /api/daily-plan/* endpoints
+│
+├── core/                      # Shared utilities
+│   ├── context_processors.py  # Injects GOOGLE_MAPS_API_KEY into templates
+│   └── middleware.py          # NoIndexMiddleware (adds X-Robots-Tag noindex)
+│
+├── templates/                 # Django HTML templates (TailwindCSS)
+├── static/js/                 # Vanilla JavaScript modules
+│   ├── api.js                 # Shared API layer (auth headers, silent refresh)
+│   ├── events.js              # Events page (search, filter, favorites, map)
+│   ├── daily_plan_integration.js  # Daily plan page (generate, carousels, map)
+│   └── map.js                 # Google Maps wrapper
+│
+├── data/dataset-Tizahab/      # Source JSON files for the 953-place dataset
+├── docker-compose.yml         # Services: web, db (PostgreSQL), redis, nginx
+├── entrypoint.sh              # Container startup: migrate + collectstatic + load_data
+├── Dockerfile
+└── nginx.conf
 ```
 
-**Tech Stack:**
-- **Backend:** Django 4.x, Django REST Framework, SimpleJWT
-- **Frontend:** HTML5, TailwindCSS, Vanilla JavaScript
-- **Database:** PostgreSQL (production), SQLite (dev)
-- **Cache:** Redis (production)
-- **API:** RESTful with OpenAPI/Swagger support
-- **External:** Google Maps & Places API
+**Tech stack:**
+
+| Layer | Technology |
+|---|---|
+| Backend | Django 6.0 + Django REST Framework 3.16 |
+| Authentication | SimpleJWT (15-min access / 7-day refresh tokens) |
+| Database (dev) | SQLite |
+| Database (prod) | PostgreSQL 15 |
+| Cache (prod) | Redis 7 |
+| Frontend | TailwindCSS + Vanilla JavaScript |
+| Maps | Google Maps JavaScript API |
+| Static files | WhiteNoise (compressed, cache-busted) |
+| Web server | Gunicorn + Nginx |
+| Containerization | Docker Compose (4 services) |
 
 ---
 
-## 🚀 Quick Start
+## Local Development Setup
 
 ### Prerequisites
-- Python 3.8+
-- PostgreSQL 12+ (production)
-- Redis (production)
-- Google Maps API key (optional)
 
-### Development Setup
+- Python 3.12+
+- Git
 
-**1. Clone and Install**
+### Steps
+
 ```bash
-git clone <repository>
+# 1. Clone the repository
+git clone <repository-url>
 cd tizahab-web
+
+# 2. Create and activate virtual environment
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+# Windows:
+.venv\Scripts\activate
+# macOS / Linux:
+source .venv/bin/activate
+
+# 3. Install dependencies
 pip install -r requirements.txt
-```
 
-**2. Configure Environment**
-```bash
+# 4. Configure environment
 cp .env.example .env
-# Edit .env with your settings
-# Generate SECRET_KEY: python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
+# Open .env and set at minimum:
+#   DJANGO_SECRET_KEY  — generate with the command below
+#   GOOGLE_MAPS_API_KEY — from Google Cloud Console (Maps JS API)
+python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
-**3. Database Setup**
-```bash
-python manage.py makemigrations
+# 5. Run database migrations
 python manage.py migrate
-python manage.py load_data  # Import sample events
-```
 
-**4. Run Server**
-```bash
+# 6. Import the 953 Riyadh places dataset (required — do this once)
+python manage.py load_data
+
+# 7. Start the development server
 python manage.py runserver
 ```
 
-Visit `http://localhost:8000`
+Visit `http://127.0.0.1:8000`
 
----
-
-## 📋 Configuration
-
-### Environment Variables
-
-**Development** (`.env`)
-```
-DJANGO_SECRET_KEY=your-secret-key
-DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
-GOOGLE_MAPS_API_KEY=your-api-key
-DEBUG=True
-```
-
-**Production** (`settings_production.py`)
-```bash
-export DJANGO_SETTINGS_MODULE=config.settings_production
-export DJANGO_SECRET_KEY=your-secure-key
-export DJANGO_ALLOWED_HOSTS=tizahab.example.com,www.tizahab.example.com
-export SECURE_SSL_REDIRECT=True
-export DB_ENGINE=django.db.backends.postgresql
-export DB_NAME=tizahab_db
-export DB_USER=postgres
-export DB_PASSWORD=secure-password
-export DB_HOST=db.example.com
-export REDIS_URL=redis://cache.example.com:6379/1
-```
-
----
-
-## 📚 API Documentation
-
-**Full documentation:** See [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
-
-**Quick Examples:**
+### Re-importing data
 
 ```bash
-# Sign up
-curl -X POST http://localhost:8000/api/auth/signup/ \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@test.com","password":"Pass123!","password2":"Pass123!"}'
-
-# Set preferences
-curl -X POST http://localhost:8000/api/auth/preferences/ \
-  -H "Authorization: Bearer TOKEN" \
-  -d '{"interests":["food","culture"],"budget_max":500}'
-
-# Generate daily plan
-curl -X POST http://localhost:8000/api/daily-plan/generate/ \
-  -H "Authorization: Bearer TOKEN" \
-  -d '{"date":"2026-03-15"}'
-
-# List events
-curl -X GET "http://localhost:8000/api/events/?category=food" \
-  -H "Authorization: Bearer TOKEN"
+# Wipe existing events and re-import from scratch
+python manage.py load_data --clear
 ```
 
 ---
 
-## 🧪 Testing
+## Docker (Production-like)
 
 ```bash
-# Run all tests
-python manage.py test
-
-# Run with coverage
-coverage run --source='.' manage.py test
-coverage report
-
-# Run specific test
-python manage.py test accounts.tests.LoginTestCase
+# Build and start all services (web, db, redis, nginx)
+docker compose up --build
 ```
 
----
+The `entrypoint.sh` automatically runs `migrate`, `collectstatic`, and `load_data` (only if the events table is empty) before starting Gunicorn.
 
-## 📊 Project Structure
-
-```
-tizahab-web/
-├── config/                    # Project settings
-│   ├── settings.py           # Base settings
-│   ├── settings_production.py # Production overrides
-│   ├── logging_config.py      # Logging configuration
-│   └── urls.py
-├── accounts/                 # Authentication & user profiles
-│   ├── models.py            # UserPreferences
-│   ├── views.py             # JWT login, signup, preferences
-│   ├── serializers.py       # Input validation
-│   └── urls.py
-├── events/                   # Event discovery
-│   ├── models.py            # Event model with pricing
-│   ├── views.py             # List, filter, search
-│   ├── serializers.py
-│   └── urls.py
-├── daily_plan/              # Daily plan generation
-│   ├── models.py            # DailyPlan model
-│   ├── views.py             # Generate, list, update
-│   ├── services.py          # Recommendation engine
-│   ├── serializers.py
-│   └── urls.py
-├── core/                     # Core functionality
-│   ├── exceptions.py        # Custom exception classes
-│   ├── models.py
-│   └── views.py
-├── services/                 # (Deprecated) Old service layer
-│   ├── recommendation_service.py
-│   └── daily_plan_service.py
-├── templates/               # HTML templates
-│   └── *.html
-├── static/                  # Static files (CSS, JS)
-│   ├── css/
-│   └── js/
-├── logs/                    # Application logs
-├── manage.py
-├── requirements.txt
-├── pytest.ini
-├── API_DOCUMENTATION.md     # API reference
-├── DEPLOYMENT.md            # Production deployment guide
-└── README.md               # This file
-```
+Visit `http://localhost`
 
 ---
 
-## 🔧 Optimization & Performance
+## Environment Variables
 
-### Database
-- ✅ Indexed on frequently queried fields (category, date, user_id)
-- ✅ `select_related()` for foreign keys
-- ✅ `prefetch_related()` for many-to-many relations
-- ✅ ORM-based filtering (no manual Python loops)
+Copy `.env.example` to `.env` and fill in the values below.
 
-### Caching
-- Events cached for 5 minutes
-- User preferences cached per session
-- Redis for distributed caching in production
+| Variable | Required | Description |
+|---|---|---|
+| `DJANGO_SECRET_KEY` | Yes | Django secret key — generate a random 50-char string |
+| `DJANGO_ALLOWED_HOSTS` | Yes | Comma-separated hostnames (e.g. `localhost,127.0.0.1`) |
+| `DJANGO_DEBUG` | No | `True` for development, omit or `False` for production |
+| `GOOGLE_MAPS_API_KEY` | Yes | Google Maps JavaScript API key — required for map pages |
+| `DB_ENGINE` | No | Database backend — defaults to SQLite in dev |
+| `DATABASE_URL` | Prod only | PostgreSQL connection string (used by `settings_production.py`) |
+| `REDIS_URL` | Prod only | Redis connection string (e.g. `redis://localhost:6379/0`) |
+| `EMAIL_HOST` | Prod only | SMTP server for password reset emails |
+| `EMAIL_HOST_USER` | Prod only | SMTP username |
+| `EMAIL_HOST_PASSWORD` | Prod only | SMTP password |
+| `DEFAULT_FROM_EMAIL` | Prod only | Sender address for outgoing emails |
 
-### Query Performance
-```
-Old approach: 10,000 events = ~500ms (N+1 in Python loop)
-New approach: 10,000 events = ~50ms (single DB query)
-```
-
----
-
-## 🔒 Security
-
-### Authentication & Authorization
-- ✅ JWT tokens with 15-minute expiry
-- ✅ Refresh tokens valid for 7 days
-- ✅ Password hashing (PBKDF2)
-- ✅ CSRF protection on all forms
-
-### Data Protection
-- ✅ HTTPS enforced (production)
-- ✅ Security headers (CSP, X-Frame-Options, etc.)
-- ✅ SQL injection prevention (Django ORM)
-- ✅ XSS prevention (template escaping)
-- ✅ Sensitive data masking in logs
-
-### Rate Limiting
-- Anonymous: 100 requests/hour
-- Authenticated: 1000 requests/hour
+For production, set `DJANGO_SETTINGS_MODULE=config.settings_production`.
 
 ---
 
-## 📝 Logging
+## Running Tests
 
-Logs are stored in `logs/` directory:
-- `tizahab.log` - General application logs
-- `errors.log` - Error and exception logs
-
-**Log Levels:**
-- DEBUG: Detailed information (development)
-- INFO: General info (plan generation, user actions)
-- WARNING: Warning messages (invalid input)
-- ERROR: Error messages (exceptions, failures)
-
-**Sensitive Data:** Passwords, tokens, and API keys are automatically redacted from logs.
-
----
-
-## 📦 Dependencies
-
-See [requirements.txt](requirements.txt) for complete list.
-
-**Key packages:**
-- Django 4.2.x
-- djangorestframework 3.14.x
-- django-rest-framework-simplejwt 5.2.x
-- python-dotenv 1.0.x
-- requests 2.31.x
-- Pillow 10.x (image processing)
-
----
-
-## 🚀 Deployment
-
-### Development
 ```bash
-python manage.py runserver
+# Run all tests with coverage report
+pytest --cov=accounts --cov=events --cov=daily_plan --cov=core --cov-report=term-missing
+
+# Run a specific app's tests
+pytest accounts/tests.py -v
+pytest events/tests.py -v
+pytest daily_plan/tests.py -v
+
+# Run a single test class
+python manage.py test accounts.tests.LoginTests
 ```
 
-### Production
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
-
-**Quick summary:**
-```bash
-# Set production environment
-export DJANGO_SETTINGS_MODULE=config.settings_production
-
-# Collect static files
-python manage.py collectstatic --noinput
-
-# Run with gunicorn
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
-```
+Tests use an in-memory SQLite database and create their own isolated data — no fixtures needed.
 
 ---
 
-## 🐛 Debugging
+## API Endpoints
 
-### Enable Debug Mode (development only)
-Set `DEBUG=True` in `.env`
+All endpoints under `/api/` require `Authorization: Bearer <access_token>` unless noted.
 
-### View Logs
-```bash
-tail -f logs/tizahab.log
-tail -f logs/errors.log
-```
+### Authentication (`/api/auth/`)
 
-### Django Shell
-```bash
-python manage.py shell
-# Access models directly
-from accounts.models import UserPreferences
-UserPreferences.objects.all()
-```
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/auth/signup/` | None | Register — returns JWT tokens |
+| POST | `/api/auth/login/` | None | Login — returns JWT tokens |
+| POST | `/api/auth/token/refresh/` | None | Refresh access token |
+| GET | `/api/auth/me/` | Required | Current user: email, username, interests, budget |
+| GET/POST/PUT | `/api/auth/preferences/` | Required | Get or set interests, budget, language |
+| POST | `/api/auth/change-password/` | Required | Change password (requires current password) |
 
-### Database Queries
-```python
-from django.db import connection
-from django.test.utils import override_settings
+### Events (`/api/events/`)
 
-# View SQL queries in development
-print(connection.queries)
-```
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/events/` | List all places — supports `?category=food` and `?search=keyword` |
+| GET | `/api/events/<id>/` | Single place detail |
+| GET | `/api/events/filtered/` | Places filtered by the user's saved preferences and budget |
 
----
+### Daily Plans (`/api/daily-plan/`)
 
-## 📊 Database Schema
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/daily-plan/` | List the user's saved plans |
+| POST | `/api/daily-plan/` | Create a plan manually |
+| POST | `/api/daily-plan/generate/` | Generate a personalized plan — body: `{"date": "YYYY-MM-DD"}` |
+| GET/PUT/DELETE | `/api/daily-plan/<id>/` | Retrieve, update, or delete a specific plan |
 
-### User Preferences
-```sql
-CREATE TABLE accounts_userpreferences (
-    id INTEGER PRIMARY KEY,
-    user_id INTEGER UNIQUE,
-    preferred_language VARCHAR(5),
-    budget_min INTEGER,
-    budget_max INTEGER,
-    interests JSON,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-);
-```
+### HTML Pages
 
-### Events
-```sql
-CREATE TABLE events_event (
-    id INTEGER PRIMARY KEY,
-    title VARCHAR(255) INDEX,
-    category VARCHAR(50) INDEX,
-    description TEXT,
-    date DATETIME INDEX,
-    start_date DATETIME,
-    end_date DATETIME,
-    location VARCHAR(255),
-    price DECIMAL(10,2),
-    price_range VARCHAR(100),
-    latitude FLOAT,
-    longitude FLOAT,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-);
-```
-
-### Daily Plans
-```sql
-CREATE TABLE daily_plan_dailyplan (
-    id INTEGER PRIMARY KEY,
-    user_id INTEGER INDEX,
-    date DATE INDEX,
-    created_at TIMESTAMP
-);
-
-CREATE TABLE daily_plan_dailyplan_events (
-    id INTEGER PRIMARY KEY,
-    dailyplan_id INTEGER,
-    event_id INTEGER
-);
-```
+| URL | Description |
+|---|---|
+| `/` | Public landing page |
+| `/home/` | Authenticated dashboard |
+| `/events/page/` | Events discovery with search and map |
+| `/events/page/<id>/` | Event detail |
+| `/daily-plan/` | Daily plan page |
+| `/map/` | Full-page Riyadh map |
+| `/profile/` | User profile |
+| `/settings/` | Account settings and change password |
+| `/api/auth/ui/preferences/` | Preferences / onboarding |
 
 ---
 
-## 🤝 Contributing
+## How the Recommendation Engine Works
 
-1. Create feature branch: `git checkout -b feature/your-feature`
-2. Make changes and commit: `git commit -m "feat: description"`
-3. Push to branch: `git push origin feature/your-feature`
-4. Submit pull request
+`daily_plan/services.py::generate_recommendations(user)`
 
-**Commit Message Format:**
-- `feat:` New feature
-- `fix:` Bug fix
-- `refactor:` Code refactoring
-- `docs:` Documentation
-- `test:` Test changes
+1. Fetch `user.preferences` — return `None` if not set (no preferences = no plan)
+2. Read `interests` list — return `None` if empty
+3. Query `Event.objects.filter(category__in=interests)`
+4. Apply budget filters: `price <= budget_max OR price IS NULL`
+5. Diversity pass: pick one random event per interest category first
+6. Fill remaining slots up to 5 with random events from the filtered queryset
+7. Return list of up to 5 `Event` objects
 
----
+The `date` parameter is accepted but not used — the dataset contains permanent places (restaurants, parks, museums), not time-limited events.
 
-## 📄 License
-
-This project is licensed under the MIT License - see LICENSE file for details.
-
----
-
-## 📞 Support & Contact
-
-- **Issues:** GitHub Issues
-- **Email:** support@tizahab.com
-- **Documentation:** [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
-- **Deployment:** [DEPLOYMENT.md](DEPLOYMENT.md)
+Return value semantics:
+- `None` → user has no preferences configured
+- `[]` → preferences exist but no matching events found
+- `[Event, ...]` → up to 5 recommended places
 
 ---
 
-## 🗺️ Roadmap
+## Key Design Decisions
 
-### Phase 1 (Complete)
-- ✅ Core authentication & user profiles
-- ✅ Event discovery & filtering
-- ✅ Daily plan generation
-- ✅ Production hardening
-
-### Phase 2 (Planned)
-- User ratings & reviews
-- Favorites/wishlist
-- Social sharing
-- Advanced search
-
-### Phase 3 (Future)
-- Booking integration
-- Payment processing
-- Mobile app
-- Real-time collaboration
+- **JWT in localStorage** with silent refresh — `api.js` retries requests with a new token before redirecting to login, so users stay logged in for the full 7-day refresh window.
+- **Deterministic pricing** — event prices are assigned with `base + abs(hash(title)) % spread` during `load_data`, giving reproducible variety without randomness.
+- **User isolation** — every queryset in every view is filtered by `request.user`; users can never access another user's plans.
+- **SQLite for dev, PostgreSQL for prod** — switched via `DATABASE_URL` or `DB_ENGINE` env var; no code change needed.
+- **Noindex middleware** — `core/middleware.py` adds `X-Robots-Tag: noindex` to all authenticated dashboard pages.
 
 ---
 
-## 📈 Analytics & Monitoring
+## Project Status
 
-Production deployments include:
-- **Sentry** for error tracking
-- **New Relic** for performance monitoring
-- **CloudFlare** for CDN & DDoS protection
-- **Google Analytics** for user behavior
+**Completed:**
+- JWT authentication (signup, login, password reset, change password)
+- User preferences (interests, budget, language)
+- 953 real Riyadh places across 5 categories
+- Personalized itinerary generation
+- Google Maps integration on events, map, and daily plan pages
+- Client-side favorites (localStorage)
+- Docker Compose production setup
+
+**Remaining work (see ENGINEERING_AUDIT.md for full detail):**
+- Place images (`image_url` field on Event)
+- User reviews and ratings
+- Arabic language UI (Django i18n)
+- Booking system
+- Google Places API live enrichment
 
 ---
 
-**Made with ❤️ for Riyadh tourism** | Last Updated: March 2026
+## Commit Convention
 
+| Prefix | Use |
+|---|---|
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `refactor:` | Code restructuring without behavior change |
+| `docs:` | Documentation only |
+| `test:` | Test changes |
 
-Design Decisions:
- • Service layer separation (services.py)
- • External API isolation (google_places_service.py)
- • Extendable architecture for future ML integration
+---
 
-⸻
-
-🔐 Authentication
-
-JWT-based authentication using SimpleJWT.
-
-Protected endpoints require:
-
-Authorization: Bearer <access_token>
-
-User isolation is enforced at the queryset level:
- • Users can only access their own Daily Plans
- • Users cannot retrieve or modify others’ data
-
-⸻
-
-📡 Main API Endpoints
-
-Authentication
-
-POST /api/auth/login/
-POST /api/auth/register/
-
-Events
-
-GET /api/events/
-
-Daily Plan
-
-GET /api/daily-plan/
-POST /api/daily-plan/
-POST /api/daily-plan/generate/
-GET /api/daily-plan//
-
-⸻
-
-🗺️ Maps Integration (Sprint 5)
- • Interactive map embedded in Events page
- • Daily Plan map integration
- • Dynamic markers from backend events
- • Responsive UI for desktop and mobile
-
-⸻
-
-🌐 Localization
- • English / Arabic toggle
- • RTL support
- • UI text abstraction for translation
- • Layout consistency in both directions
-
-⸻
-
-🎨 UI/UX Standards
- • Tailwind-based consistent design system
- • Standardized spacing, typography, and colors
- • Loading states
- • Empty states
- • Auth guards
- • Responsive layout
-
-⸻
-
-🧪 Testing Strategy
- • Backend tested via PowerShell + Thunder Client
- • JWT authentication validation
- • Permission isolation verification
- • API response validation
- • Manual UI validation
-
-Sprint 6 will include formal testing and deployment validation.
-
-⸻
-
-⚙️ Local Setup
- 1. Clone repository
- 2. Create virtual environment
- 3. Install requirements
- 4. Apply migrations
- 5. Run server
-
-python manage.py migrate
-python manage.py runserver
-
-Optional:
-
-Add Google Places API key in environment variables:
-
-GOOGLE_PLACES_API_KEY=your_key_here
-
-If no key is provided → system automatically uses mock fallback.
-
-⸻
-
-📁 Folder Structure (Simplified)
-
-tizahab-web/
-│
-├── config/
-├── events/
-├── daily_plan/
-│   ├── services.py
-│   ├── google_places_service.py
-│   ├── views.py
-│
-├── templates/
-├── static/
-
-
-⸻
-
-🔄 Sprint Progress
- • Sprint 1 – Foundation & Environment
- • Sprint 2 – Authentication & Preferences
- • Sprint 3 – Events Integration
- • Sprint 4 – AI & Daily Plan
- • Sprint 5 – Maps, UI & Localization
- • Sprint 6 – Testing & Deployment
-
-⸻
-
-🛠️ Future Improvements
- • ML-based recommendation engine
- • Real-time event ranking
- • Caching Google API results
- • User feedback loop
- • Admin dashboard analytics
- • Production deployment
-
-⸻
-
-Backend Core APIs
-Backend AI & Integration
-Frontend UI
-Frontend Integration & Auth
-
-Agile workflow with feature branches + PR review before merge.
-
-⸻
-
-🎯 Project Goal
-
-Deliver a scalable, clean-architecture tourism planning platform aligned with Saudi Vision 2030 tourism objectives.
+**Project:** Tizahab | **University:** PNU | **Stack:** Django 6 + DRF + TailwindCSS

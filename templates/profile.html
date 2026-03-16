@@ -11,14 +11,14 @@
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
 
       <!-- Avatar -->
-      <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
-        AM
+      <div id="profileAvatar" class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
+        …
       </div>
 
       <!-- Info -->
       <div class="flex-1 min-w-0">
-        <h1 id="profileName" class="text-xl font-bold text-gray-900">Ahmed Mohammed</h1>
-        <p class="text-sm text-gray-500 mt-0.5">📍 Riyadh, Saudi Arabia</p>
+        <h1 id="profileName" class="text-xl font-bold text-gray-900">Loading…</h1>
+        <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">📍 Riyadh, Saudi Arabia</p>
 
         <!-- Stats -->
         <div class="flex gap-8 mt-4">
@@ -83,6 +83,29 @@
   const FAV_KEY = "tizahab_favorites";
 
   function getToken() { return localStorage.getItem("access"); }
+
+  /* ---- Load current user (name, email) ---- */
+  async function loadMe() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await fetch("/api/auth/me/", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      // Derive a display name from the email (part before @)
+      const displayName = data.username && data.username !== data.email
+        ? data.username
+        : (data.email ? data.email.split("@")[0] : "User");
+
+      // Initials: first two characters of display name, uppercased
+      const initials = displayName.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "TZ";
+
+      document.getElementById("profileName").textContent = displayName;
+      document.getElementById("profileEmail").textContent = "📧 " + (data.email || "");
+      document.getElementById("profileAvatar").textContent = initials;
+    } catch { /* silent */ }
+  }
 
   /* ---- Load Preferences ---- */
   async function loadPrefs() {
@@ -197,6 +220,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    loadMe();
     loadPrefs();
     loadPlans();
     loadFavs();
