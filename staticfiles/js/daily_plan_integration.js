@@ -5,42 +5,8 @@ console.log("Daily Plan JS Loaded");
 ========================= */
 
 async function generateDailyPlan() {
-  const token = localStorage.getItem("access");
-  if (!token) {
-    window.location.href = "/login/";
-    return null;
-  }
-
-  const today = new Date();
-  const selectedDate = today.toISOString().split("T")[0];
-
-  const response = await fetch("/api/daily-plan/generate/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({ date: selectedDate })
-  });
-
-  if (response.status === 401) {
-  localStorage.removeItem("access");
-  window.location.href = "/login/";
-  return null;
-}
-  const contentType = response.headers.get("content-type") || "";
-  const isJson = contentType.includes("application/json");
-  const payload = isJson ? await response.json() : await response.text();
-
-  if (!response.ok) {
-    const msg =
-      (isJson && payload?.detail)
-        ? payload.detail
-        : "Failed to generate daily plan";
-    throw new Error(msg);
-  }
-
-  return payload;
+const today = new Date().toLocaleDateString("en-CA");
+ return apiPost("/api/daily-plan/generate/", { date: today });
 }
 
 
@@ -59,13 +25,21 @@ function renderDailyPlan(data) {
 
   if (events.length === 0) {
     const empty = document.createElement("div");
-    empty.className = "text-gray-500";
-    empty.textContent = "No events found.";
+    empty.className = "py-10 text-center space-y-3";
+    empty.innerHTML = `
+      <p class="text-gray-400 text-sm">No activities planned yet.</p>
+      <button onclick="document.getElementById('generate-btn').click()"
+        class="px-5 py-2 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+        Generate My Plan
+      </button>`;
     container.appendChild(empty);
     return;
   }
 
-  events.forEach(event => {
+  const START_HOUR = 9;
+  const SLOT_HOURS = 2;
+
+  events.forEach((event, index) => {
     const card = document.createElement("div");
     card.className =
       "bg-white border rounded-2xl p-5 shadow-sm flex justify-between items-center hover:shadow-md transition";
@@ -73,9 +47,12 @@ function renderDailyPlan(data) {
     const left = document.createElement("div");
     left.className = "space-y-1";
 
+    const slotStart = START_HOUR + index * SLOT_HOURS;
+    const slotEnd = slotStart + SLOT_HOURS;
+    const fmt = h => `${h % 12 === 0 ? 12 : h % 12}:00 ${h < 12 ? "AM" : "PM"}`;
     const time = document.createElement("div");
     time.className = "text-sm text-brand font-medium";
-    time.textContent = "09:00 AM • 1 hour";
+    time.textContent = `${fmt(slotStart)} – ${fmt(slotEnd)}`;
 
     const title = document.createElement("div");
     title.className = "text-lg font-semibold";
@@ -137,11 +114,32 @@ function setLoading(isLoading) {
 
 
 /* =========================
+   Load Current Plan
+========================= */
+
+async function loadCurrentPlan() {
+  try {
+    const data = await apiGet("/api/daily-plan/");
+    if (!data) return;
+    const plans = Array.isArray(data) ? data : (data.results || []);
+    if (!plans.length) return;
+
+    const today = new Date().toISOString().split("T")[0];
+    const todayPlan = plans.find(p => p.date === today) || plans[0];
+    if (todayPlan && Array.isArray(todayPlan.events) && todayPlan.events.length > 0) {
+      renderDailyPlan(todayPlan);
+    }
+  } catch { /* silent */ }
+}
+
+
+/* =========================
    Page Init
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   initDailyPlanMap();
+  loadCurrentPlan();
 
   const generateBtn = document.getElementById("generate-btn");
   if (!generateBtn) return;
@@ -155,8 +153,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       setLoading(false);
       const message = document.getElementById("plan-message");
-      if (message)
-        message.innerText = error.message || "Something went wrong";
+      if (!message) return;
+      if (error.status === 400) {
+        message.innerHTML =
+          `Please set your preferences first.&nbsp;` +
+          `<a href="/onboarding/" ` +
+          `class="underline text-brand font-medium hover:opacity-80">` +
+          `Go to Onboarding</a>`;
+      } else {
+        message.textContent = "Something went wrong. Please try again.";
+      }
     }
   });
 });
@@ -259,16 +265,10 @@ async function loadCarousel(containerId, category, badgeLabel) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const token = localStorage.getItem("access");
-  if (!token) return;
-
   try {
     const qs = category ? `?category=${category}` : "";
-    const res = await fetch(`/api/events/${qs}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
+    const data = await apiGet(`/api/events/${qs}`);
+    if (!data) return;
     const events = Array.isArray(data) ? data : data.results || [];
 
     container.innerHTML = "";
@@ -306,15 +306,9 @@ async function loadUpcomingCarousel() {
   const container = document.getElementById("upcomingCarousel");
   if (!container) return;
 
-  const token = localStorage.getItem("access");
-  if (!token) return;
-
   try {
-    const res = await fetch("/api/events/", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
+    const data = await apiGet("/api/events/");
+    if (!data) return;
     const events = Array.isArray(data) ? data : data.results || [];
 
     container.innerHTML = "";

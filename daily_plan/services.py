@@ -4,27 +4,13 @@ from accounts.models import UserPreferences
 
 
 def generate_recommendations(user, date_str=None):
-    """
-    Generate event recommendations for a user.
 
-    Filters by the user's interests and budget. Date is accepted for
-    API compatibility but not used to filter — the dataset contains
-    permanent places (restaurants, parks, museums) that are always available.
+    preferences = UserPreferences.objects.filter(user=user).first()
 
-    Args:
-        user: Authenticated user object
-        date_str: Unused; kept for API compatibility
-
-    Returns:
-        list: Up to 5 recommended Event objects (empty list if no match)
-        None: If user has no preferences configured
-    """
-    try:
-        preferences = user.preferences
-    except UserPreferences.DoesNotExist:
+    if preferences is None:
         return None
 
-    interests = preferences.interests or []
+    interests = [i.lower() for i in (preferences.interests or [])]
     if not interests:
         return None
 
@@ -44,9 +30,9 @@ def generate_recommendations(user, date_str=None):
         event = queryset.filter(category=category).order_by("?").first()
         if event:
             recommended.append(event)
+
     if len(recommended) < 5:
-        remaining = queryset.exclude(id__in=[e.id for e in recommended]).order_by("?")[
-            : 5 - len(recommended)
-        ]
+        remaining = queryset.exclude(id__in=[e.id for e in recommended]).order_by("?")[: 5 - len(recommended)]
         recommended += list(remaining)
+
     return recommended[:5]

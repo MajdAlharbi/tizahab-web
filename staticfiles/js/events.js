@@ -1,38 +1,7 @@
 // ======================
-//  Auth helpers
-// ======================
-
-function getAccessToken() {
-  return localStorage.getItem("access");
-}
-
-function authHeaders() {
-  const token = getAccessToken();
-  if (!token) return null;
-  return { Authorization: `Bearer ${token}` };
-}
-
-async function apiGet(url) {
-  const headers = authHeaders();
-  if (!headers) {
-    window.location.href = "/api/auth/ui/login/";
-    return null;
-  }
-  const res = await fetch(url, { headers });
-  if (res.status === 401) {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    window.location.href = "/api/auth/ui/login/";
-    return null;
-  }
-  const data = await res.json();
-  if (!res.ok) throw new Error(data?.detail || "Request failed");
-  return data;
-}
-
-// ======================
 //  Utilities
 // ======================
+// Auth helpers (getToken, apiGet, catLabel, catEmoji, catColor) come from api.js
 
 function escapeHtml(str) {
   return String(str || "")
@@ -43,28 +12,22 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-const CATEGORY_LABELS = {
-  food: "Food & Dining",
-  culture: "Culture",
-  outdoor: "Outdoor",
-  shopping: "Shopping",
-  other: "Other",
-};
-
-const CATEGORY_COLORS = {
-  food: "bg-orange-100 text-orange-700",
-  culture: "bg-purple-100 text-purple-700",
-  outdoor: "bg-green-100 text-green-700",
-  shopping: "bg-blue-100 text-blue-700",
-  other: "bg-gray-100 text-gray-600",
-};
-
-function catLabel(cat) {
-  return CATEGORY_LABELS[cat] || cat || "Other";
-}
-
-function catColor(cat) {
-  return CATEGORY_COLORS[cat] || CATEGORY_COLORS.other;
+function clearFilter() {
+  _currentCategory = "";
+  _currentSearch = "";
+  const searchEl = document.getElementById("searchInput");
+  const searchMobile = document.getElementById("searchInputMobile");
+  if (searchEl) searchEl.value = "";
+  if (searchMobile) searchMobile.value = "";
+  document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
+    const isAll = btn.dataset.cat === "";
+    btn.classList.toggle("bg-brand", isAll);
+    btn.classList.toggle("text-white", isAll);
+    btn.classList.toggle("border-brand", isAll);
+    btn.classList.toggle("bg-white", !isAll);
+    btn.classList.toggle("text-gray-700", !isAll);
+  });
+  loadEvents().catch(console.error);
 }
 
 // ======================
@@ -192,8 +155,12 @@ function renderEventsGrid(events) {
   grid.innerHTML = "";
 
   if (!events.length) {
-    grid.innerHTML =
-      '<div class="col-span-2 py-16 text-center text-gray-400">No places found matching your search.</div>';
+    const hasFilter = _currentCategory || _currentSearch;
+    grid.innerHTML = `
+      <div class="col-span-2 py-16 text-center space-y-3">
+        <p class="text-gray-400">No places found matching your search.</p>
+        ${hasFilter ? `<button onclick="clearFilter()" class="px-5 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-brand/5 transition">Clear Filter</button>` : ""}
+      </div>`;
     if (countText) countText.textContent = "0 places found";
     return;
   }
@@ -396,10 +363,6 @@ function renderEventDetails(ev) {
       <div class="relative z-10 p-6 w-full">
         <span class="inline-block bg-yellow-300 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full mb-2">${escapeHtml(label)}</span>
         <h1 class="text-2xl font-bold text-white leading-snug">${escapeHtml(ev.title || "")}</h1>
-        <div class="flex items-center gap-1 mt-1">
-          <span class="text-yellow-400 text-sm">★★★★★</span>
-          <span class="text-white/70 text-xs ml-1">4.8</span>
-        </div>
       </div>
     </div>
 
@@ -423,7 +386,7 @@ function renderEventDetails(ev) {
               <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-lg shrink-0">🕐</div>
               <div>
                 <p class="text-xs text-gray-500">Opening Hours</p>
-                <p class="text-sm font-semibold text-gray-800">9:00 AM – 10:00 PM</p>
+                <p class="text-sm font-semibold text-gray-800">${ev.category === "food" ? "8:00 AM – 11:00 PM" : ev.category === "shopping" ? "10:00 AM – 10:00 PM" : "9:00 AM – 9:00 PM"}</p>
               </div>
             </div>
             <div class="flex items-center gap-3">
@@ -444,14 +407,14 @@ function renderEventDetails(ev) {
         </div>
 
         <!-- Tabs -->
-        <div class="flex gap-1 bg-gray-100 rounded-xl p-1">
-          <button class="flex-1 h-9 rounded-lg bg-white text-sm font-medium text-brand shadow-sm">Overview</button>
-          <button class="flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition">Schedule</button>
-          <button class="flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition">Reviews</button>
+        <div class="flex gap-1 bg-gray-100 rounded-xl p-1" id="detailTabs">
+          <button class="tab-btn flex-1 h-9 rounded-lg bg-white text-sm font-medium text-brand shadow-sm" data-tab="overview">Overview</button>
+          <button class="tab-btn flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition" data-tab="schedule">Schedule</button>
+          <button class="tab-btn flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition" data-tab="reviews">Reviews</button>
         </div>
 
-        <!-- About -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+        <!-- Tab panels -->
+        <div id="tab-overview" class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
           <h3 class="font-semibold text-gray-800">About</h3>
           <p class="text-sm text-gray-600 leading-relaxed">${escapeHtml(ev.description || "Experience one of Riyadh's unique destinations. Enjoy the atmosphere, explore the surroundings, and create lasting memories.")}</p>
           <div class="space-y-2 pt-1">
@@ -462,6 +425,19 @@ function renderEventDetails(ev) {
               <li class="flex items-center gap-2 text-sm text-gray-600"><span class="text-green-500">✓</span> ${escapeHtml(label)} experience</li>
             </ul>
           </div>
+        </div>
+        <div id="tab-schedule" class="hidden bg-white rounded-2xl border border-gray-200 p-5 space-y-3">
+          <h3 class="font-semibold text-gray-800">Typical Schedule</h3>
+          <p class="text-sm text-gray-500">Plan your visit around these suggested time slots.</p>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li class="flex gap-3"><span class="text-brand font-medium w-24 shrink-0">Morning</span> Best time for quieter visits and photos</li>
+            <li class="flex gap-3"><span class="text-brand font-medium w-24 shrink-0">Afternoon</span> Peak hours — expect larger crowds</li>
+            <li class="flex gap-3"><span class="text-brand font-medium w-24 shrink-0">Evening</span> Popular for dining and nighttime activities</li>
+          </ul>
+        </div>
+        <div id="tab-reviews" class="hidden bg-white rounded-2xl border border-gray-200 p-5 space-y-3">
+          <h3 class="font-semibold text-gray-800">Reviews</h3>
+          <p class="text-sm text-gray-400">No reviews yet. Be the first to visit and share your experience!</p>
         </div>
 
       </div>
@@ -492,9 +468,28 @@ function renderEventDetails(ev) {
   `;
 }
 
+function wireDetailTabs() {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = { overview: document.getElementById("tab-overview"), schedule: document.getElementById("tab-schedule"), reviews: document.getElementById("tab-reviews") };
+  tabs.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabs.forEach(t => {
+        const active = t === btn;
+        t.classList.toggle("bg-white", active);
+        t.classList.toggle("text-brand", active);
+        t.classList.toggle("shadow-sm", active);
+        t.classList.toggle("text-gray-600", !active);
+      });
+      Object.entries(panels).forEach(([key, el]) => {
+        if (el) el.classList.toggle("hidden", key !== btn.dataset.tab);
+      });
+    });
+  });
+}
+
 async function loadEventDetails(eventId) {
   const data = await apiGet(`/api/events/${eventId}/`);
-  if (data) renderEventDetails(data);
+  if (data) { renderEventDetails(data); wireDetailTabs(); }
 }
 
 // ======================

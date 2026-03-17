@@ -6,7 +6,7 @@ console.log("Daily Plan JS Loaded");
 
 async function generateDailyPlan() {
   const today = new Date().toISOString().split("T")[0];
-  return apiPost("/api/daily-plan/generate/", { date: today });
+ return apiPost("/api/daily-plan/generate/", { date: today });
 }
 
 
