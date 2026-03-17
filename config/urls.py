@@ -5,8 +5,11 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from accounts.views import admin_panel_view
 
+# هذا فقط لتغيير اللغة من الزر
 urlpatterns = [
-    # Public landing page (root) + authenticated home
+    path("i18n/", include("django.conf.urls.i18n")),
+
+    # Public landing page
     path("", TemplateView.as_view(template_name="landing.html"), name="root"),
     path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
     path("dashboard/", TemplateView.as_view(template_name="home.html"), name="dashboard"),
@@ -18,15 +21,15 @@ urlpatterns = [
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
     path("logout/", auth_views.LogoutView.as_view(next_page="/login/"), name="logout"),
 
-    # Auth APIs (includes ui/preferences/, ui/login/, etc.)
+    # Auth APIs
     path("api/auth/", include("accounts.urls")),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
-    # Events APIs & Pages
+    # Events
     path("api/events/", include("events.api_urls")),
     path("events/", include("events.page_urls")),
 
-    # Daily Plan APIs & Pages
+    # Daily Plan
     path("api/daily-plan/", include("daily_plan.urls")),
     path("daily-plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
 
@@ -37,3 +40,11 @@ urlpatterns = [
     path("admin-panel/", admin_panel_view, name="admin_panel"),
     path("onboarding/", TemplateView.as_view(template_name="preferences.html"), name="onboarding"),
 ]
+USE_I18N = True
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('ar', 'Arabic'),
+]
+
+LANGUAGE_CODE = 'en'
