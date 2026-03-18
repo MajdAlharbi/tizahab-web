@@ -1,14 +1,124 @@
 console.log("Daily Plan JS Loaded");
 
+let dailyPlanMap = null;
+let dailyPlanMarkers = [];
+let dailyPlanInfoWindow = null;
+let directionsService = null;
+let directionsRenderer = null;
+
 /* =========================
-  Generate Daily Plan
+   Generate Daily Plan
 ========================= */
 
 async function generateDailyPlan() {
   const today = new Date().toISOString().split("T")[0];
- return apiPost("/api/daily-plan/generate/", { date: today });
+  return apiPost("/api/daily-plan/generate/", { date: today });
 }
 
+/* =========================
+   Map Initialization
+========================= */
+
+window.initDailyPlanMap = function () {
+  if (!window.TZMap) {
+    console.error("TZMap is not loaded");
+    return;
+  }
+
+  const mapEl = document.getElementById("dailyPlanMap");
+  if (!mapEl) {
+    console.error("dailyPlanMap element not found");
+    return;
+  }
+
+  dailyPlanMap = window.TZMap.initMap("dailyPlanMap", {
+    zoom: 11,
+    center: { lat: 24.7136, lng: 46.6753 }
+  });
+
+  if (!dailyPlanMap) {
+    console.error("Failed to initialize daily plan map");
+    return;
+  }
+
+  dailyPlanInfoWindow = new google.maps.InfoWindow();
+  directionsService = new google.maps.DirectionsService();
+
+  directionsRenderer = new google.maps.DirectionsRenderer({
+    suppressMarkers: true,
+    polylineOptions: {
+      strokeColor: "#7e1ca1",
+      strokeWeight: 4
+    }
+  });
+
+  directionsRenderer.setMap(dailyPlanMap);
+
+  loadCurrentPlan();
+};
+
+/* =========================
+   Helpers
+========================= */
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function toNum(value) {
+  const n = Number(value);
+  return Number.isNaN(n) ? null : n;
+}
+
+function extractCoordinates(event) {
+  const candidates = [
+    [event?.latitude, event?.longitude],
+    [event?.lat, event?.lng],
+    [event?.lat, event?.longitude],
+    [event?.latitude, event?.lng],
+    [event?.event?.latitude, event?.event?.longitude],
+    [event?.event?.lat, event?.event?.lng],
+    [event?.place?.latitude, event?.place?.longitude],
+    [event?.place?.lat, event?.place?.lng]
+  ];
+
+  for (const [latRaw, lngRaw] of candidates) {
+    const lat = toNum(latRaw);
+    const lng = toNum(lngRaw);
+    if (lat !== null && lng !== null) {
+      return { lat, lng };
+    }
+  }
+
+  return null;
+}
+
+function normalizeEvent(event) {
+  const coords = extractCoordinates(event);
+
+  return {
+    id: event?.id ?? event?.event?.id ?? null,
+    title:
+      event?.title ||
+      event?.name ||
+      event?.event?.title ||
+      event?.event?.name ||
+      "Activity",
+    location:
+      event?.location ||
+      event?.place_name ||
+      event?.event?.location ||
+      event?.place?.name ||
+      "Riyadh",
+    lat: coords?.lat ?? null,
+    lng: coords?.lng ?? null
+  };
+}
 
 /* =========================
    Render Daily Plan
@@ -16,102 +126,178 @@ async function generateDailyPlan() {
 
 function renderDailyPlan(data) {
   const container = document.getElementById("plan-container");
-  const message = document.getElementById("plan-message");
+  const rawEvents = Array.isArray(data?.events) ? data.events : [];
+  const events = rawEvents.map(normalizeEvent);
+
   if (!container) return;
 
   container.replaceChildren();
 
-  const events = Array.isArray(data?.events) ? data.events : [];
-
-  if (events.length === 0) {
+  if (!events.length) {
     const empty = document.createElement("div");
-    empty.className = "py-10 text-center space-y-3";
-    empty.innerHTML = `
-      <p class="text-gray-400 text-sm">No activities planned yet.</p>
-      <button onclick="document.getElementById('generate-btn').click()"
-        class="px-5 py-2 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
-        Generate My Plan
-      </button>`;
+    empty.className = "text-center py-10 text-gray-500";
+    empty.innerText = "No activities planned yet.";
     container.appendChild(empty);
+
+    clearDailyPlanMarkers();
+    if (directionsRenderer) directionsRenderer.set("directions", null);
     return;
   }
-
-  const START_HOUR = 9;
-  const SLOT_HOURS = 2;
 
   events.forEach((event, index) => {
     const card = document.createElement("div");
     card.className =
-      "bg-white border rounded-2xl p-5 shadow-sm flex justify-between items-center hover:shadow-md transition";
+      "bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition";
 
-    const left = document.createElement("div");
-    left.className = "space-y-1";
+    card.innerHTML = `
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="font-semibold text-lg">${escapeHtml(event.title)}</div>
+          <div class="text-sm text-gray-500 mt-1">📍 ${escapeHtml(event.location)}</div>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">
+          ${index + 1}
+        </div>
+      </div>
+    `;
 
-    const slotStart = START_HOUR + index * SLOT_HOURS;
-    const slotEnd = slotStart + SLOT_HOURS;
-    const fmt = h => `${h % 12 === 0 ? 12 : h % 12}:00 ${h < 12 ? "AM" : "PM"}`;
-    const time = document.createElement("div");
-    time.className = "text-sm text-brand font-medium";
-    time.textContent = `${fmt(slotStart)} – ${fmt(slotEnd)}`;
-
-    const title = document.createElement("div");
-    title.className = "text-lg font-semibold";
-    title.textContent = event.title || "";
-
-    const location = document.createElement("div");
-    location.className = "text-sm text-gray-500";
-    location.textContent = event.location || "";
-
-    left.appendChild(time);
-    left.appendChild(title);
-    left.appendChild(location);
-
-    const actionBtn = document.createElement("button");
-    actionBtn.className =
-      "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90";
-    actionBtn.textContent = "Navigate";
-
-    card.appendChild(left);
-    card.appendChild(actionBtn);
     container.appendChild(card);
   });
 
-  if (message) message.innerText = "";
+  const mapPoints = events.filter(e => e.lat !== null && e.lng !== null);
 
-  /* ===== Summary Stats ===== */
+  console.log("Daily plan raw events:", rawEvents);
+  console.log("Daily plan normalized events:", events);
+  console.log("Daily plan map points:", mapPoints);
+
+  renderDailyPlanMarkers(mapPoints);
+  renderRoute(mapPoints);
+
   const activityCount = document.getElementById("summary-activities");
   const durationEl = document.getElementById("summary-duration");
-  if (activityCount) activityCount.textContent = events.length;
+
+  if (activityCount) activityCount.textContent = String(events.length);
   if (durationEl) durationEl.textContent = `${events.length}h`;
+}
 
-  /* ===== Map Binding ===== */
+/* =========================
+   Clear Markers
+========================= */
 
-  const mapPoints = events
-    .filter(e => typeof e.latitude === "number" && typeof e.longitude === "number")
-    .map(e => ({
-      id: e.id,
-      title: e.title,
-      location: e.location,
-      lat: e.latitude,
-      lng: e.longitude
-    }));
+function clearDailyPlanMarkers() {
+  dailyPlanMarkers.forEach(marker => marker.setMap(null));
+  dailyPlanMarkers = [];
+}
 
-  if (window.__TZ_DP_MAP) {
-    renderDailyPlanMarkers(mapPoints);
+/* =========================
+   Render Markers
+========================= */
+
+function renderDailyPlanMarkers(points) {
+  if (!dailyPlanMap || !window.google || !google.maps) return;
+
+  clearDailyPlanMarkers();
+
+  const bounds = new google.maps.LatLngBounds();
+  let hasPoints = false;
+
+  points.forEach((p, index) => {
+    const marker = new google.maps.Marker({
+      position: { lat: p.lat, lng: p.lng },
+      map: dailyPlanMap,
+      title: p.title,
+      label: {
+        text: String(index + 1),
+        color: "#ffffff",
+        fontWeight: "bold"
+      },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: "#7e1ca1",
+        fillOpacity: 1,
+        strokeColor: "#ffffff",
+        strokeWeight: 2,
+        scale: 10
+      }
+    });
+
+    marker.addListener("click", () => {
+      dailyPlanInfoWindow.setContent(`
+        <div style="padding:12px;min-width:190px;">
+          <div style="font-weight:700;font-size:14px;margin-bottom:6px;">
+            ${escapeHtml(p.title)}
+          </div>
+          <div style="font-size:12px;color:#6b7280;">
+            📍 ${escapeHtml(p.location)}
+          </div>
+        </div>
+      `);
+
+      dailyPlanInfoWindow.open({
+        anchor: marker,
+        map: dailyPlanMap
+      });
+    });
+
+    dailyPlanMarkers.push(marker);
+    bounds.extend(marker.getPosition());
+    hasPoints = true;
+  });
+
+  if (hasPoints) {
+    dailyPlanMap.fitBounds(bounds);
+
+    google.maps.event.addListenerOnce(dailyPlanMap, "bounds_changed", () => {
+      if (dailyPlanMap.getZoom() > 13) {
+        dailyPlanMap.setZoom(13);
+      }
+    });
+  } else {
+    dailyPlanMap.setCenter({ lat: 24.7136, lng: 46.6753 });
+    dailyPlanMap.setZoom(11);
   }
 }
 
-
 /* =========================
-   Loading State
+   Route Between Activities
 ========================= */
 
-function setLoading(isLoading) {
-  const message = document.getElementById("plan-message");
-  if (!message) return;
-  message.innerText = isLoading ? "Generating..." : "";
-}
+function renderRoute(points) {
+  if (!directionsService || !directionsRenderer) return;
 
+  if (points.length < 2) {
+    directionsRenderer.set("directions", null);
+    return;
+  }
+
+  const origin = { lat: points[0].lat, lng: points[0].lng };
+  const destination = {
+    lat: points[points.length - 1].lat,
+    lng: points[points.length - 1].lng
+  };
+
+  const waypoints = points.slice(1, -1).map(p => ({
+    location: { lat: p.lat, lng: p.lng },
+    stopover: true
+  }));
+
+  directionsService.route(
+    {
+      origin,
+      destination,
+      waypoints,
+      travelMode: google.maps.TravelMode.DRIVING
+    },
+    (result, status) => {
+      if (status === "OK") {
+        directionsRenderer.setDirections(result);
+      } else {
+        console.error("Directions request failed:", status);
+        directionsRenderer.set("directions", null);
+      }
+    }
+  );
+}
 
 /* =========================
    Load Current Plan
@@ -121,206 +307,34 @@ async function loadCurrentPlan() {
   try {
     const data = await apiGet("/api/daily-plan/");
     if (!data) return;
+
     const plans = Array.isArray(data) ? data : (data.results || []);
     if (!plans.length) return;
 
     const today = new Date().toISOString().split("T")[0];
     const todayPlan = plans.find(p => p.date === today) || plans[0];
-    if (todayPlan && Array.isArray(todayPlan.events) && todayPlan.events.length > 0) {
-      renderDailyPlan(todayPlan);
-    }
-  } catch { /* silent */ }
-}
 
+    if (todayPlan) renderDailyPlan(todayPlan);
+  } catch (error) {
+    console.error("Failed to load current plan:", error);
+  }
+}
 
 /* =========================
    Page Init
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initDailyPlanMap();
-  loadCurrentPlan();
-
   const generateBtn = document.getElementById("generate-btn");
+
   if (!generateBtn) return;
 
   generateBtn.addEventListener("click", async () => {
     try {
-      setLoading(true);
       const data = await generateDailyPlan();
-      setLoading(false);
       if (data) renderDailyPlan(data);
     } catch (error) {
-      setLoading(false);
-      const message = document.getElementById("plan-message");
-      if (!message) return;
-      if (error.status === 400) {
-        message.innerHTML =
-          `Please set your preferences first.&nbsp;` +
-          `<a href="/onboarding/" ` +
-          `class="underline text-brand font-medium hover:opacity-80">` +
-          `Go to Onboarding</a>`;
-      } else {
-        message.textContent = "Something went wrong. Please try again.";
-      }
+      console.error("Failed to generate daily plan:", error);
     }
   });
-});
-
-
-/* =========================
-   Map Initialization
-========================= */
-
-function initDailyPlanMap() {
-  if (!window.TZMap) return;
-
-  window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
-  window.__TZ_DP_MARKERS = {};
-}
-
-
-/* =========================
-   Render Map Markers
-========================= */
-
-function renderDailyPlanMarkers(points) {
-  if (!window.google || !google.maps || !window.__TZ_DP_MAP) return;
-
-  Object.values(window.__TZ_DP_MARKERS || {}).forEach(m => {
-    if (m?.setMap) m.setMap(null);
-  });
-
-  window.__TZ_DP_MARKERS = {};
-
-  const map = window.__TZ_DP_MAP;
-  const info = new google.maps.InfoWindow();
-  const bounds = new google.maps.LatLngBounds();
-
-  (Array.isArray(points) ? points : []).forEach(p => {
-    if (typeof p.lat !== "number" || typeof p.lng !== "number") return;
-
-    const pos = { lat: p.lat, lng: p.lng };
-    const marker = new google.maps.Marker({ position: pos, map });
-
-    window.__TZ_DP_MARKERS[p.id] = marker;
-
-    marker.addListener("click", () => {
-      info.setContent(
-        `<div style="font-weight:600;margin-bottom:4px;">${escapeHtml(p.title)}</div>
-         <div style="font-size:12px;opacity:.85;">${escapeHtml(p.location)}</div>`
-      );
-      info.open({ anchor: marker, map });
-    });
-
-    bounds.extend(pos);
-  });
-
-  if (!bounds.isEmpty()) map.fitBounds(bounds);
-}
-
-
-/* =========================
-   Utility
-========================= */
-
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-
-/* =========================
-   Carousel helpers
-========================= */
-
-function buildMiniCard(ev, badgeLabel) {
-  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-  const card = document.createElement("div");
-  card.className =
-    "min-w-[240px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition flex-shrink-0";
-  card.innerHTML = `
-    <div class="h-40 bg-gray-200 relative">
-      <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-        ${escapeHtml(badgeLabel)}
-      </span>
-    </div>
-    <div class="p-4 space-y-1">
-      <div class="font-semibold truncate">${escapeHtml(ev.title || "Untitled")}</div>
-      <div class="text-sm text-gray-500">${escapeHtml(price)}</div>
-    </div>
-  `;
-  card.style.cursor = "pointer";
-  card.addEventListener("click", () => {
-    window.location.href = `/events/page/${ev.id}/`;
-  });
-  return card;
-}
-
-async function loadCarousel(containerId, category, badgeLabel) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  try {
-    const qs = category ? `?category=${category}` : "";
-    const data = await apiGet(`/api/events/${qs}`);
-    if (!data) return;
-    const events = Array.isArray(data) ? data : data.results || [];
-
-    container.innerHTML = "";
-    events.slice(0, 6).forEach((ev) =>
-      container.appendChild(buildMiniCard(ev, badgeLabel))
-    );
-  } catch {
-    // Silently fail — carousels are non-critical
-  }
-}
-
-function buildUpcomingCard(ev) {
-  const card = document.createElement("div");
-  card.className =
-    "min-w-[260px] bg-white border rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition flex-shrink-0";
-  card.innerHTML = `
-    <div class="h-40 bg-gray-200 relative">
-      <span class="absolute top-3 left-3 bg-brand text-white text-xs px-3 py-1 rounded-full">
-        ${escapeHtml(ev.category || "Place")}
-      </span>
-    </div>
-    <div class="p-4 space-y-2">
-      <div class="font-semibold truncate">${escapeHtml(ev.title || "Untitled")}</div>
-      <div class="text-sm text-gray-500">📍 ${escapeHtml(ev.location || "Riyadh")}</div>
-      <a href="/events/page/${ev.id}/"
-        class="block w-full h-9 rounded-xl bg-brand text-white text-sm hover:opacity-90 text-center leading-9">
-        View Event
-      </a>
-    </div>
-  `;
-  return card;
-}
-
-async function loadUpcomingCarousel() {
-  const container = document.getElementById("upcomingCarousel");
-  if (!container) return;
-
-  try {
-    const data = await apiGet("/api/events/");
-    if (!data) return;
-    const events = Array.isArray(data) ? data : data.results || [];
-
-    container.innerHTML = "";
-    events.slice(0, 6).forEach((ev) => container.appendChild(buildUpcomingCard(ev)));
-  } catch {
-    // Silently fail
-  }
-}
-
-/* Load all three carousels on page load */
-document.addEventListener("DOMContentLoaded", () => {
-  loadCarousel("restaurantsCarousel", "food", "Restaurant");
-  loadCarousel("activitiesCarousel", "outdoor", "Outdoor");
-  loadUpcomingCarousel();
 });
