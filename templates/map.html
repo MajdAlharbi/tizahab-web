@@ -5,32 +5,72 @@
 
 {% block head %}
 <style>
-  /* Make the map fill the available vertical space */
-  #mapPageMap { height: calc(100vh - 180px); min-height: 400px; }
+  #mapPageMap {
+    height: calc(100vh - 180px);
+    min-height: 420px;
+  }
+
+  .map-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: calc(100vh - 180px);
+    min-height: 420px;
+    background: #ffffff;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .map-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #7e1ca1;
+    border-radius: 9999px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .gm-style .gm-style-iw-c {
+    padding: 0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .gm-style .gm-style-iw-d {
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="flex flex-col h-full px-4 lg:px-6 py-4 gap-4">
 
-  <!-- Header row -->
   <div class="flex items-center justify-between shrink-0">
     <div>
       <h1 class="text-2xl font-bold text-gray-900">Explore Map</h1>
       <p class="text-sm text-gray-500 mt-0.5">Discover places across Riyadh</p>
     </div>
-    <span id="mapPlaceCount" class="text-sm text-gray-400"></span>
+    <span id="mapPlaceCount" class="text-sm text-gray-400">0 places</span>
   </div>
 
-  <!-- Search + Filter bar -->
   <div class="flex flex-wrap items-center gap-3 shrink-0">
     <div class="relative flex-1 min-w-[200px] max-w-sm">
       <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
-      <input id="mapSearch" type="text" placeholder="Search places…"
-        class="w-full h-10 rounded-xl border border-gray-200 pl-9 pr-4 text-sm focus:outline-none focus:border-brand bg-white transition">
+      <input
+        id="mapSearch"
+        type="text"
+        placeholder="Search places..."
+        class="w-full h-10 rounded-xl border border-gray-200 pl-9 pr-4 text-sm focus:outline-none focus:border-brand bg-white transition"
+      >
     </div>
 
-    <!-- Category pills -->
     <div class="flex gap-2 flex-wrap">
       <button class="map-filter h-9 px-4 rounded-full border bg-brand text-white border-brand text-xs font-medium" data-cat="">All</button>
       <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="food">🍽️ Food</button>
@@ -40,9 +80,12 @@
     </div>
   </div>
 
-  <!-- Map container -->
   <div class="flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div id="mapPageMap" class="w-full"></div>
+    <div id="mapLoading" class="map-loading">
+      <span class="map-spinner"></span>
+      <span>Loading map...</span>
+    </div>
+    <div id="mapPageMap" class="w-full hidden"></div>
   </div>
 
 </div>
@@ -59,81 +102,187 @@
 
   function escHtml(s) {
     return String(s || "")
-      .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  }
+
+  function categoryEmoji(cat) {
+    if (cat === "food") return "🍽️";
+    if (cat === "culture") return "🏛️";
+    if (cat === "outdoor") return "🌿";
+    if (cat === "shopping") return "🛍️";
+    return "📍";
+  }
+
+  function showMapContainer() {
+    const loading = document.getElementById("mapLoading");
+    const mapEl = document.getElementById("mapPageMap");
+    if (loading) loading.classList.add("hidden");
+    if (mapEl) mapEl.classList.remove("hidden");
   }
 
   function initMapPage() {
     if (!window.TZMap) return;
-    _mapInstance = window.TZMap.initMap("mapPageMap", { zoom: 11 });
+
+    showMapContainer();
+
+    _mapInstance = window.TZMap.initMap("mapPageMap", {
+      zoom: 11,
+      center: { lat: 24.7136, lng: 46.6753 }
+    });
+
     if (!_mapInstance) return;
+
     _infoWindow = new google.maps.InfoWindow();
     loadMapEvents();
   }
 
+  function markerIcon(cat) {
+    const colorMap = {
+      food: "#ef4444",
+      culture: "#f59e0b",
+      outdoor: "#22c55e",
+      shopping: "#8b5cf6",
+      other: "#3b82f6"
+    };
+
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      fillColor: colorMap[cat] || colorMap.other,
+      fillOpacity: 1,
+      strokeColor: "#ffffff",
+      strokeWeight: 2,
+      scale: 8
+    };
+  }
+
+  function buildInfoWindowContent(ev) {
+    const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
+    const emoji = categoryEmoji(ev.category);
+
+    return `
+      <div style="width:240px;padding:14px 14px 12px 14px;font-family:Arial,sans-serif;background:#fff;">
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:38px;height:38px;border-radius:12px;background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">
+            ${emoji}
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;margin-bottom:6px;">
+              ${escHtml(ev.title)}
+            </div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.4;margin-bottom:6px;">
+              📍 ${escHtml(ev.location || "Riyadh")}
+            </div>
+            <div style="font-size:12px;color:#7e1ca1;font-weight:700;margin-bottom:10px;">
+              ${escHtml(price)}
+            </div>
+            <a href="/events/page/${ev.id}/" style="display:inline-block;font-size:12px;color:#7e1ca1;text-decoration:none;font-weight:700;">
+              View Details →
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderMarkers(events) {
     if (!_mapInstance || !window.google) return;
-    _markers.forEach(m => m.setMap(null));
+
+    _markers.forEach(marker => marker.setMap(null));
     _markers = [];
+
     const bounds = new google.maps.LatLngBounds();
     let hasPoints = false;
 
     events.forEach(ev => {
       if (typeof ev.latitude !== "number" || typeof ev.longitude !== "number") return;
+
       const pos = { lat: ev.latitude, lng: ev.longitude };
-      const marker = new google.maps.Marker({ position: pos, map: _mapInstance });
+
+      const marker = new google.maps.Marker({
+        position: pos,
+        map: _mapInstance,
+        title: ev.title || "Place",
+        icon: markerIcon(ev.category)
+      });
+
+      marker.addListener("click", () => {
+        _infoWindow.setContent(buildInfoWindowContent(ev));
+        _infoWindow.open({
+          anchor: marker,
+          map: _mapInstance
+        });
+      });
+
       _markers.push(marker);
       bounds.extend(pos);
       hasPoints = true;
-
-      marker.addListener("click", () => {
-        const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-        _infoWindow.setContent(`
-          <div style="min-width:180px;font-family:Arial,sans-serif">
-            <div style="font-weight:600;font-size:14px;margin-bottom:4px">${escHtml(ev.title)}</div>
-            <div style="font-size:12px;color:#6b7280;margin-bottom:4px">📍 ${escHtml(ev.location || "Riyadh")}</div>
-            <div style="font-size:12px;color:#7e1ca1;font-weight:600;margin-bottom:6px">${escHtml(price)}</div>
-            <a href="/events/page/${ev.id}/" style="font-size:12px;color:#7e1ca1;text-decoration:none;font-weight:600">View Details →</a>
-          </div>
-        `);
-        _infoWindow.open({ anchor: marker, map: _mapInstance });
-      });
     });
 
-    if (hasPoints) _mapInstance.fitBounds(bounds);
+    if (hasPoints) {
+      _mapInstance.fitBounds(bounds);
+
+      google.maps.event.addListenerOnce(_mapInstance, "bounds_changed", () => {
+        if (_mapInstance.getZoom() > 13) _mapInstance.setZoom(13);
+      });
+    }
+
     document.getElementById("mapPlaceCount").textContent = `${events.length} place${events.length !== 1 ? "s" : ""}`;
   }
 
   function applyFilters() {
     let filtered = _allMapEvents;
-    if (_currentCat) filtered = filtered.filter(e => e.category === _currentCat);
+
+    if (_currentCat) {
+      filtered = filtered.filter(e => e.category === _currentCat);
+    }
+
     if (_currentSearch) {
       const q = _currentSearch.toLowerCase();
       filtered = filtered.filter(e =>
         (e.title || "").toLowerCase().includes(q) ||
-        (e.location || "").toLowerCase().includes(q)
+        (e.location || "").toLowerCase().includes(q) ||
+        (e.description || "").toLowerCase().includes(q)
       );
     }
+
     renderMarkers(filtered);
   }
 
   async function loadMapEvents() {
     const token = localStorage.getItem("access");
-    if (!token) { window.location.href = "/login/"; return; }
+    if (!token) {
+      window.location.href = "/login/";
+      return;
+    }
+
     try {
-      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
-      if (res.status === 401) { localStorage.removeItem("access"); window.location.href = "/login/"; return; }
+      const res = await fetch("/api/events/", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (res.status === 401) {
+        localStorage.removeItem("access");
+        window.location.href = "/login/";
+        return;
+      }
+
       if (!res.ok) return;
+
       const data = await res.json();
       _allMapEvents = Array.isArray(data) ? data : (data.results || []);
       applyFilters();
-    } catch { /* silent */ }
+    } catch (error) {
+      console.error("Failed to load map events:", error);
+    }
   }
 
-  // Category filters
   document.querySelectorAll(".map-filter").forEach(btn => {
     btn.addEventListener("click", () => {
       _currentCat = _currentCat === btn.dataset.cat ? "" : btn.dataset.cat;
+
       document.querySelectorAll(".map-filter").forEach(b => {
         const active = b.dataset.cat === _currentCat;
         b.classList.toggle("bg-brand", active);
@@ -142,11 +291,11 @@
         b.classList.toggle("bg-white", !active);
         b.classList.toggle("text-gray-700", !active);
       });
+
       applyFilters();
     });
   });
 
-  // Search
   document.getElementById("mapSearch").addEventListener("input", e => {
     _currentSearch = e.target.value.trim();
     clearTimeout(_debounce);
@@ -155,7 +304,8 @@
 </script>
 
 <script
-  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMapPage"
-  async defer>
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2WD1Eg4hRQL-7iC4M7pWWkYlPPvg8j8s&callback=initMapPage"
+  async
+  defer>
 </script>
 {% endblock %}

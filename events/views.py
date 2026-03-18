@@ -1,6 +1,6 @@
 from datetime import datetime
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.shortcuts import render
 from django.db.models import Q
@@ -107,7 +107,7 @@ class EventListAPIView(ListAPIView):
     """
 
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Event.objects.all()
@@ -138,5 +138,5 @@ class EventRetrieveAPIView(RetrieveAPIView):
     """Return a single event by primary key."""
 
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Event.objects.all()

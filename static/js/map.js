@@ -3,9 +3,6 @@
     const el = document.getElementById(containerId);
     if (!el) return null;
 
-    if (el.dataset.mapInit === "1") return null;
-    el.dataset.mapInit = "1";
-
     if (!window.google || !google.maps) {
       console.error("Google Maps not loaded");
       return null;
@@ -21,6 +18,15 @@
       mapTypeControl: false,
       streetViewControl: false,
       fullscreenControl: false,
+      zoomControl: true,
+      clickableIcons: false,
+      styles: [
+        {
+          featureType: "poi",
+          elementType: "labels.text",
+          stylers: [{ visibility: "off" }]
+        }
+      ]
     });
 
     return map;
