@@ -449,10 +449,11 @@ function renderEventDetails(ev) {
             <p class="text-xs text-gray-500 mb-1">Entry Fee</p>
             <p class="text-3xl font-bold text-brand">${escapeHtml(price)}</p>
           </div>
-          <a href="/daily-plan/"
-            class="block w-full h-11 rounded-xl bg-brand text-white text-sm font-semibold text-center leading-[44px] hover:opacity-90 transition">
+          <button type="button" id="getTicketsBtn"
+            class="w-full h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed">
             Get Tickets
-          </a>
+          </button>
+          <div id="ticketMsg" class="text-sm text-center min-h-[20px]"></div>
           <a href="https://maps.google.com/?q=${encodeURIComponent(ev.location || 'Riyadh')}" target="_blank" rel="noopener"
             class="block w-full h-11 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 text-center leading-[44px] hover:bg-gray-50 transition">
             Get Directions
@@ -487,9 +488,51 @@ function wireDetailTabs() {
   });
 }
 
+function wireGetTickets(eventId) {
+  const btn = document.getElementById("getTicketsBtn");
+  const msg = document.getElementById("ticketMsg");
+  if (!btn || !msg) return;
+
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    btn.textContent = "Adding…";
+    msg.textContent = "";
+    msg.className = "text-sm text-center min-h-[20px]";
+
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+
+      // Fetch existing plans for today
+      const data = await apiGet("/api/daily-plan/");
+      if (!data) return; // apiGet handles 401 → logout
+
+      const plans = Array.isArray(data) ? data : (data.results || []);
+      const todayPlan = plans.find((p) => p.date === today);
+
+      if (todayPlan) {
+        // Plan exists — merge this event in (deduplicate)
+        const merged = [...new Set([...todayPlan.events.map(Number), Number(eventId)])];
+        await apiPut(`/api/daily-plan/${todayPlan.id}/`, { date: today, events: merged });
+      } else {
+        // No plan for today — create one with just this event
+        await apiPost("/api/daily-plan/", { date: today, events: [Number(eventId)] });
+      }
+
+      btn.textContent = "✓ Added to Plan";
+      msg.textContent = "Added to your plan!";
+      msg.classList.add("text-green-600");
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = "Get Tickets";
+      msg.textContent = err.message || "Something went wrong. Please try again.";
+      msg.classList.add("text-red-500");
+    }
+  });
+}
+
 async function loadEventDetails(eventId) {
   const data = await apiGet(`/api/events/${eventId}/`);
-  if (data) { renderEventDetails(data); wireDetailTabs(); }
+  if (data) { renderEventDetails(data); wireDetailTabs(); wireGetTickets(data.id); }
 }
 
 // ======================

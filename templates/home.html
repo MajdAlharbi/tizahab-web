@@ -11,7 +11,7 @@
   <section class="grid grid-cols-1 lg:grid-cols-5 gap-5">
 
     <!-- Welcome card -->
-    <div class="lg:col-span-3 bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[200px]">
+    <div class="lg:col-span-3 bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[200px] max-h-[380px]">
       <div>
         <p class="text-sm text-white/70 mb-1">{% trans "Welcome back" %} 👋</p>
         <h1 class="text-2xl font-bold leading-snug" style="font-family:'Cantata One',serif">
@@ -130,4 +130,6 @@
   </section>
 
 </div>
+
+<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

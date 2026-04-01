@@ -98,6 +98,37 @@ async function apiPost(url, data) {
   return res.json();
 }
 
+async function apiPut(url, data) {
+  let res = await fetch(url, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+
+  if (res.status === 401) {
+    const refreshed = await _tryRefresh();
+    if (!refreshed) { _logout(); return null; }
+    res = await fetch(url, {
+      method: "PUT",
+      headers: authHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (res.status === 401) { _logout(); return null; }
+  }
+
+  if (!res.ok) {
+    let detail = `API error ${res.status}`;
+    try {
+      const body = await res.json();
+      if (body.detail) detail = body.detail;
+    } catch {}
+    const err = new Error(detail);
+    err.status = res.status;
+    throw err;
+  }
+  return res.json();
+}
+
 function catLabel(cat) { return CATEGORY_MAP[cat]?.label || cat; }
 function catEmoji(cat) { return CATEGORY_MAP[cat]?.emoji || "📍"; }
 function catColor(cat) { return CATEGORY_MAP[cat]?.color || "bg-gray-100 text-gray-700"; }
@@ -105,6 +136,7 @@ function catColor(cat) { return CATEGORY_MAP[cat]?.color || "bg-gray-100 text-gr
 // expose globally for all scripts
 window.apiGet = apiGet;
 window.apiPost = apiPost;
+window.apiPut = apiPut;
 window.catLabel = catLabel;
 window.catEmoji = catEmoji;
 window.catColor = catColor;

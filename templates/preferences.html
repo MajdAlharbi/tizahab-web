@@ -147,13 +147,13 @@
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-gray-800">Budget Range</h2>
         <span class="text-sm text-brand font-semibold">
-          <span id="budgetMinLabel">500</span> – <span id="budgetMaxLabel">5,000</span> SAR
+          <span id="budgetMinLabel">0</span> – <span id="budgetMaxLabel">5,000</span> SAR
         </span>
       </div>
       <div class="space-y-4">
         <div class="space-y-1.5">
           <label class="text-xs text-gray-500 font-medium">Minimum (SAR)</label>
-          <input id="budgetMin" type="range" min="0" max="5000" step="50" value="500"
+          <input id="budgetMin" type="range" min="0" max="5000" step="50" value="0"
             class="w-full h-2 cursor-pointer rounded-full" style="accent-color:#7e1ca1">
           <div class="flex justify-between text-xs text-gray-400"><span>0</span><span>5,000</span></div>
         </div>
@@ -280,6 +280,15 @@
       const msgEl = document.getElementById("prefMessage");
       const errEl = document.getElementById("prefError");
       const btn = document.getElementById("savePrefsBtn");
+
+      // Require at least one interest before saving
+      if (interests.length === 0) {
+        errEl.textContent = "Please select at least one interest before saving.";
+        errEl.classList.remove("hidden");
+        msgEl.classList.add("hidden");
+        return;
+      }
+
       btn.disabled = true; btn.textContent = "Saving…";
       msgEl.classList.add("hidden"); errEl.classList.add("hidden");
 

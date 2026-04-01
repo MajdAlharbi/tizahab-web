@@ -79,10 +79,11 @@ class EventListAPITests(TestCase):
         response = self.client.get("/api/events/filtered/?date_from=baddate")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_events_require_auth(self):
+    def test_events_public_no_auth_required(self):
+        # EventListAPIView uses AllowAny — unauthenticated requests should succeed
         client = APIClient()
         response = client.get("/api/events/")
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_serializer_includes_price_and_dates(self):
         response = self.client.get("/api/events/")

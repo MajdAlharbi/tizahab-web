@@ -154,12 +154,20 @@ document.addEventListener("DOMContentLoaded", () => {
       setLoading(false);
       const message = document.getElementById("plan-message");
       if (!message) return;
-      if (error.status === 400) {
+      if (error.status === 400 && error.message && error.message.toLowerCase().includes("interests")) {
         message.innerHTML =
-          `Please set your preferences first.&nbsp;` +
+          `Please select your interests first.&nbsp;` +
           `<a href="/onboarding/" ` +
           `class="underline text-brand font-medium hover:opacity-80">` +
-          `Go to Onboarding</a>`;
+          `Go to Preferences</a>`;
+      } else if (error.status === 400) {
+        message.textContent = error.message || "Invalid request. Please try again.";
+      } else if (error.status === 404) {
+        message.innerHTML =
+          `No places match your current budget.&nbsp;` +
+          `<a href="/onboarding/" ` +
+          `class="underline text-brand font-medium hover:opacity-80">` +
+          `Adjust preferences →</a>`;
       } else {
         message.textContent = "Something went wrong. Please try again.";
       }
