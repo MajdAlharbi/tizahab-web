@@ -1,11 +1,6 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-
-{% block title %}Admin Panel | Tizahab{% endblock %}
-
-{% block content %}
+{% extends "dashboard_base.html" %} {% load static %} {% block title %}Admin
+Panel | Tizahab{% endblock %} {% block content %}
 <div class="max-w-6xl mx-auto px-4 lg:px-6 py-6 space-y-6">
-
   <div>
     <h1 class="text-2xl font-bold text-gray-900">Admin Panel</h1>
     <p class="text-sm text-gray-500 mt-0.5">Manage events, offers, and users</p>
@@ -13,11 +8,17 @@
 
   <!-- Stats row -->
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+    <div
+      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
       <div class="flex items-center justify-between">
-        <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl">🎫</div>
-        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">+12%</span>
+        <div
+          class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl">
+          🎫
+        </div>
+        <span
+          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
+          >+12%</span
+        >
       </div>
       <div>
         <p id="stat-events" class="text-2xl font-bold text-gray-900">—</p>
@@ -25,10 +26,17 @@
       </div>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+    <div
+      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
       <div class="flex items-center justify-between">
-        <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl">🏷️</div>
-        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">+8%</span>
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
+          🏷️
+        </div>
+        <span
+          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
+          >+8%</span
+        >
       </div>
       <div>
         <p class="text-2xl font-bold text-gray-900">48</p>
@@ -36,10 +44,17 @@
       </div>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+    <div
+      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
       <div class="flex items-center justify-between">
-        <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-xl">👥</div>
-        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">+23%</span>
+        <div
+          class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-xl">
+          👥
+        </div>
+        <span
+          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
+          >+23%</span
+        >
       </div>
       <div>
         <p id="stat-users" class="text-2xl font-bold text-gray-900">—</p>
@@ -47,31 +62,43 @@
       </div>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+    <div
+      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
       <div class="flex items-center justify-between">
-        <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-xl">💰</div>
-        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">+15%</span>
+        <div
+          class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-xl">
+          💰
+        </div>
+        <span
+          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
+          >+15%</span
+        >
       </div>
       <div>
         <p class="text-2xl font-bold text-gray-900">87.5K</p>
         <p class="text-xs text-gray-500 mt-0.5">Revenue (SAR)</p>
       </div>
     </div>
-
   </div>
 
   <!-- Events Management -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-
-    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
+  <div
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div
+      class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
       <h2 class="font-semibold text-gray-800">Events Management</h2>
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-gray-50 min-w-[200px]">
+        <div
+          class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-gray-50 min-w-[200px]">
           <span class="text-gray-400 text-sm">🔍</span>
-          <input id="adminSearch" type="text" placeholder="Search events…"
-            class="w-full outline-none text-sm bg-transparent">
+          <input
+            id="adminSearch"
+            type="text"
+            placeholder="Search events…"
+            class="w-full outline-none text-sm bg-transparent" />
         </div>
-        <button type="button"
+        <button
+          type="button"
           class="h-10 px-4 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition whitespace-nowrap">
           + Add Event
         </button>
@@ -82,37 +109,68 @@
       <table class="w-full text-sm">
         <thead>
           <tr class="bg-gray-50 border-b border-gray-100">
-            <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Event</th>
-            <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Category</th>
-            <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Price</th>
-            <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Location</th>
-            <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
-            <th class="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
+            <th
+              class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Event
+            </th>
+            <th
+              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Category
+            </th>
+            <th
+              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Price
+            </th>
+            <th
+              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Location
+            </th>
+            <th
+              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Status
+            </th>
+            <th
+              class="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody id="adminEventsTable" class="divide-y divide-gray-50">
-          <tr><td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">Loading events…</td></tr>
+          <tr>
+            <td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">
+              Loading events…
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
+    <div
+      class="px-6 py-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
       <span id="adminCountLabel">—</span>
       <div class="flex gap-2">
-        <button id="adminPrev" class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">← Prev</button>
-        <button id="adminNext" class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">Next →</button>
+        <button
+          id="adminPrev"
+          class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">
+          ← Prev
+        </button>
+        <button
+          id="adminNext"
+          class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">
+          Next →
+        </button>
       </div>
     </div>
-
   </div>
-
 </div>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script>
   function escHtml(s) {
-    return String(s || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+    return String(s || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
   }
 
   const CAT_COLORS = {
@@ -134,17 +192,21 @@
     const slice = _adminFiltered.slice(start, start + PAGE_SIZE);
 
     if (!slice.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">No events found.</td></tr>';
+      tbody.innerHTML =
+        '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">No events found.</td></tr>';
       label.textContent = "0 events";
       return;
     }
 
-    tbody.innerHTML = slice.map(ev => {
-      const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-      const cat = ev.category || "other";
-      const catColor = CAT_COLORS[cat] || "bg-gray-100 text-gray-600";
-      const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
-      return `
+    tbody.innerHTML = slice
+      .map((ev) => {
+        const price = ev.price
+          ? `${parseFloat(ev.price).toFixed(0)} SAR`
+          : "Free";
+        const cat = ev.category || "other";
+        const catColor = CAT_COLORS[cat] || "bg-gray-100 text-gray-600";
+        const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
+        return `
         <tr class="hover:bg-gray-50 transition">
           <td class="px-6 py-4">
             <p class="font-medium text-gray-800 truncate max-w-[200px]">${escHtml(ev.title || "Untitled")}</p>
@@ -166,20 +228,23 @@
           </td>
         </tr>
       `;
-    }).join("");
+      })
+      .join("");
 
     label.textContent = `${_adminFiltered.length} event${_adminFiltered.length !== 1 ? "s" : ""}`;
     document.getElementById("adminPrev").disabled = _adminPage <= 1;
-    document.getElementById("adminNext").disabled = start + PAGE_SIZE >= _adminFiltered.length;
+    document.getElementById("adminNext").disabled =
+      start + PAGE_SIZE >= _adminFiltered.length;
   }
 
   function applyAdminSearch(q) {
     const query = q.toLowerCase();
     _adminFiltered = query
-      ? _adminEvents.filter(ev =>
-          (ev.title || "").toLowerCase().includes(query) ||
-          (ev.location || "").toLowerCase().includes(query) ||
-          (ev.category || "").toLowerCase().includes(query)
+      ? _adminEvents.filter(
+          (ev) =>
+            (ev.title || "").toLowerCase().includes(query) ||
+            (ev.location || "").toLowerCase().includes(query) ||
+            (ev.category || "").toLowerCase().includes(query),
         )
       : [..._adminEvents];
     _adminPage = 1;
@@ -188,22 +253,42 @@
 
   async function loadAdminData() {
     const token = localStorage.getItem("access");
-    if (!token) { window.location.href = "/login/"; return; }
+    if (!token) {
+      window.location.href = "/login/";
+      return;
+    }
     try {
-      const res = await fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } });
-      if (res.status === 401) { window.location.href = "/login/"; return; }
+      const res = await fetch("/api/events/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) {
+        window.location.href = "/login/";
+        return;
+      }
       if (!res.ok) return;
       const data = await res.json();
-      _adminEvents = Array.isArray(data) ? data : (data.results || []);
+      _adminEvents = Array.isArray(data) ? data : data.results || [];
       _adminFiltered = [..._adminEvents];
       document.getElementById("stat-events").textContent = _adminEvents.length;
       renderTable();
-    } catch { /* silent */ }
+    } catch {
+      /* silent */
+    }
   }
 
-  document.getElementById("adminSearch").addEventListener("input", e => applyAdminSearch(e.target.value));
-  document.getElementById("adminPrev").addEventListener("click", () => { if (_adminPage > 1) { _adminPage--; renderTable(); } });
-  document.getElementById("adminNext").addEventListener("click", () => { _adminPage++; renderTable(); });
+  document
+    .getElementById("adminSearch")
+    .addEventListener("input", (e) => applyAdminSearch(e.target.value));
+  document.getElementById("adminPrev").addEventListener("click", () => {
+    if (_adminPage > 1) {
+      _adminPage--;
+      renderTable();
+    }
+  });
+  document.getElementById("adminNext").addEventListener("click", () => {
+    _adminPage++;
+    renderTable();
+  });
 
   document.addEventListener("DOMContentLoaded", loadAdminData);
 </script>

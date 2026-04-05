@@ -26,6 +26,11 @@ class UserPreferences(models.Model):
 
     interests = models.JSONField(default=list, blank=True)
 
+    min_rating = models.DecimalField(
+        max_digits=2, decimal_places=1, null=True, blank=True,
+        help_text="Minimum place rating (e.g. 3.5, 4.0, 4.5). Null means no filter.",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

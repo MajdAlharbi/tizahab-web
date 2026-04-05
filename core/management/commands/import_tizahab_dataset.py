@@ -39,7 +39,9 @@ def _description(name, type_of_utility):
 
 
 class Command(BaseCommand):
-    help = "Import Tizahab dataset (cafes, restaurants, malls/museums) into Event table."
+    help = (
+        "Import Tizahab dataset (cafes, restaurants, malls/museums) into Event table."
+    )
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -76,7 +78,9 @@ class Command(BaseCommand):
             Event.objects.create(
                 title=name,
                 category="food",
-                description=_description(name, record.get("Type_of_Utility", "Restaurant")),
+                description=_description(
+                    name, record.get("Type_of_Utility", "Restaurant")
+                ),
                 date=NOW,
                 location="Riyadh, Saudi Arabia",
                 price=_price(record),

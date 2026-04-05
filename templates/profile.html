@@ -1,24 +1,24 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-
-{% block title %}Profile | Tizahab{% endblock %}
-
-{% block content %}
+{% extends "dashboard_base.html" %} {% load static %} {% block title %}Profile |
+Tizahab{% endblock %} {% block content %}
 <div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
-
   <!-- Profile Header Card -->
   <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-
       <!-- Avatar -->
-      <div id="profileAvatar" class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
+      <div
+        id="profileAvatar"
+        class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
         …
       </div>
 
       <!-- Info -->
       <div class="flex-1 min-w-0">
-        <h1 id="profileName" class="text-xl font-bold text-gray-900">Loading…</h1>
-        <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">📍 Riyadh, Saudi Arabia</p>
+        <h1 id="profileName" class="text-xl font-bold text-gray-900">
+          Loading…
+        </h1>
+        <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">
+          📍 Riyadh, Saudi Arabia
+        </p>
 
         <!-- Stats -->
         <div class="flex gap-8 mt-4">
@@ -38,7 +38,8 @@
       </div>
 
       <!-- Edit button -->
-      <a href="/api/auth/ui/preferences/"
+      <a
+        href="/api/auth/ui/preferences/"
         class="shrink-0 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-[#faf5ff] transition">
         Edit Preferences
       </a>
@@ -57,13 +58,25 @@
   <section class="space-y-4">
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold text-gray-800">Past Plans</h2>
-      <a href="/daily-plan/" class="text-sm text-brand hover:underline">View all</a>
+      <a href="/daily-plan/" class="text-sm text-brand hover:underline"
+        >View all</a
+      >
     </div>
-    <div id="pastPlansGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div
+      id="pastPlansGrid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <!-- skeleton -->
       <div class="h-36 bg-white border rounded-2xl animate-pulse"></div>
-      <div class="h-36 bg-white border rounded-2xl animate-pulse hidden sm:block"></div>
-      <div class="h-36 bg-white border rounded-2xl animate-pulse hidden lg:block"></div>
+      <div
+        class="h-36 bg-white border rounded-2xl animate-pulse hidden sm:block"></div>
+      <div
+        class="h-36 bg-white border rounded-2xl animate-pulse hidden lg:block"></div>
+    </div>
+    <div id="plansLoadMoreWrap" class="hidden pt-1">
+      <button id="plansLoadMoreBtn" type="button"
+        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        Load More Plans
+      </button>
     </div>
   </section>
 
@@ -71,59 +84,123 @@
   <section class="space-y-4">
     <h2 class="text-lg font-semibold text-gray-800">My Favorites</h2>
     <div id="favsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <p id="favsEmpty" class="text-sm text-gray-400 col-span-2">No favorites saved yet. Heart an event to save it here.</p>
+      <p id="favsEmpty" class="text-sm text-gray-400 col-span-2">
+        No favorites saved yet. Heart an event to save it here.
+      </p>
+    </div>
+    <div id="favsLoadMoreWrap" class="hidden pt-1">
+      <button id="favsLoadMoreBtn" type="button"
+        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        Load More Favorites
+      </button>
     </div>
   </section>
-
 </div>
 
 <script>
-  const CATEGORY_LABELS = { food: "Restaurants & Cafes", culture: "Heritage Places", outdoor: "Outdoor / Kids", shopping: "Shopping", other: "Entertainment" };
-  const CATEGORY_COLORS = { food: "bg-green-100 text-green-700", culture: "bg-amber-100 text-amber-700", outdoor: "bg-yellow-100 text-yellow-700", shopping: "bg-purple-100 text-purple-700", other: "bg-blue-100 text-blue-700" };
-  const FAV_KEY = "tizahab_favorites";
+  const CATEGORY_LABELS = {
+    restaurant: "Restaurants",
+    cafe: "Cafes & Coffee",
+    fast_food: "Fast Food",
+    dessert: "Desserts & Sweets",
+    bakery: "Bakery",
+    juice: "Juice & Smoothies",
+    food_truck: "Food Trucks",
+    culture: "Heritage Places",
+    outdoor: "Outdoor",
+    shopping: "Shopping",
+    other: "Other",
+  };
+  const CATEGORY_COLORS = {
+    restaurant: "bg-orange-100 text-orange-700",
+    cafe: "bg-amber-100 text-amber-700",
+    fast_food: "bg-red-100 text-red-700",
+    dessert: "bg-pink-100 text-pink-700",
+    bakery: "bg-yellow-100 text-yellow-700",
+    juice: "bg-lime-100 text-lime-700",
+    food_truck: "bg-indigo-100 text-indigo-700",
+    culture: "bg-blue-100 text-blue-700",
+    outdoor: "bg-green-100 text-green-700",
+    shopping: "bg-purple-100 text-purple-700",
+    other: "bg-gray-100 text-gray-700",
+  };
 
-  function getToken() { return localStorage.getItem("access"); }
+  function getToken() {
+    return localStorage.getItem("access");
+  }
+  function redirectToLogin() {
+    window.location.href = "/login/";
+  }
 
   /* ---- Load current user (name, email) ---- */
   async function loadMe() {
     const token = getToken();
-    if (!token) return;
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
     try {
-      const res = await fetch("/api/auth/me/", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch("/api/auth/me/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) {
+        redirectToLogin();
+        return;
+      }
       if (!res.ok) return;
       const data = await res.json();
 
       // Derive a display name from the email (part before @)
-      const displayName = data.username && data.username !== data.email
-        ? data.username
-        : (data.email ? data.email.split("@")[0] : "User");
+      const displayName =
+        data.username && data.username !== data.email
+          ? data.username
+          : data.email
+            ? data.email.split("@")[0]
+            : "User";
 
       // Initials: first two characters of display name, uppercased
-      const initials = displayName.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "TZ";
+      const initials =
+        displayName
+          .replace(/[^a-zA-Z0-9]/g, "")
+          .slice(0, 2)
+          .toUpperCase() || "TZ";
 
       document.getElementById("profileName").textContent = displayName;
-      document.getElementById("profileEmail").textContent = "📧 " + (data.email || "");
+      document.getElementById("profileEmail").textContent =
+        "📧 " + (data.email || "");
       document.getElementById("profileAvatar").textContent = initials;
-    } catch { /* silent */ }
+    } catch {
+      /* silent */
+    }
   }
 
   /* ---- Load Preferences ---- */
   async function loadPrefs() {
     const token = getToken();
-    if (!token) return;
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
     try {
-      const res = await fetch("/api/auth/preferences/", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch("/api/auth/preferences/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) {
+        redirectToLogin();
+        return;
+      }
       if (!res.ok) return;
       const data = await res.json();
 
       const chips = document.getElementById("prefChips");
       const interests = Array.isArray(data.interests) ? data.interests : [];
       if (!interests.length) {
-        chips.innerHTML = '<span class="text-sm text-gray-400">No preferences set. <a href="/api/auth/ui/preferences/" class="text-brand underline">Set them now →</a></span>';
+        chips.innerHTML =
+          '<span class="text-sm text-gray-400">No preferences set. <a href="/api/auth/ui/preferences/" class="text-brand underline">Set them now →</a></span>';
         return;
       }
       chips.innerHTML = "";
-      interests.forEach(cat => {
+      interests.forEach((cat) => {
         const color = CATEGORY_COLORS[cat] || "bg-gray-100 text-gray-600";
         const label = CATEGORY_LABELS[cat] || cat;
         const chip = document.createElement("span");
@@ -131,99 +208,188 @@
         chip.textContent = label;
         chips.appendChild(chip);
       });
-    } catch { /* silent */ }
+    } catch {
+      /* silent */
+    }
   }
 
   /* ---- Load Past Plans ---- */
+  let _allPlans = [];
+  let _plansShown = 0;
+  const PLANS_PAGE_SIZE = 3;
+
+  function renderPlanCards(plans, append) {
+    const grid = document.getElementById("pastPlansGrid");
+    if (!grid) return;
+    if (!append) grid.innerHTML = "";
+
+    plans.forEach((plan) => {
+      const evCount = Array.isArray(plan.events) ? plan.events.length : 0;
+      const card = document.createElement("a");
+      card.href = "/daily-plan/";
+      card.className =
+        "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition block space-y-2";
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-gray-800">📅 ${plan.date || "Plan"}</span>
+          <span class="text-xs text-brand font-medium">${evCount} activities</span>
+        </div>
+        <p class="text-xs text-gray-500">${
+          evCount
+            ? plan.events
+                .slice(0, 2)
+                .map((e) => e.title || "Activity")
+                .join(", ") + (evCount > 2 ? "…" : "")
+            : "No activities"
+        }</p>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function updatePlansLoadMore() {
+    const wrap = document.getElementById("plansLoadMoreWrap");
+    if (wrap) wrap.classList.toggle("hidden", _plansShown >= _allPlans.length);
+  }
+
   async function loadPlans() {
     const token = getToken();
-    if (!token) return;
+    if (!token) { redirectToLogin(); return; }
     try {
-      const res = await fetch("/api/daily-plan/", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch("/api/daily-plan/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) { redirectToLogin(); return; }
       if (!res.ok) return;
       const data = await res.json();
-      const plans = Array.isArray(data) ? data : (data.results || []);
+      _allPlans = Array.isArray(data) ? data : data.results || [];
 
-      const grid = document.getElementById("pastPlansGrid");
       const stat = document.getElementById("statPlans");
-      stat.textContent = plans.length;
-      grid.innerHTML = "";
+      stat.textContent = _allPlans.length;
 
-      if (!plans.length) {
-        grid.innerHTML = '<p class="text-sm text-gray-400 col-span-3">No plans yet. <a href="/daily-plan/" class="text-brand underline">Create your first plan →</a></p>';
+      if (!_allPlans.length) {
+        document.getElementById("pastPlansGrid").innerHTML =
+          '<p class="text-sm text-gray-400 col-span-3">No plans yet. <a href="/daily-plan/" class="text-brand underline">Create your first plan →</a></p>';
         return;
       }
 
-      let totalActivities = 0;
-      plans.slice(0, 3).forEach(plan => {
-        const evCount = Array.isArray(plan.events) ? plan.events.length : 0;
-        totalActivities += evCount;
-        const card = document.createElement("a");
-        card.href = "/daily-plan/";
-        card.className = "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition block space-y-2";
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold text-gray-800">📅 ${plan.date || "Plan"}</span>
-            <span class="text-xs text-brand font-medium">${evCount} activities</span>
-          </div>
-          <p class="text-xs text-gray-500">${evCount ? plan.events.slice(0,2).map(e => e.title || "Activity").join(", ") + (evCount > 2 ? "…" : "") : "No activities"}</p>
-        `;
-        grid.appendChild(card);
-      });
+      const totalActivities = _allPlans.reduce((sum, p) =>
+        sum + (Array.isArray(p.events) ? p.events.length : 0), 0);
       document.getElementById("statActivities").textContent = totalActivities;
+
+      _plansShown = 0;
+      const first = _allPlans.slice(0, PLANS_PAGE_SIZE);
+      _plansShown = first.length;
+      renderPlanCards(first, false);
+      updatePlansLoadMore();
     } catch { /* silent */ }
   }
 
+  function loadMorePlans() {
+    const next = _allPlans.slice(_plansShown, _plansShown + PLANS_PAGE_SIZE);
+    _plansShown += next.length;
+    renderPlanCards(next, true);
+    updatePlansLoadMore();
+  }
+
   /* ---- Load Favorites ---- */
-  function loadFavs() {
-    const favIds = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
-    const stat = document.getElementById("statFavs");
-    stat.textContent = favIds.size;
-    if (!favIds.size) return;
+  let _allFavs = [];
+  let _favsShown = 0;
+  const FAVS_PAGE_SIZE = 4;
 
+  function gmapsUrl(ev) {
+    if (ev.latitude && ev.longitude) return `https://www.google.com/maps/search/?api=1&query=${ev.latitude},${ev.longitude}`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((ev.title || "") + " Riyadh")}`;
+  }
+
+  function buildFavCard(ev) {
+    const emojiMap = {restaurant:"🍽️",cafe:"☕",fast_food:"🍔",dessert:"🍰",bakery:"🥐",juice:"🧃",food_truck:"🚚",culture:"🏛️",outdoor:"🌿",shopping:"🛍️"};
+    const card = document.createElement("div");
+    card.className =
+      "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-start gap-3";
+    card.innerHTML = `
+      <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center shrink-0 text-lg">
+        ${emojiMap[ev.category] || "🎯"}
+      </div>
+      <div class="flex-1 min-w-0">
+        <a href="/events/page/${ev.id}/" class="text-sm font-semibold text-gray-800 truncate block hover:text-brand">${ev.title || "Untitled"}</a>
+        <p class="text-xs text-gray-500 mt-0.5">📍 ${ev.location || "Riyadh"}</p>
+        <div class="flex items-center gap-3 mt-1">
+          <span class="text-xs text-brand font-medium">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+          <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener" class="text-xs text-gray-400 hover:text-gray-600">🗺️ Maps</a>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  function renderFavCards(favs, append) {
     const grid = document.getElementById("favsGrid");
-    const empty = document.getElementById("favsEmpty");
-    if (empty) empty.remove();
+    if (!grid) return;
+    if (!append) grid.innerHTML = "";
+    favs.forEach((f) => { if (f.event) grid.appendChild(buildFavCard(f.event)); });
+  }
 
-    // Fetch events and filter by favIds
+  function updateFavsLoadMore() {
+    const wrap = document.getElementById("favsLoadMoreWrap");
+    if (wrap) wrap.classList.toggle("hidden", _favsShown >= _allFavs.length);
+  }
+
+  async function loadFavs() {
     const token = getToken();
-    if (!token) return;
-    fetch("/api/events/", { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (!data) return;
-        const events = Array.isArray(data) ? data : (data.results || []);
-        const favEvents = events.filter(e => favIds.has(String(e.id)));
-        grid.innerHTML = "";
-        if (!favEvents.length) {
-          grid.innerHTML = '<p class="text-sm text-gray-400 col-span-2">Your favorited events aren\'t in the current list.</p>';
-          return;
-        }
-        favEvents.slice(0, 4).forEach(ev => {
-          const card = document.createElement("a");
-          card.href = `/events/page/${ev.id}/`;
-          card.className = "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-start gap-3";
-          card.innerHTML = `
-            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center shrink-0 text-lg">
-              ${ev.category === "food" ? "🍽️" : ev.category === "culture" ? "🏛️" : ev.category === "outdoor" ? "🌿" : ev.category === "shopping" ? "🛍️" : "🎠"}
-            </div>
-            <div class="min-w-0">
-              <p class="text-sm font-semibold text-gray-800 truncate">${ev.title || "Untitled"}</p>
-              <p class="text-xs text-gray-500 mt-0.5">📍 ${ev.location || "Riyadh"}</p>
-              <p class="text-xs text-brand font-medium mt-1">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</p>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      })
-      .catch(() => {});
+    if (!token) { redirectToLogin(); return; }
+
+    const stat = document.getElementById("statFavs");
+    const grid = document.getElementById("favsGrid");
+
+    try {
+      const res = await fetch("/api/events/favorites/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) { redirectToLogin(); return; }
+      if (!res.ok) { if (stat) stat.textContent = "0"; return; }
+
+      const rows = await res.json();
+      _allFavs = Array.isArray(rows) ? rows : [];
+      if (stat) stat.textContent = _allFavs.length;
+
+      if (!_allFavs.length) {
+        if (grid) grid.innerHTML =
+          '<p class="text-sm text-gray-400 col-span-2">No favorites saved yet. Heart an event to save it here.</p>';
+        return;
+      }
+
+      _favsShown = 0;
+      const first = _allFavs.slice(0, FAVS_PAGE_SIZE);
+      _favsShown = first.length;
+      renderFavCards(first, false);
+      updateFavsLoadMore();
+    } catch {
+      if (stat) stat.textContent = "0";
+    }
+  }
+
+  function loadMoreFavs() {
+    const next = _allFavs.slice(_favsShown, _favsShown + FAVS_PAGE_SIZE);
+    _favsShown += next.length;
+    renderFavCards(next, true);
+    updateFavsLoadMore();
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    if (!getToken()) {
+      redirectToLogin();
+      return;
+    }
     loadMe();
     loadPrefs();
     loadPlans();
     loadFavs();
+
+    document.getElementById("plansLoadMoreBtn")
+      ?.addEventListener("click", loadMorePlans);
+    document.getElementById("favsLoadMoreBtn")
+      ?.addEventListener("click", loadMoreFavs);
   });
 </script>
 {% endblock %}

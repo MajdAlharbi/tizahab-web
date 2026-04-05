@@ -1,10 +1,6 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-
-{% block content %}
+{% extends "dashboard_base.html" %} {% load static %} {% block content %}
 
 <main class="px-6 py-6 max-w-[1200px] mx-auto space-y-8">
-
   <div class="flex items-start justify-between">
     <div>
       <h1 class="text-3xl font-semibold">
@@ -14,21 +10,23 @@
       <p id="month-label" class="text-gray-500 mt-1"></p>
     </div>
 
-<div class="flex gap-3">
-  <button id="generate-btn" type="button"
-    class="flex items-center gap-2 px-5 h-11 rounded-xl border border-brand text-brand font-medium hover:bg-brand/5 transition">
-    <span class="nav-label-en">Generate AI Plan</span>
-    <span class="nav-label-ar hidden">إنشاء خطة بالذكاء الاصطناعي</span>
-  </button>
+    <div class="flex gap-3">
+      <button
+        id="generate-btn"
+        type="button"
+        class="flex items-center gap-2 px-5 h-11 rounded-xl border border-brand text-brand font-medium hover:bg-brand/5 transition">
+        <span class="nav-label-en">Generate AI Plan</span>
+        <span class="nav-label-ar hidden">إنشاء خطة بالذكاء الاصطناعي</span>
+      </button>
 
-  <button id="add-activity-btn" type="button"
-    class="flex items-center gap-2 px-5 h-11 rounded-xl bg-brand text-white font-medium hover:opacity-90 transition">
-    <span class="nav-label-en">Add Activity</span>
-    <span class="nav-label-ar hidden">إضافة نشاط</span>
-  </button>
-</div>
-
-
+      <button
+        id="add-activity-btn"
+        type="button"
+        class="flex items-center gap-2 px-5 h-11 rounded-xl bg-brand text-white font-medium hover:opacity-90 transition">
+        <span class="nav-label-en">Add Activity</span>
+        <span class="nav-label-ar hidden">إضافة نشاط</span>
+      </button>
+    </div>
   </div>
 
   <p id="plan-message" class="text-sm text-center text-red-500 mt-2"></p>
@@ -45,169 +43,192 @@
       </span>
     </div>
 
-
-<div id="dailyPlanMap" class="w-full rounded-2xl border overflow-hidden bg-white" style="height: 380px;"></div>
+    <div
+      id="dailyPlanMap"
+      class="w-full rounded-2xl border overflow-hidden bg-white"
+      style="height: 380px"></div>
   </section>
 
   <div class="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
+    <div class="flex items-center justify-between">
+      <button id="prev-week" type="button" class="text-gray-400 text-xl">
+        &lt;
+      </button>
+      <h3 id="week-label" class="font-medium text-gray-700"></h3>
+      <button id="next-week" type="button" class="text-gray-400 text-xl">
+        &gt;
+      </button>
+    </div>
 
-<div class="flex items-center justify-between">
-  <button id="prev-week" type="button" class="text-gray-400 text-xl">&lt;</button>
-  <h3 id="week-label" class="font-medium text-gray-700"></h3>
-  <button id="next-week" type="button" class="text-gray-400 text-xl">&gt;</button>
-</div>
+    <div
+      id="week-days"
+      class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"></div>
 
-<div id="week-days" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"></div>
+    <section class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="calendar-check" class="w-6 h-6 text-brand"></i>
+          <h2 class="text-xl font-semibold">
+            <span class="nav-label-en">Today's Activities</span>
+            <span class="nav-label-ar hidden">أنشطة اليوم</span>
+          </h2>
+        </div>
+      </div>
 
-<section class="space-y-5">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <i data-lucide="calendar-check" class="w-6 h-6 text-brand"></i>
-      <h2 class="text-xl font-semibold">
-        <span class="nav-label-en">Today's Activities</span>
-        <span class="nav-label-ar hidden">أنشطة اليوم</span>
-      </h2>
+      <div id="plan-container" class="space-y-4"></div>
+    </section>
+
+    <section id="restaurantsSection" class="space-y-5 hidden">
+      <div class="flex items-center gap-3">
+        <i data-lucide="utensils" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">
+          <span class="nav-label-en">Recommended Restaurants</span>
+          <span class="nav-label-ar hidden">مطاعم مقترحة</span>
+        </h2>
+      </div>
+
+      <div
+        id="restaurantsCarousel"
+        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      </div>
+    </section>
+
+    <section id="activitiesSection" class="space-y-5 hidden">
+      <div class="flex items-center gap-3">
+        <i data-lucide="flame" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">
+          <span class="nav-label-en">Popular Activities</span>
+          <span class="nav-label-ar hidden">أنشطة شائعة</span>
+        </h2>
+      </div>
+
+      <div
+        id="activitiesCarousel"
+        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      </div>
+    </section>
+
+    <section id="upcomingSection" class="space-y-5 hidden">
+      <div class="flex items-center gap-3">
+        <i data-lucide="ticket" class="w-6 h-6 text-brand"></i>
+        <h2 class="text-xl font-semibold">
+          <span class="nav-label-en">Upcoming Events</span>
+          <span class="nav-label-ar hidden">فعاليات قادمة</span>
+        </h2>
+      </div>
+
+      <div
+        id="upcomingCarousel"
+        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      </div>
+    </section>
+
+    <!-- Route Preview — hidden until implemented -->
+
+
+    <div class="bg-purple-50 rounded-2xl p-6 shadow-sm">
+      <h3 class="font-semibold mb-6">
+        <span class="nav-label-en">Today's Summary</span>
+        <span class="nav-label-ar hidden">ملخص اليوم</span>
+      </h3>
+
+      <div class="space-y-4 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-600">
+            <span class="nav-label-en">Activities</span>
+            <span class="nav-label-ar hidden">الأنشطة</span>
+          </span>
+          <span id="summary-activities" class="font-semibold text-brand"
+            >0</span
+          >
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">
+            <span class="nav-label-en">Duration</span>
+            <span class="nav-label-ar hidden">المدة</span>
+          </span>
+          <span id="summary-duration" class="font-semibold text-brand">0h</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">
+            <span class="nav-label-en">Distance</span>
+            <span class="nav-label-ar hidden">المسافة</span>
+          </span>
+          <span id="summary-distance" class="font-semibold text-brand"
+            >0km</span
+          >
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-600">
+            <span class="nav-label-en">Completed</span>
+            <span class="nav-label-ar hidden">المكتمل</span>
+          </span>
+          <span id="summary-completed" class="font-semibold text-green-500"
+            >0</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+      <h3 class="font-semibold">
+        <span class="nav-label-en">Quick Actions</span>
+        <span class="nav-label-ar hidden">إجراءات سريعة</span>
+      </h3>
+
+      <button
+        id="export-plan-btn"
+        type="button"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
+        <i data-lucide="download" class="w-4 h-4 text-brand"></i>
+        <span class="nav-label-en">Export Plan</span>
+        <span class="nav-label-ar hidden">تصدير الخطة</span>
+      </button>
+
+      <!-- Share Route — hidden until implemented
+      <button
+        type="button"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
+        <i data-lucide="share-2" class="w-4 h-4 text-brand"></i>
+        <span class="nav-label-en">Share Route</span>
+        <span class="nav-label-ar hidden">مشاركة المسار</span>
+      </button>
+      -->
     </div>
   </div>
 
-  <div id="plan-container" class="space-y-4"></div>
-</section>
-
-<section class="space-y-5">
-  <div class="flex items-center gap-3">
-    <i data-lucide="utensils" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">
-      <span class="nav-label-en">Recommended Restaurants</span>
-      <span class="nav-label-ar hidden">مطاعم مقترحة</span>
-    </h2>
-  </div>
-
-  <div id="restaurantsCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-  </div>
-</section>
-
-<section class="space-y-5">
-  <div class="flex items-center gap-3">
-    <i data-lucide="flame" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">
-      <span class="nav-label-en">Popular Activities</span>
-      <span class="nav-label-ar hidden">أنشطة شائعة</span>
-    </h2>
-  </div>
-
-  <div id="activitiesCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[240px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-  </div>
-</section>
-
-<section class="space-y-5">
-  <div class="flex items-center gap-3">
-    <i data-lucide="ticket" class="w-6 h-6 text-brand"></i>
-    <h2 class="text-xl font-semibold">
-      <span class="nav-label-en">Upcoming Events</span>
-      <span class="nav-label-ar hidden">فعاليات قادمة</span>
-    </h2>
-  </div>
-
-  <div id="upcomingCarousel" class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-    <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-    <div class="min-w-[260px] h-56 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-  </div>
-</section>
-
-<div class="rounded-2xl overflow-hidden border shadow-sm">
-  <div class="bg-gradient-to-r from-purple-600 to-purple-400 text-white px-5 py-3 font-medium flex items-center gap-2">
-    <i data-lucide="map" class="w-4 h-4"></i>
-    <span class="nav-label-en">Route Preview</span>
-    <span class="nav-label-ar hidden">معاينة المسار</span>
-  </div>
-
-  <div class="bg-white p-5 text-sm text-gray-500 text-center">
-    <span class="nav-label-en">Generate a plan above to see your route on the map.</span>
-    <span class="nav-label-ar hidden">أنشئ خطة أعلاه لرؤية مسارك على الخريطة.</span>
-  </div>
-</div>
-
-<div class="bg-purple-50 rounded-2xl p-6 shadow-sm">
-  <h3 class="font-semibold mb-6">
-    <span class="nav-label-en">Today's Summary</span>
-    <span class="nav-label-ar hidden">ملخص اليوم</span>
-  </h3>
-
-  <div class="space-y-4 text-sm">
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">
-        <span class="nav-label-en">Activities</span>
-        <span class="nav-label-ar hidden">الأنشطة</span>
-      </span>
-      <span id="summary-activities" class="font-semibold text-brand">0</span>
+  <!-- Add Activity Modal -->
+  <div id="addActivityModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="addActivityOverlay"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[80vh] flex flex-col">
+        <div class="flex items-center justify-between p-5 border-b">
+          <h3 class="text-lg font-semibold">Add Activity to Plan</h3>
+          <button id="closeAddActivity" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
+            <span class="text-gray-400">🔍</span>
+            <input id="activitySearchInput" class="w-full outline-none text-sm bg-transparent" placeholder="Search places...">
+          </div>
+        </div>
+        <div id="activitySearchResults" class="flex-1 overflow-y-auto px-4 pb-4 space-y-2 min-h-[200px]">
+          <p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>
+        </div>
+      </div>
     </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">
-        <span class="nav-label-en">Duration</span>
-        <span class="nav-label-ar hidden">المدة</span>
-      </span>
-      <span id="summary-duration" class="font-semibold text-brand">0h</span>
-    </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">
-        <span class="nav-label-en">Distance</span>
-        <span class="nav-label-ar hidden">المسافة</span>
-      </span>
-      <span id="summary-distance" class="font-semibold text-brand">0km</span>
-    </div>
-
-    <div class="flex justify-between">
-      <span class="text-gray-600">
-        <span class="nav-label-en">Completed</span>
-        <span class="nav-label-ar hidden">المكتمل</span>
-      </span>
-      <span id="summary-completed" class="font-semibold text-green-500">0</span>
-    </div>
-
-  </div>
-</div>
-
-<div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
-  <h3 class="font-semibold">
-    <span class="nav-label-en">Quick Actions</span>
-    <span class="nav-label-ar hidden">إجراءات سريعة</span>
-  </h3>
-
-  <button type="button" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-    <i data-lucide="download" class="w-4 h-4 text-brand"></i>
-    <span class="nav-label-en">Export Plan</span>
-    <span class="nav-label-ar hidden">تصدير الخطة</span>
-  </button>
-
-  <button type="button" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-    <i data-lucide="share-2" class="w-4 h-4 text-brand"></i>
-    <span class="nav-label-en">Share Route</span>
-    <span class="nav-label-ar hidden">مشاركة المسار</span>
-  </button>
-</div>
-
-
   </div>
 
   <script src="{% static 'js/map.js' %}"></script>
   <script src="{% static 'js/daily_plan_integration.js' %}?v=99"></script>
 
   <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDailyPlanMap"
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&callback=initDailyPlanMap"
     async
-    defer>
-  </script>
-
+    defer></script>
 </main>
 
 {% endblock %}

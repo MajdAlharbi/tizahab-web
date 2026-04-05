@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event
+from .models import Event, Favorite
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -19,3 +19,11 @@ class EventSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
         ]
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    event = EventSerializer(read_only=True)
+
+    class Meta:
+        model = Favorite
+        fields = ["id", "event", "created_at"]

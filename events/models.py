@@ -1,10 +1,20 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Event(models.Model):
     CATEGORY_CHOICES = [
-        ("food", "Food"),
+        ("restaurant", "Restaurants"),
+        ("cafe", "Cafes & Coffee"),
+        ("fast_food", "Fast Food"),
+        ("dessert", "Desserts & Sweets"),
+        ("bakery", "Bakery"),
+        ("juice", "Juice & Smoothies"),
+        ("food_truck", "Food Trucks"),
         ("culture", "Culture"),
         ("outdoor", "Outdoor"),
         ("shopping", "Shopping"),
@@ -42,3 +52,18 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name="favorited_by"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = [["user", "event"]]
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user_id}:{self.event_id}"

@@ -72,11 +72,17 @@
     </div>
 
     <div class="flex gap-2 flex-wrap">
-      <button class="map-filter h-9 px-4 rounded-full border bg-brand text-white border-brand text-xs font-medium" data-cat="">All</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="food">🍽️ Food</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-xs font-medium" data-cat="">All</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="restaurant">🍽️ Restaurants</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="cafe">☕ Cafes</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="fast_food">🍔 Fast Food</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="dessert">🍰 Desserts</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="bakery">🥐 Bakery</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="juice">🧃 Juice</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="food_truck">🚚 Food Trucks</button>
+      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
       <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
       <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="outdoor">🌿 Outdoor</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
     </div>
   </div>
 
@@ -88,11 +94,22 @@
     <div id="mapPageMap" class="w-full hidden"></div>
   </div>
 
+  <div id="mapLoadMoreWrap" class="hidden shrink-0">
+    <button
+      id="mapLoadMoreBtn"
+      type="button"
+      class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+      Load More Places
+    </button>
+  </div>
+
 </div>
 
 <script src="{% static 'js/map.js' %}"></script>
 <script>
   let _allMapEvents = [];
+  let _mapTotalCount = 0;
+  let _mapNextUrl = null;
   let _mapInstance = null;
   let _markers = [];
   let _infoWindow = null;
@@ -109,11 +126,8 @@
   }
 
   function categoryEmoji(cat) {
-    if (cat === "food") return "🍽️";
-    if (cat === "culture") return "🏛️";
-    if (cat === "outdoor") return "🌿";
-    if (cat === "shopping") return "🛍️";
-    return "📍";
+    const map = {restaurant:"🍽️",cafe:"☕",fast_food:"🍔",dessert:"🍰",bakery:"🥐",juice:"🧃",food_truck:"🚚",culture:"🏛️",outdoor:"🌿",shopping:"🛍️"};
+    return map[cat] || "📍";
   }
 
   function showMapContainer() {
@@ -229,7 +243,12 @@
       });
     }
 
-    document.getElementById("mapPlaceCount").textContent = `${events.length} place${events.length !== 1 ? "s" : ""}`;
+    const countEl = document.getElementById("mapPlaceCount");
+    if (countEl) {
+      countEl.textContent = _mapTotalCount > _allMapEvents.length
+        ? `${_allMapEvents.length} of ${_mapTotalCount} places`
+        : `${events.length} place${events.length !== 1 ? "s" : ""}`;
+    }
   }
 
   function applyFilters() {
@@ -251,33 +270,38 @@
     renderMarkers(filtered);
   }
 
-  async function loadMapEvents() {
-    const token = localStorage.getItem("access");
-    if (!token) {
-      window.location.href = "/login/";
-      return;
+  function updateMapLoadMore() {
+    const wrap = document.getElementById("mapLoadMoreWrap");
+    const btn = document.getElementById("mapLoadMoreBtn");
+    if (!wrap || !btn) return;
+    const hasMore = Boolean(_mapNextUrl);
+    wrap.classList.toggle("hidden", !hasMore);
+    if (hasMore) {
+      const remaining = _mapTotalCount - _allMapEvents.length;
+      btn.textContent = remaining > 0 ? `Load More Places (${remaining} remaining)` : "Load More Places";
     }
+  }
 
+  async function loadMapEvents() {
     try {
-      const res = await fetch("/api/events/", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const data = await apiGet(_mapNextUrl || "/api/events/");
+      if (!data) return;
 
-      if (res.status === 401) {
-        localStorage.removeItem("access");
-        window.location.href = "/login/";
-        return;
-      }
+      const events = Array.isArray(data) ? data : (data.results || []);
+      _mapNextUrl = Array.isArray(data) ? null : (data.next || null);
+      if (!Array.isArray(data) && data.count != null) _mapTotalCount = data.count;
 
-      if (!res.ok) return;
-
-      const data = await res.json();
-      _allMapEvents = Array.isArray(data) ? data : (data.results || []);
+      _allMapEvents = _allMapEvents.concat(events);
       applyFilters();
+      updateMapLoadMore();
     } catch (error) {
       console.error("Failed to load map events:", error);
     }
   }
+
+  document.getElementById("mapLoadMoreBtn")?.addEventListener("click", () => {
+    if (_mapNextUrl) loadMapEvents();
+  });
 
   document.querySelectorAll(".map-filter").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -285,8 +309,8 @@
 
       document.querySelectorAll(".map-filter").forEach(b => {
         const active = b.dataset.cat === _currentCat;
-        b.classList.toggle("bg-brand", active);
-        b.classList.toggle("text-white", active);
+        b.classList.toggle("bg-purple-100", active);
+        b.classList.toggle("text-brand", active);
         b.classList.toggle("border-brand", active);
         b.classList.toggle("bg-white", !active);
         b.classList.toggle("text-gray-700", !active);

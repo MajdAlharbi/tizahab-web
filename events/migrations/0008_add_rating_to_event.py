@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0007_alter_event_options_and_more'),
+        ("events", "0007_alter_event_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='event',
-            name='rating',
-            field=models.DecimalField(blank=True, decimal_places=1, max_digits=3, null=True),
+            model_name="event",
+            name="rating",
+            field=models.DecimalField(
+                blank=True, decimal_places=1, max_digits=3, null=True
+            ),
         ),
     ]
