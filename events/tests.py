@@ -4,7 +4,7 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from events.models import Event
+from events.models import Event, Favorite
 from events.views import _parse_date, _apply_date_range_filter
 from accounts.models import UserPreferences
 
@@ -145,3 +145,69 @@ class EventModelTests(TestCase):
         event = make_event("Always Open")
         self.assertIsNone(event.start_date)
         self.assertIsNone(event.end_date)
+
+
+class FavoritesAPITests(TestCase):
+    def setUp(self):
+        self.user = make_user("fav@test.com")
+        self.other_user = make_user("other-fav@test.com")
+        self.client = auth_client(self.user)
+        self.event1 = make_event("Fav Event 1", category="food")
+        self.event2 = make_event("Fav Event 2", category="culture")
+
+    def test_list_favorites_returns_only_own_items(self):
+        Favorite.objects.create(user=self.user, event=self.event1)
+        Favorite.objects.create(user=self.other_user, event=self.event2)
+
+        response = self.client.get("/api/events/favorites/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["event"]["id"], self.event1.id)
+
+    def test_add_favorite_creates_record(self):
+        response = self.client.post(
+            "/api/events/favorites/",
+            {"event_id": self.event1.id},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(
+            Favorite.objects.filter(user=self.user, event=self.event1).exists()
+        )
+
+    def test_add_duplicate_favorite_returns_400(self):
+        Favorite.objects.create(user=self.user, event=self.event1)
+        response = self.client.post(
+            "/api/events/favorites/",
+            {"event_id": self.event1.id},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_bulk_add_favorites_returns_migrated_and_skipped(self):
+        Favorite.objects.create(user=self.user, event=self.event1)
+        response = self.client.post(
+            "/api/events/favorites/bulk/",
+            {"event_ids": [self.event1.id, self.event2.id, "bad", 999999]},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["migrated"], 1)
+        self.assertEqual(response.data["skipped"], 3)
+
+    def test_delete_favorite(self):
+        Favorite.objects.create(user=self.user, event=self.event1)
+        response = self.client.delete(f"/api/events/favorites/{self.event1.id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(
+            Favorite.objects.filter(user=self.user, event=self.event1).exists()
+        )
+
+    def test_delete_missing_favorite_returns_404(self):
+        response = self.client.delete(f"/api/events/favorites/{self.event1.id}/")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_favorites_require_auth(self):
+        client = APIClient()
+        response = client.get("/api/events/favorites/")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

@@ -1,33 +1,33 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-
-{% block title %}Events | Tizahab{% endblock %}
-
-{% block head %}
+{% extends "dashboard_base.html" %} {% load static %} {% block title %}Events |
+Tizahab{% endblock %} {% block head %}
 <style>
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="px-4 lg:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
-
   <!-- Page Header -->
   <div class="flex items-center justify-between gap-3 flex-wrap">
     <div>
       <h1 class="text-2xl font-bold text-gray-900">Events & Experiences</h1>
-      <p class="text-sm text-gray-500 mt-0.5">Discover what's happening in Riyadh</p>
+      <p class="text-sm text-gray-500 mt-0.5">
+        Discover what's happening in Riyadh
+      </p>
     </div>
     <div class="flex items-center gap-2">
-      <div class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
+      <div
+        class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
         <span class="text-gray-400">🔍</span>
-        <input id="searchInput" class="w-full outline-none text-sm bg-transparent" placeholder="Search places, events..." />
+        <input
+          id="searchInput"
+          class="w-full outline-none text-sm bg-transparent"
+          placeholder="Search places, events..." />
       </div>
-      <button id="prefBtn" type="button"
-        class="h-10 px-4 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm hover:bg-gray-50 transition">
-        ♡ Favorites
-      </button>
     </div>
   </div>
 
@@ -35,19 +35,12 @@
   <div class="sm:hidden">
     <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
       <span class="text-gray-400">🔍</span>
-      <input id="searchInputMobile" class="w-full outline-none text-sm bg-transparent" placeholder="Search places, events..." />
+      <input
+        id="searchInputMobile"
+        class="w-full outline-none text-sm bg-transparent"
+        placeholder="Search places, events..." />
     </div>
   </div>
-
-  <!-- Category filter pills -->
-  <section class="flex gap-2 flex-wrap">
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-brand text-white border-brand text-sm font-medium" data-cat="">All</button>
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">🍽️ Food & Dining</button>
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="outdoor">🌿 Outdoor</button>
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
-    <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="other">Other</button>
-  </section>
 
   <!-- Trending -->
   <section class="space-y-4">
@@ -57,14 +50,27 @@
         <h2 class="text-lg font-semibold">Trending Places</h2>
       </div>
       <div class="flex items-center gap-2">
-        <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
-        <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
+        <button
+          id="trendPrev"
+          class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">
+          ‹
+        </button>
+        <button
+          id="trendNext"
+          class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">
+          ›
+        </button>
       </div>
     </div>
-    <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+    <div
+      id="trendingRow"
+      class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      <div
+        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div
+        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div
+        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
     </div>
   </section>
 
@@ -74,12 +80,83 @@
       <h2 class="text-lg font-semibold">Map</h2>
       <span class="text-sm text-gray-500">Click a pin to see details</span>
     </div>
-    <div id="eventsMap" class="w-full rounded-2xl border overflow-hidden bg-gray-100" style="height: 380px;"></div>
+    <div
+      id="eventsMap"
+      class="w-full rounded-2xl border overflow-hidden bg-gray-100"
+      style="height: 380px"></div>
+  </section>
+
+  <!-- Category filter pills + Favorites -->
+  <section class="flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex gap-2 flex-wrap">
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-sm font-medium"
+        data-cat="">
+        All
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="restaurant">
+        🍽️ Restaurants
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="cafe">
+        ☕ Cafes
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="fast_food">
+        🍔 Fast Food
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="dessert">
+        🍰 Desserts
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="bakery">
+        🥐 Bakery
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="juice">
+        🧃 Juice
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="food_truck">
+        🚚 Food Trucks
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="shopping">
+        🛍️ Shopping
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="culture">
+        🏛️ Culture
+      </button>
+      <button
+        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
+        data-cat="outdoor">
+        🌿 Outdoor
+      </button>
+    </div>
+    <button
+      id="prefBtn"
+      type="button"
+      class="h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50">
+      ♡ Favorites
+    </button>
   </section>
 
   <!-- Favorites section (hidden by default) -->
   <section id="favoritesSection" class="hidden space-y-4">
-    <div class="flex items-center justify-between border-b border-black/10 pb-3">
+    <div
+      class="flex items-center justify-between border-b border-black/10 pb-3">
       <h2 class="text-lg font-semibold">Favorites</h2>
       <span id="favoritesCount" class="text-sm text-gray-500"></span>
     </div>
@@ -101,18 +178,23 @@
       <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
       <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
     </div>
+    <div id="loadMoreWrap" class="hidden pt-1">
+      <button
+        id="loadMoreBtn"
+        type="button"
+        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        Load More
+      </button>
+    </div>
   </section>
-
 </div>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script>
   document.querySelector('[data-cat=""]')?.addEventListener("click", () => {
     document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
       const isAll = btn.dataset.cat === "";
-      btn.classList.toggle("bg-brand", isAll);
-      btn.classList.toggle("text-white", isAll);
+      btn.classList.toggle("bg-purple-100", isAll);
+      btn.classList.toggle("text-brand", isAll);
       btn.classList.toggle("border-brand", isAll);
       btn.classList.toggle("bg-white", !isAll);
       btn.classList.toggle("text-gray-700", !isAll);
@@ -122,7 +204,7 @@
 <script src="{% static 'js/map.js' %}"></script>
 <script src="{% static 'js/events.js' %}"></script>
 <script
-  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initEventsMap"
-  async defer>
-</script>
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&callback=initEventsMap"
+  async
+  defer></script>
 {% endblock %}

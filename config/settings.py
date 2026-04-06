@@ -41,6 +41,7 @@ if not _secret_key:
 SECRET_KEY = _secret_key
 
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
+GOOGLE_PLACES_API_KEY = os.environ.get("GOOGLE_PLACES_API_KEY", "")
 
 # Read from env so production stays safe; development .env sets DJANGO_DEBUG=True
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").strip().lower() in ("true", "1", "yes")

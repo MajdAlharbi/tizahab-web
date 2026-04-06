@@ -1,121 +1,127 @@
-{% extends "base_auth.html" %}
-{% load static %}
+{% extends "base_auth.html" %} {% load static %} {% block title %}Login |
+Tizahab{% endblock %} {% block body_class %}min-h-screen flex items-center
+justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0]
+font-arimo relative{% endblock %} {% block content %}
+<!-- Language Switch -->
+<button
+  class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
+  🌐 العربية
+</button>
 
-{% block title %}Login | Tizahab{% endblock %}
-
-{% block body_class %}min-h-screen flex items-center justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0] font-arimo relative{% endblock %}
-
-{% block content %}
-  <!-- Language Switch -->
-  <button class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
-    🌐 العربية
-  </button>
-
-  <!-- Card -->
-  <div class="w-[420px] bg-white/95 rounded-2xl shadow-2xl px-10 py-12">
-
-    <!-- Logo -->
-    <div class="text-center mb-8">
-      <img src="{% static 'images/logo.png' %}" class="mx-auto mb-3 h-10">
-      <h1 class="text-3xl text-[#7E1CA1] font-cantata">Tizahab</h1>
-      <p class="text-xl text-[#7E1CA1] font-bona">تــــــــزهب</p>
-    </div>
-
-    <!-- Tabs -->
-    <div class="flex bg-gray-100 rounded-xl p-1 mb-8 text-sm">
-      <button class="flex-1 bg-white rounded-lg py-2 text-[#7E1CA1] shadow">
-        Login
-      </button>
-      <a href="{% url 'signup-page' %}" class="flex-1 py-2 text-center text-gray-500">
-        Create Account
-      </a>
-    </div>
-
-    <!-- Form -->
-    <form method="post" class="space-y-6">
-      {% csrf_token %}
-
-      <!-- Email -->
-      <div>
-        <label class="block text-sm mb-2">Email Address</label>
-        <input type="email" name="email" placeholder="your@email.com" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-                 text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-      </div>
-
-      <!-- Password -->
-      <div>
-        <label class="block text-sm mb-2">Password</label>
-        <input type="password" name="password" placeholder="Enter your password" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-                 text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-        <div class="text-right mt-2">
-          <a href="/api/auth/ui/forgot-password/" class="text-sm text-[#7E1CA1]">Forgot password?</a>
-        </div>
-      </div>
-
-      <!-- Error -->
-      <p id="login-error" class="text-sm text-red-600 hidden"></p>
-
-      <!-- Login -->
-      <button type="submit" class="w-full h-12 rounded-lg text-white text-lg font-bold
-               bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
-        Login
-      </button>
-
-      <!-- Guest -->
-      <button type="button" onclick="window.location.href='/events/page/'"
-        class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
-        Continue as Guest
-      </button>
-    </form>
+<!-- Card -->
+<div class="w-[420px] bg-white/95 rounded-2xl shadow-2xl px-10 py-12">
+  <!-- Logo -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl text-[#7E1CA1] font-cantata">Tizahab</h1>
+    <p class="text-xl text-[#7E1CA1] font-bona">تــــــــزهب</p>
   </div>
 
-  <a href="/" class="absolute bottom-6 text-white text-sm">
-    ← Back to Home
-  </a>
-{% endblock %}
+  <!-- Tabs -->
+  <div class="flex bg-gray-100 rounded-xl p-1 mb-8 text-sm">
+    <button class="flex-1 bg-white rounded-lg py-2 text-[#7E1CA1] shadow">
+      Login
+    </button>
+    <a
+      href="{% url 'signup-page' %}"
+      class="flex-1 py-2 text-center text-gray-500">
+      Create Account
+    </a>
+  </div>
 
-{% block scripts %}
-  <script>
-    const form = document.querySelector("form");
-    const errorBox = document.getElementById("login-error");
+  <!-- Form -->
+  <form method="post" class="space-y-6">
+    {% csrf_token %}
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+    <!-- Email -->
+    <div>
+      <label class="block text-sm mb-2">Email Address</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+    </div>
 
-      errorBox.classList.add("hidden");
-      errorBox.textContent = "";
+    <!-- Password -->
+    <div>
+      <label class="block text-sm mb-2">Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+      <div class="text-right mt-2">
+        <a href="/api/auth/ui/forgot-password/" class="text-sm text-[#7E1CA1]"
+          >Forgot password?</a
+        >
+      </div>
+    </div>
 
-      const email = form.querySelector("input[name='email']").value;
-      const password = form.querySelector("input[name='password']").value;
+    <!-- Error -->
+    <p id="login-error" class="text-sm text-red-600 hidden"></p>
 
-      try {
-        const response = await fetch("/api/auth/login/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          body: JSON.stringify({ email: email, password: password }),
-        });
+    <!-- Login -->
+    <button
+      type="submit"
+      class="w-full h-12 rounded-lg text-white text-lg font-bold bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
+      Login
+    </button>
 
-        const data = await response.json();
+    <!-- Guest -->
+    <button
+      type="button"
+      onclick="window.location.href = '/events/page/'"
+      class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
+      Continue as Guest
+    </button>
+  </form>
+</div>
 
-        if (!response.ok) {
-          const message =
-            data.non_field_errors?.[0] ||
-            data.detail ||
-            "Invalid email or password";
-          throw new Error(message);
-        }
+<a href="/" class="absolute bottom-6 text-white text-sm"> ← Back to Home </a>
+{% endblock %} {% block scripts %}
+<script>
+  const form = document.querySelector("form");
+  const errorBox = document.getElementById("login-error");
 
-        localStorage.setItem("access", data.access);
-        localStorage.setItem("refresh", data.refresh);
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-        window.location.href = "/home/";
-      } catch (err) {
-        errorBox.textContent = err.message;
-        errorBox.classList.remove("hidden");
+    errorBox.classList.add("hidden");
+    errorBox.textContent = "";
+
+    const email = form.querySelector("input[name='email']").value;
+    const password = form.querySelector("input[name='password']").value;
+
+    try {
+      const response = await fetch("/api/auth/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const message =
+          data.non_field_errors?.[0] ||
+          data.detail ||
+          "Invalid email or password";
+        throw new Error(message);
       }
-    });
-  </script>
+
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+
+      window.location.href = "/home/";
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.classList.remove("hidden");
+    }
+  });
+</script>
 {% endblock %}

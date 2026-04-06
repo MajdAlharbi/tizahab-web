@@ -123,6 +123,53 @@ class RecommendationServiceTests(TestCase):
         result = generate_recommendations(self.user, date_str="2026-01-01")
         self.assertIsInstance(result, list)
 
+    def test_category_diversity_prefers_multiple_interest_categories(self):
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture"]
+        pref.save()
+
+        result = generate_recommendations(self.user)
+        categories = {event.category for event in result}
+
+        self.assertIn("food", categories)
+        self.assertIn("culture", categories)
+
+    def test_budget_midpoint_ranks_closest_price_first(self):
+        Event.objects.all().delete()
+        low = make_event("Low", category="food", price=20)
+        mid = make_event("Mid", category="food", price=40)
+        high = make_event("High", category="food", price=75)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food"]
+        pref.budget_min = 0
+        pref.budget_max = 80
+        pref.save()
+
+        result = generate_recommendations(self.user)
+        self.assertGreaterEqual(len(result), 1)
+        self.assertEqual(result[0].id, mid.id)
+        self.assertCountEqual([e.id for e in result], [low.id, mid.id, high.id])
+
+    def test_recently_recommended_events_are_penalized(self):
+        Event.objects.all().delete()
+        repeated = make_event("Repeated", category="food", price=50)
+        fresh = make_event("Fresh", category="food", price=50)
+
+        yesterday = date.today() - timedelta(days=1)
+        plan = DailyPlan.objects.create(user=self.user, date=yesterday)
+        plan.events.add(repeated)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food"]
+        pref.budget_min = 0
+        pref.budget_max = 100
+        pref.save()
+
+        result = generate_recommendations(self.user)
+        self.assertEqual(result[0].id, fresh.id)
+        self.assertIn(repeated.id, [e.id for e in result])
+
 
 # ---------------------------------------------------------------------------
 # DailyPlan model
@@ -170,6 +217,11 @@ class GenerateDailyPlanAPITests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn("events", response.data)
         self.assertGreater(response.data["count"], 0)
+        self.assertIsInstance(response.data["events"][0], dict)
+        self.assertIn("title", response.data["events"][0])
+        self.assertIn("location", response.data["events"][0])
+        self.assertIn("latitude", response.data["events"][0])
+        self.assertIn("longitude", response.data["events"][0])
 
     def test_generate_missing_date_returns_400(self):
         self._set_prefs()
@@ -221,22 +273,34 @@ class DailyPlanCRUDTests(TestCase):
         self.event = make_event()
 
     def test_list_returns_only_own_plans(self):
-        DailyPlan.objects.create(user=self.user, date=date.today())
+        own_plan = DailyPlan.objects.create(user=self.user, date=date.today())
+        own_plan.events.add(self.event)
         DailyPlan.objects.create(user=self.other_user, date=date.today())
         response = self.client.get("/api/daily-plan/")
         results = response.data.get("results", response.data)
         self.assertEqual(len(results), 1)
+        self.assertEqual(len(results[0]["events"]), 1)
+        self.assertIsInstance(results[0]["events"][0], dict)
+        self.assertEqual(results[0]["events"][0]["id"], self.event.id)
+        self.assertEqual(results[0]["events"][0]["title"], self.event.title)
 
     def test_create_plan(self):
         response = self.client.post(
-            "/api/daily-plan/", {"date": TOMORROW, "events": []}
+            "/api/daily-plan/", {"date": TOMORROW, "events": [self.event.id]}
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(response.data["events"]), 1)
+        self.assertIsInstance(response.data["events"][0], dict)
+        self.assertEqual(response.data["events"][0]["id"], self.event.id)
 
     def test_retrieve_own_plan(self):
         plan = DailyPlan.objects.create(user=self.user, date=date.today())
+        plan.events.add(self.event)
         response = self.client.get(f"/api/daily-plan/{plan.pk}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["events"]), 1)
+        self.assertIsInstance(response.data["events"][0], dict)
+        self.assertEqual(response.data["events"][0]["id"], self.event.id)
 
     def test_cannot_retrieve_other_users_plan(self):
         plan = DailyPlan.objects.create(user=self.other_user, date=date.today())

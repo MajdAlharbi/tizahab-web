@@ -201,6 +201,7 @@ class CurrentUserView(APIView):
                 "budget_min": preferences.budget_min,
                 "budget_max": preferences.budget_max,
                 "preferred_language": preferences.preferred_language,
+                "min_rating": preferences.min_rating,
             },
             status=status.HTTP_200_OK,
         )

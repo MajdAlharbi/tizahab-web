@@ -1,54 +1,162 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-
-{% block title %}Settings | Tizahab{% endblock %}
-
-{% block content %}
+{% extends "dashboard_base.html" %} {% load static %} {% block title %}Settings
+| Tizahab{% endblock %} {% block content %}
 <div class="max-w-2xl mx-auto px-4 lg:px-6 py-6 space-y-5">
-
   <div>
     <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
     <p class="text-sm text-gray-500 mt-1">Manage your account preferences</p>
   </div>
 
   <!-- Language -->
-  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+  <section
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
       <h2 class="font-semibold text-gray-800">Language</h2>
-      <p class="text-xs text-gray-500 mt-0.5">Choose your preferred display language</p>
+      <p class="text-xs text-gray-500 mt-0.5">
+        Choose your preferred display language
+      </p>
     </div>
     <div class="p-4 flex gap-3">
       <label class="flex-1">
-        <input type="radio" name="appLang" value="en" class="hidden peer" checked>
-        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+        <input
+          type="radio"
+          name="appLang"
+          value="en"
+          class="hidden peer"
+          checked />
+        <div
+          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
           🇬🇧 English
         </div>
       </label>
       <label class="flex-1">
-        <input type="radio" name="appLang" value="ar" class="hidden peer">
-        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+        <input type="radio" name="appLang" value="ar" class="hidden peer" />
+        <div
+          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
           🇸🇦 العربية
         </div>
       </label>
     </div>
   </section>
 
+  <!-- Travel Preferences (Backend Synced) -->
+  <section
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-800">Travel Preferences</h2>
+      <p class="text-xs text-gray-500 mt-0.5">
+        These preferences sync with your account and affect recommendations
+      </p>
+    </div>
+    <div class="p-4 space-y-4">
+      <div>
+        <p class="text-sm font-medium text-gray-700 mb-2">Interests</p>
+        <div class="flex flex-wrap gap-2">
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="restaurant" class="pref-interest" style="accent-color: #7e1ca1" />
+            🍽️ Restaurants
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="cafe" class="pref-interest" style="accent-color: #7e1ca1" />
+            ☕ Cafes & Coffee
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="fast_food" class="pref-interest" style="accent-color: #7e1ca1" />
+            🍔 Fast Food
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="dessert" class="pref-interest" style="accent-color: #7e1ca1" />
+            🍰 Desserts & Sweets
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="bakery" class="pref-interest" style="accent-color: #7e1ca1" />
+            🥐 Bakery
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="juice" class="pref-interest" style="accent-color: #7e1ca1" />
+            🧃 Juice & Smoothies
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="food_truck" class="pref-interest" style="accent-color: #7e1ca1" />
+            🚚 Food Trucks
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="shopping" class="pref-interest" style="accent-color: #7e1ca1" />
+            🛍️ Shopping
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="culture" class="pref-interest" style="accent-color: #7e1ca1" />
+            🏛️ Culture
+          </label>
+          <label
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
+            <input type="checkbox" value="outdoor" class="pref-interest" style="accent-color: #7e1ca1" />
+            🌿 Outdoor
+          </label>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-3">
+        <label class="space-y-1">
+          <span class="text-sm font-medium text-gray-700"
+            >Budget Min (SAR)</span
+          >
+          <input
+            id="budgetMinInput"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="0"
+            class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+        </label>
+        <label class="space-y-1">
+          <span class="text-sm font-medium text-gray-700"
+            >Budget Max (SAR)</span
+          >
+          <input
+            id="budgetMaxInput"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="500"
+            class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+        </label>
+      </div>
+    </div>
+  </section>
+
   <!-- Appearance -->
-  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+  <section
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
       <h2 class="font-semibold text-gray-800">Appearance</h2>
       <p class="text-xs text-gray-500 mt-0.5">Choose your display theme</p>
     </div>
     <div class="p-4 flex gap-3">
       <label class="flex-1">
-        <input type="radio" name="appTheme" value="light" class="hidden peer" checked>
-        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+        <input
+          type="radio"
+          name="appTheme"
+          value="light"
+          class="hidden peer"
+          checked />
+        <div
+          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
           ☀️ Light Mode
         </div>
       </label>
       <label class="flex-1">
-        <input type="radio" name="appTheme" value="dark" class="hidden peer">
-        <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+        <input type="radio" name="appTheme" value="dark" class="hidden peer" />
+        <div
+          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
           🌙 Dark Mode
         </div>
       </label>
@@ -56,20 +164,22 @@
   </section>
 
   <!-- Notifications -->
-  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+  <section
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
       <h2 class="font-semibold text-gray-800">Notifications</h2>
-      <p class="text-xs text-gray-500 mt-0.5">Control what notifications you receive</p>
+      <p class="text-xs text-gray-500 mt-0.5">
+        Control what notifications you receive
+      </p>
     </div>
     <div class="divide-y divide-gray-100">
-
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-800">Push Notifications</p>
           <p class="text-xs text-gray-500">Receive alerts on your device</p>
         </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="togglePush" checked>
+          <input type="checkbox" id="togglePush" checked />
           <span class="toggle-track"></span>
         </label>
       </div>
@@ -80,7 +190,7 @@
           <p class="text-xs text-gray-500">Get reminded about upcoming plans</p>
         </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="toggleReminders" checked>
+          <input type="checkbox" id="toggleReminders" checked />
           <span class="toggle-track"></span>
         </label>
       </div>
@@ -91,7 +201,7 @@
           <p class="text-xs text-gray-500">Be notified about new features</p>
         </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="toggleUpdates">
+          <input type="checkbox" id="toggleUpdates" />
           <span class="toggle-track"></span>
         </label>
       </div>
@@ -102,7 +212,7 @@
           <p class="text-xs text-gray-500">Personalized place suggestions</p>
         </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="toggleRecs" checked>
+          <input type="checkbox" id="toggleRecs" checked />
           <span class="toggle-track"></span>
         </label>
       </div>
@@ -113,22 +223,22 @@
           <p class="text-xs text-gray-500">Weekly highlights from Riyadh</p>
         </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="toggleNewsletter">
+          <input type="checkbox" id="toggleNewsletter" />
           <span class="toggle-track"></span>
         </label>
       </div>
-
     </div>
   </section>
 
   <!-- Account -->
-  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+  <section
+    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
       <h2 class="font-semibold text-gray-800">Account</h2>
     </div>
     <div class="p-4 space-y-3">
-
-      <a href="/api/auth/ui/preferences/"
+      <a
+        href="/api/auth/ui/preferences/"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
         <span class="text-lg">✏️</span>
         Edit Preferences
@@ -136,56 +246,213 @@
 
       <!-- Change Password — expandable inline form -->
       <div>
-        <button id="togglePwdForm" type="button"
+        <button
+          id="togglePwdForm"
+          type="button"
           class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
           <span class="text-lg">🔒</span>
           Change Password
         </button>
 
         <div id="pwdForm" class="hidden mt-3 space-y-3 px-1">
-          <input id="currentPwd" type="password" placeholder="Current password"
+          <input
+            id="currentPwd"
+            type="password"
+            placeholder="Current password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <input id="newPwd" type="password" placeholder="New password"
+          <input
+            id="newPwd"
+            type="password"
+            placeholder="New password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <input id="confirmPwd" type="password" placeholder="Confirm new password"
+          <input
+            id="confirmPwd"
+            type="password"
+            placeholder="Confirm new password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <p id="pwdError"   class="hidden text-xs text-red-600 font-medium"></p>
-          <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">Password updated successfully!</p>
-          <button id="submitPwd" type="button"
+          <p id="pwdError" class="hidden text-xs text-red-600 font-medium"></p>
+          <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">
+            Password updated successfully!
+          </p>
+          <button
+            id="submitPwd"
+            type="button"
             class="w-full h-10 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
             Update Password
           </button>
         </div>
       </div>
 
-      <a href="/logout/"
+      <button type="button"
+        onclick="localStorage.removeItem('access');localStorage.removeItem('refresh');window.location.href='/login/';"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 text-sm text-red-600 hover:bg-red-50 transition">
         <span class="text-lg">🚪</span>
         Logout
-      </a>
+      </button>
     </div>
   </section>
 
   <!-- Save button -->
   <div class="flex justify-end pb-6">
-    <button id="saveSettingsBtn" type="button"
+    <button
+      id="saveSettingsBtn"
+      type="button"
       class="px-8 h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
       Save Settings
     </button>
   </div>
-  <p id="settingsSaved" class="text-center text-sm text-green-600 hidden font-medium">Settings saved!</p>
-
+  <p
+    id="settingsSaved"
+    class="text-center text-sm text-green-600 hidden font-medium">
+    Settings saved!
+  </p>
+  <p
+    id="settingsError"
+    class="text-center text-sm text-red-600 hidden font-medium"></p>
 </div>
 
 <script>
   // Notification toggles
   const NOTIF_KEY = "tz_notifications";
-  const toggleIds = ["togglePush", "toggleReminders", "toggleUpdates", "toggleRecs", "toggleNewsletter"];
+  const toggleIds = [
+    "togglePush",
+    "toggleReminders",
+    "toggleUpdates",
+    "toggleRecs",
+    "toggleNewsletter",
+  ];
+
+  function getToken() {
+    return localStorage.getItem("access");
+  }
+
+  function parseApiError(payload) {
+    if (!payload) return "Failed to save settings.";
+    if (typeof payload.detail === "string") return payload.detail;
+    const firstKey = Object.keys(payload)[0];
+    if (!firstKey) return "Failed to save settings.";
+    const value = payload[firstKey];
+    if (Array.isArray(value) && value.length) return String(value[0]);
+    if (typeof value === "string") return value;
+    return "Failed to save settings.";
+  }
+
+  async function loadBackendPreferences() {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/login/";
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/preferences/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.status === 401) {
+        window.location.href = "/login/";
+        return;
+      }
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      const lang = data.preferred_language || "en";
+      const langRadio = document.querySelector(
+        `input[name="appLang"][value="${lang}"]`,
+      );
+      if (langRadio) langRadio.checked = true;
+
+      const interests = Array.isArray(data.interests) ? data.interests : [];
+      document.querySelectorAll(".pref-interest").forEach((el) => {
+        el.checked = interests.includes(el.value);
+      });
+
+      const minInput = document.getElementById("budgetMinInput");
+      const maxInput = document.getElementById("budgetMaxInput");
+      if (minInput) minInput.value = data.budget_min ?? "";
+      if (maxInput) maxInput.value = data.budget_max ?? "";
+    } catch {
+      // silent
+    }
+  }
+
+  async function saveBackendPreferences() {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/login/";
+      return { ok: false, message: "Please log in again." };
+    }
+
+    const interests = [
+      ...document.querySelectorAll(".pref-interest:checked"),
+    ].map((el) => el.value);
+    const lang =
+      document.querySelector('input[name="appLang"]:checked')?.value || "en";
+    const minInput = document.getElementById("budgetMinInput");
+    const maxInput = document.getElementById("budgetMaxInput");
+    const budgetMin =
+      minInput && minInput.value !== ""
+        ? Number.parseInt(minInput.value, 10)
+        : null;
+    const budgetMax =
+      maxInput && maxInput.value !== ""
+        ? Number.parseInt(maxInput.value, 10)
+        : null;
+
+    if (
+      Number.isInteger(budgetMin) &&
+      Number.isInteger(budgetMax) &&
+      budgetMin > budgetMax
+    ) {
+      return {
+        ok: false,
+        message: "Budget minimum cannot be greater than budget maximum.",
+      };
+    }
+
+    const payload = {
+      interests,
+      budget_min: budgetMin,
+      budget_max: budgetMax,
+      preferred_language: lang,
+    };
+
+    try {
+      const res = await fetch("/api/auth/preferences/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.status === 401) {
+        window.location.href = "/login/";
+        return { ok: false, message: "Please log in again." };
+      }
+
+      if (!res.ok) {
+        let payloadError = null;
+        try {
+          payloadError = await res.json();
+        } catch {
+          payloadError = null;
+        }
+        return { ok: false, message: parseApiError(payloadError) };
+      }
+
+      return { ok: true };
+    } catch {
+      return { ok: false, message: "Network error. Please try again." };
+    }
+  }
 
   function loadNotifSettings() {
     try {
       const saved = JSON.parse(localStorage.getItem(NOTIF_KEY) || "{}");
-      toggleIds.forEach(id => {
+      toggleIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el && id in saved) el.checked = saved[id];
       });
@@ -194,7 +461,7 @@
 
   function saveNotifSettings() {
     const state = {};
-    toggleIds.forEach(id => {
+    toggleIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) state[id] = el.checked;
     });
@@ -203,20 +470,25 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     loadNotifSettings();
+    loadBackendPreferences();
 
     // ── Sync radio buttons to current stored values ──────────────────────
     const savedTheme = localStorage.getItem("tz_theme") || "light";
-    const savedLang  = localStorage.getItem("tz_lang")  || "en";
+    const savedLang = localStorage.getItem("tz_lang") || "en";
 
-    const themeRadio = document.querySelector(`input[name="appTheme"][value="${savedTheme}"]`);
+    const themeRadio = document.querySelector(
+      `input[name="appTheme"][value="${savedTheme}"]`,
+    );
     if (themeRadio) themeRadio.checked = true;
 
-    const langRadio = document.querySelector(`input[name="appLang"][value="${savedLang}"]`);
+    const langRadio = document.querySelector(
+      `input[name="appLang"][value="${savedLang}"]`,
+    );
     if (langRadio) langRadio.checked = true;
 
     // ── Theme: apply immediately when radio changes ───────────────────────
     // toggleTheme() is defined in dashboard_base.html
-    document.querySelectorAll('input[name="appTheme"]').forEach(radio => {
+    document.querySelectorAll('input[name="appTheme"]').forEach((radio) => {
       radio.addEventListener("change", () => {
         if (radio.checked) toggleTheme(radio.value);
       });
@@ -224,19 +496,42 @@
 
     // ── Language: apply immediately when radio changes ────────────────────
     // applyLang() is defined in dashboard_base.html
-    document.querySelectorAll('input[name="appLang"]').forEach(radio => {
+    document.querySelectorAll('input[name="appLang"]').forEach((radio) => {
       radio.addEventListener("change", () => {
         if (radio.checked) applyLang(radio.value);
       });
     });
 
     // ── Save button — persists notifications, shows confirmation ─────────
-    document.getElementById("saveSettingsBtn").addEventListener("click", () => {
-      saveNotifSettings();
-      const msg = document.getElementById("settingsSaved");
-      msg.classList.remove("hidden");
-      setTimeout(() => msg.classList.add("hidden"), 2500);
-    });
+    document
+      .getElementById("saveSettingsBtn")
+      .addEventListener("click", async () => {
+        const saveBtn = document.getElementById("saveSettingsBtn");
+        saveNotifSettings();
+
+        const okMsg = document.getElementById("settingsSaved");
+        const errMsg = document.getElementById("settingsError");
+        okMsg.classList.add("hidden");
+        errMsg.classList.add("hidden");
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+
+        const result = await saveBackendPreferences();
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Settings";
+
+        if (!result.ok) {
+          errMsg.textContent = result.message;
+          errMsg.classList.remove("hidden");
+          return;
+        }
+
+        const msg = document.getElementById("settingsSaved");
+        msg.classList.remove("hidden");
+        setTimeout(() => msg.classList.add("hidden"), 2500);
+      });
 
     // ── Change Password — toggle form visibility ──────────────────────────
     document.getElementById("togglePwdForm").addEventListener("click", () => {
@@ -245,11 +540,11 @@
 
     // ── Change Password — submit ──────────────────────────────────────────
     document.getElementById("submitPwd").addEventListener("click", async () => {
-      const currentPwd  = document.getElementById("currentPwd").value.trim();
-      const newPwd      = document.getElementById("newPwd").value.trim();
-      const confirmPwd  = document.getElementById("confirmPwd").value.trim();
-      const errEl       = document.getElementById("pwdError");
-      const successEl   = document.getElementById("pwdSuccess");
+      const currentPwd = document.getElementById("currentPwd").value.trim();
+      const newPwd = document.getElementById("newPwd").value.trim();
+      const confirmPwd = document.getElementById("confirmPwd").value.trim();
+      const errEl = document.getElementById("pwdError");
+      const successEl = document.getElementById("pwdSuccess");
 
       errEl.classList.add("hidden");
       successEl.classList.add("hidden");
@@ -266,14 +561,29 @@
       }
 
       const token = localStorage.getItem("access");
-      if (!token) { window.location.href = "/login/"; return; }
+      if (!token) {
+        window.location.href = "/login/";
+        return;
+      }
 
       try {
         const res = await fetch("/api/auth/change-password/", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-          body: JSON.stringify({ current_password: currentPwd, new_password: newPwd }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            current_password: currentPwd,
+            new_password: newPwd,
+          }),
         });
+
+        if (res.status === 401) {
+          window.location.href = "/login/";
+          return;
+        }
+
         const body = await res.json();
         if (!res.ok) {
           errEl.textContent = body.detail || "Failed to update password.";
@@ -283,7 +593,10 @@
           document.getElementById("currentPwd").value = "";
           document.getElementById("newPwd").value = "";
           document.getElementById("confirmPwd").value = "";
-          setTimeout(() => document.getElementById("pwdForm").classList.add("hidden"), 2000);
+          setTimeout(
+            () => document.getElementById("pwdForm").classList.add("hidden"),
+            2000,
+          );
         }
       } catch {
         errEl.textContent = "Network error. Please try again.";

@@ -1,135 +1,150 @@
-{% extends "base_auth.html" %}
-{% load static %}
+{% extends "base_auth.html" %} {% load static %} {% block title %}Create Account
+| Tizahab{% endblock %} {% block body_class %}min-h-screen flex items-center
+justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0]
+font-arimo relative{% endblock %} {% block content %}
+<!-- Language Switch -->
+<button
+  class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
+  🌐 العربية
+</button>
 
-{% block title %}Create Account | Tizahab{% endblock %}
-
-{% block body_class %}min-h-screen flex items-center justify-center bg-gradient-to-b from-[#D16CF5] via-[#7E1CA1] to-[#8034E0] font-arimo relative{% endblock %}
-
-{% block content %}
-  <!-- Language Switch -->
-  <button class="absolute top-6 right-6 bg-white/20 px-4 py-2 rounded-lg text-white text-sm">
-    🌐 العربية
-  </button>
-
-  <!-- Card -->
-  <div class="w-[420px] bg-white/95 rounded-2xl shadow-2xl px-10 py-12">
-
-    <!-- Logo -->
-    <div class="text-center mb-8">
-      <img src="{% static 'images/logo.png' %}" class="mx-auto mb-3 h-10">
-      <h1 class="text-3xl text-[#7E1CA1] font-cantata">Tizahab</h1>
-      <p class="text-xl text-[#7E1CA1] font-bona">تــــــــزهب</p>
-    </div>
-
-    <!-- Tabs -->
-    <div class="flex bg-gray-100 rounded-xl p-1 mb-8 text-sm">
-      <a href="{% url 'login-page' %}" class="flex-1 py-2 text-center text-gray-500">
-        Login
-      </a>
-      <button class="flex-1 bg-white rounded-lg py-2 text-[#7E1CA1] shadow">
-        Create Account
-      </button>
-    </div>
-
-    <!-- Form -->
-    <form method="post" class="space-y-6">
-      {% csrf_token %}
-
-      <!-- Full Name -->
-      <div>
-        <label class="block text-sm mb-2">Full Name</label>
-        <input type="text" name="full_name" placeholder="Enter your name" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-                      text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-      </div>
-
-      <!-- Email -->
-      <div>
-        <label class="block text-sm mb-2">Email Address</label>
-        <input type="email" name="email" placeholder="your@email.com" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-                      text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-      </div>
-
-      <!-- Password -->
-      <div>
-        <label class="block text-sm mb-2">Password</label>
-        <input type="password" name="password" placeholder="Enter your password" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-                      text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-      </div>
-
-      <!-- Confirm Password -->
-      <div>
-        <label class="block text-sm mb-2">Confirm Password</label>
-        <input type="password" name="password2" placeholder="Re-enter your password" required class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5]
-        text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]">
-      </div>
-
-      <!-- Error -->
-      <p id="signup-error" class="text-sm text-red-600 hidden"></p>
-
-      <!-- Create Account -->
-      <button type="submit" class="w-full h-12 rounded-lg text-white text-lg font-bold
-      bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
-        Create Account
-      </button>
-
-      <!-- Guest -->
-      <button type="button" onclick="window.location.href='/events/page/'"
-        class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
-        Continue as Guest
-      </button>
-    </form>
+<!-- Card -->
+<div class="w-[420px] bg-white/95 rounded-2xl shadow-2xl px-10 py-12">
+  <!-- Logo -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl text-[#7E1CA1] font-cantata">Tizahab</h1>
+    <p class="text-xl text-[#7E1CA1] font-bona">تــــــــزهب</p>
   </div>
 
-  <a href="/" class="absolute bottom-6 text-white text-sm">
-    ← Back to Home
-  </a>
-{% endblock %}
+  <!-- Tabs -->
+  <div class="flex bg-gray-100 rounded-xl p-1 mb-8 text-sm">
+    <a
+      href="{% url 'login-page' %}"
+      class="flex-1 py-2 text-center text-gray-500">
+      Login
+    </a>
+    <button class="flex-1 bg-white rounded-lg py-2 text-[#7E1CA1] shadow">
+      Create Account
+    </button>
+  </div>
 
-{% block scripts %}
-  <script>
-    const form = document.querySelector("form");
-    const errorBox = document.getElementById("signup-error");
+  <!-- Form -->
+  <form method="post" class="space-y-6">
+    {% csrf_token %}
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+    <!-- Full Name -->
+    <div>
+      <label class="block text-sm mb-2">Full Name</label>
+      <input
+        type="text"
+        name="full_name"
+        placeholder="Enter your name"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+    </div>
 
-      errorBox.classList.add("hidden");
-      errorBox.textContent = "";
+    <!-- Email -->
+    <div>
+      <label class="block text-sm mb-2">Email Address</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+    </div>
 
-      const email = form.querySelector("input[name='email']").value;
-      const password = form.querySelector("input[name='password']").value;
+    <!-- Password -->
+    <div>
+      <label class="block text-sm mb-2">Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+    </div>
 
-      try {
-        const response = await fetch("/api/auth/signup/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          body: JSON.stringify({
-            username: email,
-            email: email,
-            password: password,
-            password2: password,
-          }),
-        });
+    <!-- Confirm Password -->
+    <div>
+      <label class="block text-sm mb-2">Confirm Password</label>
+      <input
+        type="password"
+        name="password2"
+        placeholder="Re-enter your password"
+        required
+        class="w-full h-12 rounded-lg px-4 bg-[#F3F3F5] text-sm focus:outline-none focus:ring-2 focus:ring-[#7E1CA1]" />
+    </div>
 
-        const data = await response.json();
+    <!-- Error -->
+    <p id="signup-error" class="text-sm text-red-600 hidden"></p>
 
-        if (!response.ok) {
-          const message =
-            data.email?.[0] ||
-            data.password?.[0] ||
-            data.detail ||
-            "Unable to create account";
-          throw new Error(message);
-        }
-        window.location.href = "/onboarding/";
+    <!-- Create Account -->
+    <button
+      type="submit"
+      class="w-full h-12 rounded-lg text-white text-lg font-bold bg-gradient-to-b from-[#7E1CA1] to-[#8034E0]">
+      Create Account
+    </button>
 
-      } catch (err) {
-        errorBox.textContent = err.message;
-        errorBox.classList.remove("hidden");
+    <!-- Guest -->
+    <button
+      type="button"
+      onclick="window.location.href = '/events/page/'"
+      class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
+      Continue as Guest
+    </button>
+  </form>
+</div>
+
+<a href="/" class="absolute bottom-6 text-white text-sm"> ← Back to Home </a>
+{% endblock %} {% block scripts %}
+<script>
+  const form = document.querySelector("form");
+  const errorBox = document.getElementById("signup-error");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    errorBox.classList.add("hidden");
+    errorBox.textContent = "";
+
+    const email = form.querySelector("input[name='email']").value;
+    const password = form.querySelector("input[name='password']").value;
+    const password2 = form.querySelector("input[name='password2']").value;
+
+    try {
+      const response = await fetch("/api/auth/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          password2: password2,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const message =
+          data.email?.[0] ||
+          data.password?.[0] ||
+          data.non_field_errors?.[0] ||
+          data.detail ||
+          "Unable to create account";
+        throw new Error(message);
       }
-    });
-  </script>
+
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      window.location.href = "/onboarding/";
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.classList.remove("hidden");
+    }
+  });
+</script>
 {% endblock %}

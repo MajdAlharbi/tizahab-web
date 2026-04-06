@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*.egg-info/
+dist/
 
 # Virtual environments
 .venv/
@@ -15,6 +17,10 @@ venv/
 *.log
 db.sqlite3
 media/
+
+# Temp files
+*.tmp
+*.swp
 
 # OS
 .DS_Store

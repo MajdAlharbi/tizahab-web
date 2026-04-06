@@ -2,11 +2,17 @@
 // All pages import this file for auth + fetch
 
 const CATEGORY_MAP = {
-  food:     { label: "Food & Dining",  emoji: "🍽️", color: "bg-orange-100 text-orange-700" },
-  culture:  { label: "Culture",        emoji: "🏛️", color: "bg-blue-100 text-blue-700" },
-  outdoor:  { label: "Outdoor",        emoji: "🌿", color: "bg-green-100 text-green-700" },
-  shopping: { label: "Shopping",       emoji: "🛍️", color: "bg-pink-100 text-pink-700" },
-  other:    { label: "Other",          emoji: "🎯", color: "bg-gray-100 text-gray-700" },
+  restaurant: { label: "Restaurants",       emoji: "🍽️", color: "bg-orange-100 text-orange-700" },
+  cafe:       { label: "Cafes & Coffee",    emoji: "☕",  color: "bg-amber-100 text-amber-700" },
+  fast_food:  { label: "Fast Food",         emoji: "🍔",  color: "bg-red-100 text-red-700" },
+  dessert:    { label: "Desserts & Sweets", emoji: "🍰",  color: "bg-pink-100 text-pink-700" },
+  bakery:     { label: "Bakery",            emoji: "🥐",  color: "bg-yellow-100 text-yellow-700" },
+  juice:      { label: "Juice & Smoothies", emoji: "🧃",  color: "bg-lime-100 text-lime-700" },
+  food_truck: { label: "Food Trucks",       emoji: "🚚",  color: "bg-indigo-100 text-indigo-700" },
+  culture:    { label: "Culture",           emoji: "🏛️", color: "bg-blue-100 text-blue-700" },
+  outdoor:    { label: "Outdoor",           emoji: "🌿",  color: "bg-green-100 text-green-700" },
+  shopping:   { label: "Shopping",          emoji: "🛍️", color: "bg-purple-100 text-purple-700" },
+  other:      { label: "Other",             emoji: "🎯",  color: "bg-gray-100 text-gray-700" },
 };
 
 function getToken() {

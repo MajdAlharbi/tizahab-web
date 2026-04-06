@@ -16,7 +16,11 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
     - budget values are non-negative
     """
 
-    VALID_INTERESTS = ["food", "culture", "outdoor", "shopping", "other"]
+    VALID_INTERESTS = [
+        "restaurant", "cafe", "fast_food", "dessert", "bakery",
+        "juice", "food_truck", "shopping", "culture", "outdoor",
+        "food", "other",
+    ]
 
     class Meta:
         model = UserPreferences
@@ -25,6 +29,7 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             "budget_min",
             "budget_max",
             "interests",
+            "min_rating",
         ]
 
     def validate_interests(self, value):
