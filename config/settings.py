@@ -1,3 +1,4 @@
+
 """
 Django settings for config project.
 """
@@ -42,6 +43,11 @@ SECRET_KEY = _secret_key
 
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 GOOGLE_PLACES_API_KEY = os.environ.get("GOOGLE_PLACES_API_KEY", "")
+GOOGLE_BROWSER_MAPS_API_KEY = (
+    os.environ.get("GOOGLE_BROWSER_MAPS_API_KEY", "")
+    or GOOGLE_PLACES_API_KEY
+    or GOOGLE_MAPS_API_KEY
+)
 
 # Read from env so production stays safe; development .env sets DJANGO_DEBUG=True
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").strip().lower() in ("true", "1", "yes")
@@ -81,6 +87,11 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
+    "DEFAULT_THROTTLE_RATES": {
+        "login": os.environ.get("LOGIN_RATE_LIMIT", "100/hour"),
+        "signup": os.environ.get("SIGNUP_RATE_LIMIT", "20/hour"),
+        "change_password": os.environ.get("CHANGE_PASSWORD_RATE_LIMIT", "30/hour"),
+    },
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 

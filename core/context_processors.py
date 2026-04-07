@@ -5,4 +5,9 @@ def google_maps_api_key(request):
     return {
         "GOOGLE_MAPS_API_KEY": getattr(settings, "GOOGLE_MAPS_API_KEY", ""),
         "GOOGLE_PLACES_API_KEY": getattr(settings, "GOOGLE_PLACES_API_KEY", ""),
+        "GOOGLE_BROWSER_MAPS_API_KEY": getattr(
+            settings,
+            "GOOGLE_BROWSER_MAPS_API_KEY",
+            "",
+        ),
     }

@@ -28,6 +28,7 @@ function renderDailyPlan(data) {
     empty.innerHTML = `
       <p class="text-gray-400 text-sm">No activities planned yet.</p>
       <button onclick="document.getElementById('generate-btn').click()"
+        data-requires-auth="true"
         class="px-5 py-2 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
         Generate My Plan
       </button>`;
@@ -216,7 +217,7 @@ async function searchActivities(query) {
           alreadyAdded
             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
             : "bg-brand text-white hover:opacity-90"
-        }" data-event-id="${ev.id}" ${alreadyAdded ? "disabled" : ""}>
+        }" data-event-id="${ev.id}" data-requires-auth="true" ${alreadyAdded ? "disabled" : ""}>
           ${alreadyAdded ? "Added" : "Add"}
         </button>
       `;

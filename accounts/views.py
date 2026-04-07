@@ -5,18 +5,25 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login as django_login
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.conf import settings
 from django_ratelimit.decorators import ratelimit
+from django_ratelimit.core import is_ratelimited
 
 from .models import UserPreferences
 from .serializers import (
     UserPreferencesSerializer,
     SignupSerializer,
     LoginSerializer,
+)
+from .throttles import (
+    ChangePasswordRateThrottle,
+    LoginRateThrottle,
+    SignupRateThrottle,
 )
 
 User = get_user_model()
@@ -36,6 +43,17 @@ def _read_reset_token(token):
     return signer.unsign(token, max_age=_RESET_MAX_AGE)
 
 
+def _api_rate_limited(request, rate, group):
+    return is_ratelimited(
+        request=request,
+        group=group,
+        key="ip",
+        rate=rate,
+        method="POST",
+        increment=True,
+    )
+
+
 @ratelimit(key="ip", rate="5/m", block=True)
 def login_page(request):
     return render(request, "login.html")
@@ -50,9 +68,24 @@ def preferences_page(request):
     return render(request, "preferences.html")
 
 
-@ratelimit(key="ip", rate="3/m", block=True)
+@ratelimit(
+    key="ip",
+    rate=getattr(settings, "PASSWORD_RESET_RATE_LIMIT", "3/m"),
+    block=True,
+)
 def forgot_password_page(request):
     if request.method == "POST":
+        if _api_rate_limited(
+            request,
+            getattr(settings, "PASSWORD_RESET_RATE_LIMIT", "3/m"),
+            "forgot_password_page",
+        ):
+            return render(
+                request,
+                "forgot_password.html",
+                {"info": "Too many reset attempts. Please try again later."},
+                status=429,
+            )
         email = request.POST.get("email", "").strip()
         try:
             user = User.objects.get(email=email)
@@ -82,6 +115,12 @@ def forgot_password_page(request):
     return render(request, "forgot_password.html")
 
 
+@ratelimit(
+    key="ip",
+    rate=getattr(settings, "PASSWORD_RESET_CONFIRM_RATE_LIMIT", "5/m"),
+    method="POST",
+    block=True,
+)
 def reset_password_page(request, token):
     from urllib.parse import unquote
 
@@ -98,6 +137,17 @@ def reset_password_page(request, token):
         )
 
     if request.method == "POST":
+        if _api_rate_limited(
+            request,
+            getattr(settings, "PASSWORD_RESET_CONFIRM_RATE_LIMIT", "5/m"),
+            "reset_password_page",
+        ):
+            return render(
+                request,
+                "reset_password.html",
+                {"token": token, "error": "Too many attempts. Please try again later."},
+                status=429,
+            )
         password1 = request.POST.get("password1", "")
         password2 = request.POST.get("password2", "")
 
@@ -133,13 +183,24 @@ def reset_password_page(request, token):
 
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [SignupRateThrottle]
 
     def post(self, request):
+        if _api_rate_limited(
+            request,
+            getattr(settings, "SIGNUP_RATE_LIMIT", "20/hour"),
+            "signup_api",
+        ):
+            return Response(
+                {"detail": "Request was throttled. Please try again later."},
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
         serializer = SignupSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         user = serializer.save()
+        django_login(request, user, backend="django.contrib.auth.backends.ModelBackend")
         refresh = RefreshToken.for_user(user)
 
         return Response(
@@ -153,10 +214,35 @@ class SignupAPIView(APIView):
 
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [LoginRateThrottle]
 
     def post(self, request):
+        if _api_rate_limited(
+            request,
+            getattr(settings, "LOGIN_RATE_LIMIT", "100/hour"),
+            "login_api",
+        ):
+            return Response(
+                {"detail": "Request was throttled. Please try again later."},
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        email = request.data.get("email")
+        password = request.data.get("password")
+        user = None
+        if email and password:
+            try:
+                user_obj = User.objects.get(email=email)
+                username = user_obj.username
+            except User.DoesNotExist:
+                username = email
+            user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            django_login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
@@ -210,8 +296,18 @@ class ChangePasswordView(APIView):
     """POST /api/auth/change-password/ — change password for authenticated user."""
 
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ChangePasswordRateThrottle]
 
     def post(self, request):
+        if _api_rate_limited(
+            request,
+            getattr(settings, "CHANGE_PASSWORD_RATE_LIMIT", "30/hour"),
+            "change_password_api",
+        ):
+            return Response(
+                {"detail": "Request was throttled. Please try again later."},
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
         current_password = request.data.get("current_password", "")
         new_password = request.data.get("new_password", "")
 

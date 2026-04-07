@@ -238,6 +238,7 @@ class FavoriteDeleteAPIView(APIView):
             )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 User = get_user_model()
 
 

@@ -72,7 +72,7 @@ font-arimo relative{% endblock %} {% block content %}
     <!-- Guest -->
     <button
       type="button"
-      onclick="window.location.href = '/events/page/'"
+      onclick="window.location.href='{% url 'index' %}'"
       class="w-full h-12 rounded-lg border font-bold text-gray-600 hover:bg-gray-50 transition">
       Continue as Guest
     </button>
@@ -84,6 +84,9 @@ font-arimo relative{% endblock %} {% block content %}
 <script>
   const form = document.querySelector("form");
   const errorBox = document.getElementById("login-error");
+  const rawNextParam = new URLSearchParams(window.location.search).get("next");
+  const nextParam =
+    rawNextParam && rawNextParam.startsWith("/") ? rawNextParam : null;
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -117,7 +120,9 @@ font-arimo relative{% endblock %} {% block content %}
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      if (email === "aaaa@aaa.aaa") {
+      if (nextParam) {
+        window.location.href = nextParam;
+      } else if (email === "aaaa@aaa.aaa") {
         window.location.href = "/admin-panel/";
       } else {
         window.location.href = "/home/";

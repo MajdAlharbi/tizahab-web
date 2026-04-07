@@ -110,6 +110,9 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@tizahab.com")
 REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
     "anon": os.environ.get("ANON_RATE_LIMIT", "100/hour"),
     "user": os.environ.get("USER_RATE_LIMIT", "1000/hour"),
+    "login": os.environ.get("LOGIN_RATE_LIMIT", "100/hour"),
+    "signup": os.environ.get("SIGNUP_RATE_LIMIT", "20/hour"),
+    "change_password": os.environ.get("CHANGE_PASSWORD_RATE_LIMIT", "30/hour"),
 }
 
 # ========================

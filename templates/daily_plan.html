@@ -13,6 +13,7 @@
     <div class="flex gap-3">
       <button
         id="generate-btn"
+        data-requires-auth="true"
         type="button"
         class="flex items-center gap-2 px-5 h-11 rounded-xl border border-brand text-brand font-medium hover:bg-brand/5 transition">
         <span class="nav-label-en">Generate AI Plan</span>
@@ -21,6 +22,7 @@
 
       <button
         id="add-activity-btn"
+        data-requires-auth="true"
         type="button"
         class="flex items-center gap-2 px-5 h-11 rounded-xl bg-brand text-white font-medium hover:opacity-90 transition">
         <span class="nav-label-en">Add Activity</span>
@@ -226,7 +228,7 @@
   <script src="{% static 'js/daily_plan_integration.js' %}?v=99"></script>
 
   <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&callback=initDailyPlanMap"
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_BROWSER_MAPS_API_KEY }}&callback=initDailyPlanMap"
     async
     defer></script>
 </main>

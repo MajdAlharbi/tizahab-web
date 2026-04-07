@@ -19,6 +19,15 @@ function getToken() {
   return localStorage.getItem("access") || "";
 }
 
+function isLoggedIn() {
+  return localStorage.getItem("access") !== null;
+}
+
+function redirectToLogin() {
+  const next = window.location.pathname;
+  window.location.href = "/login/?next=" + encodeURIComponent(next);
+}
+
 function authHeaders() {
   const token = getToken();
   const headers = { "Content-Type": "application/json" };
@@ -54,7 +63,7 @@ async function _tryRefresh() {
 function _logout() {
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");
-  window.location.href = "/login/";
+  window.location.href = "/logout/";
 }
 
 async function apiGet(url) {
@@ -139,6 +148,18 @@ function catLabel(cat) { return CATEGORY_MAP[cat]?.label || cat; }
 function catEmoji(cat) { return CATEGORY_MAP[cat]?.emoji || "📍"; }
 function catColor(cat) { return CATEGORY_MAP[cat]?.color || "bg-gray-100 text-gray-700"; }
 
+document.addEventListener("click", function (e) {
+  const target = e.target.closest("[data-requires-auth]");
+
+  if (!target) return;
+
+  if (!isLoggedIn()) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    redirectToLogin();
+  }
+}, true);
+
 // expose globally for all scripts
 window.apiGet = apiGet;
 window.apiPost = apiPost;
@@ -147,3 +168,5 @@ window.catLabel = catLabel;
 window.catEmoji = catEmoji;
 window.catColor = catColor;
 window.getToken = getToken;
+window.isLoggedIn = isLoggedIn;
+window.redirectToLogin = redirectToLogin;

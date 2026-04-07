@@ -128,6 +128,14 @@ Tizahab{% endblock %} {% block content %}
   function getToken() {
     return localStorage.getItem("access");
   }
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
   function redirectToLogin() {
     window.location.href = "/login/";
   }
@@ -231,14 +239,14 @@ Tizahab{% endblock %} {% block content %}
         "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition block space-y-2";
       card.innerHTML = `
         <div class="flex items-center justify-between">
-          <span class="text-sm font-semibold text-gray-800">📅 ${plan.date || "Plan"}</span>
+          <span class="text-sm font-semibold text-gray-800">📅 ${escapeHtml(plan.date || "Plan")}</span>
           <span class="text-xs text-brand font-medium">${evCount} activities</span>
         </div>
         <p class="text-xs text-gray-500">${
           evCount
             ? plan.events
                 .slice(0, 2)
-                .map((e) => e.title || "Activity")
+                .map((e) => escapeHtml(e.title || "Activity"))
                 .join(", ") + (evCount > 2 ? "…" : "")
             : "No activities"
         }</p>
@@ -312,10 +320,10 @@ Tizahab{% endblock %} {% block content %}
         ${emojiMap[ev.category] || "🎯"}
       </div>
       <div class="flex-1 min-w-0">
-        <a href="/events/page/${ev.id}/" class="text-sm font-semibold text-gray-800 truncate block hover:text-brand">${ev.title || "Untitled"}</a>
-        <p class="text-xs text-gray-500 mt-0.5">📍 ${ev.location || "Riyadh"}</p>
+        <a href="/events/page/${ev.id}/" class="text-sm font-semibold text-gray-800 truncate block hover:text-brand">${escapeHtml(ev.title || "Untitled")}</a>
+        <p class="text-xs text-gray-500 mt-0.5">📍 ${escapeHtml(ev.location || "Riyadh")}</p>
         <div class="flex items-center gap-3 mt-1">
-          <span class="text-xs text-brand font-medium">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+          <span class="text-xs text-brand font-medium">${escapeHtml(ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free")}</span>
           <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener" class="text-xs text-gray-400 hover:text-gray-600">🗺️ Maps</a>
         </div>
       </div>

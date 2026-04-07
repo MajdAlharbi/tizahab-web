@@ -3,16 +3,27 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import admin_panel_view
 
+
+protected_template = lambda template_name: login_required(  # noqa: E731
+    TemplateView.as_view(template_name=template_name),
+    login_url="/login/",
+)
+staff_required = user_passes_test(
+    lambda user: user.is_authenticated and user.is_staff,
+    login_url="/login/",
+)
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
 
     # Public landing page
+    path("", TemplateView.as_view(template_name="landing.html"), name="index"),
     path("", TemplateView.as_view(template_name="landing.html"), name="root"),
-    path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
-    path("dashboard/", TemplateView.as_view(template_name="home.html"), name="dashboard"),
+    path("home/", protected_template("home.html"), name="home"),
+    path("dashboard/", protected_template("home.html"), name="dashboard"),
 
     path("admin/", admin.site.urls),
 
@@ -31,14 +42,14 @@ urlpatterns = [
 
     # Daily Plan
     path("api/daily-plan/", include("daily_plan.urls")),
-    path("daily-plan/", TemplateView.as_view(template_name="daily_plan.html"), name="daily_plan"),
+    path("daily-plan/", protected_template("daily_plan.html"), name="daily_plan"),
 
     # Dashboard Pages
-    path("map/", TemplateView.as_view(template_name="map.html"), name="map"),
-    path("profile/", TemplateView.as_view(template_name="profile.html"), name="profile"),
-    path("settings/", TemplateView.as_view(template_name="settings.html"), name="settings"),
-    path("admin-panel/", admin_panel_view, name="admin_panel"),
-    path("onboarding/", TemplateView.as_view(template_name="preferences.html"), name="onboarding"),
+    path("map/", protected_template("map.html"), name="map"),
+    path("profile/", protected_template("profile.html"), name="profile"),
+    path("settings/", protected_template("settings.html"), name="settings"),
+    path("admin-panel/", staff_required(admin_panel_view), name="admin_panel"),
+    path("onboarding/", protected_template("preferences.html"), name="onboarding"),
 ]
 USE_I18N = True
 

@@ -92,6 +92,15 @@
     let events = [];
     let users = [];
 
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
     /* Auth: JWT stored in localStorage */
 
     function getToken() {
@@ -101,7 +110,7 @@
     function logout() {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
-      window.location.href = "/login/";
+      window.location.href = "/logout/";
     }
 
     async function fetchWithAuth(url, options = {}) {
@@ -142,10 +151,10 @@
 
       table.innerHTML = events.map(e => `
     <tr class="border-b hover:bg-slate-50">
-      <td class="py-2">${e.title}</td>
-      <td>${e.category}</td>
-      <td>${e.location}</td>
-      <td>${e.price || "Free"}</td>
+      <td class="py-2">${escapeHtml(e.title)}</td>
+      <td>${escapeHtml(e.category)}</td>
+      <td>${escapeHtml(e.location)}</td>
+      <td>${escapeHtml(e.price || "Free")}</td>
       <td class="space-x-2">
         <button onclick="editEvent(${e.id})" class="text-blue-600 hover:underline">Edit</button>
         <button onclick="deleteEvent(${e.id})" class="text-red-600 hover:underline">Delete</button>
@@ -195,8 +204,8 @@
 
       table.innerHTML = users.map(u => `
     <tr class="border-b hover:bg-slate-50">
-      <td class="py-2">${u.username}</td>
-      <td>${u.email}</td>
+      <td class="py-2">${escapeHtml(u.username)}</td>
+      <td>${escapeHtml(u.email)}</td>
       <td class="space-x-2">
         <button onclick="deleteUser(${u.id})" class="text-red-600 hover:underline">Delete</button>
       </td>
@@ -240,10 +249,10 @@
 
       table.innerHTML = filtered.map(e => `
     <tr class="border-b">
-      <td>${e.title}</td>
-      <td>${e.category}</td>
-      <td>${e.location}</td>
-      <td>${e.price || "Free"}</td>
+      <td>${escapeHtml(e.title)}</td>
+      <td>${escapeHtml(e.category)}</td>
+      <td>${escapeHtml(e.location)}</td>
+      <td>${escapeHtml(e.price || "Free")}</td>
       <td>
         <button onclick="editEvent(${e.id})">Edit</button>
         <button onclick="deleteEvent(${e.id})">Delete</button>
