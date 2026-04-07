@@ -18,6 +18,7 @@ class EventSerializer(serializers.ModelSerializer):
             "price_range",
             "latitude",
             "longitude",
+            "rating",
         ]
 
 

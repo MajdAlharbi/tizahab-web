@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from accounts.views import admin_panel_view
 
-# هذا فقط لتغيير اللغة من الزر
+
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
 

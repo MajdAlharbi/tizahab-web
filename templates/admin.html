@@ -1,295 +1,578 @@
-{% extends "dashboard_base.html" %} {% load static %} {% block title %}Admin
-Panel | Tizahab{% endblock %} {% block content %}
-<div class="max-w-6xl mx-auto px-4 lg:px-6 py-6 space-y-6">
-  <div>
-    <h1 class="text-2xl font-bold text-gray-900">Admin Panel</h1>
-    <p class="text-sm text-gray-500 mt-0.5">Manage events, offers, and users</p>
+{% extends "dashboard_base.html" %}
+{% load static %}
+{% block title %}Admin Panel | Tizahab{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-7xl px-4 py-6 lg:px-6">
+  <div class="space-y-6">
+    <section
+      class="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white shadow-sm">
+      <div class="flex flex-col gap-6 px-6 py-8 lg:flex-row lg:items-end lg:justify-between lg:px-8">
+        <div class="max-w-2xl space-y-3">
+          <span
+            class="inline-flex w-fit items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-200">
+            Events Administration
+          </span>
+          <div class="space-y-2">
+            <h1 class="text-3xl font-semibold tracking-tight text-white lg:text-4xl">
+              Manage live event inventory from one place
+            </h1>
+            <p class="max-w-xl text-sm leading-6 text-slate-300 lg:text-base">
+              Review, search, edit, and remove events with a cleaner workflow.
+              Event data loads directly from the existing API.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[30rem]">
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Total</p>
+            <p id="stat-events" class="mt-2 text-2xl font-semibold text-white">--</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Free</p>
+            <p id="stat-free" class="mt-2 text-2xl font-semibold text-white">--</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Paid</p>
+            <p id="stat-paid" class="mt-2 text-2xl font-semibold text-white">--</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Categories</p>
+            <p id="stat-categories" class="mt-2 text-2xl font-semibold text-white">--</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div
+        class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">Event Directory</h2>
+          <p class="mt-1 text-sm text-slate-500">
+            Search current events and manage local edit and delete actions from the table below.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <label
+            class="flex h-11 min-w-[18rem] items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-500 focus-within:border-slate-400 focus-within:bg-white">
+            <svg class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M8.75 15.5a6.75 6.75 0 1 1 0-13.5 6.75 6.75 0 0 1 0 13.5Zm9.25 2.5-4.3-4.3" stroke="currentColor"
+                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <input id="adminSearch" type="text" placeholder="Search by title, category, or location"
+              class="w-full border-0 bg-transparent p-0 text-sm text-slate-900 outline-none placeholder:text-slate-400" />
+          </label>
+          <button id="refreshEvents" type="button"
+            class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <div id="adminBanner" class="hidden border-b border-amber-200 bg-amber-50 px-6 py-3 text-sm text-amber-800"></div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Event</th>
+              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Category
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Schedule
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Location
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Price</th>
+              <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody id="adminEventsTable" class="divide-y divide-slate-100 bg-white">
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center text-sm text-slate-400">
+                Loading events...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        class="flex flex-col gap-3 border-t border-slate-200 px-6 py-4 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-wrap items-center gap-3">
+          <span id="adminCountLabel">0 events</span>
+          <span class="hidden h-1 w-1 rounded-full bg-slate-300 sm:inline-block"></span>
+          <span id="adminPageLabel">Page 1</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="adminPrev" type="button"
+            class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 px-4 font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
+            Previous
+          </button>
+          <button id="adminNext" type="button"
+            class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 px-4 font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
+            Next
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
+</div>
 
-  <!-- Stats row -->
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <div
-      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <div
-          class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl">
-          🎫
+<div id="eventModal" class="fixed inset-0 z-50 hidden bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
+  <div class="mx-auto flex min-h-full max-w-3xl items-center justify-center">
+    <div class="w-full overflow-hidden rounded-3xl bg-white shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Edit Event</p>
+          <h3 id="modalTitle" class="mt-1 text-xl font-semibold text-slate-900">Update event</h3>
         </div>
-        <span
-          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
-          >+12%</span
-        >
-      </div>
-      <div>
-        <p id="stat-events" class="text-2xl font-bold text-gray-900">—</p>
-        <p class="text-xs text-gray-500 mt-0.5">Total Events</p>
-      </div>
-    </div>
-
-    <div
-      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <div
-          class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
-          🏷️
-        </div>
-        <span
-          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
-          >+8%</span
-        >
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-gray-900">48</p>
-        <p class="text-xs text-gray-500 mt-0.5">Active Offers</p>
-      </div>
-    </div>
-
-    <div
-      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <div
-          class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-xl">
-          👥
-        </div>
-        <span
-          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
-          >+23%</span
-        >
-      </div>
-      <div>
-        <p id="stat-users" class="text-2xl font-bold text-gray-900">—</p>
-        <p class="text-xs text-gray-500 mt-0.5">Total Users</p>
-      </div>
-    </div>
-
-    <div
-      class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <div
-          class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-xl">
-          💰
-        </div>
-        <span
-          class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium"
-          >+15%</span
-        >
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-gray-900">87.5K</p>
-        <p class="text-xs text-gray-500 mt-0.5">Revenue (SAR)</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Events Management -->
-  <div
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div
-      class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
-      <h2 class="font-semibold text-gray-800">Events Management</h2>
-      <div class="flex items-center gap-3">
-        <div
-          class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-gray-50 min-w-[200px]">
-          <span class="text-gray-400 text-sm">🔍</span>
-          <input
-            id="adminSearch"
-            type="text"
-            placeholder="Search events…"
-            class="w-full outline-none text-sm bg-transparent" />
-        </div>
-        <button
-          type="button"
-          class="h-10 px-4 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition whitespace-nowrap">
-          + Add Event
+        <button id="closeModal" type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+          aria-label="Close">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5 15 15M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+          </svg>
         </button>
       </div>
-    </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead>
-          <tr class="bg-gray-50 border-b border-gray-100">
-            <th
-              class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Event
-            </th>
-            <th
-              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Category
-            </th>
-            <th
-              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Price
-            </th>
-            <th
-              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Location
-            </th>
-            <th
-              class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Status
-            </th>
-            <th
-              class="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody id="adminEventsTable" class="divide-y divide-gray-50">
-          <tr>
-            <td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">
-              Loading events…
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <form id="eventForm" class="space-y-6 px-6 py-6">
+        <div class="grid gap-5 md:grid-cols-2">
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">Title</span>
+            <input id="formTitle" type="text"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
 
-    <div
-      class="px-6 py-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
-      <span id="adminCountLabel">—</span>
-      <div class="flex gap-2">
-        <button
-          id="adminPrev"
-          class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">
-          ← Prev
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">Category</span>
+            <input id="formCategory" type="text"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
+
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">Location</span>
+            <input id="formLocation" type="text"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
+
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">Price</span>
+            <input id="formPrice" type="text"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
+
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">Start date</span>
+            <input id="formStartDate" type="date"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
+
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-700">End date</span>
+            <input id="formEndDate" type="date"
+              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
+          </label>
+        </div>
+
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Description</span>
+          <textarea id="formDescription" rows="5"
+            class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400"></textarea>
+        </label>
+
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+          Edit actions are currently applied in the UI only. No update API call is made.
+        </div>
+
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <button id="cancelModal" type="button"
+            class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            Cancel
+          </button>
+          <button type="submit"
+            class="inline-flex h-11 items-center justify-center rounded-2xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-slate-800">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="deleteModal" class="fixed inset-0 z-50 hidden bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
+  <div class="mx-auto flex min-h-full max-w-lg items-center justify-center">
+    <div class="w-full rounded-3xl bg-white p-6 shadow-2xl">
+      <div class="space-y-3">
+        <span
+          class="inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-red-600">
+          Delete Event
+        </span>
+        <h3 class="text-xl font-semibold text-slate-900">Remove this event from the list?</h3>
+        <p id="deleteMessage" class="text-sm leading-6 text-slate-600">
+          This delete action is currently applied in the UI only. No delete API call is made.
+        </p>
+      </div>
+
+      <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <button id="cancelDelete" type="button"
+          class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+          Cancel
         </button>
-        <button
-          id="adminNext"
-          class="h-9 px-4 rounded-lg border bg-white hover:bg-gray-50 transition disabled:opacity-40">
-          Next →
+        <button id="confirmDelete" type="button"
+          class="inline-flex h-11 items-center justify-center rounded-2xl bg-red-600 px-5 text-sm font-semibold text-white transition hover:bg-red-700">
+          Delete event
         </button>
       </div>
     </div>
   </div>
 </div>
-{% endblock %} {% block scripts %}
+{% endblock %}
+
+{% block scripts %}
 <script>
-  function escHtml(s) {
-    return String(s || "")
+  function escHtml(value) {
+    return String(value ?? "")
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;");
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
   }
 
   const CAT_COLORS = {
-    food: "bg-orange-100 text-orange-700",
-    culture: "bg-purple-100 text-purple-700",
-    outdoor: "bg-green-100 text-green-700",
-    shopping: "bg-blue-100 text-blue-700",
+    food: "bg-orange-50 text-orange-700 ring-orange-200",
+    culture: "bg-violet-50 text-violet-700 ring-violet-200",
+    outdoor: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+    shopping: "bg-sky-50 text-sky-700 ring-sky-200",
+    other: "bg-slate-100 text-slate-700 ring-slate-200",
   };
 
-  let _adminEvents = [];
-  let _adminFiltered = [];
-  let _adminPage = 1;
-  const PAGE_SIZE = 10;
+  let adminEvents = [];
+  let adminFiltered = [];
+  let adminPage = 1;
+  let activeEditId = null;
+  let pendingDeleteId = null;
+  const PAGE_SIZE = 8;
+
+  function getAuthHeaders() {
+    const token = localStorage.getItem("access");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
+  function normalizeEvents(data) {
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.results)) return data.results;
+    if (Array.isArray(data?.events)) return data.events;
+    return [];
+  }
+
+  function formatPrice(price) {
+    if (price === null || price === undefined || price === "") return "Free";
+    const numeric = Number(price);
+    if (Number.isFinite(numeric)) {
+      if (numeric <= 0) return "Free";
+      return `${numeric.toFixed(0)} SAR`;
+    }
+    return String(price);
+  }
+
+  function formatDateRange(event) {
+    const start = event.start_date || event.date || "";
+    const end = event.end_date || "";
+    if (!start && !end) return "Not scheduled";
+    if (start && end && start !== end) return `${start} to ${end}`;
+    return start || end;
+  }
+
+  function isFreeEvent(event) {
+    return !event.price || Number(event.price) <= 0;
+  }
+
+  function getCategory(event) {
+    return String(event.category || "other").toLowerCase();
+  }
+
+  function showBanner(message, tone) {
+    const banner = document.getElementById("adminBanner");
+    const tones = {
+      warning: "border-b border-amber-200 bg-amber-50 text-amber-800",
+      danger: "border-b border-red-200 bg-red-50 text-red-800",
+      success: "border-b border-emerald-200 bg-emerald-50 text-emerald-800",
+    };
+
+    banner.className = `px-6 py-3 text-sm ${tones[tone] || tones.warning}`;
+    banner.textContent = message;
+    banner.classList.remove("hidden");
+  }
+
+  function hideBanner() {
+    document.getElementById("adminBanner").classList.add("hidden");
+  }
+
+  function updateStats() {
+    const categories = new Set(adminEvents.map((event) => getCategory(event)));
+    const freeCount = adminEvents.filter(isFreeEvent).length;
+
+    document.getElementById("stat-events").textContent = adminEvents.length;
+    document.getElementById("stat-free").textContent = freeCount;
+    document.getElementById("stat-paid").textContent = adminEvents.length - freeCount;
+    document.getElementById("stat-categories").textContent = categories.size;
+  }
 
   function renderTable() {
     const tbody = document.getElementById("adminEventsTable");
-    const label = document.getElementById("adminCountLabel");
-    const start = (_adminPage - 1) * PAGE_SIZE;
-    const slice = _adminFiltered.slice(start, start + PAGE_SIZE);
+    const countLabel = document.getElementById("adminCountLabel");
+    const pageLabel = document.getElementById("adminPageLabel");
+    const totalPages = Math.max(1, Math.ceil(adminFiltered.length / PAGE_SIZE));
+    const safePage = Math.min(adminPage, totalPages);
+    const start = (safePage - 1) * PAGE_SIZE;
+    const slice = adminFiltered.slice(start, start + PAGE_SIZE);
 
-    if (!slice.length) {
+    adminPage = safePage;
+
+    if (!adminFiltered.length) {
       tbody.innerHTML =
-        '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400 text-sm">No events found.</td></tr>';
-      label.textContent = "0 events";
-      return;
+        '<tr><td colspan="6" class="px-6 py-12 text-center text-sm text-slate-400">No events found for the current search.</td></tr>';
+    } else {
+      tbody.innerHTML = slice
+        .map((event) => {
+          const category = getCategory(event);
+          const categoryStyle = CAT_COLORS[category] || CAT_COLORS.other;
+          const title = event.title || "Untitled event";
+          const description = event.description || "No description available.";
+          const location = event.location || "Location not specified";
+          const schedule = formatDateRange(event);
+          const viewUrl = event.id ? `/events/page/${event.id}/` : "#";
+
+          return `
+            <tr class="transition hover:bg-slate-50/80">
+              <td class="px-6 py-4 align-top">
+                <div class="space-y-1.5">
+                  <p class="font-semibold text-slate-900">${escHtml(title)}</p>
+                  <p class="max-w-md truncate text-sm text-slate-500">${escHtml(description)}</p>
+                </div>
+              </td>
+              <td class="px-4 py-4 align-top">
+                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${categoryStyle}">
+                  ${escHtml(category.charAt(0).toUpperCase() + category.slice(1))}
+                </span>
+              </td>
+              <td class="px-4 py-4 align-top text-slate-600">${escHtml(schedule)}</td>
+              <td class="px-4 py-4 align-top text-slate-600">${escHtml(location)}</td>
+              <td class="px-4 py-4 align-top font-medium text-slate-900">${escHtml(formatPrice(event.price))}</td>
+              <td class="px-6 py-4 align-top">
+                <div class="flex items-center justify-end gap-2">
+                  <a
+                    href="${escHtml(viewUrl)}"
+                    class="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    View
+                  </a>
+                  <button
+                    type="button"
+                    data-action="edit"
+                    data-id="${escHtml(event.id)}"
+                    class="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    data-action="delete"
+                    data-id="${escHtml(event.id)}"
+                    class="inline-flex h-9 items-center justify-center rounded-xl border border-red-200 px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        })
+        .join("");
     }
 
-    tbody.innerHTML = slice
-      .map((ev) => {
-        const price = ev.price
-          ? `${parseFloat(ev.price).toFixed(0)} SAR`
-          : "Free";
-        const cat = ev.category || "other";
-        const catColor = CAT_COLORS[cat] || "bg-gray-100 text-gray-600";
-        const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
-        return `
-        <tr class="hover:bg-gray-50 transition">
-          <td class="px-6 py-4">
-            <p class="font-medium text-gray-800 truncate max-w-[200px]">${escHtml(ev.title || "Untitled")}</p>
-          </td>
-          <td class="px-4 py-4">
-            <span class="text-xs px-2 py-1 rounded-full font-medium ${catColor}">${escHtml(catLabel)}</span>
-          </td>
-          <td class="px-4 py-4 text-gray-700">${escHtml(price)}</td>
-          <td class="px-4 py-4 text-gray-500 truncate max-w-[160px]">${escHtml(ev.location || "Riyadh")}</td>
-          <td class="px-4 py-4">
-            <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium">Active</span>
-          </td>
-          <td class="px-6 py-4 text-right">
-            <div class="flex items-center justify-end gap-2">
-              <a href="/events/page/${ev.id}/" class="text-xs text-blue-600 hover:underline font-medium">View</a>
-              <span class="text-gray-300">|</span>
-              <button class="text-xs text-red-500 hover:underline font-medium">Delete</button>
-            </div>
-          </td>
-        </tr>
-      `;
-      })
-      .join("");
-
-    label.textContent = `${_adminFiltered.length} event${_adminFiltered.length !== 1 ? "s" : ""}`;
-    document.getElementById("adminPrev").disabled = _adminPage <= 1;
-    document.getElementById("adminNext").disabled =
-      start + PAGE_SIZE >= _adminFiltered.length;
+    countLabel.textContent = `${adminFiltered.length} event${adminFiltered.length === 1 ? "" : "s"}`;
+    pageLabel.textContent = `Page ${adminPage} of ${totalPages}`;
+    document.getElementById("adminPrev").disabled = adminPage <= 1;
+    document.getElementById("adminNext").disabled = adminPage >= totalPages;
   }
 
-  function applyAdminSearch(q) {
-    const query = q.toLowerCase();
-    _adminFiltered = query
-      ? _adminEvents.filter(
-          (ev) =>
-            (ev.title || "").toLowerCase().includes(query) ||
-            (ev.location || "").toLowerCase().includes(query) ||
-            (ev.category || "").toLowerCase().includes(query),
-        )
-      : [..._adminEvents];
-    _adminPage = 1;
+  function applySearch(query) {
+    const normalized = String(query || "").trim().toLowerCase();
+    adminFiltered = normalized
+      ? adminEvents.filter((event) =>
+        [event.title, event.category, event.location, event.description]
+          .filter(Boolean)
+          .some((value) => String(value).toLowerCase().includes(normalized)),
+      )
+      : [...adminEvents];
+
+    adminPage = 1;
     renderTable();
+  }
+
+  function openEditModal(eventId) {
+    const event = adminEvents.find((item) => String(item.id) === String(eventId));
+    if (!event) return;
+
+    activeEditId = event.id;
+    document.getElementById("modalTitle").textContent = event.title || "Update event";
+    document.getElementById("formTitle").value = event.title || "";
+    document.getElementById("formCategory").value = event.category || "";
+    document.getElementById("formLocation").value = event.location || "";
+    document.getElementById("formPrice").value = event.price ?? "";
+    document.getElementById("formStartDate").value = event.start_date || event.date || "";
+    document.getElementById("formEndDate").value = event.end_date || "";
+    document.getElementById("formDescription").value = event.description || "";
+    document.getElementById("eventModal").classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  function closeEditModal() {
+    activeEditId = null;
+    document.getElementById("eventModal").classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  function openDeleteModal(eventId) {
+    const event = adminEvents.find((item) => String(item.id) === String(eventId));
+    if (!event) return;
+
+    pendingDeleteId = event.id;
+    document.getElementById("deleteMessage").textContent =
+      `Delete "${event.title || "this event"}" from the current admin view. This action is UI only and does not call a backend delete endpoint.`;
+    document.getElementById("deleteModal").classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    document.getElementById("deleteModal").classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  function saveEditedEvent(formEvent) {
+    formEvent.preventDefault();
+    if (activeEditId === null) return;
+
+    adminEvents = adminEvents.map((event) => {
+      if (String(event.id) !== String(activeEditId)) return event;
+      return {
+        ...event,
+        title: document.getElementById("formTitle").value.trim(),
+        category: document.getElementById("formCategory").value.trim(),
+        location: document.getElementById("formLocation").value.trim(),
+        price: document.getElementById("formPrice").value.trim(),
+        start_date: document.getElementById("formStartDate").value,
+        end_date: document.getElementById("formEndDate").value,
+        description: document.getElementById("formDescription").value.trim(),
+      };
+    });
+
+    updateStats();
+    applySearch(document.getElementById("adminSearch").value);
+    closeEditModal();
+    showBanner("Event updated in the UI. No backend update endpoint was called.", "success");
+  }
+
+  function confirmDelete() {
+    if (pendingDeleteId === null) return;
+
+    adminEvents = adminEvents.filter((event) => String(event.id) !== String(pendingDeleteId));
+    updateStats();
+    applySearch(document.getElementById("adminSearch").value);
+    closeDeleteModal();
+    showBanner("Event removed from the UI. No backend delete endpoint was called.", "danger");
   }
 
   async function loadAdminData() {
-    const token = localStorage.getItem("access");
-    if (!token) {
-      window.location.href = "/login/";
-      return;
-    }
+    hideBanner();
+
     try {
-      const res = await fetch("/api/events/", {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await fetch("/api/events/", {
+        headers: getAuthHeaders(),
       });
-      if (res.status === 401) {
+
+      if (response.status === 401) {
         window.location.href = "/login/";
         return;
       }
-      if (!res.ok) return;
-      const data = await res.json();
-      _adminEvents = Array.isArray(data) ? data : data.results || [];
-      _adminFiltered = [..._adminEvents];
-      document.getElementById("stat-events").textContent = _adminEvents.length;
+
+      if (!response.ok) {
+        throw new Error("Unable to load events");
+      }
+
+      const data = await response.json();
+      adminEvents = normalizeEvents(data);
+      adminFiltered = [...adminEvents];
+      adminPage = 1;
+
+      updateStats();
       renderTable();
-    } catch {
-      /* silent */
+      showBanner("Edit and delete controls are available in the UI only until matching backend endpoints are added.", "warning");
+    } catch (error) {
+      adminEvents = [];
+      adminFiltered = [];
+      updateStats();
+      renderTable();
+      showBanner("Events could not be loaded from /api/events/. Please check authentication and API availability.", "danger");
     }
   }
 
-  document
-    .getElementById("adminSearch")
-    .addEventListener("input", (e) => applyAdminSearch(e.target.value));
-  document.getElementById("adminPrev").addEventListener("click", () => {
-    if (_adminPage > 1) {
-      _adminPage--;
-      renderTable();
-    }
-  });
-  document.getElementById("adminNext").addEventListener("click", () => {
-    _adminPage++;
-    renderTable();
-  });
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("adminSearch").addEventListener("input", (event) => {
+      applySearch(event.target.value);
+    });
 
-  document.addEventListener("DOMContentLoaded", loadAdminData);
+    document.getElementById("refreshEvents").addEventListener("click", loadAdminData);
+
+    document.getElementById("adminPrev").addEventListener("click", () => {
+      if (adminPage > 1) {
+        adminPage -= 1;
+        renderTable();
+      }
+    });
+
+    document.getElementById("adminNext").addEventListener("click", () => {
+      const totalPages = Math.max(1, Math.ceil(adminFiltered.length / PAGE_SIZE));
+      if (adminPage < totalPages) {
+        adminPage += 1;
+        renderTable();
+      }
+    });
+
+    document.getElementById("adminEventsTable").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+
+      const { action, id } = button.dataset;
+      if (action === "edit") openEditModal(id);
+      if (action === "delete") openDeleteModal(id);
+    });
+
+    document.getElementById("eventForm").addEventListener("submit", saveEditedEvent);
+    document.getElementById("closeModal").addEventListener("click", closeEditModal);
+    document.getElementById("cancelModal").addEventListener("click", closeEditModal);
+    document.getElementById("cancelDelete").addEventListener("click", closeDeleteModal);
+    document.getElementById("confirmDelete").addEventListener("click", confirmDelete);
+
+    document.getElementById("eventModal").addEventListener("click", (event) => {
+      if (event.target.id === "eventModal") closeEditModal();
+    });
+
+    document.getElementById("deleteModal").addEventListener("click", (event) => {
+      if (event.target.id === "deleteModal") closeDeleteModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      closeEditModal();
+      closeDeleteModal();
+    });
+
+    loadAdminData();
+  });
 </script>
 {% endblock %}

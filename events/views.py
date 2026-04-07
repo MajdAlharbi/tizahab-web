@@ -1,16 +1,24 @@
 from datetime import datetime
+
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
+
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q, Count
+from django.contrib.auth import get_user_model
+
 from .models import Event, Favorite
 from .serializers import EventSerializer, FavoriteSerializer
-
+from daily_plan.models import DailyPlan
 
 def events_list_page(request):
     return render(request, "events_list.html")
@@ -230,3 +238,51 @@ class FavoriteDeleteAPIView(APIView):
             )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+User = get_user_model()
+
+
+class AdminEventListCreateAPIView(ListCreateAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        queryset = Event.objects.all().order_by("-id")
+
+        search = self.request.query_params.get("search", "").strip()
+        category = self.request.query_params.get("category", "").strip()
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) |
+                Q(description__icontains=search) |
+                Q(location__icontains=search)
+            )
+
+        if category:
+            queryset = queryset.filter(category=category)
+
+        return queryset
+
+
+class AdminEventRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAdminUser]
+    queryset = Event.objects.all()
+
+
+class AdminDashboardStatsAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        total_events = Event.objects.count()
+        total_users = User.objects.count()
+        total_plans = DailyPlan.objects.count()
+
+        return Response(
+            {
+                "total_events": total_events,
+                "total_users": total_users,
+                "total_plans": total_plans,
+            },
+            status=status.HTTP_200_OK,
+        )
