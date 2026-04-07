@@ -117,7 +117,11 @@ font-arimo relative{% endblock %} {% block content %}
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      window.location.href = "/home/";
+      if (email === "aaaa@aaa.aaa") {
+        window.location.href = "/admin-panel/";
+      } else {
+        window.location.href = "/home/";
+      }
     } catch (err) {
       errorBox.textContent = err.message;
       errorBox.classList.remove("hidden");

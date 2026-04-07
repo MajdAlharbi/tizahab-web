@@ -5,6 +5,8 @@ from .views import (
     UserPreferencesView,
     CurrentUserView,
     ChangePasswordView,
+    AdminUserListAPIView,
+    AdminUserDetailAPIView,
     login_page,
     signup_page,
     preferences_page,
@@ -19,6 +21,9 @@ urlpatterns = [
     path("preferences/", UserPreferencesView.as_view(), name="user-preferences"),
     path("me/", CurrentUserView.as_view(), name="current-user"),
     path("change-password/", ChangePasswordView.as_view(), name="change-password"),
+    # Admin user management
+    path("admin/users/", AdminUserListAPIView.as_view(), name="admin-user-list"),
+    path("admin/users/<int:pk>/", AdminUserDetailAPIView.as_view(), name="admin-user-detail"),
     # UI pages
     path("ui/login/", login_page, name="login-page"),
     path("ui/signup/", signup_page, name="signup-page"),

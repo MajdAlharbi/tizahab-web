@@ -6,6 +6,8 @@ from .views import (
     FavoriteListCreateAPIView,
     FavoriteBulkCreateAPIView,
     FavoriteDeleteAPIView,
+    AdminEventListCreateAPIView,
+    AdminEventRetrieveUpdateDestroyAPIView,
 )
 
 urlpatterns = [
@@ -25,4 +27,7 @@ urlpatterns = [
         name="favorites-delete",
     ),
     path("<int:pk>/", EventRetrieveAPIView.as_view(), name="event-detail"),
+    # Admin event management
+    path("admin/events/", AdminEventListCreateAPIView.as_view(), name="admin-event-list"),
+    path("admin/events/<int:pk>/", AdminEventRetrieveUpdateDestroyAPIView.as_view(), name="admin-event-detail"),
 ]

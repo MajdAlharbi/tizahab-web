@@ -1,578 +1,272 @@
-{% extends "dashboard_base.html" %}
-{% load static %}
-{% block title %}Admin Panel | Tizahab{% endblock %}
-{% block content %}
-<div class="mx-auto max-w-7xl px-4 py-6 lg:px-6">
-  <div class="space-y-6">
-    <section
-      class="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white shadow-sm">
-      <div class="flex flex-col gap-6 px-6 py-8 lg:flex-row lg:items-end lg:justify-between lg:px-8">
-        <div class="max-w-2xl space-y-3">
-          <span
-            class="inline-flex w-fit items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-200">
-            Events Administration
-          </span>
-          <div class="space-y-2">
-            <h1 class="text-3xl font-semibold tracking-tight text-white lg:text-4xl">
-              Manage live event inventory from one place
-            </h1>
-            <p class="max-w-xl text-sm leading-6 text-slate-300 lg:text-base">
-              Review, search, edit, and remove events with a cleaner workflow.
-              Event data loads directly from the existing API.
-            </p>
-          </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
 
-        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[30rem]">
-          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Total</p>
-            <p id="stat-events" class="mt-2 text-2xl font-semibold text-white">--</p>
-          </div>
-          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Free</p>
-            <p id="stat-free" class="mt-2 text-2xl font-semibold text-white">--</p>
-          </div>
-          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Paid</p>
-            <p id="stat-paid" class="mt-2 text-2xl font-semibold text-white">--</p>
-          </div>
-          <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-300">Categories</p>
-            <p id="stat-categories" class="mt-2 text-2xl font-semibold text-white">--</p>
-          </div>
-        </div>
-      </div>
-    </section>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel | Tizahab</title>
 
-    <section class="rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <div
-        class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100">
+
+  <div class="mx-auto max-w-7xl px-4 py-6 lg:px-6">
+    <div class="space-y-6">
+
+      <!-- HEADER -->
+      <section class="rounded-3xl bg-slate-900 text-white p-6 flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-semibold text-slate-900">Event Directory</h2>
-          <p class="mt-1 text-sm text-slate-500">
-            Search current events and manage local edit and delete actions from the table below.
-          </p>
+          <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+          <p class="text-sm text-slate-300">Manage events and users</p>
+        </div>
+        <button onclick="logout()" class="bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20">
+          Logout
+        </button>
+      </section>
+
+      <!-- STATS -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl">
+          <p>Events</p>
+          <h2 id="stat-events">--</h2>
+        </div>
+        <div class="bg-white p-4 rounded-xl">
+          <p>Users</p>
+          <h2 id="stat-users">--</h2>
+        </div>
+        <div class="bg-white p-4 rounded-xl">
+          <p>Free</p>
+          <h2 id="stat-free">--</h2>
+        </div>
+        <div class="bg-white p-4 rounded-xl">
+          <p>Categories</p>
+          <h2 id="stat-categories">--</h2>
+        </div>
+      </section>
+
+      <!-- EVENTS -->
+      <section class="bg-white rounded-xl p-4">
+        <div class="flex justify-between mb-3">
+          <input id="adminSearch" placeholder="Search..." class="border p-2 rounded w-1/2" />
+          <button id="refreshEvents" class="border px-3 rounded">Refresh</button>
         </div>
 
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label
-            class="flex h-11 min-w-[18rem] items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-500 focus-within:border-slate-400 focus-within:bg-white">
-            <svg class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M8.75 15.5a6.75 6.75 0 1 1 0-13.5 6.75 6.75 0 0 1 0 13.5Zm9.25 2.5-4.3-4.3" stroke="currentColor"
-                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-            <input id="adminSearch" type="text" placeholder="Search by title, category, or location"
-              class="w-full border-0 bg-transparent p-0 text-sm text-slate-900 outline-none placeholder:text-slate-400" />
-          </label>
-          <button id="refreshEvents" type="button"
-            class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
-            Refresh
-          </button>
-        </div>
-      </div>
-
-      <div id="adminBanner" class="hidden border-b border-amber-200 bg-amber-50 px-6 py-3 text-sm text-amber-800"></div>
-
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-200 text-sm">
-          <thead class="bg-slate-50">
+        <table class="w-full text-sm">
+          <thead>
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Event</th>
-              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Category
-              </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Schedule
-              </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Location
-              </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Price</th>
-              <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Actions
-              </th>
+              <th>Event</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Price</th>
+              <th></th>
             </tr>
           </thead>
-          <tbody id="adminEventsTable" class="divide-y divide-slate-100 bg-white">
-            <tr>
-              <td colspan="6" class="px-6 py-12 text-center text-sm text-slate-400">
-                Loading events...
-              </td>
-            </tr>
-          </tbody>
+
+          <tbody id="adminEventsTable"></tbody>
         </table>
-      </div>
+      </section>
 
-      <div
-        class="flex flex-col gap-3 border-t border-slate-200 px-6 py-4 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex flex-wrap items-center gap-3">
-          <span id="adminCountLabel">0 events</span>
-          <span class="hidden h-1 w-1 rounded-full bg-slate-300 sm:inline-block"></span>
-          <span id="adminPageLabel">Page 1</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button id="adminPrev" type="button"
-            class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 px-4 font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
-            Previous
-          </button>
-          <button id="adminNext" type="button"
-            class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 px-4 font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
-            Next
-          </button>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
-
-<div id="eventModal" class="fixed inset-0 z-50 hidden bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
-  <div class="mx-auto flex min-h-full max-w-3xl items-center justify-center">
-    <div class="w-full overflow-hidden rounded-3xl bg-white shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Edit Event</p>
-          <h3 id="modalTitle" class="mt-1 text-xl font-semibold text-slate-900">Update event</h3>
-        </div>
-        <button id="closeModal" type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
-          aria-label="Close">
-          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5 15 15M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-          </svg>
-        </button>
-      </div>
-
-      <form id="eventForm" class="space-y-6 px-6 py-6">
-        <div class="grid gap-5 md:grid-cols-2">
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">Title</span>
-            <input id="formTitle" type="text"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">Category</span>
-            <input id="formCategory" type="text"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">Location</span>
-            <input id="formLocation" type="text"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">Price</span>
-            <input id="formPrice" type="text"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">Start date</span>
-            <input id="formStartDate" type="date"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-
-          <label class="space-y-2">
-            <span class="text-sm font-medium text-slate-700">End date</span>
-            <input id="formEndDate" type="date"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400" />
-          </label>
-        </div>
-
-        <label class="block space-y-2">
-          <span class="text-sm font-medium text-slate-700">Description</span>
-          <textarea id="formDescription" rows="5"
-            class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400"></textarea>
-        </label>
-
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          Edit actions are currently applied in the UI only. No update API call is made.
-        </div>
-
-        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button id="cancelModal" type="button"
-            class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-            Cancel
-          </button>
-          <button type="submit"
-            class="inline-flex h-11 items-center justify-center rounded-2xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-slate-800">
-            Save changes
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div id="deleteModal" class="fixed inset-0 z-50 hidden bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
-  <div class="mx-auto flex min-h-full max-w-lg items-center justify-center">
-    <div class="w-full rounded-3xl bg-white p-6 shadow-2xl">
-      <div class="space-y-3">
-        <span
-          class="inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-red-600">
-          Delete Event
-        </span>
-        <h3 class="text-xl font-semibold text-slate-900">Remove this event from the list?</h3>
-        <p id="deleteMessage" class="text-sm leading-6 text-slate-600">
-          This delete action is currently applied in the UI only. No delete API call is made.
-        </p>
-      </div>
-
-      <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <button id="cancelDelete" type="button"
-          class="inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-          Cancel
-        </button>
-        <button id="confirmDelete" type="button"
-          class="inline-flex h-11 items-center justify-center rounded-2xl bg-red-600 px-5 text-sm font-semibold text-white transition hover:bg-red-700">
-          Delete event
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-  function escHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
-
-  const CAT_COLORS = {
-    food: "bg-orange-50 text-orange-700 ring-orange-200",
-    culture: "bg-violet-50 text-violet-700 ring-violet-200",
-    outdoor: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-    shopping: "bg-sky-50 text-sky-700 ring-sky-200",
-    other: "bg-slate-100 text-slate-700 ring-slate-200",
-  };
-
-  let adminEvents = [];
-  let adminFiltered = [];
-  let adminPage = 1;
-  let activeEditId = null;
-  let pendingDeleteId = null;
-  const PAGE_SIZE = 8;
-
-  function getAuthHeaders() {
-    const token = localStorage.getItem("access");
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-
-  function normalizeEvents(data) {
-    if (Array.isArray(data)) return data;
-    if (Array.isArray(data?.results)) return data.results;
-    if (Array.isArray(data?.events)) return data.events;
-    return [];
-  }
-
-  function formatPrice(price) {
-    if (price === null || price === undefined || price === "") return "Free";
-    const numeric = Number(price);
-    if (Number.isFinite(numeric)) {
-      if (numeric <= 0) return "Free";
-      return `${numeric.toFixed(0)} SAR`;
-    }
-    return String(price);
-  }
-
-  function formatDateRange(event) {
-    const start = event.start_date || event.date || "";
-    const end = event.end_date || "";
-    if (!start && !end) return "Not scheduled";
-    if (start && end && start !== end) return `${start} to ${end}`;
-    return start || end;
-  }
-
-  function isFreeEvent(event) {
-    return !event.price || Number(event.price) <= 0;
-  }
-
-  function getCategory(event) {
-    return String(event.category || "other").toLowerCase();
-  }
-
-  function showBanner(message, tone) {
-    const banner = document.getElementById("adminBanner");
-    const tones = {
-      warning: "border-b border-amber-200 bg-amber-50 text-amber-800",
-      danger: "border-b border-red-200 bg-red-50 text-red-800",
-      success: "border-b border-emerald-200 bg-emerald-50 text-emerald-800",
-    };
-
-    banner.className = `px-6 py-3 text-sm ${tones[tone] || tones.warning}`;
-    banner.textContent = message;
-    banner.classList.remove("hidden");
-  }
-
-  function hideBanner() {
-    document.getElementById("adminBanner").classList.add("hidden");
-  }
-
-  function updateStats() {
-    const categories = new Set(adminEvents.map((event) => getCategory(event)));
-    const freeCount = adminEvents.filter(isFreeEvent).length;
-
-    document.getElementById("stat-events").textContent = adminEvents.length;
-    document.getElementById("stat-free").textContent = freeCount;
-    document.getElementById("stat-paid").textContent = adminEvents.length - freeCount;
-    document.getElementById("stat-categories").textContent = categories.size;
-  }
-
-  function renderTable() {
-    const tbody = document.getElementById("adminEventsTable");
-    const countLabel = document.getElementById("adminCountLabel");
-    const pageLabel = document.getElementById("adminPageLabel");
-    const totalPages = Math.max(1, Math.ceil(adminFiltered.length / PAGE_SIZE));
-    const safePage = Math.min(adminPage, totalPages);
-    const start = (safePage - 1) * PAGE_SIZE;
-    const slice = adminFiltered.slice(start, start + PAGE_SIZE);
-
-    adminPage = safePage;
-
-    if (!adminFiltered.length) {
-      tbody.innerHTML =
-        '<tr><td colspan="6" class="px-6 py-12 text-center text-sm text-slate-400">No events found for the current search.</td></tr>';
-    } else {
-      tbody.innerHTML = slice
-        .map((event) => {
-          const category = getCategory(event);
-          const categoryStyle = CAT_COLORS[category] || CAT_COLORS.other;
-          const title = event.title || "Untitled event";
-          const description = event.description || "No description available.";
-          const location = event.location || "Location not specified";
-          const schedule = formatDateRange(event);
-          const viewUrl = event.id ? `/events/page/${event.id}/` : "#";
-
-          return `
-            <tr class="transition hover:bg-slate-50/80">
-              <td class="px-6 py-4 align-top">
-                <div class="space-y-1.5">
-                  <p class="font-semibold text-slate-900">${escHtml(title)}</p>
-                  <p class="max-w-md truncate text-sm text-slate-500">${escHtml(description)}</p>
-                </div>
-              </td>
-              <td class="px-4 py-4 align-top">
-                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${categoryStyle}">
-                  ${escHtml(category.charAt(0).toUpperCase() + category.slice(1))}
-                </span>
-              </td>
-              <td class="px-4 py-4 align-top text-slate-600">${escHtml(schedule)}</td>
-              <td class="px-4 py-4 align-top text-slate-600">${escHtml(location)}</td>
-              <td class="px-4 py-4 align-top font-medium text-slate-900">${escHtml(formatPrice(event.price))}</td>
-              <td class="px-6 py-4 align-top">
-                <div class="flex items-center justify-end gap-2">
-                  <a
-                    href="${escHtml(viewUrl)}"
-                    class="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
-                    View
-                  </a>
-                  <button
-                    type="button"
-                    data-action="edit"
-                    data-id="${escHtml(event.id)}"
-                    class="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    data-action="delete"
-                    data-id="${escHtml(event.id)}"
-                    class="inline-flex h-9 items-center justify-center rounded-xl border border-red-200 px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
-                    Delete
-                  </button>
-                </div>
-              </td>
+      <!-- USERS -->
+      <section class="bg-white rounded-xl p-4">
+        <h2 class="font-bold mb-3">Users</h2>
+        <table class="w-full text-sm">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th></th>
             </tr>
-          `;
-        })
-        .join("");
+          </thead>
+          <tbody id="adminUsersTable"></tbody>
+        </table>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+
+    const EVENTS_API = "/api/events/admin/events/";
+    const USERS_API = "/api/auth/admin/users/";
+
+    let events = [];
+    let users = [];
+
+    /* Auth: JWT stored in localStorage */
+
+    function getToken() {
+      return localStorage.getItem("access") || "";
     }
 
-    countLabel.textContent = `${adminFiltered.length} event${adminFiltered.length === 1 ? "" : "s"}`;
-    pageLabel.textContent = `Page ${adminPage} of ${totalPages}`;
-    document.getElementById("adminPrev").disabled = adminPage <= 1;
-    document.getElementById("adminNext").disabled = adminPage >= totalPages;
-  }
+    function logout() {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      window.location.href = "/login/";
+    }
 
-  function applySearch(query) {
-    const normalized = String(query || "").trim().toLowerCase();
-    adminFiltered = normalized
-      ? adminEvents.filter((event) =>
-        [event.title, event.category, event.location, event.description]
-          .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(normalized)),
-      )
-      : [...adminEvents];
-
-    adminPage = 1;
-    renderTable();
-  }
-
-  function openEditModal(eventId) {
-    const event = adminEvents.find((item) => String(item.id) === String(eventId));
-    if (!event) return;
-
-    activeEditId = event.id;
-    document.getElementById("modalTitle").textContent = event.title || "Update event";
-    document.getElementById("formTitle").value = event.title || "";
-    document.getElementById("formCategory").value = event.category || "";
-    document.getElementById("formLocation").value = event.location || "";
-    document.getElementById("formPrice").value = event.price ?? "";
-    document.getElementById("formStartDate").value = event.start_date || event.date || "";
-    document.getElementById("formEndDate").value = event.end_date || "";
-    document.getElementById("formDescription").value = event.description || "";
-    document.getElementById("eventModal").classList.remove("hidden");
-    document.body.classList.add("overflow-hidden");
-  }
-
-  function closeEditModal() {
-    activeEditId = null;
-    document.getElementById("eventModal").classList.add("hidden");
-    document.body.classList.remove("overflow-hidden");
-  }
-
-  function openDeleteModal(eventId) {
-    const event = adminEvents.find((item) => String(item.id) === String(eventId));
-    if (!event) return;
-
-    pendingDeleteId = event.id;
-    document.getElementById("deleteMessage").textContent =
-      `Delete "${event.title || "this event"}" from the current admin view. This action is UI only and does not call a backend delete endpoint.`;
-    document.getElementById("deleteModal").classList.remove("hidden");
-    document.body.classList.add("overflow-hidden");
-  }
-
-  function closeDeleteModal() {
-    pendingDeleteId = null;
-    document.getElementById("deleteModal").classList.add("hidden");
-    document.body.classList.remove("overflow-hidden");
-  }
-
-  function saveEditedEvent(formEvent) {
-    formEvent.preventDefault();
-    if (activeEditId === null) return;
-
-    adminEvents = adminEvents.map((event) => {
-      if (String(event.id) !== String(activeEditId)) return event;
-      return {
-        ...event,
-        title: document.getElementById("formTitle").value.trim(),
-        category: document.getElementById("formCategory").value.trim(),
-        location: document.getElementById("formLocation").value.trim(),
-        price: document.getElementById("formPrice").value.trim(),
-        start_date: document.getElementById("formStartDate").value,
-        end_date: document.getElementById("formEndDate").value,
-        description: document.getElementById("formDescription").value.trim(),
+    async function fetchWithAuth(url, options = {}) {
+      const headers = {
+        ...(options.headers || {}),
+        "Authorization": `Bearer ${getToken()}`,
       };
-    });
 
-    updateStats();
-    applySearch(document.getElementById("adminSearch").value);
-    closeEditModal();
-    showBanner("Event updated in the UI. No backend update endpoint was called.", "success");
-  }
+      const res = await fetch(url, { ...options, headers });
 
-  function confirmDelete() {
-    if (pendingDeleteId === null) return;
+      if (res.status === 401 || res.status === 403) {
+        window.location.href = "/login/";
+        return null;
+      }
 
-    adminEvents = adminEvents.filter((event) => String(event.id) !== String(pendingDeleteId));
-    updateStats();
-    applySearch(document.getElementById("adminSearch").value);
-    closeDeleteModal();
-    showBanner("Event removed from the UI. No backend delete endpoint was called.", "danger");
-  }
+      if (!res.ok) {
+        console.error(`[Admin] ${options.method || 'GET'} ${url} → ${res.status}`);
+        return null;
+      }
 
-  async function loadAdminData() {
-    hideBanner();
+      return res;
+    }
 
-    try {
-      const response = await fetch("/api/events/", {
-        headers: getAuthHeaders(),
+    /* ================= EVENTS ================= */
+
+    async function loadEvents() {
+      const res = await fetchWithAuth(EVENTS_API);
+      if (!res) return;
+
+      const data = await res.json();
+      events = Array.isArray(data) ? data : (data.results || []);
+      renderEvents();
+      updateStats();
+    }
+
+    function renderEvents() {
+      const table = document.getElementById("adminEventsTable");
+
+      table.innerHTML = events.map(e => `
+    <tr class="border-b hover:bg-slate-50">
+      <td class="py-2">${e.title}</td>
+      <td>${e.category}</td>
+      <td>${e.location}</td>
+      <td>${e.price || "Free"}</td>
+      <td class="space-x-2">
+        <button onclick="editEvent(${e.id})" class="text-blue-600 hover:underline">Edit</button>
+        <button onclick="deleteEvent(${e.id})" class="text-red-600 hover:underline">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm("Delete this event?")) return;
+
+      await fetchWithAuth(`${EVENTS_API}${id}/`, {
+        method: "DELETE"
       });
 
-      if (response.status === 401) {
+      loadEvents();
+    }
+
+    async function editEvent(id) {
+      const event = events.find(e => e.id === id);
+      const title = prompt("New title", event?.title || "");
+      if (title === null) return;
+
+      await fetchWithAuth(`${EVENTS_API}${id}/`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title })
+      });
+
+      loadEvents();
+    }
+
+    /* ================= USERS ================= */
+
+    async function loadUsers() {
+      const res = await fetchWithAuth(USERS_API);
+      if (!res) return;
+
+      const data = await res.json();
+      users = Array.isArray(data) ? data : (data.results || []);
+      renderUsers();
+      updateStats();
+    }
+
+    function renderUsers() {
+      const table = document.getElementById("adminUsersTable");
+
+      table.innerHTML = users.map(u => `
+    <tr class="border-b hover:bg-slate-50">
+      <td class="py-2">${u.username}</td>
+      <td>${u.email}</td>
+      <td class="space-x-2">
+        <button onclick="deleteUser(${u.id})" class="text-red-600 hover:underline">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+    }
+
+    async function deleteUser(id) {
+      if (!confirm("Delete this user?")) return;
+
+      await fetchWithAuth(`${USERS_API}${id}/`, {
+        method: "DELETE"
+      });
+
+      loadUsers();
+    }
+
+    /* ================= STATS ================= */
+
+    function updateStats() {
+      document.getElementById("stat-events").textContent = events.length;
+      document.getElementById("stat-users").textContent = users.length;
+
+      const free = events.filter(e => !e.price).length;
+      document.getElementById("stat-free").textContent = free;
+
+      const categories = new Set(events.map(e => e.category));
+      document.getElementById("stat-categories").textContent = categories.size;
+    }
+
+    /* ================= SEARCH ================= */
+
+    document.getElementById("adminSearch").addEventListener("input", (e) => {
+      const value = e.target.value.toLowerCase();
+
+      const filtered = events.filter(ev =>
+        ev.title.toLowerCase().includes(value)
+      );
+
+      const table = document.getElementById("adminEventsTable");
+
+      table.innerHTML = filtered.map(e => `
+    <tr class="border-b">
+      <td>${e.title}</td>
+      <td>${e.category}</td>
+      <td>${e.location}</td>
+      <td>${e.price || "Free"}</td>
+      <td>
+        <button onclick="editEvent(${e.id})">Edit</button>
+        <button onclick="deleteEvent(${e.id})">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+    });
+
+    /* ================= INIT ================= */
+
+    document.getElementById("refreshEvents").addEventListener("click", loadEvents);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!getToken()) {
         window.location.href = "/login/";
         return;
       }
-
-      if (!response.ok) {
-        throw new Error("Unable to load events");
-      }
-
-      const data = await response.json();
-      adminEvents = normalizeEvents(data);
-      adminFiltered = [...adminEvents];
-      adminPage = 1;
-
-      updateStats();
-      renderTable();
-      showBanner("Edit and delete controls are available in the UI only until matching backend endpoints are added.", "warning");
-    } catch (error) {
-      adminEvents = [];
-      adminFiltered = [];
-      updateStats();
-      renderTable();
-      showBanner("Events could not be loaded from /api/events/. Please check authentication and API availability.", "danger");
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("adminSearch").addEventListener("input", (event) => {
-      applySearch(event.target.value);
+      loadEvents();
+      loadUsers();
     });
 
-    document.getElementById("refreshEvents").addEventListener("click", loadAdminData);
+  </script>
 
-    document.getElementById("adminPrev").addEventListener("click", () => {
-      if (adminPage > 1) {
-        adminPage -= 1;
-        renderTable();
-      }
-    });
+</body>
 
-    document.getElementById("adminNext").addEventListener("click", () => {
-      const totalPages = Math.max(1, Math.ceil(adminFiltered.length / PAGE_SIZE));
-      if (adminPage < totalPages) {
-        adminPage += 1;
-        renderTable();
-      }
-    });
-
-    document.getElementById("adminEventsTable").addEventListener("click", (event) => {
-      const button = event.target.closest("button[data-action]");
-      if (!button) return;
-
-      const { action, id } = button.dataset;
-      if (action === "edit") openEditModal(id);
-      if (action === "delete") openDeleteModal(id);
-    });
-
-    document.getElementById("eventForm").addEventListener("submit", saveEditedEvent);
-    document.getElementById("closeModal").addEventListener("click", closeEditModal);
-    document.getElementById("cancelModal").addEventListener("click", closeEditModal);
-    document.getElementById("cancelDelete").addEventListener("click", closeDeleteModal);
-    document.getElementById("confirmDelete").addEventListener("click", confirmDelete);
-
-    document.getElementById("eventModal").addEventListener("click", (event) => {
-      if (event.target.id === "eventModal") closeEditModal();
-    });
-
-    document.getElementById("deleteModal").addEventListener("click", (event) => {
-      if (event.target.id === "deleteModal") closeDeleteModal();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape") return;
-      closeEditModal();
-      closeDeleteModal();
-    });
-
-    loadAdminData();
-  });
-</script>
-{% endblock %}
+</html>

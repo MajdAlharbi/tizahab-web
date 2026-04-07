@@ -1,12 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
@@ -245,6 +244,54 @@ class ChangePasswordView(APIView):
         )
 
 
-@staff_member_required(login_url="/login/")
 def admin_panel_view(request):
     return render(request, "admin.html")
+
+
+class AdminUserListAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        users = User.objects.all().order_by("-date_joined")
+        data = [
+            {
+                "id": u.id,
+                "username": u.username,
+                "email": u.email,
+                "is_staff": u.is_staff,
+                "is_active": u.is_active,
+                "date_joined": u.date_joined.isoformat(),
+            }
+            for u in users
+        ]
+        return Response(data)
+
+
+class AdminUserDetailAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        u = get_object_or_404(User, pk=pk)
+        return Response({
+            "id": u.id,
+            "username": u.username,
+            "email": u.email,
+            "is_staff": u.is_staff,
+            "is_active": u.is_active,
+        })
+
+    def patch(self, request, pk):
+        u = get_object_or_404(User, pk=pk)
+        u.username = request.data.get("username", u.username)
+        u.email = request.data.get("email", u.email)
+        if "is_active" in request.data:
+            u.is_active = request.data["is_active"]
+        u.save()
+        return Response({"id": u.id, "username": u.username, "email": u.email, "is_active": u.is_active})
+
+    def delete(self, request, pk):
+        if str(pk) == str(request.user.pk):
+            return Response({"detail": "Cannot delete yourself."}, status=status.HTTP_400_BAD_REQUEST)
+        u = get_object_or_404(User, pk=pk)
+        u.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
