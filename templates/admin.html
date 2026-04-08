@@ -110,7 +110,7 @@
     function logout() {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
-      window.location.href = "/logout/";
+      window.location.href = "/login/";
     }
 
     async function fetchWithAuth(url, options = {}) {

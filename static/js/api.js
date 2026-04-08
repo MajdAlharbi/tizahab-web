@@ -63,7 +63,7 @@ async function _tryRefresh() {
 function _logout() {
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");
-  window.location.href = "/logout/";
+  window.location.href = "/login/";
 }
 
 async function apiGet(url) {
