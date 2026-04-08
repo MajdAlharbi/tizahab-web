@@ -10,7 +10,10 @@ let selectedDate = new Date().toISOString().split("T")[0];
 ========================= */
 
 async function generateDailyPlan() {
-  return apiPost("/api/daily-plan/generate/", { date: selectedDate });
+  return apiPost("/api/daily-plan/generate/", {
+    date: selectedDate,
+    seed: Date.now(),
+  });
 }
 
 async function requestPlanForSelectedDate(generateBtn) {
@@ -166,11 +169,33 @@ function getDistance(a, b) {
   return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 }
 
+function findBestCenter(events) {
+  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
+  if (!normalizedEvents.length) return null;
+
+  let best = normalizedEvents[0];
+  let bestScore = Infinity;
+
+  normalizedEvents.forEach((e1) => {
+    let total = 0;
+    normalizedEvents.forEach((e2) => {
+      total += getDistance(e1, e2);
+    });
+
+    if (total < bestScore) {
+      bestScore = total;
+      best = e1;
+    }
+  });
+
+  return best;
+}
+
 function filterEventsByArea(events) {
   const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
   if (!normalizedEvents.length) return normalizedEvents;
 
-  const center = normalizedEvents[0];
+  const center = findBestCenter(normalizedEvents);
   const hasCenterCoords =
     Number.isFinite(Number.parseFloat(center?.latitude)) &&
     Number.isFinite(Number.parseFloat(center?.longitude));
