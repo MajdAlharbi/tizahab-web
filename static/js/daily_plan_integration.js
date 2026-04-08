@@ -1,12 +1,343 @@
 console.log("Daily Plan JS Loaded");
 
+let multiDayPlans = {};
+let currentDayIndex = 0;
+let _currentPreferences = null;
+let selectedDate = new Date().toISOString().split("T")[0];
+
 /* =========================
   Generate Daily Plan
 ========================= */
 
 async function generateDailyPlan() {
-  const today = new Date().toISOString().split("T")[0];
-  return apiPost("/api/daily-plan/generate/", { date: today });
+  return apiPost("/api/daily-plan/generate/", { date: selectedDate });
+}
+
+async function requestPlanForSelectedDate(generateBtn) {
+  if (generateBtn) generateBtn.disabled = true;
+
+  try {
+    setLoading(true);
+    _currentPlan = null;
+    multiDayPlans = { 0: [] };
+
+    const data = await generateDailyPlan();
+    if (data) {
+      _currentPlan = data;
+      const preferences = await loadCurrentPreferences();
+      applyMultiDayPlan(data, preferences);
+    }
+
+    return data;
+  } finally {
+    setLoading(false);
+    if (generateBtn) generateBtn.disabled = false;
+  }
+}
+
+function organizeEventsByTime(events) {
+  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
+  const available = [...normalizedEvents];
+
+  const foodCategories = new Set([
+    "restaurant",
+    "cafe",
+    "fast_food",
+    "dessert",
+    "bakery",
+    "juice",
+    "food_truck",
+    "food",
+  ]);
+  const activityCategories = new Set(["culture", "shopping", "other"]);
+  const relaxingCategories = new Set(["outdoor"]);
+
+  function takeFirst(predicate) {
+    const index = available.findIndex(predicate);
+    if (index === -1) return null;
+    return available.splice(index, 1)[0];
+  }
+
+  function withLabel(event, label) {
+    return event ? { ...event, itineraryLabel: label } : null;
+  }
+
+  const breakfast =
+    takeFirst((event) => foodCategories.has(String(event.category || "").toLowerCase())) ||
+    takeFirst(() => true);
+
+  const activity =
+    takeFirst((event) =>
+      activityCategories.has(String(event.category || "").toLowerCase()) ||
+      !foodCategories.has(String(event.category || "").toLowerCase())
+    ) ||
+    takeFirst(() => true);
+
+  const lunch =
+    takeFirst((event) => foodCategories.has(String(event.category || "").toLowerCase())) ||
+    takeFirst(() => true);
+
+  const evening =
+    takeFirst((event) => relaxingCategories.has(String(event.category || "").toLowerCase())) ||
+    takeFirst(() => true);
+
+  const structured = [
+    withLabel(breakfast, "☀️ Breakfast"),
+    withLabel(activity, "Activity"),
+    withLabel(lunch, "🍽️ Lunch"),
+    withLabel(evening, "Evening"),
+  ].filter(Boolean);
+
+  available.forEach((event) => {
+    structured.push({ ...event, itineraryLabel: "Evening" });
+  });
+
+  return structured;
+}
+
+async function loadCurrentPreferences() {
+  if (_currentPreferences) return _currentPreferences;
+
+  try {
+    const data = await apiGet("/api/auth/me/");
+    if (data) _currentPreferences = data;
+  } catch {
+    _currentPreferences = null;
+  }
+
+  return _currentPreferences;
+}
+
+function getPlanDateForIndex(index) {
+  const day = new Date();
+  day.setDate(day.getDate() + index);
+  return day;
+}
+
+function _distanceBetween(a, b) {
+  const lat1 = Number.parseFloat(a?.latitude);
+  const lng1 = Number.parseFloat(a?.longitude);
+  const lat2 = Number.parseFloat(b?.latitude);
+  const lng2 = Number.parseFloat(b?.longitude);
+
+  if (
+    !Number.isFinite(lat1) || !Number.isFinite(lng1) ||
+    !Number.isFinite(lat2) || !Number.isFinite(lng2)
+  ) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  const toRad = (value) => (value * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const sinLat = Math.sin(dLat / 2);
+  const sinLng = Math.sin(dLng / 2);
+  const haversine =
+    sinLat * sinLat +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sinLng * sinLng;
+
+  return 2 * earthRadiusKm * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+}
+
+function getDistance(a, b) {
+  const latA = Number.parseFloat(a?.latitude);
+  const lngA = Number.parseFloat(a?.longitude);
+  const latB = Number.parseFloat(b?.latitude);
+  const lngB = Number.parseFloat(b?.longitude);
+
+  if (
+    !Number.isFinite(latA) || !Number.isFinite(lngA) ||
+    !Number.isFinite(latB) || !Number.isFinite(lngB)
+  ) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  const R = 6371;
+  const dLat = (latB - latA) * Math.PI / 180;
+  const dLng = (lngB - lngA) * Math.PI / 180;
+
+  const lat1 = latA * Math.PI / 180;
+  const lat2 = latB * Math.PI / 180;
+
+  const x = Math.sin(dLat / 2) ** 2 +
+            Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+
+  return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+}
+
+function filterEventsByArea(events) {
+  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
+  if (!normalizedEvents.length) return normalizedEvents;
+
+  const center = normalizedEvents[0];
+  const hasCenterCoords =
+    Number.isFinite(Number.parseFloat(center?.latitude)) &&
+    Number.isFinite(Number.parseFloat(center?.longitude));
+
+  if (!hasCenterCoords) return normalizedEvents;
+
+  const withinRadius = (radiusKm) =>
+    normalizedEvents.filter((event) => getDistance(center, event) <= radiusKm);
+
+  let filtered = withinRadius(5);
+  if (filtered.length < 3) {
+    filtered = withinRadius(10);
+  }
+
+  return filtered.length ? filtered : normalizedEvents;
+}
+
+function sortEventsByProximity(events) {
+  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
+  if (normalizedEvents.length <= 1) return normalizedEvents;
+
+  const remaining = [...normalizedEvents];
+  const ordered = [remaining.shift()];
+
+  while (remaining.length) {
+    const last = ordered[ordered.length - 1];
+    let nearestIndex = 0;
+    let nearestDistance = _distanceBetween(last, remaining[0]);
+
+    for (let index = 1; index < remaining.length; index += 1) {
+      const candidateDistance = _distanceBetween(last, remaining[index]);
+      if (candidateDistance < nearestDistance) {
+        nearestDistance = candidateDistance;
+        nearestIndex = index;
+      }
+    }
+
+    ordered.push(remaining.splice(nearestIndex, 1)[0]);
+  }
+
+  return ordered;
+}
+
+function renderDaysBar() {
+  const weekLabel = document.getElementById("week-label");
+  const weekDays = document.getElementById("week-days");
+  if (!weekLabel || !weekDays) return;
+
+  console.log("Rendering days bar");
+
+  const start = getPlanDateForIndex(0);
+  const end = getPlanDateForIndex(6);
+
+  weekLabel.textContent = `${start.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  })} - ${end.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })}`;
+
+  weekDays.replaceChildren();
+
+  for (let index = 0; index < 7; index += 1) {
+    const date = getPlanDateForIndex(index);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className =
+      "min-w-[120px] rounded-2xl border px-4 py-3 text-left transition";
+
+    if (index === currentDayIndex) {
+      button.classList.add("border-brand", "bg-brand", "text-white");
+    } else {
+      button.classList.add("border-gray-200", "bg-white", "text-gray-700", "hover:bg-gray-50");
+    }
+
+    const dayName = document.createElement("div");
+    dayName.className = "text-sm font-semibold";
+    dayName.textContent = date.toLocaleDateString("en-US", { weekday: "short" });
+
+    const dayDate = document.createElement("div");
+    dayDate.className = index === currentDayIndex ? "text-xs text-white/80" : "text-xs text-gray-500";
+    dayDate.textContent = date.toLocaleDateString("en-US", {
+      day: "numeric",
+    });
+
+    button.appendChild(dayName);
+    button.appendChild(dayDate);
+    button.addEventListener("click", async () => {
+      currentDayIndex = index;
+      selectedDate = date.toISOString().split("T")[0];
+      renderDaysBar();
+
+      if (window.isLoggedIn?.()) {
+        try {
+          const generateBtn = document.getElementById("generate-btn");
+          await requestPlanForSelectedDate(generateBtn);
+        } catch (error) {
+          const message = document.getElementById("plan-message");
+          if (message) {
+            if (
+              error.status === 400 &&
+              error.message &&
+              error.message.toLowerCase().includes("interests")
+            ) {
+              message.innerHTML =
+                `Please select your interests first.&nbsp;` +
+                `<a href="/onboarding/" ` +
+                `class="underline text-brand font-medium hover:opacity-80">` +
+                `Go to Preferences</a>`;
+            } else if (error.status === 400) {
+              message.textContent =
+                error.message || "Invalid request. Please try again.";
+            } else if (error.status === 404) {
+              message.innerHTML =
+                `No places match your current budget.&nbsp;` +
+                `<a href="/onboarding/" ` +
+                `class="underline text-brand font-medium hover:opacity-80">` +
+                `Adjust preferences →</a>`;
+            } else {
+              message.textContent = "Something went wrong. Please try again.";
+            }
+          }
+        }
+      } else {
+        renderPlanForDay(index);
+      }
+    });
+
+    weekDays.appendChild(button);
+  }
+}
+
+function renderPlanForDay(index) {
+  const activitiesDayLabel = document.getElementById("activities-day-label");
+  const dayDate = selectedDate ? new Date(`${selectedDate}T00:00:00`) : getPlanDateForIndex(index);
+  const dayEvents = Array.isArray(multiDayPlans[0]) ? multiDayPlans[0] : [];
+
+  console.log("Switching to day:", index);
+
+  if (activitiesDayLabel) {
+    activitiesDayLabel.textContent = `${dayDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    })}'s Activities`;
+  }
+
+  renderDailyPlan({
+    ...(_currentPlan || {}),
+    date: dayDate.toISOString().split("T")[0],
+    events: dayEvents,
+  });
+}
+
+function applyMultiDayPlan(plan, preferences) {
+  multiDayPlans = {};
+  const events = Array.isArray(plan?.events) ? plan.events : [];
+  selectedDate = plan?.date || selectedDate;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const selected = new Date(`${selectedDate}T00:00:00`);
+  const diffDays = Math.round((selected - today) / (1000 * 60 * 60 * 24));
+  currentDayIndex = diffDays >= 0 && diffDays < 7 ? diffDays : 0;
+  _currentPreferences = preferences || _currentPreferences;
+  multiDayPlans = { 0: sortEventsByProximity(events) };
+  renderDaysBar();
+  renderPlanForDay(currentDayIndex);
 }
 
 /* =========================
@@ -20,7 +351,15 @@ function renderDailyPlan(data) {
 
   container.replaceChildren();
 
-  const events = Array.isArray(data?.events) ? data.events : [];
+  const rawEvents = Array.isArray(data?.events) ? data.events : [];
+  const nearbyEvents = filterEventsByArea(rawEvents);
+  const events = organizeEventsByTime(nearbyEvents);
+  const sectionTimes = {
+    "☀️ Breakfast": "8:00 AM",
+    "Activity": "11:00 AM",
+    "🍽️ Lunch": "2:00 PM",
+    "Evening": "6:00 PM",
+  };
 
   if (events.length === 0) {
     const empty = document.createElement("div");
@@ -38,8 +377,33 @@ function renderDailyPlan(data) {
 
   const START_HOUR = 9;
   const SLOT_HOURS = 2;
+  const sections = new Map();
 
   events.forEach((event, index) => {
+    const sectionLabel = event.itineraryLabel || "Evening";
+    if (!sections.has(sectionLabel)) {
+      const section = document.createElement("section");
+      section.className = "mt-6 first:mt-0 space-y-3";
+
+      const header = document.createElement("div");
+      header.className = "flex items-end justify-between gap-3 pb-1";
+
+      const title = document.createElement("h3");
+      title.className = "text-lg font-semibold text-gray-900";
+      title.textContent = sectionLabel;
+
+      const timeHint = document.createElement("span");
+      timeHint.className = "text-sm text-gray-500";
+      timeHint.textContent = sectionTimes[sectionLabel] || "";
+
+      header.appendChild(title);
+      header.appendChild(timeHint);
+      section.appendChild(header);
+
+      sections.set(sectionLabel, section);
+      container.appendChild(section);
+    }
+
     const card = document.createElement("div");
     card.className =
       "bg-white border rounded-2xl p-5 shadow-sm flex justify-between items-center hover:shadow-md transition";
@@ -86,7 +450,7 @@ function renderDailyPlan(data) {
 
     card.appendChild(left);
     card.appendChild(actionBtn);
-    container.appendChild(card);
+    sections.get(sectionLabel).appendChild(card);
   });
 
   if (message) message.innerText = "";
@@ -153,7 +517,8 @@ async function loadCurrentPlan() {
       todayPlan.events.length > 0
     ) {
       _currentPlan = todayPlan;
-      renderDailyPlan(todayPlan);
+      const preferences = await loadCurrentPreferences();
+      applyMultiDayPlan(todayPlan, preferences);
     }
   } catch {
     /* silent */
@@ -261,7 +626,8 @@ async function addEventToPlan(eventId) {
     });
     if (updated) {
       _currentPlan = updated;
-      renderDailyPlan(updated);
+      const preferences = await loadCurrentPreferences();
+      applyMultiDayPlan(updated, preferences);
     }
   } else {
     const created = await apiPost("/api/daily-plan/", {
@@ -270,7 +636,8 @@ async function addEventToPlan(eventId) {
     });
     if (created) {
       _currentPlan = created;
-      renderDailyPlan(created);
+      const preferences = await loadCurrentPreferences();
+      applyMultiDayPlan(created, preferences);
     }
   }
 }
@@ -329,15 +696,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const generateBtn = document.getElementById("generate-btn");
   generateBtn?.addEventListener("click", async () => {
     try {
-      setLoading(true);
-      const data = await generateDailyPlan();
-      setLoading(false);
-      if (data) {
-        _currentPlan = data;
-        renderDailyPlan(data);
-      }
+      await requestPlanForSelectedDate(generateBtn);
     } catch (error) {
-      setLoading(false);
       const message = document.getElementById("plan-message");
       if (!message) return;
       if (
