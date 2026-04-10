@@ -1,8 +1,7 @@
 {% extends "dashboard_base.html" %}
 {% load static %}
-{% load i18n %}
 
-{% block title %}{% trans "Home" %} | Tizahab{% endblock %}
+{% block title %}Home | Tizahab{% endblock %}
 
 {% block content %}
 <div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
@@ -13,24 +12,31 @@
     <!-- Welcome card -->
     <div class="lg:col-span-3 bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[200px] max-h-[380px]">
       <div>
-        <p class="text-sm text-white/70 mb-1">{% trans "Welcome back" %} 👋</p>
+        <p class="text-sm text-white/70 mb-1">
+          <span class="nav-label-en">Welcome back 👋</span>
+          <span class="nav-label-ar hidden">مرحباً بعودتك 👋</span>
+        </p>
         <h1 class="text-2xl font-bold leading-snug" style="font-family:'Cantata One',serif">
-          {% trans "Discover Riyadh" %}<br>{% trans "Your Way" %}
+          <span class="nav-label-en">Discover Riyadh<br>Your Way</span>
+          <span class="nav-label-ar hidden">اكتشف الرياض<br>على طريقتك</span>
         </h1>
         <p class="text-sm text-white/80 mt-2">
-          {% trans "Personalized plans, popular events, and local gems — all in one place." %}
+          <span class="nav-label-en">Personalized plans, popular events, and local gems — all in one place.</span>
+          <span class="nav-label-ar hidden">خطط مخصصة، فعاليات شهيرة، وكنوز محلية — كل ذلك في مكان واحد.</span>
         </p>
       </div>
 
       <div class="flex gap-3 mt-6">
         <a href="/events/page/"
           class="px-5 py-2.5 bg-white text-brand rounded-xl text-sm font-semibold hover:shadow-md transition">
-          {% trans "Explore Riyadh" %} →
+          <span class="nav-label-en">Explore Riyadh →</span>
+          <span class="nav-label-ar hidden">← استكشف الرياض</span>
         </a>
 
         <a href="/daily-plan/"
           class="px-5 py-2.5 border border-white/50 text-white rounded-xl text-sm hover:bg-white/10 transition">
-          {% trans "Plan My Trip" %}
+          <span class="nav-label-en">Plan My Trip</span>
+          <span class="nav-label-ar hidden">خطط لرحلتي</span>
         </a>
       </div>
     </div>
@@ -38,8 +44,14 @@
     <!-- Starting Soon card -->
     <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col space-y-4">
       <div class="flex items-center justify-between">
-        <h2 class="font-semibold text-gray-800">{% trans "Starting Soon" %}</h2>
-        <a href="/events/page/" class="text-xs text-brand hover:underline">{% trans "See all" %}</a>
+        <h2 class="font-semibold text-gray-800">
+          <span class="nav-label-en">Starting Soon</span>
+          <span class="nav-label-ar hidden">تبدأ قريباً</span>
+        </h2>
+        <a href="/events/page/" class="text-xs text-brand hover:underline">
+          <span class="nav-label-en">See all</span>
+          <span class="nav-label-ar hidden">عرض الكل</span>
+        </a>
       </div>
 
       <div id="startingSoonList" class="space-y-3 flex-1">
@@ -50,7 +62,8 @@
 
       <a href="/daily-plan/"
         class="block w-full h-10 rounded-xl bg-brand text-white text-sm font-medium text-center leading-10 hover:opacity-90 transition">
-        {% trans "View My Plan" %}
+        <span class="nav-label-en">View My Plan</span>
+        <span class="nav-label-ar hidden">عرض خطتي</span>
       </a>
     </div>
 
@@ -59,15 +72,25 @@
   <!-- Today's Plan -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-800">{% trans "Your Daily Plan" %}</h2>
-      <a href="/daily-plan/" class="text-sm text-brand hover:underline">{% trans "Manage" %} →</a>
+      <h2 class="text-lg font-semibold text-gray-800">
+        <span class="nav-label-en">Your Daily Plan</span>
+        <span class="nav-label-ar hidden">خطتك اليومية</span>
+      </h2>
+      <a href="/daily-plan/" class="text-sm text-brand hover:underline">
+        <span class="nav-label-en">Manage →</span>
+        <span class="nav-label-ar hidden">← إدارة</span>
+      </a>
     </div>
 
     <div id="todayPlanContainer" class="space-y-3">
       <div class="bg-white rounded-2xl border border-gray-200 p-5 text-center text-sm text-gray-400">
-        <p>{% trans "No plan for today yet." %}</p>
+        <p>
+          <span class="nav-label-en">No plan for today yet.</span>
+          <span class="nav-label-ar hidden">لا توجد خطة لليوم بعد.</span>
+        </p>
         <a href="/daily-plan/" class="text-brand font-medium hover:underline mt-1 inline-block">
-          {% trans "Generate with AI" %} →
+          <span class="nav-label-en">Generate with AI →</span>
+          <span class="nav-label-ar hidden">← إنشاء بالذكاء الاصطناعي</span>
         </a>
       </div>
     </div>
@@ -76,8 +99,14 @@
   <!-- Recommended -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-800">{% trans "Recommended for You" %}</h2>
-      <a href="/events/page/" class="text-sm text-brand hover:underline">{% trans "See all" %}</a>
+      <h2 class="text-lg font-semibold text-gray-800">
+        <span class="nav-label-en">Recommended for You</span>
+        <span class="nav-label-ar hidden">مقترح لك</span>
+      </h2>
+      <a href="/events/page/" class="text-sm text-brand hover:underline">
+        <span class="nav-label-en">See all</span>
+        <span class="nav-label-ar hidden">عرض الكل</span>
+      </a>
     </div>
 
     <div id="recommendedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -88,14 +117,18 @@
     <div id="recommendedLoadMoreWrap" class="hidden pt-1">
       <button id="recommendedLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        Load More
+        <span class="nav-label-en">Load More</span>
+        <span class="nav-label-ar hidden">عرض المزيد</span>
       </button>
     </div>
   </section>
 
   <!-- Popular Places -->
   <section class="space-y-4">
-    <h2 class="text-lg font-semibold text-gray-800">{% trans "Popular Places" %}</h2>
+    <h2 class="text-lg font-semibold text-gray-800">
+      <span class="nav-label-en">Popular Places</span>
+      <span class="nav-label-ar hidden">أماكن شهيرة</span>
+    </h2>
     <div id="offersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="h-32 bg-white border rounded-2xl animate-pulse"></div>
       <div class="h-32 bg-white border rounded-2xl animate-pulse"></div>
@@ -103,7 +136,8 @@
     <div id="offersLoadMoreWrap" class="hidden pt-1">
       <button id="offersLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        Load More
+        <span class="nav-label-en">Load More</span>
+        <span class="nav-label-ar hidden">عرض المزيد</span>
       </button>
     </div>
   </section>
@@ -114,28 +148,32 @@
     <a href="/events/page/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
       <span class="text-2xl">🎫</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
-        {% trans "Events" %}
+        <span class="nav-label-en">Events</span>
+        <span class="nav-label-ar hidden">الفعاليات</span>
       </p>
     </a>
 
     <a href="/map/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
       <span class="text-2xl">🗺️</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
-        {% trans "Explore Map" %}
+        <span class="nav-label-en">Explore Map</span>
+        <span class="nav-label-ar hidden">استكشاف الخريطة</span>
       </p>
     </a>
 
     <a href="/daily-plan/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
       <span class="text-2xl">📅</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
-        {% trans "Daily Plan" %}
+        <span class="nav-label-en">Daily Plan</span>
+        <span class="nav-label-ar hidden">الخطة اليومية</span>
       </p>
     </a>
 
     <a href="/onboarding/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
       <span class="text-2xl">⚙️</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
-        {% trans "Preferences" %}
+        <span class="nav-label-en">Preferences</span>
+        <span class="nav-label-ar hidden">التفضيلات</span>
       </p>
     </a>
 
