@@ -42,7 +42,10 @@
       "Bash(bash .specify/scripts/bash/create-new-feature.sh \"i want to fix generate plan with ai feature to generating multiple days plans depends on prefernces of user that he have in backend and saving generated plan in backend to keep all thing consistency relaible and u dont have to switch branch just continue here\" --json --short-name \"multiday-plan-generation\" \"Multi-day plan generation with backend persistence\")",
       "Bash(python manage.py test daily_plan.tests.RecommendationServiceTests -v2)",
       "Bash(.venv/Scripts/python manage.py test daily_plan.tests.RecommendationServiceTests -v2)",
-      "Bash(.venv/Scripts/python manage.py test daily_plan.tests.MultiDayRecommendationServiceTests daily_plan.tests.GenerateMultiDayPlanAPITests -v2)"
+      "Bash(.venv/Scripts/python manage.py test daily_plan.tests.MultiDayRecommendationServiceTests daily_plan.tests.GenerateMultiDayPlanAPITests -v2)",
+      "Bash(.venv/Scripts/python manage.py test daily_plan -v1)",
+      "Bash(.venv/Scripts/python -m flake8 daily_plan --count --select=E9,F63,F7,F82 --show-source)",
+      "Bash(.venv/Scripts/python manage.py test daily_plan -v0)"
     ]
   }
 }
