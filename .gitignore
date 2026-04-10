@@ -12,6 +12,7 @@ venv/
 
 # Environment variables
 .env
+.env*
 
 # Django
 *.log
@@ -21,6 +22,9 @@ media/
 # Temp files
 *.tmp
 *.swp
+
+# Local builds
+build/
 
 # OS
 .DS_Store

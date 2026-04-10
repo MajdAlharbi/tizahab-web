@@ -50,286 +50,91 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col h-full px-4 lg:px-6 py-4 gap-4">
+<div class="relative flex flex-col h-full px-4 lg:px-6 py-4 gap-4">
 
-  <div class="flex items-center justify-between shrink-0">
+  <!-- Blurred content (not interactive) -->
+  <div class="flex items-center justify-between shrink-0 select-none pointer-events-none" aria-hidden="true">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">Explore Map</h1>
-      <p class="text-sm text-gray-500 mt-0.5">Discover places across Riyadh</p>
+      <h1 class="text-2xl font-bold text-gray-900">
+        <span class="nav-label-en">Explore Map</span>
+        <span class="nav-label-ar hidden">استكشاف الخريطة</span>
+      </h1>
+      <p class="text-sm text-gray-500 mt-0.5">
+        <span class="nav-label-en">Discover places across Riyadh</span>
+        <span class="nav-label-ar hidden">اكتشف الأماكن في الرياض</span>
+      </p>
     </div>
-    <span id="mapPlaceCount" class="text-sm text-gray-400">0 places</span>
+    <span class="text-sm text-gray-400">0</span>
   </div>
 
-  <div class="flex flex-wrap items-center gap-3 shrink-0">
-    <div class="relative flex-1 min-w-[200px] max-w-sm">
-      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
-      <input
-        id="mapSearch"
-        type="text"
-        placeholder="Search places..."
-        class="w-full h-10 rounded-xl border border-gray-200 pl-9 pr-4 text-sm focus:outline-none focus:border-brand bg-white transition"
-      >
-    </div>
-
+  <div class="flex flex-wrap items-center gap-3 shrink-0 select-none pointer-events-none" aria-hidden="true">
     <div class="flex gap-2 flex-wrap">
-      <button class="map-filter h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-xs font-medium" data-cat="">All</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="restaurant">🍽️ Restaurants</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="cafe">☕ Cafes</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="fast_food">🍔 Fast Food</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="dessert">🍰 Desserts</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="bakery">🥐 Bakery</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="juice">🧃 Juice</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="food_truck">🚚 Food Trucks</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
-      <button class="map-filter h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium hover:bg-gray-50" data-cat="outdoor">🌿 Outdoor</button>
+      <button class="h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-xs font-medium">
+        <span class="nav-label-en">All</span>
+        <span class="nav-label-ar hidden">الكل</span>
+      </button>
+      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
+        🍽️ <span class="nav-label-en">Restaurants</span><span class="nav-label-ar hidden">مطاعم</span>
+      </button>
+      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
+        ☕ <span class="nav-label-en">Cafes</span><span class="nav-label-ar hidden">مقاهي</span>
+      </button>
+      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
+        🛍️ <span class="nav-label-en">Shopping</span><span class="nav-label-ar hidden">تسوق</span>
+      </button>
+      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
+        🏛️ <span class="nav-label-en">Culture</span><span class="nav-label-ar hidden">ثقافة</span>
+      </button>
+      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
+        🌿 <span class="nav-label-en">Outdoor</span><span class="nav-label-ar hidden">خارجي</span>
+      </button>
     </div>
   </div>
 
-  <div class="flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div id="mapLoading" class="map-loading">
-      <span class="map-spinner"></span>
-      <span>Loading map...</span>
-    </div>
-    <div id="mapPageMap" class="w-full hidden"></div>
+  <div class="flex-1 bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50 rounded-2xl border border-gray-200 shadow-sm overflow-hidden select-none pointer-events-none" aria-hidden="true"
+    style="min-height: 420px;">
+    <svg class="w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#7e1ca1" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
   </div>
 
-  <div id="mapLoadMoreWrap" class="hidden shrink-0">
-    <button
-      id="mapLoadMoreBtn"
-      type="button"
-      class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-      Load More Places
-    </button>
+  <!-- Full-page Coming Soon overlay -->
+  <div class="absolute inset-0 backdrop-blur-md bg-white/60 flex flex-col items-center justify-center gap-6 z-20 rounded-2xl">
+    <div class="text-center space-y-3 px-6 max-w-sm">
+      <div class="mx-auto w-20 h-20 rounded-2xl bg-brand/10 flex items-center justify-center text-4xl">
+        🗺️
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900">
+        <span class="nav-label-en">Explore Map</span>
+        <span class="nav-label-ar hidden">استكشاف الخريطة</span>
+      </h2>
+      <p class="text-base font-semibold text-brand">
+        <span class="nav-label-en">Coming Soon!</span>
+        <span class="nav-label-ar hidden">قريباً!</span>
+      </p>
+      <p class="text-sm text-gray-500 leading-relaxed">
+        <span class="nav-label-en">We're building a full interactive map to let you explore all of Riyadh's amazing spots. Until then, discover places and plan your trip below.</span>
+        <span class="nav-label-ar hidden">نحن نبني خريطة تفاعلية شاملة تتيح لك استكشاف أجمل أماكن الرياض. حتى ذلك الحين، اكتشف الأماكن وخطط لرحلتك أدناه.</span>
+      </p>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 mt-2">
+      <a href="/events/page/"
+        class="px-6 py-3 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition text-center">
+        <span class="nav-label-en">Discover Places &amp; Events</span>
+        <span class="nav-label-ar hidden">اكتشف الأماكن والفعاليات</span>
+      </a>
+      <a href="/daily-plan/"
+        class="px-6 py-3 rounded-xl border-2 border-brand text-brand text-sm font-semibold hover:bg-brand/5 transition text-center">
+        <span class="nav-label-en">Plan Your Trip</span>
+        <span class="nav-label-ar hidden">خطط لرحلتك</span>
+      </a>
+    </div>
   </div>
 
 </div>
-
-<script src="{% static 'js/map.js' %}"></script>
-<script>
-  let _allMapEvents = [];
-  let _mapTotalCount = 0;
-  let _mapNextUrl = null;
-  let _mapInstance = null;
-  let _markers = [];
-  let _infoWindow = null;
-  let _currentCat = "";
-  let _currentSearch = "";
-  let _debounce = null;
-
-  function escHtml(s) {
-    return String(s || "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;");
-  }
-
-  function categoryEmoji(cat) {
-    const map = {restaurant:"🍽️",cafe:"☕",fast_food:"🍔",dessert:"🍰",bakery:"🥐",juice:"🧃",food_truck:"🚚",culture:"🏛️",outdoor:"🌿",shopping:"🛍️"};
-    return map[cat] || "📍";
-  }
-
-  function showMapContainer() {
-    const loading = document.getElementById("mapLoading");
-    const mapEl = document.getElementById("mapPageMap");
-    if (loading) loading.classList.add("hidden");
-    if (mapEl) mapEl.classList.remove("hidden");
-  }
-
-  function initMapPage() {
-    if (!window.TZMap) return;
-
-    showMapContainer();
-
-    _mapInstance = window.TZMap.initMap("mapPageMap", {
-      zoom: 11,
-      center: { lat: 24.7136, lng: 46.6753 }
-    });
-
-    if (!_mapInstance) return;
-
-    _infoWindow = new google.maps.InfoWindow();
-    loadMapEvents();
-  }
-
-  function markerIcon(cat) {
-    const colorMap = {
-      food: "#ef4444",
-      culture: "#f59e0b",
-      outdoor: "#22c55e",
-      shopping: "#8b5cf6",
-      other: "#3b82f6"
-    };
-
-    return {
-      path: google.maps.SymbolPath.CIRCLE,
-      fillColor: colorMap[cat] || colorMap.other,
-      fillOpacity: 1,
-      strokeColor: "#ffffff",
-      strokeWeight: 2,
-      scale: 8
-    };
-  }
-
-  function buildInfoWindowContent(ev) {
-    const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-    const emoji = categoryEmoji(ev.category);
-
-    return `
-      <div style="width:240px;padding:14px 14px 12px 14px;font-family:Arial,sans-serif;background:#fff;">
-        <div style="display:flex;align-items:flex-start;gap:10px;">
-          <div style="width:38px;height:38px;border-radius:12px;background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">
-            ${emoji}
-          </div>
-          <div style="min-width:0;flex:1;">
-            <div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;margin-bottom:6px;">
-              ${escHtml(ev.title)}
-            </div>
-            <div style="font-size:12px;color:#6b7280;line-height:1.4;margin-bottom:6px;">
-              📍 ${escHtml(ev.location || "Riyadh")}
-            </div>
-            <div style="font-size:12px;color:#7e1ca1;font-weight:700;margin-bottom:10px;">
-              ${escHtml(price)}
-            </div>
-            <a href="/events/page/${ev.id}/" style="display:inline-block;font-size:12px;color:#7e1ca1;text-decoration:none;font-weight:700;">
-              View Details →
-            </a>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderMarkers(events) {
-    if (!_mapInstance || !window.google) return;
-
-    _markers.forEach(marker => marker.setMap(null));
-    _markers = [];
-
-    const bounds = new google.maps.LatLngBounds();
-    let hasPoints = false;
-
-    events.forEach(ev => {
-      if (typeof ev.latitude !== "number" || typeof ev.longitude !== "number") return;
-
-      const pos = { lat: ev.latitude, lng: ev.longitude };
-
-      const marker = new google.maps.Marker({
-        position: pos,
-        map: _mapInstance,
-        title: ev.title || "Place",
-        icon: markerIcon(ev.category)
-      });
-
-      marker.addListener("click", () => {
-        _infoWindow.setContent(buildInfoWindowContent(ev));
-        _infoWindow.open({
-          anchor: marker,
-          map: _mapInstance
-        });
-      });
-
-      _markers.push(marker);
-      bounds.extend(pos);
-      hasPoints = true;
-    });
-
-    if (hasPoints) {
-      _mapInstance.fitBounds(bounds);
-
-      google.maps.event.addListenerOnce(_mapInstance, "bounds_changed", () => {
-        if (_mapInstance.getZoom() > 13) _mapInstance.setZoom(13);
-      });
-    }
-
-    const countEl = document.getElementById("mapPlaceCount");
-    if (countEl) {
-      countEl.textContent = _mapTotalCount > _allMapEvents.length
-        ? `${_allMapEvents.length} of ${_mapTotalCount} places`
-        : `${events.length} place${events.length !== 1 ? "s" : ""}`;
-    }
-  }
-
-  function applyFilters() {
-    let filtered = _allMapEvents;
-
-    if (_currentCat) {
-      filtered = filtered.filter(e => e.category === _currentCat);
-    }
-
-    if (_currentSearch) {
-      const q = _currentSearch.toLowerCase();
-      filtered = filtered.filter(e =>
-        (e.title || "").toLowerCase().includes(q) ||
-        (e.location || "").toLowerCase().includes(q) ||
-        (e.description || "").toLowerCase().includes(q)
-      );
-    }
-
-    renderMarkers(filtered);
-  }
-
-  function updateMapLoadMore() {
-    const wrap = document.getElementById("mapLoadMoreWrap");
-    const btn = document.getElementById("mapLoadMoreBtn");
-    if (!wrap || !btn) return;
-    const hasMore = Boolean(_mapNextUrl);
-    wrap.classList.toggle("hidden", !hasMore);
-    if (hasMore) {
-      const remaining = _mapTotalCount - _allMapEvents.length;
-      btn.textContent = remaining > 0 ? `Load More Places (${remaining} remaining)` : "Load More Places";
-    }
-  }
-
-  async function loadMapEvents() {
-    try {
-      const data = await apiGet(_mapNextUrl || "/api/events/");
-      if (!data) return;
-
-      const events = Array.isArray(data) ? data : (data.results || []);
-      _mapNextUrl = Array.isArray(data) ? null : (data.next || null);
-      if (!Array.isArray(data) && data.count != null) _mapTotalCount = data.count;
-
-      _allMapEvents = _allMapEvents.concat(events);
-      applyFilters();
-      updateMapLoadMore();
-    } catch (error) {
-      console.error("Failed to load map events:", error);
-    }
-  }
-
-  document.getElementById("mapLoadMoreBtn")?.addEventListener("click", () => {
-    if (_mapNextUrl) loadMapEvents();
-  });
-
-  document.querySelectorAll(".map-filter").forEach(btn => {
-    btn.addEventListener("click", () => {
-      _currentCat = _currentCat === btn.dataset.cat ? "" : btn.dataset.cat;
-
-      document.querySelectorAll(".map-filter").forEach(b => {
-        const active = b.dataset.cat === _currentCat;
-        b.classList.toggle("bg-purple-100", active);
-        b.classList.toggle("text-brand", active);
-        b.classList.toggle("border-brand", active);
-        b.classList.toggle("bg-white", !active);
-        b.classList.toggle("text-gray-700", !active);
-      });
-
-      applyFilters();
-    });
-  });
-
-  document.getElementById("mapSearch").addEventListener("input", e => {
-    _currentSearch = e.target.value.trim();
-    clearTimeout(_debounce);
-    _debounce = setTimeout(applyFilters, 300);
-  });
-</script>
-
-<script
-  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_BROWSER_MAPS_API_KEY }}&callback=initMapPage"
-  async
-  defer>
-</script>
 {% endblock %}

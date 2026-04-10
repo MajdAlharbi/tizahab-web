@@ -30,7 +30,18 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             "budget_max",
             "interests",
             "min_rating",
+            "trip_duration",
         ]
+
+    def validate_trip_duration(self, value):
+        """Clamp trip_duration to 1-30."""
+        if value is None:
+            return 1
+        if value < 1:
+            return 1
+        if value > 30:
+            return 30
+        return value
 
     def validate_interests(self, value):
         """Validate that interests only contain valid event categories."""

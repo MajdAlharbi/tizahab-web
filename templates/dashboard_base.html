@@ -104,6 +104,10 @@
         <i data-lucide="map-pin" class="w-[18px] h-[18px] shrink-0"></i>
         <span class="nav-label-en">Map</span>
         <span class="nav-label-ar hidden">الخريطة</span>
+        <span class="ms-auto text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+          <span class="nav-label-en">Soon</span>
+          <span class="nav-label-ar hidden">قريباً</span>
+        </span>
       </a>
 
       <div class="my-2 border-t border-gray-100"></div>
@@ -233,6 +237,13 @@
         el.classList.toggle("hidden", lang === "ar"));
       document.querySelectorAll(".nav-label-ar").forEach(el =>
         el.classList.toggle("hidden", lang !== "ar"));
+      // Swap bilingual placeholders on inputs
+      document.querySelectorAll("[data-placeholder-en]").forEach(el => {
+        const next = lang === "ar"
+          ? el.getAttribute("data-placeholder-ar")
+          : el.getAttribute("data-placeholder-en");
+        if (next != null) el.setAttribute("placeholder", next);
+      });
       localStorage.setItem("tz_lang", lang);
     }
 

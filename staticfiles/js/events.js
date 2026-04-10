@@ -180,6 +180,7 @@ function buildEventCard(ev) {
   card.innerHTML = `
     <button type="button"
       class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white z-10"
+      data-requires-auth="true"
       data-id="${escapeHtml(ev.id)}">
       <span class="fav-icon text-lg leading-none">${fav ? "♥" : "♡"}</span>
     </button>
@@ -242,6 +243,7 @@ function buildTrendingCard(ev) {
         <span class="bg-brand/10 text-brand rounded-full px-3 py-1 text-xs font-medium">🔥 Trending</span>
         <button type="button"
           class="fav-btn h-9 w-9 rounded-full bg-white grid place-items-center border hover:bg-gray-50 z-10"
+          data-requires-auth="true"
           data-id="${escapeHtml(ev.id)}">
           <span class="fav-icon text-lg leading-none">${fav ? "♥" : "♡"}</span>
         </button>
@@ -662,7 +664,7 @@ function renderEventDetails(ev) {
             <p class="text-xs text-gray-500 mb-1">Entry Fee</p>
             <p class="text-3xl font-bold text-brand">${escapeHtml(price)}</p>
           </div>
-          <button type="button" id="getTicketsBtn"
+          <button type="button" id="getTicketsBtn" data-requires-auth="true"
             class="w-full h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed">
             Get Tickets
           </button>
@@ -717,7 +719,8 @@ function wireGetTickets(eventId) {
     msg.className = "text-sm text-center min-h-[20px]";
 
     try {
-      const today = new Date().toISOString().slice(0, 10);
+      const d = new Date();
+      const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
       // Fetch existing plans for today
       const data = await apiGet("/api/daily-plan/");

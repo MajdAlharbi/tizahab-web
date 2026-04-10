@@ -153,6 +153,8 @@ Pagination is set to 50 items per page via `REST_FRAMEWORK["PAGE_SIZE"]`. Overri
 ## Active Technologies
 - Python 3.12, Django 6.0, JavaScript (vanilla ES6) + Django REST Framework 3.16.1, SimpleJWT 5.5.1, django-tailwind 4.4.2 (001-fix-frontend-api-integration)
 - SQLite (dev), PostgreSQL (prod via dj-database-url) (001-fix-frontend-api-integration)
+- Python 3.12 + Django 6.0, Django REST Framework 3.16.1, SimpleJWT 5.5.1 (002-multiday-plan-generation)
+- SQLite (dev), PostgreSQL (prod) (002-multiday-plan-generation)
 
 ## Recent Changes
 - 001-fix-frontend-api-integration: Added Python 3.12, Django 6.0, JavaScript (vanilla ES6) + Django REST Framework 3.16.1, SimpleJWT 5.5.1, django-tailwind 4.4.2
