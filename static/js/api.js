@@ -35,6 +35,24 @@ function authHeaders() {
   return headers;
 }
 
+async function parseResponseBody(res) {
+  const text = await res.text();
+  const trimmed = text.trim();
+
+  if (trimmed.startsWith("<!DOCTYPE") || trimmed.startsWith("<html")) {
+    redirectToLogin();
+    return null;
+  }
+
+  if (!trimmed) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Attempt a silent token refresh using the stored refresh token.
  * Returns true if a new access token was obtained and stored, false otherwise.
@@ -50,7 +68,7 @@ async function _tryRefresh() {
       body: JSON.stringify({ refresh }),
     });
     if (!res.ok) return false;
-    const data = await res.json();
+    const data = await parseResponseBody(res);
     if (data.access) {
       localStorage.setItem("access", data.access);
       return true;
@@ -78,7 +96,7 @@ async function apiGet(url) {
   }
 
   if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
+  return parseResponseBody(res);
 }
 
 async function apiPost(url, data) {
@@ -102,15 +120,13 @@ async function apiPost(url, data) {
 
   if (!res.ok) {
     let detail = `API error ${res.status}`;
-    try {
-      const body = await res.json();
-      if (body.detail) detail = body.detail;
-    } catch {}
+    const body = await parseResponseBody(res);
+    if (body?.detail) detail = body.detail;
     const err = new Error(detail);
     err.status = res.status;
     throw err;
   }
-  return res.json();
+  return parseResponseBody(res);
 }
 
 async function apiPut(url, data) {
@@ -133,15 +149,13 @@ async function apiPut(url, data) {
 
   if (!res.ok) {
     let detail = `API error ${res.status}`;
-    try {
-      const body = await res.json();
-      if (body.detail) detail = body.detail;
-    } catch {}
+    const body = await parseResponseBody(res);
+    if (body?.detail) detail = body.detail;
     const err = new Error(detail);
     err.status = res.status;
     throw err;
   }
-  return res.json();
+  return parseResponseBody(res);
 }
 
 function catLabel(cat) { return CATEGORY_MAP[cat]?.label || cat; }

@@ -19,7 +19,7 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
     VALID_INTERESTS = [
         "restaurant", "cafe", "fast_food", "dessert", "bakery",
         "juice", "food_truck", "shopping", "culture", "outdoor",
-        "food", "other",
+        "other",
     ]
 
     class Meta:
