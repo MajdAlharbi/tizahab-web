@@ -14,25 +14,36 @@ Tizahab{% endblock %} {% block content %}
       <!-- Info -->
       <div class="flex-1 min-w-0">
         <h1 id="profileName" class="text-xl font-bold text-gray-900">
-          Loading…
+          <span class="nav-label-en">Loading…</span>
+          <span class="nav-label-ar hidden">جار التحميل…</span>
         </h1>
         <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">
-          📍 Riyadh, Saudi Arabia
+          <span class="nav-label-en">📍 Riyadh, Saudi Arabia</span>
+          <span class="nav-label-ar hidden">📍 الرياض، المملكة العربية السعودية</span>
         </p>
 
         <!-- Stats -->
         <div class="flex gap-8 mt-4">
           <div>
             <p id="statPlans" class="text-xl font-bold text-brand">—</p>
-            <p class="text-xs text-gray-500">Past Plans</p>
+            <p class="text-xs text-gray-500">
+              <span class="nav-label-en">Past Plans</span>
+              <span class="nav-label-ar hidden">الخطط السابقة</span>
+            </p>
           </div>
           <div>
             <p id="statFavs" class="text-xl font-bold text-brand">0</p>
-            <p class="text-xs text-gray-500">Favorites</p>
+            <p class="text-xs text-gray-500">
+              <span class="nav-label-en">Favorites</span>
+              <span class="nav-label-ar hidden">المفضلة</span>
+            </p>
           </div>
           <div>
             <p id="statActivities" class="text-xl font-bold text-brand">—</p>
-            <p class="text-xs text-gray-500">Activities</p>
+            <p class="text-xs text-gray-500">
+              <span class="nav-label-en">Activities</span>
+              <span class="nav-label-ar hidden">الأنشطة</span>
+            </p>
           </div>
         </div>
       </div>
@@ -41,26 +52,37 @@ Tizahab{% endblock %} {% block content %}
       <a
         href="/api/auth/ui/preferences/"
         class="shrink-0 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-[#faf5ff] transition">
-        Edit Preferences
+        <span class="nav-label-en">Edit Preferences</span>
+        <span class="nav-label-ar hidden">تعديل التفضيلات</span>
       </a>
     </div>
   </div>
 
   <!-- My Preferences -->
   <section class="space-y-4">
-    <h2 class="text-lg font-semibold text-gray-800">My Preferences</h2>
+    <h2 class="text-lg font-semibold text-gray-800">
+      <span class="nav-label-en">My Preferences</span>
+      <span class="nav-label-ar hidden">تفضيلاتي</span>
+    </h2>
     <div id="prefChips" class="flex flex-wrap gap-2">
-      <span class="text-sm text-gray-400">Loading preferences…</span>
+      <span class="text-sm text-gray-400">
+        <span class="nav-label-en">Loading preferences…</span>
+        <span class="nav-label-ar hidden">جار تحميل التفضيلات…</span>
+      </span>
     </div>
   </section>
 
   <!-- Past Plans -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-800">Past Plans</h2>
-      <a href="/daily-plan/" class="text-sm text-brand hover:underline"
-        >View all</a
-      >
+      <h2 class="text-lg font-semibold text-gray-800">
+        <span class="nav-label-en">Past Plans</span>
+        <span class="nav-label-ar hidden">الخطط السابقة</span>
+      </h2>
+      <a href="/daily-plan/" class="text-sm text-brand hover:underline">
+        <span class="nav-label-en">View all</span>
+        <span class="nav-label-ar hidden">عرض الكل</span>
+      </a>
     </div>
     <div
       id="pastPlansGrid"
@@ -75,23 +97,29 @@ Tizahab{% endblock %} {% block content %}
     <div id="plansLoadMoreWrap" class="hidden pt-1">
       <button id="plansLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        Load More Plans
+        <span class="nav-label-en">Load More Plans</span>
+        <span class="nav-label-ar hidden">عرض المزيد من الخطط</span>
       </button>
     </div>
   </section>
 
   <!-- My Favorites -->
   <section class="space-y-4">
-    <h2 class="text-lg font-semibold text-gray-800">My Favorites</h2>
+    <h2 class="text-lg font-semibold text-gray-800">
+      <span class="nav-label-en">My Favorites</span>
+      <span class="nav-label-ar hidden">المفضلة</span>
+    </h2>
     <div id="favsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <p id="favsEmpty" class="text-sm text-gray-400 col-span-2">
-        No favorites saved yet. Heart an event to save it here.
+        <span class="nav-label-en">No favorites saved yet. Heart an event to save it here.</span>
+        <span class="nav-label-ar hidden">لا توجد مفضلة محفوظة بعد. اضغط على القلب لحفظ الفعاليات هنا.</span>
       </p>
     </div>
     <div id="favsLoadMoreWrap" class="hidden pt-1">
       <button id="favsLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        Load More Favorites
+        <span class="nav-label-en">Load More Favorites</span>
+        <span class="nav-label-ar hidden">عرض المزيد من المفضلة</span>
       </button>
     </div>
   </section>

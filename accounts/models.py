@@ -31,6 +31,11 @@ class UserPreferences(models.Model):
         help_text="Minimum place rating (e.g. 3.5, 4.0, 4.5). Null means no filter.",
     )
 
+    trip_duration = models.PositiveIntegerField(
+        default=1,
+        help_text="Number of trip days (1-30). Used by multi-day plan generation.",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
