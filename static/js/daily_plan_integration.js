@@ -1,6 +1,6 @@
 console.log("Daily Plan JS Loaded");
 
-let multiDayPlans = {};
+let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
 
@@ -54,7 +54,7 @@ async function generateAllDays(generateBtn) {
   setLoading(true);
 
   _currentPlan = null;
-  multiDayPlans = {};
+  multiDayPlans = [];
 
   // Always pull the latest trip_duration before generating so a just-updated
   // value on the preferences page is picked up without a hard reload.
@@ -643,7 +643,7 @@ async function loadCurrentPlan() {
   // even before any plan exists.
   await refreshPreferences();
   const tripDuration = getTripDuration();
-  multiDayPlans = {};
+  multiDayPlans = [];
 
   try {
     const data = await apiGet("/api/daily-plan/");
