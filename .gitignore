@@ -15,7 +15,7 @@ venv/
 .env*
 
 # Django
-*.log
+
 db.sqlite3
 media/
 
