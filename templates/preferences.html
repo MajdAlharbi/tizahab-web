@@ -377,9 +377,21 @@
           const radio = document.querySelector(`input[name="prefLang"][value="${data.preferred_language}"]`);
           if (radio) radio.checked = true;
         }
+        if (data.trip_duration) {
+          const durInput = document.getElementById("tripDuration");
+          if (durInput) durInput.value = data.trip_duration;
+          localStorage.setItem("tz_trip_duration", String(data.trip_duration));
+        }
       } catch { /* silent */ }
     }
     loadPreferences();
+
+    // Fallback: restore from localStorage if API hasn't returned yet
+    const storedDuration = parseInt(localStorage.getItem("tz_trip_duration") || "");
+    if (storedDuration > 0) {
+      const durInput = document.getElementById("tripDuration");
+      if (durInput && !durInput.value) durInput.value = storedDuration;
+    }
 
     /* ---- Save ---- */
     document.getElementById("savePrefsBtn").addEventListener("click", async () => {
@@ -388,12 +400,15 @@
 
       const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
       const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
+      const rawDuration = parseInt(document.getElementById("tripDuration")?.value) || 1;
+      const tripDuration = Math.max(1, Math.min(30, rawDuration));
       const payload = {
         interests,
         budget_min: parseInt(budgetMin.value),
         budget_max: parseInt(budgetMax.value),
         preferred_language: lang,
         min_rating: selectedRating ? parseFloat(selectedRating) : null,
+        trip_duration: tripDuration,
       };
 
       const msgEl = document.getElementById("prefMessage");
@@ -419,6 +434,10 @@
         });
         if (res.status === 401) { localStorage.removeItem("access"); window.location.href = "/login/"; return; }
         if (!res.ok) { const d = await res.json(); throw new Error(d?.detail || "Failed to save."); }
+
+        // Cache trip duration locally as a fallback for the daily plan page
+        localStorage.setItem("tz_trip_duration", String(tripDuration));
+
         msgEl.textContent = "Preferences saved! Redirecting…";
         msgEl.classList.remove("hidden");
         setTimeout(() => { window.location.href = "/home/"; }, 1200);

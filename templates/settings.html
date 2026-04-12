@@ -2,17 +2,27 @@
 | Tizahab{% endblock %} {% block content %}
 <div class="max-w-2xl mx-auto px-4 lg:px-6 py-6 space-y-5">
   <div>
-    <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
-    <p class="text-sm text-gray-500 mt-1">Manage your account preferences</p>
+    <h1 class="text-2xl font-bold text-gray-900">
+      <span class="nav-label-en">Settings</span>
+      <span class="nav-label-ar hidden">الإعدادات</span>
+    </h1>
+    <p class="text-sm text-gray-500 mt-1">
+      <span class="nav-label-en">Manage your account preferences</span>
+      <span class="nav-label-ar hidden">إدارة تفضيلات حسابك</span>
+    </p>
   </div>
 
   <!-- Language -->
   <section
     class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">Language</h2>
+      <h2 class="font-semibold text-gray-800">
+        <span class="nav-label-en">Language</span>
+        <span class="nav-label-ar hidden">اللغة</span>
+      </h2>
       <p class="text-xs text-gray-500 mt-0.5">
-        Choose your preferred display language
+        <span class="nav-label-en">Choose your preferred display language</span>
+        <span class="nav-label-ar hidden">اختر لغة العرض المفضلة</span>
       </p>
     </div>
     <div class="p-4 flex gap-3">
@@ -42,73 +52,81 @@
   <section
     class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">Travel Preferences</h2>
+      <h2 class="font-semibold text-gray-800">
+        <span class="nav-label-en">Travel Preferences</span>
+        <span class="nav-label-ar hidden">تفضيلات السفر</span>
+      </h2>
       <p class="text-xs text-gray-500 mt-0.5">
-        These preferences sync with your account and affect recommendations
+        <span class="nav-label-en">These preferences sync with your account and affect recommendations</span>
+        <span class="nav-label-ar hidden">تتم مزامنة هذه التفضيلات مع حسابك وتؤثر على التوصيات</span>
       </p>
     </div>
     <div class="p-4 space-y-4">
       <div>
-        <p class="text-sm font-medium text-gray-700 mb-2">Interests</p>
+        <p class="text-sm font-medium text-gray-700 mb-2">
+          <span class="nav-label-en">Interests</span>
+          <span class="nav-label-ar hidden">الاهتمامات</span>
+        </p>
         <div class="flex flex-wrap gap-2">
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="restaurant" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍽️ Restaurants
+            🍽️ <span class="nav-label-en">Restaurants</span><span class="nav-label-ar hidden">مطاعم</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="cafe" class="pref-interest" style="accent-color: #7e1ca1" />
-            ☕ Cafes & Coffee
+            ☕ <span class="nav-label-en">Cafes & Coffee</span><span class="nav-label-ar hidden">مقاهي وقهوة</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="fast_food" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍔 Fast Food
+            🍔 <span class="nav-label-en">Fast Food</span><span class="nav-label-ar hidden">وجبات سريعة</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="dessert" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍰 Desserts & Sweets
+            🍰 <span class="nav-label-en">Desserts & Sweets</span><span class="nav-label-ar hidden">حلويات</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="bakery" class="pref-interest" style="accent-color: #7e1ca1" />
-            🥐 Bakery
+            🥐 <span class="nav-label-en">Bakery</span><span class="nav-label-ar hidden">مخبوزات</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="juice" class="pref-interest" style="accent-color: #7e1ca1" />
-            🧃 Juice & Smoothies
+            🧃 <span class="nav-label-en">Juice & Smoothies</span><span class="nav-label-ar hidden">عصائر</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="food_truck" class="pref-interest" style="accent-color: #7e1ca1" />
-            🚚 Food Trucks
+            🚚 <span class="nav-label-en">Food Trucks</span><span class="nav-label-ar hidden">شاحنات الطعام</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="shopping" class="pref-interest" style="accent-color: #7e1ca1" />
-            🛍️ Shopping
+            🛍️ <span class="nav-label-en">Shopping</span><span class="nav-label-ar hidden">تسوق</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="culture" class="pref-interest" style="accent-color: #7e1ca1" />
-            🏛️ Culture
+            🏛️ <span class="nav-label-en">Culture</span><span class="nav-label-ar hidden">ثقافة</span>
           </label>
           <label
             class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
             <input type="checkbox" value="outdoor" class="pref-interest" style="accent-color: #7e1ca1" />
-            🌿 Outdoor
+            🌿 <span class="nav-label-en">Outdoor</span><span class="nav-label-ar hidden">خارجي</span>
           </label>
         </div>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-3">
         <label class="space-y-1">
-          <span class="text-sm font-medium text-gray-700"
-            >Budget Min (SAR)</span
-          >
+          <span class="text-sm font-medium text-gray-700">
+            <span class="nav-label-en">Budget Min (SAR)</span>
+            <span class="nav-label-ar hidden">الحد الأدنى للميزانية (ريال)</span>
+          </span>
           <input
             id="budgetMinInput"
             type="number"
@@ -118,9 +136,10 @@
             class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
         </label>
         <label class="space-y-1">
-          <span class="text-sm font-medium text-gray-700"
-            >Budget Max (SAR)</span
-          >
+          <span class="text-sm font-medium text-gray-700">
+            <span class="nav-label-en">Budget Max (SAR)</span>
+            <span class="nav-label-ar hidden">الحد الأقصى للميزانية (ريال)</span>
+          </span>
           <input
             id="budgetMaxInput"
             type="number"
@@ -137,8 +156,14 @@
   <section
     class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">Appearance</h2>
-      <p class="text-xs text-gray-500 mt-0.5">Choose your display theme</p>
+      <h2 class="font-semibold text-gray-800">
+        <span class="nav-label-en">Appearance</span>
+        <span class="nav-label-ar hidden">المظهر</span>
+      </h2>
+      <p class="text-xs text-gray-500 mt-0.5">
+        <span class="nav-label-en">Choose your display theme</span>
+        <span class="nav-label-ar hidden">اختر نمط العرض</span>
+      </p>
     </div>
     <div class="p-4 flex gap-3">
       <label class="flex-1">
@@ -150,14 +175,14 @@
           checked />
         <div
           class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-          ☀️ Light Mode
+          ☀️ <span class="nav-label-en">Light Mode</span><span class="nav-label-ar hidden">الوضع الفاتح</span>
         </div>
       </label>
       <label class="flex-1">
         <input type="radio" name="appTheme" value="dark" class="hidden peer" />
         <div
           class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-          🌙 Dark Mode
+          🌙 <span class="nav-label-en">Dark Mode</span><span class="nav-label-ar hidden">الوضع الداكن</span>
         </div>
       </label>
     </div>
@@ -167,16 +192,26 @@
   <section
     class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">Notifications</h2>
+      <h2 class="font-semibold text-gray-800">
+        <span class="nav-label-en">Notifications</span>
+        <span class="nav-label-ar hidden">الإشعارات</span>
+      </h2>
       <p class="text-xs text-gray-500 mt-0.5">
-        Control what notifications you receive
+        <span class="nav-label-en">Control what notifications you receive</span>
+        <span class="nav-label-ar hidden">تحكم في الإشعارات التي تتلقاها</span>
       </p>
     </div>
     <div class="divide-y divide-gray-100">
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-800">Push Notifications</p>
-          <p class="text-xs text-gray-500">Receive alerts on your device</p>
+          <p class="text-sm font-medium text-gray-800">
+            <span class="nav-label-en">Push Notifications</span>
+            <span class="nav-label-ar hidden">إشعارات فورية</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            <span class="nav-label-en">Receive alerts on your device</span>
+            <span class="nav-label-ar hidden">تلقي التنبيهات على جهازك</span>
+          </p>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="togglePush" checked />
@@ -186,8 +221,14 @@
 
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-800">Plan Reminders</p>
-          <p class="text-xs text-gray-500">Get reminded about upcoming plans</p>
+          <p class="text-sm font-medium text-gray-800">
+            <span class="nav-label-en">Plan Reminders</span>
+            <span class="nav-label-ar hidden">تذكيرات الخطة</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            <span class="nav-label-en">Get reminded about upcoming plans</span>
+            <span class="nav-label-ar hidden">احصل على تذكير بالخطط القادمة</span>
+          </p>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleReminders" checked />
@@ -197,8 +238,14 @@
 
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-800">App Updates</p>
-          <p class="text-xs text-gray-500">Be notified about new features</p>
+          <p class="text-sm font-medium text-gray-800">
+            <span class="nav-label-en">App Updates</span>
+            <span class="nav-label-ar hidden">تحديثات التطبيق</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            <span class="nav-label-en">Be notified about new features</span>
+            <span class="nav-label-ar hidden">احصل على إشعار بالميزات الجديدة</span>
+          </p>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleUpdates" />
@@ -208,8 +255,14 @@
 
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-800">Recommendations</p>
-          <p class="text-xs text-gray-500">Personalized place suggestions</p>
+          <p class="text-sm font-medium text-gray-800">
+            <span class="nav-label-en">Recommendations</span>
+            <span class="nav-label-ar hidden">التوصيات</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            <span class="nav-label-en">Personalized place suggestions</span>
+            <span class="nav-label-ar hidden">اقتراحات أماكن شخصية</span>
+          </p>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleRecs" checked />
@@ -219,8 +272,14 @@
 
       <div class="px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-800">Newsletter</p>
-          <p class="text-xs text-gray-500">Weekly highlights from Riyadh</p>
+          <p class="text-sm font-medium text-gray-800">
+            <span class="nav-label-en">Newsletter</span>
+            <span class="nav-label-ar hidden">النشرة البريدية</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            <span class="nav-label-en">Weekly highlights from Riyadh</span>
+            <span class="nav-label-ar hidden">أبرز ما في الرياض أسبوعياً</span>
+          </p>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleNewsletter" />
@@ -234,14 +293,18 @@
   <section
     class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">Account</h2>
+      <h2 class="font-semibold text-gray-800">
+        <span class="nav-label-en">Account</span>
+        <span class="nav-label-ar hidden">الحساب</span>
+      </h2>
     </div>
     <div class="p-4 space-y-3">
       <a
         href="/api/auth/ui/preferences/"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
         <span class="text-lg">✏️</span>
-        Edit Preferences
+        <span class="nav-label-en">Edit Preferences</span>
+        <span class="nav-label-ar hidden">تعديل التفضيلات</span>
       </a>
 
       <!-- Change Password — expandable inline form -->
@@ -251,34 +314,43 @@
           type="button"
           class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
           <span class="text-lg">🔒</span>
-          Change Password
+          <span class="nav-label-en">Change Password</span>
+          <span class="nav-label-ar hidden">تغيير كلمة المرور</span>
         </button>
 
         <div id="pwdForm" class="hidden mt-3 space-y-3 px-1">
           <input
             id="currentPwd"
             type="password"
+            data-placeholder-en="Current password"
+            data-placeholder-ar="كلمة المرور الحالية"
             placeholder="Current password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
           <input
             id="newPwd"
             type="password"
+            data-placeholder-en="New password"
+            data-placeholder-ar="كلمة المرور الجديدة"
             placeholder="New password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
           <input
             id="confirmPwd"
             type="password"
+            data-placeholder-en="Confirm new password"
+            data-placeholder-ar="تأكيد كلمة المرور الجديدة"
             placeholder="Confirm new password"
             class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
           <p id="pwdError" class="hidden text-xs text-red-600 font-medium"></p>
           <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">
-            Password updated successfully!
+            <span class="nav-label-en">Password updated successfully!</span>
+            <span class="nav-label-ar hidden">تم تحديث كلمة المرور بنجاح!</span>
           </p>
           <button
             id="submitPwd"
             type="button"
             class="w-full h-10 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
-            Update Password
+            <span class="nav-label-en">Update Password</span>
+            <span class="nav-label-ar hidden">تحديث كلمة المرور</span>
           </button>
         </div>
       </div>
@@ -287,7 +359,8 @@
         onclick="localStorage.removeItem('access');localStorage.removeItem('refresh');window.location.href='/login/';"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 text-sm text-red-600 hover:bg-red-50 transition">
         <span class="text-lg">🚪</span>
-        Logout
+        <span class="nav-label-en">Logout</span>
+        <span class="nav-label-ar hidden">تسجيل الخروج</span>
       </button>
     </div>
   </section>
@@ -298,13 +371,15 @@
       id="saveSettingsBtn"
       type="button"
       class="px-8 h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
-      Save Settings
+      <span class="nav-label-en">Save Settings</span>
+      <span class="nav-label-ar hidden">حفظ الإعدادات</span>
     </button>
   </div>
   <p
     id="settingsSaved"
     class="text-center text-sm text-green-600 hidden font-medium">
-    Settings saved!
+    <span class="nav-label-en">Settings saved!</span>
+    <span class="nav-label-ar hidden">تم حفظ الإعدادات!</span>
   </p>
   <p
     id="settingsError"
@@ -514,13 +589,18 @@
         okMsg.classList.add("hidden");
         errMsg.classList.add("hidden");
 
+        const isArabic = (localStorage.getItem("tz_lang") || "en") === "ar";
+        const savingLabel = isArabic ? "جار الحفظ..." : "Saving...";
+        const saveLabel = isArabic ? "حفظ الإعدادات" : "Save Settings";
+        const defaultHTML = saveBtn.innerHTML;
+
         saveBtn.disabled = true;
-        saveBtn.textContent = "Saving...";
+        saveBtn.textContent = savingLabel;
 
         const result = await saveBackendPreferences();
 
         saveBtn.disabled = false;
-        saveBtn.textContent = "Save Settings";
+        saveBtn.innerHTML = defaultHTML;
 
         if (!result.ok) {
           errMsg.textContent = result.message;

@@ -1,4 +1,5 @@
 import math
+import random
 from datetime import date, timedelta
 
 from django.db.models import Q
@@ -89,20 +90,21 @@ def _score_event(event, budget_midpoint, recent_event_ids):
 def _distance_penalty(event, centroid_lat, centroid_lng):
     """
     Penalise events far from the current cluster centroid.
-    Riyadh is ~60 km across; anything within 10 km gets no penalty,
-    beyond that the penalty scales linearly.
+    Anything within 5 km gets no penalty; beyond that the penalty scales
+    linearly at -0.3 per km, capped at -6.0.  This keeps the daily plan
+    tightly geographically clustered.
     """
     if centroid_lat is None or centroid_lng is None:
         return 0.0
     if event.latitude is None or event.longitude is None:
-        return -0.3  # slight penalty for places with no coordinates
+        return -0.5  # stronger penalty for places with no coordinates
 
     km = _haversine_km(centroid_lat, centroid_lng, event.latitude, event.longitude)
 
-    # No penalty within 10 km, then -0.1 per extra km, capped at -3.0
-    if km <= 10:
+    # No penalty within 5 km, then -0.3 per extra km, capped at -6.0
+    if km <= 5:
         return 0.0
-    return max(-3.0, -0.1 * (km - 10))
+    return max(-6.0, -0.3 * (km - 5))
 
 
 def _order_by_route(selected):
@@ -134,9 +136,18 @@ def _order_by_route(selected):
     return ordered + without_coords
 
 
-def generate_recommendations(user, date_str=None):
+def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
+    """
+    Generate a list of up to 5 recommended events for a user on a given date.
+
+    The `seed` parameter makes generation non-deterministic between calls so
+    different days in a multi-day trip produce different selections.  When
+    `seed` is None we fall back to `date_str` so the same day re-generates
+    reproducibly.
+    """
 
     preferences = UserPreferences.objects.filter(user=user).first()
+    exclude_ids = set(exclude_ids or [])
 
     if preferences is None:
         return None
@@ -161,6 +172,9 @@ def generate_recommendations(user, date_str=None):
             Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
         )
 
+    if exclude_ids:
+        queryset = queryset.exclude(id__in=exclude_ids)
+
     candidates = list(queryset)
     if not candidates:
         return []
@@ -169,17 +183,29 @@ def generate_recommendations(user, date_str=None):
     budget_midpoint = _budget_midpoint(preferences)
     recent_event_ids = _recent_event_ids(user, reference_date)
 
-    # Base scores (budget + recency)
+    # Seeded randomness — different seeds produce different selections while
+    # the same seed stays reproducible.
+    rng_key = seed if seed is not None else f"{user.id}-{date_str or reference_date.isoformat()}"
+    rng = random.Random(rng_key)
+
+    # Shuffle candidates up front so stable sorts naturally break ties in a
+    # seed-dependent order (instead of always by `e.id`).
+    rng.shuffle(candidates)
+
+    # Base scores (budget + recency) + small seeded jitter so the top-N
+    # selection varies between days even when scores are very close.
     base_scores = {
         event.id: _score_event(event, budget_midpoint, recent_event_ids)
+                  + rng.uniform(-0.25, 0.25)
         for event in candidates
     }
 
     selected = []
     selected_ids = set()
 
-    # Phase 1: pick the top-scored event from each interest category (diversity)
-    ranked_by_base = sorted(candidates, key=lambda e: (base_scores[e.id], e.id), reverse=True)
+    # Phase 1: pick the top-scored event from each interest category (diversity).
+    # Tie-break on shuffled order (no `e.id` — that would be deterministic).
+    ranked_by_base = sorted(candidates, key=lambda e: base_scores[e.id], reverse=True)
     for category in interests:
         best = next(
             (e for e in ranked_by_base if e.category == category and e.id not in selected_ids),
@@ -203,7 +229,7 @@ def generate_recommendations(user, date_str=None):
                 base_scores[event.id] + _distance_penalty(event, clat, clng)
             )
 
-        remaining.sort(key=lambda e: (combined_scores[e.id], e.id), reverse=True)
+        remaining.sort(key=lambda e: combined_scores[e.id], reverse=True)
 
         for event in remaining:
             selected.append(event)
@@ -217,3 +243,40 @@ def generate_recommendations(user, date_str=None):
     selected = _order_by_route(selected[:5])
 
     return selected
+
+
+def generate_multiday_plan(user, start_date_str):
+    """Generate recommendations for N consecutive days based on trip_duration."""
+    preferences = UserPreferences.objects.filter(user=user).first()
+    if preferences is None:
+        return None
+
+    interests = [i.lower() for i in (preferences.interests or [])]
+    if not interests:
+        return None
+
+    start_date = date.fromisoformat(str(start_date_str))
+    trip_duration = max(1, min(30, int(preferences.trip_duration or 1)))
+
+    multiday_recommendations = []
+    exclude_ids = set()
+
+    for day_index in range(trip_duration):
+        plan_date = start_date + timedelta(days=day_index)
+        date_str = plan_date.isoformat()
+        day_seed = f"{user.id}-{date_str}-{day_index}"
+
+        events = generate_recommendations(
+            user,
+            date_str=date_str,
+            seed=day_seed,
+            exclude_ids=exclude_ids,
+        )
+        if events is None:
+            return None
+
+        events = events or []
+        multiday_recommendations.append((date_str, events))
+        exclude_ids.update(event.id for event in events)
+
+    return multiday_recommendations

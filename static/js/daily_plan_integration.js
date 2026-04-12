@@ -3,33 +3,137 @@ console.log("Daily Plan JS Loaded");
 let multiDayPlans = {};
 let currentDayIndex = 0;
 let _currentPreferences = null;
-let selectedDate = new Date().toISOString().split("T")[0];
+
+/** Format a Date as YYYY-MM-DD in the local timezone (not UTC). */
+function _localDateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+let selectedDate = _localDateStr(new Date());
+
+function getTripDuration() {
+  // Prefer the freshly-loaded preferences from the API, fall back to localStorage.
+  const fromPrefs = _currentPreferences?.trip_duration;
+  const fromCache =
+    parseInt(localStorage.getItem("tz_trip_duration") || "1") || 1;
+  const raw =
+    Number.isFinite(Number(fromPrefs)) && Number(fromPrefs) > 0
+      ? Number(fromPrefs)
+      : fromCache;
+  console.log(fromPrefs);
+  console.log(fromCache);
+  console.log(raw);
+  return Math.max(1, Math.min(30, raw));
+}
+
+async function refreshPreferences() {
+  // Always fetch fresh preferences from the API so trip_duration is never stale.
+  try {
+    const data = await apiGet("/api/auth/me/");
+    if (data) {
+      _currentPreferences = data;
+      if (data.trip_duration) {
+        localStorage.setItem("tz_trip_duration", String(data.trip_duration));
+      }
+    }
+  } catch {
+    /* silent — we'll fall back to localStorage */
+  }
+  return _currentPreferences;
+}
 
 /* =========================
-  Generate Daily Plan
+  Generate Daily Plan (multi-day)
 ========================= */
 
-async function generateDailyPlan() {
-  return apiPost("/api/daily-plan/generate/", {
-    date: selectedDate,
-    seed: Date.now(),
-  });
+async function generateAllDays(generateBtn) {
+  if (generateBtn) generateBtn.disabled = true;
+  setLoading(true);
+
+  _currentPlan = null;
+  multiDayPlans = {};
+
+  // Always pull the latest trip_duration before generating so a just-updated
+  // value on the preferences page is picked up without a hard reload.
+  await refreshPreferences();
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const startDate = _localDateStr(today);
+
+  try {
+    const data = await apiPost("/api/daily-plan/generate-multiday/", {
+      start_date: startDate,
+    });
+
+    const plans = Array.isArray(data?.plans) ? data.plans : [];
+    plans.sort((a, b) =>
+      String(a.date || "").localeCompare(String(b.date || "")),
+    );
+
+    plans.forEach((plan, index) => {
+      const events = Array.isArray(plan?.events)
+        ? plan.events.filter(Boolean)
+        : [];
+      multiDayPlans[index] = sortEventsByProximity(events);
+    });
+
+    // Keep UI aligned with trip duration even when some days have no events in payload.
+    const tripDuration = getTripDuration();
+    for (let index = 0; index < tripDuration; index += 1) {
+      if (!Array.isArray(multiDayPlans[index])) {
+        multiDayPlans[index] = [];
+      }
+    }
+
+    const firstPlan = plans[0] || null;
+    _currentPlan = firstPlan;
+
+    currentDayIndex = 0;
+    selectedDate = _localDateStr(today);
+
+    renderDaysBar();
+    renderPlanForDay(0);
+  } finally {
+    setLoading(false);
+    if (generateBtn) generateBtn.disabled = false;
+  }
 }
 
 async function requestPlanForSelectedDate(generateBtn) {
   if (generateBtn) generateBtn.disabled = true;
+  setLoading(true);
 
   try {
-    setLoading(true);
-    _currentPlan = null;
-    multiDayPlans = { 0: [] };
+    await refreshPreferences();
 
-    const data = await generateDailyPlan();
-    if (data) {
-      _currentPlan = data;
-      const preferences = await loadCurrentPreferences();
-      applyMultiDayPlan(data, preferences);
+    const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
+    const tripDuration = getTripDuration();
+    const excludePlanDates = [];
+
+    for (let index = 0; index < tripDuration; index += 1) {
+      if (index === currentDayIndex) continue;
+      excludePlanDates.push(_localDateStr(getPlanDateForIndex(index)));
     }
+
+    const data = await apiPost("/api/daily-plan/generate/", {
+      date: targetDate,
+      seed: Date.now(),
+      exclude_plan_dates: excludePlanDates,
+    });
+
+    const events = Array.isArray(data?.events)
+      ? data.events.filter(Boolean)
+      : [];
+    multiDayPlans[currentDayIndex] = sortEventsByProximity(events);
+    _currentPlan = data || _currentPlan;
+    selectedDate = targetDate;
+
+    renderDaysBar();
+    renderPlanForDay(currentDayIndex);
 
     return data;
   } finally {
@@ -66,23 +170,26 @@ function organizeEventsByTime(events) {
   }
 
   const breakfast =
-    takeFirst((event) => foodCategories.has(String(event.category || "").toLowerCase())) ||
-    takeFirst(() => true);
+    takeFirst((event) =>
+      foodCategories.has(String(event.category || "").toLowerCase()),
+    ) || takeFirst(() => true);
 
   const activity =
-    takeFirst((event) =>
-      activityCategories.has(String(event.category || "").toLowerCase()) ||
-      !foodCategories.has(String(event.category || "").toLowerCase())
-    ) ||
-    takeFirst(() => true);
+    takeFirst(
+      (event) =>
+        activityCategories.has(String(event.category || "").toLowerCase()) ||
+        !foodCategories.has(String(event.category || "").toLowerCase()),
+    ) || takeFirst(() => true);
 
   const lunch =
-    takeFirst((event) => foodCategories.has(String(event.category || "").toLowerCase())) ||
-    takeFirst(() => true);
+    takeFirst((event) =>
+      foodCategories.has(String(event.category || "").toLowerCase()),
+    ) || takeFirst(() => true);
 
   const evening =
-    takeFirst((event) => relaxingCategories.has(String(event.category || "").toLowerCase())) ||
-    takeFirst(() => true);
+    takeFirst((event) =>
+      relaxingCategories.has(String(event.category || "").toLowerCase()),
+    ) || takeFirst(() => true);
 
   const structured = [
     withLabel(breakfast, "☀️ Breakfast"),
@@ -99,16 +206,9 @@ function organizeEventsByTime(events) {
 }
 
 async function loadCurrentPreferences() {
-  if (_currentPreferences) return _currentPreferences;
-
-  try {
-    const data = await apiGet("/api/auth/me/");
-    if (data) _currentPreferences = data;
-  } catch {
-    _currentPreferences = null;
-  }
-
-  return _currentPreferences;
+  // Always re-fetch so trip_duration / budget changes on the preferences page
+  // are reflected on the daily plan page without a hard reload.
+  return refreshPreferences();
 }
 
 function getPlanDateForIndex(index) {
@@ -124,8 +224,10 @@ function _distanceBetween(a, b) {
   const lng2 = Number.parseFloat(b?.longitude);
 
   if (
-    !Number.isFinite(lat1) || !Number.isFinite(lng1) ||
-    !Number.isFinite(lat2) || !Number.isFinite(lng2)
+    !Number.isFinite(lat1) ||
+    !Number.isFinite(lng1) ||
+    !Number.isFinite(lat2) ||
+    !Number.isFinite(lng2)
   ) {
     return Number.POSITIVE_INFINITY;
   }
@@ -140,7 +242,11 @@ function _distanceBetween(a, b) {
     sinLat * sinLat +
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sinLng * sinLng;
 
-  return 2 * earthRadiusKm * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+  return (
+    2 *
+    earthRadiusKm *
+    Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+  );
 }
 
 function getDistance(a, b) {
@@ -150,21 +256,24 @@ function getDistance(a, b) {
   const lngB = Number.parseFloat(b?.longitude);
 
   if (
-    !Number.isFinite(latA) || !Number.isFinite(lngA) ||
-    !Number.isFinite(latB) || !Number.isFinite(lngB)
+    !Number.isFinite(latA) ||
+    !Number.isFinite(lngA) ||
+    !Number.isFinite(latB) ||
+    !Number.isFinite(lngB)
   ) {
     return Number.POSITIVE_INFINITY;
   }
 
   const R = 6371;
-  const dLat = (latB - latA) * Math.PI / 180;
-  const dLng = (lngB - lngA) * Math.PI / 180;
+  const dLat = ((latB - latA) * Math.PI) / 180;
+  const dLng = ((lngB - lngA) * Math.PI) / 180;
 
-  const lat1 = latA * Math.PI / 180;
-  const lat2 = latB * Math.PI / 180;
+  const lat1 = (latA * Math.PI) / 180;
+  const lat2 = (latB * Math.PI) / 180;
 
-  const x = Math.sin(dLat / 2) ** 2 +
-            Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+  const x =
+    Math.sin(dLat / 2) ** 2 +
+    Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
 
   return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 }
@@ -244,86 +353,77 @@ function renderDaysBar() {
   const weekDays = document.getElementById("week-days");
   if (!weekLabel || !weekDays) return;
 
-  console.log("Rendering days bar");
-
+  const tripDuration = getTripDuration();
   const start = getPlanDateForIndex(0);
-  const end = getPlanDateForIndex(6);
+  const end = getPlanDateForIndex(tripDuration - 1);
 
-  weekLabel.textContent = `${start.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  })} - ${end.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  })}`;
+  if (tripDuration === 1) {
+    weekLabel.textContent = start.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  } else {
+    weekLabel.textContent = `${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · ${tripDuration} days`;
+  }
 
   weekDays.replaceChildren();
 
-  for (let index = 0; index < 7; index += 1) {
+  for (let index = 0; index < tripDuration; index += 1) {
     const date = getPlanDateForIndex(index);
     const button = document.createElement("button");
     button.type = "button";
     button.className =
       "min-w-[120px] rounded-2xl border px-4 py-3 text-left transition";
 
-    if (index === currentDayIndex) {
+    const isActive = index === currentDayIndex;
+    if (isActive) {
       button.classList.add("border-brand", "bg-brand", "text-white");
     } else {
-      button.classList.add("border-gray-200", "bg-white", "text-gray-700", "hover:bg-gray-50");
+      button.classList.add(
+        "border-gray-200",
+        "bg-white",
+        "text-gray-700",
+        "hover:bg-gray-50",
+      );
     }
 
-    const dayName = document.createElement("div");
-    dayName.className = "text-sm font-semibold";
-    dayName.textContent = date.toLocaleDateString("en-US", { weekday: "short" });
+    const dayLabel = document.createElement("div");
+    dayLabel.className = "text-sm font-semibold";
+    dayLabel.textContent =
+      tripDuration === 1
+        ? date.toLocaleDateString("en-US", { weekday: "short" })
+        : `Day ${index + 1}`;
 
     const dayDate = document.createElement("div");
-    dayDate.className = index === currentDayIndex ? "text-xs text-white/80" : "text-xs text-gray-500";
+    dayDate.className = isActive
+      ? "text-xs text-white/80"
+      : "text-xs text-gray-500";
     dayDate.textContent = date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
       day: "numeric",
     });
 
-    button.appendChild(dayName);
-    button.appendChild(dayDate);
-    button.addEventListener("click", async () => {
-      currentDayIndex = index;
-      selectedDate = date.toISOString().split("T")[0];
-      renderDaysBar();
+    // Show a small dot if this day already has a plan
+    const hasPlan =
+      Array.isArray(multiDayPlans[index]) && multiDayPlans[index].length > 0;
+    if (hasPlan && !isActive) {
+      const dot = document.createElement("div");
+      dot.className = "mt-1.5 w-1.5 h-1.5 rounded-full bg-brand";
+      button.appendChild(dayLabel);
+      button.appendChild(dayDate);
+      button.appendChild(dot);
+    } else {
+      button.appendChild(dayLabel);
+      button.appendChild(dayDate);
+    }
 
-      if (window.isLoggedIn?.()) {
-        try {
-          const generateBtn = document.getElementById("generate-btn");
-          await requestPlanForSelectedDate(generateBtn);
-        } catch (error) {
-          const message = document.getElementById("plan-message");
-          if (message) {
-            if (
-              error.status === 400 &&
-              error.message &&
-              error.message.toLowerCase().includes("interests")
-            ) {
-              message.innerHTML =
-                `Please select your interests first.&nbsp;` +
-                `<a href="/onboarding/" ` +
-                `class="underline text-brand font-medium hover:opacity-80">` +
-                `Go to Preferences</a>`;
-            } else if (error.status === 400) {
-              message.textContent =
-                error.message || "Invalid request. Please try again.";
-            } else if (error.status === 404) {
-              message.innerHTML =
-                `No places match your current budget.&nbsp;` +
-                `<a href="/onboarding/" ` +
-                `class="underline text-brand font-medium hover:opacity-80">` +
-                `Adjust preferences →</a>`;
-            } else {
-              message.textContent = "Something went wrong. Please try again.";
-            }
-          }
-        }
-      } else {
-        renderPlanForDay(index);
-      }
+    button.addEventListener("click", () => {
+      currentDayIndex = index;
+      selectedDate = _localDateStr(date);
+      renderDaysBar();
+      renderPlanForDay(index);
     });
 
     weekDays.appendChild(button);
@@ -332,35 +432,46 @@ function renderDaysBar() {
 
 function renderPlanForDay(index) {
   const activitiesDayLabel = document.getElementById("activities-day-label");
-  const dayDate = selectedDate ? new Date(`${selectedDate}T00:00:00`) : getPlanDateForIndex(index);
-  const dayEvents = Array.isArray(multiDayPlans[0]) ? multiDayPlans[0] : [];
-
-  console.log("Switching to day:", index);
+  const tripDuration = getTripDuration();
+  const dayDate = getPlanDateForIndex(index);
+  const dayEvents = Array.isArray(multiDayPlans[index])
+    ? multiDayPlans[index]
+    : [];
 
   if (activitiesDayLabel) {
-    activitiesDayLabel.textContent = `${dayDate.toLocaleDateString("en-US", {
-      weekday: "long",
-    })}'s Activities`;
+    const dayLabel =
+      tripDuration > 1
+        ? `Day ${index + 1} — ${dayDate.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}`
+        : `${dayDate.toLocaleDateString("en-US", { weekday: "long" })}'s Activities`;
+    activitiesDayLabel.textContent = dayLabel;
   }
 
   renderDailyPlan({
     ...(_currentPlan || {}),
-    date: dayDate.toISOString().split("T")[0],
+    date: _localDateStr(dayDate),
     events: dayEvents,
   });
 }
 
 function applyMultiDayPlan(plan, preferences) {
-  multiDayPlans = {};
   const events = Array.isArray(plan?.events) ? plan.events : [];
   selectedDate = plan?.date || selectedDate;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const selected = new Date(`${selectedDate}T00:00:00`);
   const diffDays = Math.round((selected - today) / (1000 * 60 * 60 * 24));
-  currentDayIndex = diffDays >= 0 && diffDays < 7 ? diffDays : 0;
+
   _currentPreferences = preferences || _currentPreferences;
-  multiDayPlans = { 0: sortEventsByProximity(events) };
+
+  // Only overwrite day 0 if this is a single-plan load (e.g. loadCurrentPlan)
+  // Don't clear other days that may have been generated
+  const targetIndex =
+    diffDays >= 0 && diffDays < getTripDuration() ? diffDays : 0;
+  currentDayIndex = targetIndex;
+  if (!multiDayPlans[targetIndex] || !multiDayPlans[targetIndex].length) {
+    multiDayPlans[targetIndex] = sortEventsByProximity(events.filter(Boolean));
+  }
+
   renderDaysBar();
   renderPlanForDay(currentDayIndex);
 }
@@ -381,9 +492,9 @@ function renderDailyPlan(data) {
   const events = organizeEventsByTime(nearbyEvents);
   const sectionTimes = {
     "☀️ Breakfast": "8:00 AM",
-    "Activity": "11:00 AM",
+    Activity: "11:00 AM",
     "🍽️ Lunch": "2:00 PM",
-    "Evening": "6:00 PM",
+    Evening: "6:00 PM",
   };
 
   if (events.length === 0) {
@@ -528,25 +639,46 @@ function setLoading(isLoading) {
 let _currentPlan = null;
 
 async function loadCurrentPlan() {
+  // Always pull fresh preferences first so the days bar shows the correct span
+  // even before any plan exists.
+  await refreshPreferences();
+  const tripDuration = getTripDuration();
+  multiDayPlans = {};
+
   try {
     const data = await apiGet("/api/daily-plan/");
-    if (!data) return;
-    const plans = Array.isArray(data) ? data : data.results || [];
-    if (!plans.length) return;
+    const plans = data ? (Array.isArray(data) ? data : data.results || []) : [];
 
-    const today = new Date().toISOString().split("T")[0];
-    const todayPlan = plans.find((p) => p.date === today) || plans[0];
-    if (
-      todayPlan &&
-      Array.isArray(todayPlan.events) &&
-      todayPlan.events.length > 0
-    ) {
-      _currentPlan = todayPlan;
-      const preferences = await loadCurrentPreferences();
-      applyMultiDayPlan(todayPlan, preferences);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Map any existing plan onto its day-offset within the current trip window.
+    for (let i = 0; i < tripDuration; i += 1) {
+      const day = new Date(today);
+      day.setDate(today.getDate() + i);
+      const dayStr = _localDateStr(day);
+      const match = plans.find((p) => p.date === dayStr);
+      if (match && Array.isArray(match.events) && match.events.length) {
+        multiDayPlans[i] = sortEventsByProximity(match.events.filter(Boolean));
+        if (i === 0) _currentPlan = match;
+      } else {
+        multiDayPlans[i] = [];
+      }
     }
+
+    if (!_currentPlan) {
+      // Fall back to the first plan we found (may be in the past) for add-activity context.
+      _currentPlan = plans[0] || null;
+    }
+
+    currentDayIndex = 0;
+    selectedDate = _localDateStr(today);
+    renderDaysBar();
+    renderPlanForDay(0);
   } catch {
-    /* silent */
+    // Even on error, still render an empty days bar so the UI is consistent.
+    renderDaysBar();
+    renderPlanForDay(0);
   }
 }
 
@@ -571,32 +703,40 @@ async function searchActivities(query) {
   if (!results) return;
 
   if (!query.trim()) {
-    results.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
+    results.innerHTML =
+      '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
     return;
   }
 
-  results.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Searching...</p>';
+  results.innerHTML =
+    '<p class="text-sm text-gray-400 text-center py-8">Searching...</p>';
 
   try {
-    const data = await apiGet(`/api/events/?search=${encodeURIComponent(query)}`);
+    const data = await apiGet(
+      `/api/events/?search=${encodeURIComponent(query)}`,
+    );
     if (!data) return;
     const events = Array.isArray(data) ? data : data.results || [];
 
     if (!events.length) {
-      results.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">No places found</p>';
+      results.innerHTML =
+        '<p class="text-sm text-gray-400 text-center py-8">No places found</p>';
       return;
     }
 
     // Get current plan event IDs to mark already-added
     const planEventIds = new Set(
-      (_currentPlan?.events || []).map(e => String(typeof e === "object" ? e.id : e))
+      (_currentPlan?.events || []).map((e) =>
+        String(typeof e === "object" ? e.id : e),
+      ),
     );
 
     results.innerHTML = "";
-    events.slice(0, 20).forEach(ev => {
+    events.slice(0, 20).forEach((ev) => {
       const alreadyAdded = planEventIds.has(String(ev.id));
       const item = document.createElement("div");
-      item.className = "flex items-center gap-3 p-3 rounded-xl border hover:bg-gray-50 transition";
+      item.className =
+        "flex items-center gap-3 p-3 rounded-xl border hover:bg-gray-50 transition";
       item.innerHTML = `
         <span class="text-xl shrink-0">${catEmoji(ev.category)}</span>
         <div class="flex-1 min-w-0">
@@ -613,36 +753,43 @@ async function searchActivities(query) {
       `;
 
       if (!alreadyAdded) {
-        item.querySelector(".add-to-plan-btn").addEventListener("click", async (e) => {
-          const btn = e.currentTarget;
-          btn.disabled = true;
-          btn.textContent = "Adding...";
+        item
+          .querySelector(".add-to-plan-btn")
+          .addEventListener("click", async (e) => {
+            const btn = e.currentTarget;
+            btn.disabled = true;
+            btn.textContent = "Adding...";
 
-          try {
-            await addEventToPlan(ev.id);
-            btn.textContent = "Added";
-            btn.classList.remove("bg-brand", "hover:opacity-90");
-            btn.classList.add("bg-gray-100", "text-gray-400", "cursor-not-allowed");
-          } catch {
-            btn.disabled = false;
-            btn.textContent = "Add";
-          }
-        });
+            try {
+              await addEventToPlan(ev.id);
+              btn.textContent = "Added";
+              btn.classList.remove("bg-brand", "hover:opacity-90");
+              btn.classList.add(
+                "bg-gray-100",
+                "text-gray-400",
+                "cursor-not-allowed",
+              );
+            } catch {
+              btn.disabled = false;
+              btn.textContent = "Add";
+            }
+          });
       }
 
       results.appendChild(item);
     });
   } catch {
-    results.innerHTML = '<p class="text-sm text-red-400 text-center py-8">Failed to search</p>';
+    results.innerHTML =
+      '<p class="text-sm text-red-400 text-center py-8">Failed to search</p>';
   }
 }
 
 async function addEventToPlan(eventId) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = _localDateStr(new Date());
 
   if (_currentPlan) {
-    const existingIds = _currentPlan.events.map(e =>
-      typeof e === "object" ? e.id : Number(e)
+    const existingIds = _currentPlan.events.map((e) =>
+      typeof e === "object" ? e.id : Number(e),
     );
     const merged = [...new Set([...existingIds, Number(eventId)])];
     const updated = await apiPut(`/api/daily-plan/${_currentPlan.id}/`, {
@@ -688,10 +835,11 @@ function exportPlan() {
   events.forEach((ev, i) => {
     const hour = startHour + i * slotHours;
     const title = typeof ev === "object" ? ev.title : `Event #${ev}`;
-    const price = typeof ev === "object" && ev.price
-      ? `${parseFloat(ev.price).toFixed(0)} SAR`
-      : "Free";
-    const category = typeof ev === "object" ? (ev.category || "") : "";
+    const price =
+      typeof ev === "object" && ev.price
+        ? `${parseFloat(ev.price).toFixed(0)} SAR`
+        : "Free";
+    const category = typeof ev === "object" ? ev.category || "" : "";
     text += `${fmt(hour)} – ${fmt(hour + slotHours)}\n`;
     text += `  ${title}\n`;
     if (category) text += `  Category: ${category}\n`;
@@ -717,13 +865,22 @@ document.addEventListener("DOMContentLoaded", () => {
   initDailyPlanMap();
   loadCurrentPlan();
 
-  // Generate AI Plan
+  // Generate AI Plan (multi-day)
   const generateBtn = document.getElementById("generate-btn");
   generateBtn?.addEventListener("click", async () => {
+    const message = document.getElementById("plan-message");
     try {
-      await requestPlanForSelectedDate(generateBtn);
+      const isSpecificDayRegeneration =
+        currentDayIndex > 0 && Array.isArray(multiDayPlans[currentDayIndex]);
+
+      if (isSpecificDayRegeneration) {
+        await requestPlanForSelectedDate(generateBtn);
+      } else {
+        await generateAllDays(generateBtn);
+      }
+
+      if (message) message.textContent = "";
     } catch (error) {
-      const message = document.getElementById("plan-message");
       if (!message) return;
       if (
         error.status === 400 &&
@@ -744,6 +901,10 @@ document.addEventListener("DOMContentLoaded", () => {
           `<a href="/onboarding/" ` +
           `class="underline text-brand font-medium hover:opacity-80">` +
           `Adjust preferences →</a>`;
+      } else if (error.status === 500) {
+        message.textContent =
+          error.message ||
+          "Server error while generating your trip. Please try again.";
       } else {
         message.textContent = "Something went wrong. Please try again.";
       }
@@ -751,17 +912,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add Activity modal
-  document.getElementById("add-activity-btn")?.addEventListener("click", openAddActivityModal);
-  document.getElementById("closeAddActivity")?.addEventListener("click", closeAddActivityModal);
-  document.getElementById("addActivityOverlay")?.addEventListener("click", closeAddActivityModal);
+  document
+    .getElementById("add-activity-btn")
+    ?.addEventListener("click", openAddActivityModal);
+  document
+    .getElementById("closeAddActivity")
+    ?.addEventListener("click", closeAddActivityModal);
+  document
+    .getElementById("addActivityOverlay")
+    ?.addEventListener("click", closeAddActivityModal);
 
-  document.getElementById("activitySearchInput")?.addEventListener("input", (e) => {
-    clearTimeout(_activityDebounce);
-    _activityDebounce = setTimeout(() => searchActivities(e.target.value), 350);
-  });
+  document
+    .getElementById("activitySearchInput")
+    ?.addEventListener("input", (e) => {
+      clearTimeout(_activityDebounce);
+      _activityDebounce = setTimeout(
+        () => searchActivities(e.target.value),
+        350,
+      );
+    });
 
   // Export Plan
-  document.getElementById("export-plan-btn")?.addEventListener("click", exportPlan);
+  document
+    .getElementById("export-plan-btn")
+    ?.addEventListener("click", exportPlan);
 });
 
 /* =========================
@@ -926,7 +1100,12 @@ async function loadUpcomingCarousel() {
 
 /* Load all three carousels on page load */
 document.addEventListener("DOMContentLoaded", () => {
-  loadCarousel("restaurantsCarousel", "restaurantsSection", "food", "Restaurant");
+  loadCarousel(
+    "restaurantsCarousel",
+    "restaurantsSection",
+    "food",
+    "Restaurant",
+  );
   loadCarousel("activitiesCarousel", "activitiesSection", "outdoor", "Outdoor");
   loadUpcomingCarousel();
 });
