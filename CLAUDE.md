@@ -155,6 +155,8 @@ Pagination is set to 50 items per page via `REST_FRAMEWORK["PAGE_SIZE"]`. Overri
 - SQLite (dev), PostgreSQL (prod via dj-database-url) (001-fix-frontend-api-integration)
 - Python 3.12 + Django 6.0, Django REST Framework 3.16.1, SimpleJWT 5.5.1 (002-multiday-plan-generation)
 - SQLite (dev), PostgreSQL (prod) (002-multiday-plan-generation)
+- Python 3.12 (Django 6.0), vanilla ES6 (browser) + Django 6.0, Django REST Framework 3.16.1, django-tailwind 4.4.2, Google Maps JavaScript API (already loaded via `GOOGLE_MAPS_API_KEY` context processor for authenticated users) (003-blur-map-future)
+- SQLite (dev), PostgreSQL (prod) — untouched by this feature (003-blur-map-future)
 
 ## Recent Changes
 - 001-fix-frontend-api-integration: Added Python 3.12, Django 6.0, JavaScript (vanilla ES6) + Django REST Framework 3.16.1, SimpleJWT 5.5.1, django-tailwind 4.4.2

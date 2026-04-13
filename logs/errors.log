@@ -4639,3 +4639,149 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
 django.db.utils.OperationalError: no such column: accounts_userpreferences.trip_duration
 ERROR 2026-04-12 16:07:12 log 1936 6796 "POST /api/auth/preferences/ HTTP/1.1" 500 185328
+ERROR 2026-04-13 16:00:34 log 32740 12052 Internal Server Error: /api/auth/signup/
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: auth_user.username
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\accounts\views.py", line 202, in post
+    user = serializer.save()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\accounts\serializers.py", line 113, in create
+    user = User.objects.create_user(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\models.py", line 175, in create_user
+    return self._create_user(username, email, password, **extra_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\models.py", line 163, in _create_user
+    user.save(using=self._db)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\base_user.py", line 62, in save
+    super().save(**kwargs)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 1167, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 1218, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: auth_user.username
+ERROR 2026-04-13 16:00:34 log 32740 12052 "POST /api/auth/signup/ HTTP/1.1" 500 228955
+ERROR 2026-04-13 16:11:04 views 23268 18444 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 16:11:04 log 23268 18444 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-13 19:11:53 views 16712 35016 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 19:11:53 log 16712 35016 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-13 19:20:23 views 29328 26876 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 19:20:23 log 29328 26876 Internal Server Error: /api/daily-plan/generate-multiday/

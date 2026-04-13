@@ -351,39 +351,47 @@ function initEventsMap() {
   const map = window.TZMap.initMap("eventsMap", { zoom: 11 });
   if (!map) return;
   window.__TZ_EVENTS_MAP = map;
+
   // If events were fetched before the map finished loading, render markers now
-  if (_allEvents.length) _renderEventsMarkers(_allEvents);
+  if (_allEvents.length) resetEventsMap(_allEvents);
 }
 
-function _renderEventsMarkers(events) {
+let _mapMarkers = [];
+let _mapInfo = null;
+
+function resetEventsMap(newVisibleEvents) {
   const map = window.__TZ_EVENTS_MAP;
   if (!map || !window.google || !google.maps) return;
 
   // Clear previous markers
-  (window.__TZ_EVENTS_MARKERS || []).forEach((m) => m.setMap(null));
-  window.__TZ_EVENTS_MARKERS = [];
+  _mapMarkers.forEach(m => m.setMap(null));
+  _mapMarkers.length = 0;
+
+  if (!_mapInfo) {
+    _mapInfo = new google.maps.InfoWindow();
+  }
 
   const bounds = new google.maps.LatLngBounds();
-  const info = new google.maps.InfoWindow();
   let hasPoints = false;
 
-  events.forEach((ev) => {
+  newVisibleEvents.forEach(ev => {
     const lat = Number.parseFloat(ev.latitude);
     const lng = Number.parseFloat(ev.longitude);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
     const pos = { lat, lng };
     const marker = new google.maps.Marker({ position: pos, map });
-    window.__TZ_EVENTS_MARKERS.push(marker);
+    _mapMarkers.push(marker);
     bounds.extend(pos);
     hasPoints = true;
 
     marker.addListener("click", () => {
-      info.setContent(
+      _mapInfo.setContent(
         `<div style="font-weight:600;margin-bottom:4px">${escapeHtml(ev.title)}</div>` +
           `<div style="font-size:12px;opacity:.8;margin-bottom:4px">${escapeHtml(ev.location || "Riyadh")}</div>` +
           `<a href="/events/page/${ev.id}/" style="font-size:12px;color:#7E1CA1">View Details →</a>`,
       );
-      info.open({ anchor: marker, map });
+      _mapInfo.open({ anchor: marker, map });
     });
   });
 
@@ -438,7 +446,7 @@ async function loadEvents() {
   }
 
   // Update map markers if the map is already initialised
-  if (window.__TZ_EVENTS_MAP) _renderEventsMarkers(_allEvents);
+  if (window.__TZ_EVENTS_MAP) resetEventsMap(_allEvents);
 
   if (countText) {
     countText.textContent = _totalCount > _allEvents.length

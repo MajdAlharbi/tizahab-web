@@ -88,7 +88,7 @@ python manage.py load_data --clear
 ## Running Tests
 
 ```bash
-# All tests
+# All tests (88 tests expected)
 python manage.py test
 
 # Specific app
@@ -159,13 +159,23 @@ The final 5 places are reordered using a nearest-neighbour algorithm so the plan
 |---|---|
 | `/` | Public landing page |
 | `/home/` | Dashboard — daily plan timeline, recommended places, popular places |
-| `/events/page/` | Browse all 953 places with search, category filters, favorites, and map |
+| `/events/page/` | Browse all places with search, category filters, favorites, and interactive map |
 | `/events/page/<id>/` | Place detail with info, map link, and add-to-plan |
 | `/daily-plan/` | Daily plan — generate AI plan, add activities, export, map view |
-| `/map/` | Full-page interactive map with all places and filters |
+| `/map/` | Full-page map (Coming Soon — real map tiles visible behind blur overlay) |
 | `/onboarding/` | Set interests, budget, and language preferences |
 | `/profile/` | User profile |
 | `/settings/` | Account settings and change password |
+
+### Map Features
+
+- **Events page (`/events/page/`)** — Fully interactive Google Map with pins for all places that have coordinates. Pins show info windows with place name, location, and a link to details. Pins update automatically when filters or search change.
+- **Map page (`/map/`)** — Displays a real Google Map of Riyadh behind a blurred "Coming Soon" overlay (bilingual EN/AR). Sidebar shows a "Soon" badge next to the Map nav item.
+- **Daily plan page (`/daily-plan/`)** — Interactive map showing the day's planned places with route visualization.
+
+### Bilingual Support (EN/AR)
+
+All pages support English and Arabic with a one-click language toggle in the header. The layout switches to RTL automatically in Arabic mode.
 
 ---
 
@@ -188,7 +198,7 @@ All endpoints require `Authorization: Bearer <access_token>` unless noted.
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/api/events/` | No | List places — `?category=restaurant`, `?search=keyword` |
+| GET | `/api/events/` | No | List places (100 per page) — `?category=restaurant`, `?search=keyword` |
 | GET | `/api/events/<id>/` | No | Single place detail |
 | GET | `/api/events/filtered/` | Yes | Places matching user preferences and budget |
 | GET | `/api/events/favorites/` | Yes | User's favorited places |
@@ -203,6 +213,36 @@ All endpoints require `Authorization: Bearer <access_token>` unless noted.
 | POST | `/api/daily-plan/` | Create plan — `{"date": "YYYY-MM-DD", "events": [1,2,3]}` |
 | POST | `/api/daily-plan/generate/` | AI-generated plan — `{"date": "YYYY-MM-DD"}` |
 | GET/PUT/DELETE | `/api/daily-plan/<id>/` | Retrieve, update, or delete a plan |
+
+---
+
+## Project Structure
+
+```
+tizahab-web/
+├── accounts/          # User auth, signup, login, preferences
+├── config/            # Django settings, URLs, WSGI
+├── core/              # Shared middleware, context processors
+├── daily_plan/        # AI plan generator, daily plan CRUD
+├── data/              # Riyadh places dataset (JSON)
+├── events/            # Event/place models, serializers, views
+├── itinerary/         # Multi-day itinerary logic
+├── services/          # External service integrations
+├── specs/             # Feature specifications and task tracking
+├── static/            # CSS, JS, images
+│   ├── css/
+│   └── js/
+│       ├── api.js           # Auth-aware fetch wrapper
+│       ├── map.js           # Google Maps initialization
+│       ├── events.js        # Events page logic + map pins
+│       └── daily_plan_integration.js
+├── templates/         # Django HTML templates
+├── theme/             # Tailwind theme app
+├── manage.py
+├── requirements.txt
+├── Dockerfile
+└── docker-compose.yml
+```
 
 ---
 
