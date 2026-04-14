@@ -53,6 +53,56 @@ async function parseResponseBody(res) {
   }
 }
 
+function _flattenApiErrorParts(value) {
+  if (value == null) return [];
+  if (typeof value === "string" || typeof value === "number") {
+    const text = String(value).trim();
+    return text ? [text] : [];
+  }
+  if (Array.isArray(value)) return value.flatMap(_flattenApiErrorParts);
+  if (typeof value === "object") {
+    return Object.values(value).flatMap(_flattenApiErrorParts);
+  }
+  return [];
+}
+
+function extractApiErrorMessage(responseData, fallback = "Request failed. Please try again.") {
+  if (!responseData) return fallback;
+
+  for (const key of ["detail", "error", "message"]) {
+    const parts = _flattenApiErrorParts(responseData[key]);
+    if (parts.length) return parts.join(" ");
+  }
+
+  const nonFieldParts = _flattenApiErrorParts(responseData.non_field_errors);
+  if (nonFieldParts.length) return nonFieldParts.join(" ");
+
+  if (typeof responseData === "object" && !Array.isArray(responseData)) {
+    const fieldMessages = [];
+    for (const [field, rawValue] of Object.entries(responseData)) {
+      if (["detail", "error", "message", "non_field_errors"].includes(field)) continue;
+      const parts = _flattenApiErrorParts(rawValue);
+      if (parts.length) fieldMessages.push(`${field}: ${parts.join(" ")}`);
+    }
+    if (fieldMessages.length) return fieldMessages.join(" ");
+  }
+
+  const genericParts = _flattenApiErrorParts(responseData);
+  if (genericParts.length) return genericParts.join(" ");
+
+  return fallback;
+}
+
+async function _raiseApiError(res, fallbackPrefix = "Request failed") {
+  const body = await parseResponseBody(res);
+  const err = new Error(
+    extractApiErrorMessage(body, `${fallbackPrefix}. Please try again.`),
+  );
+  err.status = res.status;
+  err.responseData = body;
+  throw err;
+}
+
 /**
  * Attempt a silent token refresh using the stored refresh token.
  * Returns true if a new access token was obtained and stored, false otherwise.
@@ -95,7 +145,7 @@ async function apiGet(url) {
     if (res.status === 401) { _logout(); return null; }
   }
 
-  if (!res.ok) throw new Error(`API error ${res.status}`);
+  if (!res.ok) await _raiseApiError(res, "Unable to load data");
   return parseResponseBody(res);
 }
 
@@ -118,14 +168,7 @@ async function apiPost(url, data) {
     if (res.status === 401) { _logout(); return null; }
   }
 
-  if (!res.ok) {
-    let detail = `API error ${res.status}`;
-    const body = await parseResponseBody(res);
-    if (body?.detail) detail = body.detail;
-    const err = new Error(detail);
-    err.status = res.status;
-    throw err;
-  }
+  if (!res.ok) await _raiseApiError(res, "Unable to complete request");
   return parseResponseBody(res);
 }
 
@@ -147,14 +190,49 @@ async function apiPut(url, data) {
     if (res.status === 401) { _logout(); return null; }
   }
 
-  if (!res.ok) {
-    let detail = `API error ${res.status}`;
-    const body = await parseResponseBody(res);
-    if (body?.detail) detail = body.detail;
-    const err = new Error(detail);
-    err.status = res.status;
-    throw err;
+  if (!res.ok) await _raiseApiError(res, "Unable to save changes");
+  return parseResponseBody(res);
+}
+
+async function apiPatch(url, data) {
+  let res = await fetch(url, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+
+  if (res.status === 401) {
+    const refreshed = await _tryRefresh();
+    if (!refreshed) { _logout(); return null; }
+    res = await fetch(url, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (res.status === 401) { _logout(); return null; }
   }
+
+  if (!res.ok) await _raiseApiError(res, "Unable to update data");
+  return parseResponseBody(res);
+}
+
+async function apiDelete(url) {
+  let res = await fetch(url, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+
+  if (res.status === 401) {
+    const refreshed = await _tryRefresh();
+    if (!refreshed) { _logout(); return null; }
+    res = await fetch(url, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+    if (res.status === 401) { _logout(); return null; }
+  }
+
+  if (!res.ok) await _raiseApiError(res, "Unable to delete data");
   return parseResponseBody(res);
 }
 
@@ -178,6 +256,9 @@ document.addEventListener("click", function (e) {
 window.apiGet = apiGet;
 window.apiPost = apiPost;
 window.apiPut = apiPut;
+window.apiPatch = apiPatch;
+window.apiDelete = apiDelete;
+window.extractApiErrorMessage = extractApiErrorMessage;
 window.catLabel = catLabel;
 window.catEmoji = catEmoji;
 window.catColor = catColor;

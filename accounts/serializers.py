@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import UserPreferences
+from events.models import Event
 
 
 class UserPreferencesSerializer(serializers.ModelSerializer):
@@ -16,11 +17,7 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
     - budget values are non-negative
     """
 
-    VALID_INTERESTS = [
-        "restaurant", "cafe", "fast_food", "dessert", "bakery",
-        "juice", "food_truck", "shopping", "culture", "outdoor",
-        "other",
-    ]
+    VALID_INTERESTS = Event.CATEGORY_VALUES
 
     class Meta:
         model = UserPreferences
@@ -34,13 +31,13 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         ]
 
     def validate_trip_duration(self, value):
-        """Clamp trip_duration to 1-30."""
+        """Require trip_duration to stay within the supported range."""
         if value is None:
             return 1
-        if value < 1:
-            return 1
-        if value > 30:
-            return 30
+        if value < 1 or value > 30:
+            raise serializers.ValidationError(
+                "trip_duration must be between 1 and 30."
+            )
         return value
 
     def validate_interests(self, value):
@@ -48,15 +45,16 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         if not isinstance(value, list):
             raise serializers.ValidationError("Interests must be a list.")
 
+        normalized_interests = [str(i).strip().lower() for i in value if str(i).strip()]
         invalid_interests = [
-            i for i in value if str(i).lower() not in self.VALID_INTERESTS
+            i for i in normalized_interests if i not in self.VALID_INTERESTS
         ]
         if invalid_interests:
             raise serializers.ValidationError(
                 f"Invalid interests: {invalid_interests}. Valid options: {self.VALID_INTERESTS}"
             )
 
-        return value
+        return normalized_interests
 
     def validate_budget_min(self, value):
         """Validate budget_min is non-negative."""

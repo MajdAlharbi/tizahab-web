@@ -7,12 +7,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login as django_login
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.conf import settings
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import is_ratelimited
+import logging
 
 from .models import UserPreferences
 from .serializers import (
@@ -27,20 +29,32 @@ from .throttles import (
 )
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 _RESET_SALT = "tizahab-password-reset"
 _RESET_MAX_AGE = 3600  # 1 hour
 
 
-def _make_reset_token(user_pk):
+def _make_reset_token(user):
     signer = TimestampSigner(salt=_RESET_SALT)
-    return signer.sign(str(user_pk))
+    reset_token = default_token_generator.make_token(user)
+    return signer.sign(f"{user.pk}:{reset_token}")
 
 
 def _read_reset_token(token):
     """Return user_pk string or raise SignatureExpired / BadSignature."""
     signer = TimestampSigner(salt=_RESET_SALT)
-    return signer.unsign(token, max_age=_RESET_MAX_AGE)
+    unsigned = signer.unsign(token, max_age=_RESET_MAX_AGE)
+    try:
+        user_pk, reset_token = unsigned.split(":", 1)
+        user = User.objects.get(pk=user_pk)
+    except (ValueError, User.DoesNotExist):
+        raise BadSignature("Invalid reset token")
+
+    if not default_token_generator.check_token(user, reset_token):
+        raise BadSignature("Invalid or already-used reset token")
+
+    return user_pk
 
 
 def _api_rate_limited(request, rate, group):
@@ -89,20 +103,27 @@ def forgot_password_page(request):
         email = request.POST.get("email", "").strip()
         try:
             user = User.objects.get(email=email)
-            token = _make_reset_token(user.pk)
+            token = _make_reset_token(user)
             from urllib.parse import quote
 
             safe_token = quote(token, safe="")
             reset_url = request.build_absolute_uri(
                 f"/api/auth/ui/reset-password/{safe_token}/"
             )
-            send_mail(
-                subject="Reset your Tizahab password",
-                message=f"Click to reset your password: {reset_url}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[email],
-                fail_silently=True,
-            )
+            try:
+                send_mail(
+                    subject="Reset your Tizahab password",
+                    message=f"Click to reset your password: {reset_url}",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+            except Exception:
+                logger.error(
+                    "Password reset email failed for user_id=%s",
+                    user.pk,
+                    exc_info=True,
+                )
         except User.DoesNotExist:
             pass
 

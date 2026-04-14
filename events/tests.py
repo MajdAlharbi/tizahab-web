@@ -13,7 +13,7 @@ def make_user(email="ev@test.com", password="StrongPass1!"):
     return User.objects.create_user(username=email, email=email, password=password)
 
 
-def make_event(title="Test Event", category="food", price=50.00, **kwargs):
+def make_event(title="Test Event", category="restaurant", price=50.00, **kwargs):
     defaults = {
         "description": "A test event",
         "date": timezone.now(),
@@ -49,7 +49,7 @@ class EventListAPITests(TestCase):
     def setUp(self):
         self.user = make_user()
         self.client = auth_client(self.user)
-        make_event("Food Place", category="food", price=50)
+        make_event("Food Place", category="restaurant", price=50)
         make_event("Culture Spot", category="culture", price=0)
         make_event("Outdoor Park", category="outdoor", price=0)
 
@@ -62,11 +62,11 @@ class EventListAPITests(TestCase):
         self.assertGreaterEqual(len(results), 3)
 
     def test_filter_by_category(self):
-        response = self.client.get("/api/events/?category=food")
+        response = self.client.get("/api/events/?category=restaurant")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         results = response.data.get("results", response.data)
         for event in results:
-            self.assertEqual(event["category"], "food")
+            self.assertEqual(event["category"], "restaurant")
 
     def test_search_by_title(self):
         response = self.client.get("/api/events/?search=Culture")
@@ -77,6 +77,14 @@ class EventListAPITests(TestCase):
 
     def test_invalid_date_returns_400(self):
         response = self.client.get("/api/events/filtered/?date_from=baddate")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_category_returns_400(self):
+        response = self.client.get("/api/events/?category=food")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_event_list_date_returns_400(self):
+        response = self.client.get("/api/events/?date=baddate")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_events_public_no_auth_required(self):
@@ -99,13 +107,13 @@ class FilteredEventsAPITests(TestCase):
     def setUp(self):
         self.user = make_user("filt@test.com")
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["food", "culture"]
+        pref.interests = ["restaurant", "culture"]
         pref.budget_max = 100
         pref.save()
         self.client = auth_client(self.user)
 
-        make_event("Cheap Food", category="food", price=30)
-        make_event("Expensive Food", category="food", price=200)
+        make_event("Cheap Food", category="restaurant", price=30)
+        make_event("Expensive Food", category="restaurant", price=200)
         make_event("Free Culture", category="culture", price=0)
         make_event("Outdoor Park", category="outdoor", price=0)
 
@@ -125,11 +133,17 @@ class FilteredEventsAPITests(TestCase):
                 self.assertLessEqual(float(price), 100)
 
     def test_null_price_events_included_with_budget(self):
-        make_event("No Price Food", category="food", price=None)
+        make_event("No Price Food", category="restaurant", price=None)
         response = self.client.get("/api/events/filtered/")
         results = response.data.get("results", response.data)
         titles = [e["title"] for e in results]
         self.assertIn("No Price Food", titles)
+
+    def test_invalid_date_range_returns_400(self):
+        response = self.client.get(
+            "/api/events/filtered/?date_from=2026-06-16&date_to=2026-06-15"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class EventModelTests(TestCase):
@@ -152,7 +166,7 @@ class FavoritesAPITests(TestCase):
         self.user = make_user("fav@test.com")
         self.other_user = make_user("other-fav@test.com")
         self.client = auth_client(self.user)
-        self.event1 = make_event("Fav Event 1", category="food")
+        self.event1 = make_event("Fav Event 1", category="restaurant")
         self.event2 = make_event("Fav Event 2", category="culture")
 
     def test_list_favorites_returns_only_own_items(self):
@@ -211,3 +225,4 @@ class FavoritesAPITests(TestCase):
         client = APIClient()
         response = client.get("/api/events/favorites/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+

@@ -245,7 +245,7 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     return selected
 
 
-def generate_multiday_plan(user, start_date_str):
+def generate_multiday_plan(user, start_date_str, trip_duration=None):
     """Generate recommendations for N consecutive days based on trip_duration."""
     preferences = UserPreferences.objects.filter(user=user).first()
     if preferences is None:
@@ -256,7 +256,15 @@ def generate_multiday_plan(user, start_date_str):
         return None
 
     start_date = date.fromisoformat(str(start_date_str))
-    trip_duration = max(1, min(30, int(preferences.trip_duration or 1)))
+    resolved_duration = (
+        trip_duration if trip_duration is not None else preferences.trip_duration
+    )
+    try:
+        trip_duration = int(resolved_duration or 1)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("trip_duration must be an integer between 1 and 30.") from exc
+    if trip_duration < 1 or trip_duration > 30:
+        raise ValueError("trip_duration must be an integer between 1 and 30.")
 
     multiday_recommendations = []
     exclude_ids = set()

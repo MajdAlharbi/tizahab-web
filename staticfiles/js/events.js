@@ -105,20 +105,31 @@ async function removeFavorite(eventId) {
     return false;
   }
 
-  const res = await fetch(`/api/events/favorites/${eventId}/`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (res.status === 401) {
-    promptLoginForFavorites();
-    return false;
-  }
-  if (res.status !== 204 && res.status !== 404) {
-    throw new Error("Could not remove favorite.");
+  try {
+    await apiDelete(`/api/events/favorites/${eventId}/`);
+  } catch (error) {
+    if (error.status === 401) {
+      promptLoginForFavorites();
+      return false;
+    }
+    if (error.status !== 404) {
+      throw new Error("Could not remove favorite.");
+    }
   }
 
   return true;
+}
+
+function getEventsErrorMessage(err) {
+  const fromResponse =
+    typeof extractApiErrorMessage === "function"
+      ? extractApiErrorMessage(err?.responseData, "")
+      : "";
+  const fromError = typeof err?.message === "string" ? err.message.trim() : "";
+
+  if (fromResponse) return fromResponse;
+  if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+  return "Something went wrong. Please try again.";
 }
 
 async function toggleFav(id) {
@@ -351,39 +362,47 @@ function initEventsMap() {
   const map = window.TZMap.initMap("eventsMap", { zoom: 11 });
   if (!map) return;
   window.__TZ_EVENTS_MAP = map;
+
   // If events were fetched before the map finished loading, render markers now
-  if (_allEvents.length) _renderEventsMarkers(_allEvents);
+  if (_allEvents.length) resetEventsMap(_allEvents);
 }
 
-function _renderEventsMarkers(events) {
+let _mapMarkers = [];
+let _mapInfo = null;
+
+function resetEventsMap(newVisibleEvents) {
   const map = window.__TZ_EVENTS_MAP;
   if (!map || !window.google || !google.maps) return;
 
   // Clear previous markers
-  (window.__TZ_EVENTS_MARKERS || []).forEach((m) => m.setMap(null));
-  window.__TZ_EVENTS_MARKERS = [];
+  _mapMarkers.forEach(m => m.setMap(null));
+  _mapMarkers.length = 0;
+
+  if (!_mapInfo) {
+    _mapInfo = new google.maps.InfoWindow();
+  }
 
   const bounds = new google.maps.LatLngBounds();
-  const info = new google.maps.InfoWindow();
   let hasPoints = false;
 
-  events.forEach((ev) => {
+  newVisibleEvents.forEach(ev => {
     const lat = Number.parseFloat(ev.latitude);
     const lng = Number.parseFloat(ev.longitude);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
     const pos = { lat, lng };
     const marker = new google.maps.Marker({ position: pos, map });
-    window.__TZ_EVENTS_MARKERS.push(marker);
+    _mapMarkers.push(marker);
     bounds.extend(pos);
     hasPoints = true;
 
     marker.addListener("click", () => {
-      info.setContent(
+      _mapInfo.setContent(
         `<div style="font-weight:600;margin-bottom:4px">${escapeHtml(ev.title)}</div>` +
           `<div style="font-size:12px;opacity:.8;margin-bottom:4px">${escapeHtml(ev.location || "Riyadh")}</div>` +
           `<a href="/events/page/${ev.id}/" style="font-size:12px;color:#7E1CA1">View Details →</a>`,
       );
-      info.open({ anchor: marker, map });
+      _mapInfo.open({ anchor: marker, map });
     });
   });
 
@@ -438,7 +457,7 @@ async function loadEvents() {
   }
 
   // Update map markers if the map is already initialised
-  if (window.__TZ_EVENTS_MAP) _renderEventsMarkers(_allEvents);
+  if (window.__TZ_EVENTS_MAP) resetEventsMap(_allEvents);
 
   if (countText) {
     countText.textContent = _totalCount > _allEvents.length
@@ -753,8 +772,7 @@ function wireGetTickets(eventId) {
     } catch (err) {
       btn.disabled = false;
       btn.textContent = "Get Tickets";
-      msg.textContent =
-        err.message || "Something went wrong. Please try again.";
+      msg.textContent = getEventsErrorMessage(err);
       msg.classList.add("text-red-500");
     }
   });

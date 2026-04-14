@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
@@ -20,6 +20,8 @@ from .models import Event, Favorite
 from .serializers import EventSerializer, FavoriteSerializer
 from daily_plan.models import DailyPlan
 
+VALID_EVENT_CATEGORIES = set(Event.CATEGORY_VALUES)
+
 def events_list_page(request):
     return render(request, "events_list.html")
 
@@ -33,9 +35,36 @@ def _parse_date(value):
     if not value:
         return None
     try:
-        return datetime.fromisoformat(value).date()
+        return date.fromisoformat(str(value))
     except (ValueError, TypeError):
         return None
+
+
+def _parse_required_query_date(value, field_name):
+    parsed = _parse_date(value)
+    if parsed is None:
+        raise ValidationError(
+            {"detail": f"Invalid {field_name} format. Use YYYY-MM-DD."}
+        )
+    return parsed
+
+
+def _validate_category(value):
+    if value is None:
+        return None
+    normalized = str(value).strip().lower()
+    if not normalized:
+        return None
+    if normalized not in VALID_EVENT_CATEGORIES:
+        raise ValidationError(
+            {
+                "detail": (
+                    "Invalid category. "
+                    f"Valid options: {sorted(VALID_EVENT_CATEGORIES)}"
+                )
+            }
+        )
+    return normalized
 
 
 def _apply_date_range_filter(queryset, date_from, date_to):
@@ -89,15 +118,21 @@ class FilteredEventsAPIView(ListAPIView):
         date_from_raw = self.request.query_params.get("date_from")
         date_to_raw = self.request.query_params.get("date_to")
 
-        if date_from_raw and _parse_date(date_from_raw) is None:
+        date_from = (
+            _parse_required_query_date(date_from_raw, "date_from")
+            if date_from_raw
+            else None
+        )
+        date_to = (
+            _parse_required_query_date(date_to_raw, "date_to")
+            if date_to_raw
+            else None
+        )
+        if date_from and date_to and date_from > date_to:
             raise ValidationError(
-                {"detail": "Invalid date_from format. Use YYYY-MM-DD."}
+                {"detail": "date_from cannot be later than date_to."}
             )
-        if date_to_raw and _parse_date(date_to_raw) is None:
-            raise ValidationError({"detail": "Invalid date_to format. Use YYYY-MM-DD."})
 
-        date_from = _parse_date(date_from_raw)
-        date_to = _parse_date(date_to_raw)
         queryset = _apply_date_range_filter(queryset, date_from, date_to)
 
         if prefs and prefs.budget_max is not None:
@@ -124,7 +159,7 @@ class EventListAPIView(ListAPIView):
     def get_queryset(self):
         queryset = Event.objects.all()
 
-        category = self.request.query_params.get("category")
+        category = _validate_category(self.request.query_params.get("category"))
         date_raw = self.request.query_params.get("date")
         search = self.request.query_params.get("search", "").strip()
 
@@ -132,9 +167,8 @@ class EventListAPIView(ListAPIView):
             queryset = queryset.filter(category=category)
 
         if date_raw:
-            parsed_date = _parse_date(date_raw)
-            if parsed_date:
-                queryset = _apply_date_range_filter(queryset, parsed_date, parsed_date)
+            parsed_date = _parse_required_query_date(date_raw, "date")
+            queryset = _apply_date_range_filter(queryset, parsed_date, parsed_date)
 
         if search:
             queryset = queryset.filter(
@@ -250,7 +284,7 @@ class AdminEventListCreateAPIView(ListCreateAPIView):
         queryset = Event.objects.all().order_by("-id")
 
         search = self.request.query_params.get("search", "").strip()
-        category = self.request.query_params.get("category", "").strip()
+        category = _validate_category(self.request.query_params.get("category"))
 
         if search:
             queryset = queryset.filter(

@@ -15,6 +15,42 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def _parse_iso_date(value, field_name):
+    try:
+        return date.fromisoformat(str(value))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Invalid {field_name} format. Expected YYYY-MM-DD") from exc
+
+
+def _parse_trip_duration(raw_value):
+    if raw_value is None or raw_value == "":
+        return None
+    try:
+        trip_duration = int(raw_value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("trip_duration must be an integer between 1 and 30.") from exc
+    if trip_duration < 1 or trip_duration > 30:
+        raise ValueError("trip_duration must be an integer between 1 and 30.")
+    return trip_duration
+
+
+def _parse_exclude_plan_dates(raw_value):
+    if raw_value is None:
+        return []
+    if not isinstance(raw_value, list):
+        raise ValueError("exclude_plan_dates must be a list of YYYY-MM-DD dates.")
+
+    parsed_dates = []
+    for day_str in raw_value:
+        try:
+            parsed_dates.append(_parse_iso_date(day_str, "exclude_plan_dates"))
+        except ValueError as exc:
+            raise ValueError(
+                "exclude_plan_dates must only contain YYYY-MM-DD dates."
+            ) from exc
+    return parsed_dates
+
+
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = DailyPlanSerializer
     permission_classes = [IsAuthenticated]
@@ -66,35 +102,28 @@ class GenerateDailyPlanAPIView(APIView):
             )
 
         try:
-            plan_date = date.fromisoformat(date_str)
+            plan_date = _parse_iso_date(date_str, "date")
             if plan_date < date.today():
                 return Response(
                     {"detail": "Cannot create plans for past dates."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        except ValueError:
+            valid_exclude_dates = _parse_exclude_plan_dates(exclude_plan_dates)
+        except ValueError as exc:
             logger.warning("Invalid date format from user %s: %s", user.id, date_str)
             return Response(
-                {"detail": "Invalid date format. Expected YYYY-MM-DD"},
+                {"detail": str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         exclude_ids = set()
-        if isinstance(exclude_plan_dates, list) and exclude_plan_dates:
-            valid_exclude_dates = []
-            for day_str in exclude_plan_dates:
-                try:
-                    valid_exclude_dates.append(date.fromisoformat(str(day_str)))
-                except (TypeError, ValueError):
-                    continue
-
-            if valid_exclude_dates:
-                sibling_plans = DailyPlan.objects.filter(
-                    user=user,
-                    date__in=valid_exclude_dates,
-                ).prefetch_related("events")
-                for plan in sibling_plans:
-                    exclude_ids.update(plan.events.values_list("id", flat=True))
+        if valid_exclude_dates:
+            sibling_plans = DailyPlan.objects.filter(
+                user=user,
+                date__in=valid_exclude_dates,
+            ).prefetch_related("events")
+            for plan in sibling_plans:
+                exclude_ids.update(plan.events.values_list("id", flat=True))
 
         try:
             recommended_events = generate_recommendations(
@@ -167,6 +196,7 @@ class GenerateMultiDayPlanAPIView(APIView):
     def post(self, request):
         user = request.user
         start_date_str = request.data.get("start_date")
+        trip_duration = request.data.get("trip_duration")
 
         if not start_date_str:
             return Response(
@@ -175,23 +205,36 @@ class GenerateMultiDayPlanAPIView(APIView):
             )
 
         try:
-            start_date = date.fromisoformat(start_date_str)
+            start_date = _parse_iso_date(start_date_str, "start_date")
+            trip_duration = _parse_trip_duration(trip_duration)
             if start_date < date.today():
                 return Response(
                     {"detail": "Cannot create plans for past dates."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        except ValueError:
+        except ValueError as exc:
             logger.warning(
-                "Invalid start_date format from user %s: %s", user.id, start_date_str
+                "Invalid multi-day input from user %s: start_date=%s trip_duration=%s",
+                user.id,
+                start_date_str,
+                request.data.get("trip_duration"),
             )
             return Response(
-                {"detail": "Invalid date format. Expected YYYY-MM-DD"},
+                {"detail": str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            generated_days = generate_multiday_plan(user, start_date_str)
+            generated_days = generate_multiday_plan(
+                user,
+                start_date_str,
+                trip_duration=trip_duration,
+            )
+        except ValueError as exc:
+            return Response(
+                {"detail": str(exc)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except Exception as e:
             logger.error(
                 "Unexpected error generating multi-day plan for user %s: %s",
@@ -220,8 +263,15 @@ class GenerateMultiDayPlanAPIView(APIView):
             )
 
         try:
+            generated_dates = [
+                date.fromisoformat(day_date_str) for day_date_str, _ in generated_days
+            ]
+
             with transaction.atomic():
-                existing_qs = DailyPlan.objects.filter(user=user, date__gte=start_date)
+                existing_qs = DailyPlan.objects.filter(
+                    user=user,
+                    date__in=generated_dates,
+                )
                 had_existing = existing_qs.exists()
                 existing_qs.delete()
 

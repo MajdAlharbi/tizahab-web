@@ -18,7 +18,7 @@ Tizahab{% endblock %} {% block content %}
           <span class="nav-label-ar hidden">جار التحميل…</span>
         </h1>
         <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">
-          <span class="nav-label-en">📍 Riyadh, Saudi Arabia</span>
+          <span class="nav-label-en">Loading profile…</span>
           <span class="nav-label-ar hidden">📍 الرياض، المملكة العربية السعودية</span>
         </p>
 
@@ -27,7 +27,7 @@ Tizahab{% endblock %} {% block content %}
           <div>
             <p id="statPlans" class="text-xl font-bold text-brand">—</p>
             <p class="text-xs text-gray-500">
-              <span class="nav-label-en">Past Plans</span>
+              <span class="nav-label-en">Plans</span>
               <span class="nav-label-ar hidden">الخطط السابقة</span>
             </p>
           </div>
@@ -50,7 +50,7 @@ Tizahab{% endblock %} {% block content %}
 
       <!-- Edit button -->
       <a
-        href="/api/auth/ui/preferences/"
+        href="/onboarding/"
         class="shrink-0 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-[#faf5ff] transition">
         <span class="nav-label-en">Edit Preferences</span>
         <span class="nav-label-ar hidden">تعديل التفضيلات</span>
@@ -72,11 +72,11 @@ Tizahab{% endblock %} {% block content %}
     </div>
   </section>
 
-  <!-- Past Plans -->
+  <!-- Your Plans -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold text-gray-800">
-        <span class="nav-label-en">Past Plans</span>
+        <span class="nav-label-en">Plans</span>
         <span class="nav-label-ar hidden">الخطط السابقة</span>
       </h2>
       <a href="/daily-plan/" class="text-sm text-brand hover:underline">
@@ -153,9 +153,6 @@ Tizahab{% endblock %} {% block content %}
     other: "bg-gray-100 text-gray-700",
   };
 
-  function getToken() {
-    return localStorage.getItem("access");
-  }
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -170,21 +167,13 @@ Tizahab{% endblock %} {% block content %}
 
   /* ---- Load current user (name, email) ---- */
   async function loadMe() {
-    const token = getToken();
-    if (!token) {
+    if (!isLoggedIn()) {
       redirectToLogin();
       return;
     }
     try {
-      const res = await fetch("/api/auth/me/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 401) {
-        redirectToLogin();
-        return;
-      }
-      if (!res.ok) return;
-      const data = await res.json();
+      const data = await apiGet("/api/auth/me/");
+      if (!data) return;
 
       // Derive a display name from the email (part before @)
       const displayName =
@@ -212,27 +201,19 @@ Tizahab{% endblock %} {% block content %}
 
   /* ---- Load Preferences ---- */
   async function loadPrefs() {
-    const token = getToken();
-    if (!token) {
+    if (!isLoggedIn()) {
       redirectToLogin();
       return;
     }
     try {
-      const res = await fetch("/api/auth/preferences/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 401) {
-        redirectToLogin();
-        return;
-      }
-      if (!res.ok) return;
-      const data = await res.json();
+      const data = await apiGet("/api/auth/preferences/");
+      if (!data) return;
 
       const chips = document.getElementById("prefChips");
       const interests = Array.isArray(data.interests) ? data.interests : [];
       if (!interests.length) {
         chips.innerHTML =
-          '<span class="text-sm text-gray-400">No preferences set. <a href="/api/auth/ui/preferences/" class="text-brand underline">Set them now →</a></span>';
+          '<span class="text-sm text-gray-400">No preferences set. <a href="/onboarding/" class="text-brand underline">Set them now →</a></span>';
         return;
       }
       chips.innerHTML = "";
@@ -289,15 +270,10 @@ Tizahab{% endblock %} {% block content %}
   }
 
   async function loadPlans() {
-    const token = getToken();
-    if (!token) { redirectToLogin(); return; }
+    if (!isLoggedIn()) { redirectToLogin(); return; }
     try {
-      const res = await fetch("/api/daily-plan/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 401) { redirectToLogin(); return; }
-      if (!res.ok) return;
-      const data = await res.json();
+      const data = await apiGet("/api/daily-plan/");
+      if (!data) return;
       _allPlans = Array.isArray(data) ? data : data.results || [];
 
       const stat = document.getElementById("statPlans");
@@ -372,20 +348,14 @@ Tizahab{% endblock %} {% block content %}
   }
 
   async function loadFavs() {
-    const token = getToken();
-    if (!token) { redirectToLogin(); return; }
+    if (!isLoggedIn()) { redirectToLogin(); return; }
 
     const stat = document.getElementById("statFavs");
     const grid = document.getElementById("favsGrid");
 
     try {
-      const res = await fetch("/api/events/favorites/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 401) { redirectToLogin(); return; }
-      if (!res.ok) { if (stat) stat.textContent = "0"; return; }
-
-      const rows = await res.json();
+      const rows = await apiGet("/api/events/favorites/");
+      if (!rows) { if (stat) stat.textContent = "0"; return; }
       _allFavs = Array.isArray(rows) ? rows : [];
       if (stat) stat.textContent = _allFavs.length;
 
@@ -413,7 +383,7 @@ Tizahab{% endblock %} {% block content %}
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    if (!getToken()) {
+    if (!isLoggedIn()) {
       redirectToLogin();
       return;
     }
@@ -429,3 +399,4 @@ Tizahab{% endblock %} {% block content %}
   });
 </script>
 {% endblock %}
+

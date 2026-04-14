@@ -300,7 +300,7 @@
     </div>
     <div class="p-4 space-y-3">
       <a
-        href="/api/auth/ui/preferences/"
+        href="/onboarding/"
         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
         <span class="text-lg">✏️</span>
         <span class="nav-label-en">Edit Preferences</span>
@@ -397,10 +397,6 @@
     "toggleNewsletter",
   ];
 
-  function getToken() {
-    return localStorage.getItem("access");
-  }
-
   function parseApiError(payload) {
     if (!payload) return "Failed to save settings.";
     if (typeof payload.detail === "string") return payload.detail;
@@ -412,25 +408,28 @@
     return "Failed to save settings.";
   }
 
+  function getSettingsErrorMessage(error, fallback = "Something went wrong. Please try again.") {
+    const fromResponse =
+      typeof extractApiErrorMessage === "function"
+        ? extractApiErrorMessage(error?.responseData, "")
+        : "";
+    const fromError =
+      typeof error?.message === "string" ? error.message.trim() : "";
+
+    if (fromResponse) return fromResponse;
+    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+    return fallback;
+  }
+
   async function loadBackendPreferences() {
-    const token = getToken();
-    if (!token) {
+    if (!isLoggedIn()) {
       window.location.href = "/login/";
       return;
     }
 
     try {
-      const res = await fetch("/api/auth/preferences/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (res.status === 401) {
-        window.location.href = "/login/";
-        return;
-      }
-      if (!res.ok) return;
-
-      const data = await res.json();
+      const data = await apiGet("/api/auth/preferences/");
+      if (!data) return;
 
       const lang = data.preferred_language || "en";
       const langRadio = document.querySelector(
@@ -453,8 +452,7 @@
   }
 
   async function saveBackendPreferences() {
-    const token = getToken();
-    if (!token) {
+    if (!isLoggedIn()) {
       window.location.href = "/login/";
       return { ok: false, message: "Please log in again." };
     }
@@ -494,33 +492,13 @@
     };
 
     try {
-      const res = await fetch("/api/auth/preferences/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.status === 401) {
-        window.location.href = "/login/";
-        return { ok: false, message: "Please log in again." };
-      }
-
-      if (!res.ok) {
-        let payloadError = null;
-        try {
-          payloadError = await res.json();
-        } catch {
-          payloadError = null;
-        }
-        return { ok: false, message: parseApiError(payloadError) };
-      }
-
+      await apiPut("/api/auth/preferences/", payload);
       return { ok: true };
-    } catch {
-      return { ok: false, message: "Network error. Please try again." };
+    } catch (error) {
+      return {
+        ok: false,
+        message: getSettingsErrorMessage(error, "Failed to save settings."),
+      };
     }
   }
 
@@ -640,49 +618,30 @@
         return;
       }
 
-      const token = localStorage.getItem("access");
-      if (!token) {
+      if (!isLoggedIn()) {
         window.location.href = "/login/";
         return;
       }
 
       try {
-        const res = await fetch("/api/auth/change-password/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            current_password: currentPwd,
-            new_password: newPwd,
-          }),
+        await apiPost("/api/auth/change-password/", {
+          current_password: currentPwd,
+          new_password: newPwd,
         });
-
-        if (res.status === 401) {
-          window.location.href = "/login/";
-          return;
-        }
-
-        const body = await res.json();
-        if (!res.ok) {
-          errEl.textContent = body.detail || "Failed to update password.";
-          errEl.classList.remove("hidden");
-        } else {
-          successEl.classList.remove("hidden");
-          document.getElementById("currentPwd").value = "";
-          document.getElementById("newPwd").value = "";
-          document.getElementById("confirmPwd").value = "";
-          setTimeout(
-            () => document.getElementById("pwdForm").classList.add("hidden"),
-            2000,
-          );
-        }
-      } catch {
-        errEl.textContent = "Network error. Please try again.";
+        successEl.classList.remove("hidden");
+        document.getElementById("currentPwd").value = "";
+        document.getElementById("newPwd").value = "";
+        document.getElementById("confirmPwd").value = "";
+        setTimeout(
+          () => document.getElementById("pwdForm").classList.add("hidden"),
+          2000,
+        );
+      } catch (error) {
+        errEl.textContent = getSettingsErrorMessage(error);
         errEl.classList.remove("hidden");
       }
     });
   });
 </script>
 {% endblock %}
+

@@ -20,6 +20,7 @@ class Event(models.Model):
         ("shopping", "Shopping"),
         ("other", "Other"),
     ]
+    CATEGORY_VALUES = [value for value, _ in CATEGORY_CHOICES]
 
     title = models.CharField(max_length=255, db_index=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, db_index=True)

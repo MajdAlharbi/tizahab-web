@@ -4785,3 +4785,137 @@ Traceback (most recent call last):
     raise RuntimeError("forced failure")
 RuntimeError: forced failure
 ERROR 2026-04-13 19:20:23 log 29328 26876 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 09:56:49 views 21188 4352 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 09:56:50 log 21188 4352 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 10:18:35 views 19304 22504 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 624, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:18:35 log 19304 22504 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 10:20:35 views 24440 17164 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 624, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:20:35 log 24440 17164 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 10:27:32 views 21280 24804 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 650, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:27:32 log 21280 24804 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 10:35:50 views 21264 3952 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 650, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:35:50 log 21264 3952 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 10:46:42 log 24144 204 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-04-14 10:46:42 log 24144 204 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-04-14 12:25:30 views 24564 13472 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 281, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 697, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 12:25:30 log 24564 13472 Internal Server Error: /api/daily-plan/generate-multiday/
+ERROR 2026-04-14 12:28:06 views 4224 25552 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 281, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 697, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 12:28:06 log 4224 25552 Internal Server Error: /api/daily-plan/generate-multiday/

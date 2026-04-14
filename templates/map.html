@@ -63,56 +63,12 @@
         <span class="nav-label-ar hidden">اكتشف الأماكن في الرياض</span>
       </p>
     </div>
-    <span class="text-sm text-gray-400">0</span>
+    
   </div>
-
-  <div class="flex flex-wrap items-center gap-3 shrink-0">
-    <div class="flex gap-2 flex-wrap">
-      <button class="h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-xs font-medium">
-        <span class="nav-label-en">All</span>
-        <span class="nav-label-ar hidden">الكل</span>
-      </button>
-      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
-        🍽️ <span class="nav-label-en">Restaurants</span><span class="nav-label-ar hidden">مطاعم</span>
-      </button>
-      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
-        ☕ <span class="nav-label-en">Cafes</span><span class="nav-label-ar hidden">مقاهي</span>
-      </button>
-      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
-        🛍️ <span class="nav-label-en">Shopping</span><span class="nav-label-ar hidden">تسوق</span>
-      </button>
-      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
-        🏛️ <span class="nav-label-en">Culture</span><span class="nav-label-ar hidden">ثقافة</span>
-      </button>
-      <button class="h-9 px-4 rounded-full border bg-white text-gray-700 text-xs font-medium">
-        🌿 <span class="nav-label-en">Outdoor</span><span class="nav-label-ar hidden">خارجي</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="flex-1 rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative"
+<div class="flex-1 rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative"
     style="min-height: 420px;">
-
-    <!-- Real Google Map rendered behind the overlay -->
-    <div id="mapPageMap" class="w-full h-full" style="min-height: 420px;"></div>
-
-    <!-- Blur overlay -->
-    <div class="absolute inset-0 backdrop-blur-sm bg-white/50 flex flex-col items-center justify-center gap-4 z-10 text-center px-4">
-      <div class="text-4xl mb-2">🗺️</div>
-      <h2 class="text-xl lg:text-2xl font-bold text-gray-900">
-        <span class="nav-label-en">Interactive Map — Coming Soon!</span>
-        <span class="nav-label-ar hidden">خريطة تفاعلية — قريباً!</span>
-      </h2>
-      <p class="text-gray-500 max-w-sm mb-2">
-        <span class="nav-label-en">We're working to bring you a fully interactive map of Riyadh's best spots. Stay tuned!</span>
-        <span class="nav-label-ar hidden">نعمل على خريطة تفاعلية لمساعدتك في اكتشاف أفضل الأماكن في الرياض. ترقبوا المزيد!</span>
-      </p>
-      <a href="/daily-plan/" class="inline-flex items-center gap-2 h-10 px-5 rounded-xl bg-brand text-white font-medium hover:bg-brand-dark transition-colors shadow-sm">
-        <span class="nav-label-en">Plan Your Trip Instead →</span>
-        <span class="nav-label-ar hidden">← خطط لرحلتك بدلاً من ذلك</span>
-      </a>
-    </div>
-  </div>
+<div id="mapPageMap" class="w-full h-full" style="min-height: 420px;"></div>
+</div>
 
 </div>
 {% endblock %}
@@ -130,3 +86,4 @@
   async
   defer></script>
 {% endblock %}
+
