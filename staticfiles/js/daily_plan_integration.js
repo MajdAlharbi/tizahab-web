@@ -3,6 +3,7 @@ console.log("Daily Plan JS Loaded");
 let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
+const SELECTED_PLAN_DATE_STORAGE_KEY = "tz_selected_plan_date";
 
 /** Format a Date as YYYY-MM-DD in the local timezone (not UTC). */
 function _localDateStr(d) {
@@ -12,7 +13,23 @@ function _localDateStr(d) {
   return `${y}-${m}-${day}`;
 }
 
-let selectedDate = _localDateStr(new Date());
+let selectedDate =
+  localStorage.getItem(SELECTED_PLAN_DATE_STORAGE_KEY) ||
+  _localDateStr(new Date());
+
+function setSelectedPlanDate(dateStr) {
+  selectedDate = dateStr || _localDateStr(new Date());
+  localStorage.setItem(SELECTED_PLAN_DATE_STORAGE_KEY, selectedDate);
+  return selectedDate;
+}
+
+function getSelectedPlanDate() {
+  const indexedDate =
+    typeof multiDayDates !== "undefined"
+      ? multiDayDates?.[currentDayIndex]
+      : _localDateStr(getPlanDateForIndex(currentDayIndex));
+  return selectedDate || indexedDate || _localDateStr(new Date());
+}
 
 function getDailyPlanErrorMessage(error, fallback = "Something went wrong. Please try again.") {
   const fromResponse =
@@ -105,7 +122,7 @@ async function generateAllDays(generateBtn) {
     _currentPlan = firstPlan;
 
     currentDayIndex = 0;
-    selectedDate = _localDateStr(today);
+    setSelectedPlanDate(_localDateStr(today));
 
     renderDaysBar();
     renderPlanForDay(0);
@@ -142,7 +159,7 @@ async function requestPlanForSelectedDate(generateBtn) {
       : [];
     multiDayPlans[currentDayIndex] = sortEventsByProximity(events);
     _currentPlan = data || _currentPlan;
-    selectedDate = targetDate;
+    setSelectedPlanDate(targetDate);
 
     renderDaysBar();
     renderPlanForDay(currentDayIndex);
@@ -432,7 +449,7 @@ function renderDaysBar() {
 
     button.addEventListener("click", () => {
       currentDayIndex = index;
-      selectedDate = _localDateStr(date);
+      setSelectedPlanDate(_localDateStr(date));
       renderDaysBar();
       renderPlanForDay(index);
     });
@@ -466,7 +483,7 @@ function renderPlanForDay(index) {
 
 function applyMultiDayPlan(plan, preferences) {
   const events = Array.isArray(plan?.events) ? plan.events : [];
-  selectedDate = plan?.date || selectedDate;
+  setSelectedPlanDate(plan?.date || selectedDate);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const selected = new Date(`${selectedDate}T00:00:00`);
@@ -683,7 +700,7 @@ async function loadCurrentPlan() {
     }
 
     currentDayIndex = 0;
-    selectedDate = _localDateStr(today);
+    setSelectedPlanDate(_localDateStr(today));
     renderDaysBar();
     renderPlanForDay(0);
   } catch {
@@ -796,8 +813,7 @@ async function searchActivities(query) {
 }
 
 async function addEventToPlan(eventId) {
-  const targetDate =
-    multiDayDates[currentDayIndex] || selectedDate || _localDateStr(new Date());
+  const targetDate = getSelectedPlanDate();
 
   let targetPlan =
     _currentPlan && _currentPlan.date === targetDate ? _currentPlan : null;

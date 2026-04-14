@@ -1,261 +1,224 @@
-# Tizahab — Smart Tourism Planner for Riyadh
+# Tizahab
 
-A Django web platform that helps users discover 953 real places in Riyadh (restaurants, cafes, parks, museums, malls) and generate personalized daily itineraries based on their interests and budget.
+Tizahab is a Django web application for browsing places in Riyadh, storing user preferences, and generating daily plans from the existing events dataset. The current implementation combines a Django REST Framework API, Tailwind-based templates, and vanilla JavaScript pages that consume the API directly.
 
-Developed as a graduation project at Princess Nourah bint Abdulrahman University (PNU), aligned with Saudi Vision 2030 tourism goals.
+## Current Scope
 
----
+Implemented functionality in the current codebase:
+
+- JWT-based signup and login
+- User preferences for categories, budget range, language, minimum rating, and trip duration
+- Public event browsing with category, date, and text search filters
+- Preference-based filtered event browsing for authenticated users
+- Daily plan generation for a single day
+- Multi-day plan generation across consecutive days
+- Google Maps integration on the events page, daily plan page, and map page
+- Favorites, profile, settings, password change, and password reset flows
+- Staff-only admin panel access based on `is_staff`
+
+## Category Values
+
+The backend currently accepts only these category values:
+
+- `restaurant`
+- `cafe`
+- `fast_food`
+- `dessert`
+- `bakery`
+- `juice`
+- `food_truck`
+- `culture`
+- `outdoor`
+- `shopping`
+- `other`
+
+`food` is not a valid category in the current implementation.
+
+## Recommendation Logic
+
+Daily-plan generation is rule-based. It does not use AI or machine learning.
+
+Current behavior in `daily_plan/services.py`:
+
+- Starts from the user's saved preference categories
+- Applies budget filtering and still keeps events whose `price` is `null`
+- Scores candidates using budget fit and a penalty for places already used in the previous 7 days
+- Selects one event per interest category first to improve diversity
+- Fills the remaining slots from the remaining candidates
+- Returns at most 5 events for a single day
+- Reorders the selected events into a route-like sequence using nearest-neighbor distance logic
+
+Multi-day generation calls the same recommendation logic once per day and excludes items already used earlier in the same generated trip.
+
+## Authentication
+
+The API uses JWT via SimpleJWT:
+
+- Access token lifetime: 15 minutes
+- Refresh token lifetime: 7 days
+
+Frontend behavior:
+
+- Shared requests go through `static/js/api.js`
+- Requests attach `Authorization: Bearer <access_token>` when a token exists
+- On `401`, the frontend attempts `POST /api/auth/token/refresh/`
+- If refresh succeeds, the original request is retried automatically
+- If refresh fails, stored tokens are cleared and the user is redirected to `/login/`
+
+Admin access:
+
+- Backend admin API access is controlled by DRF `IsAdminUser`
+- The admin page route uses `user.is_staff`
+- Frontend login checks admin capability by calling the admin users API
+- Admin access is not based on email address
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend | Python 3.12, Django 6.0, Django REST Framework 3.16 |
-| Authentication | SimpleJWT (15-min access / 7-day refresh tokens) |
-| Database (dev) | SQLite |
-| Database (prod) | PostgreSQL 15 |
-| Frontend | TailwindCSS + Vanilla JavaScript (ES6) |
+| Layer | Current implementation |
+| --- | --- |
+| Backend | Django 6.0, Django REST Framework 3.16.1 |
+| Auth | `djangorestframework-simplejwt` |
+| Database | SQLite via `DATABASE_URL` in development, PostgreSQL in Docker and production-style deployments |
+| Frontend | Django templates, Tailwind CSS, vanilla JavaScript |
+| Static serving | WhiteNoise |
 | Maps | Google Maps JavaScript API |
-| Containerization | Docker Compose |
+| Containers | Docker, Docker Compose, Nginx |
 
----
-
-## Local Development Setup
+## Local Setup
 
 ### Prerequisites
 
 - Python 3.12+
+- Node.js and npm
 - Git
 
-### Steps
+### 1. Create and activate a virtual environment
 
 ```bash
-# 1. Clone the repository
-git clone <repository-url>
-cd tizahab-web
-
-# 2. Create and activate virtual environment
 python -m venv .venv
-
-# Windows:
-.venv\Scripts\activate
-
-# macOS / Linux:
-source .venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Configure environment variables
-cp .env.example .env
 ```
 
-Open `.env` and set these values:
-
-| Variable | How to get it |
-|---|---|
-| `DJANGO_SECRET_KEY` | Run: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
-| `GOOGLE_MAPS_API_KEY` | From [Google Cloud Console](https://console.cloud.google.com/apis/credentials) — enable "Maps JavaScript API" |
-| `GOOGLE_PLACES_API_KEY` | Same console — used for map embeds on all pages |
+Windows:
 
 ```bash
-# 5. Run database migrations
+.venv\Scripts\activate
+```
+
+macOS / Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure environment variables
+
+Copy `.env.example` to `.env` and update the placeholders.
+
+Required values documented for the current setup:
+
+| Variable | Notes |
+| --- | --- |
+| `DJANGO_SECRET_KEY` | Required by Django at startup |
+| `DJANGO_DEBUG` | Actual runtime flag read by `config/settings.py` |
+| `DEBUG` | Included in `.env.example` as a convenience alias for documentation; the app reads `DJANGO_DEBUG` |
+| `DATABASE_URL` | Use SQLite for development or PostgreSQL for containerized deployment |
+| `GOOGLE_MAPS_API_KEY` | Used by the map-enabled pages |
+| `EMAIL_HOST_USER` | SMTP username for password reset emails when using SMTP |
+| `EMAIL_HOST_PASSWORD` | SMTP password or app password |
+
+Example development value for `DATABASE_URL`:
+
+```env
+DATABASE_URL=sqlite:///db.sqlite3
+```
+
+### 4. Run migrations
+
+```bash
 python manage.py migrate
+```
 
-# 6. Import the 953 Riyadh places dataset (run once after migrate)
+### 5. Build Tailwind assets
+
+If you are changing frontend styles, install the theme dependencies and build Tailwind:
+
+```bash
+python manage.py tailwind install
+python manage.py tailwind build
+```
+
+### 6. Load the seed dataset
+
+```bash
 python manage.py load_data
+```
 
-# 7. Create an admin account
-python manage.py createsuperuser
+### 7. Start the development server
 
-# 8. Start the development server
+```bash
 python manage.py runserver
 ```
 
-Visit **http://127.0.0.1:8000**
+Application URL: `http://127.0.0.1:8000`
 
-Admin panel: **http://127.0.0.1:8000/admin/** (log in with the superuser you created)
+## API Summary
 
-### Re-importing data
+Primary API routes in the current implementation:
+
+- `POST /api/auth/signup/`
+- `POST /api/auth/login/`
+- `POST /api/auth/token/refresh/`
+- `GET|POST|PUT /api/auth/preferences/`
+- `GET /api/events/`
+- `GET /api/events/filtered/`
+- `GET|POST /api/daily-plan/`
+- `POST /api/daily-plan/generate/`
+- `POST /api/daily-plan/generate-multiday/`
+
+Detailed request and response examples are in `API_DOCUMENTATION.md`.
+
+## Validation Behavior
+
+The backend does not silently fall back on invalid input. Current validation behavior includes:
+
+- Invalid category values return `400`
+- Invalid date values return `400`
+- Invalid `trip_duration` values return `400`
+- Preference validation errors return `400`
+
+The API returns descriptive validation messages in the response body.
+
+## Deployment
+
+The repository includes a Docker Compose stack with:
+
+- Django application container
+- PostgreSQL container
+- Redis container
+- Nginx reverse proxy on port `80`
+
+Current deployment mode in the provided Compose setup is HTTP-only and suitable for internal testing. HTTPS termination is not implemented in `docker-compose.yml` or `nginx.conf`.
+
+See `DEPLOYMENT.md` for the current container setup.
+
+## Testing
+
+Run the Django test suite:
 
 ```bash
-# Wipe existing events and re-import from scratch
-python manage.py load_data --clear
+python manage.py test
 ```
 
----
-
-## Running Tests
+You can also run app-specific tests:
 
 ```bash
-# All tests (88 tests expected)
-python manage.py test
-
-# Specific app
+python manage.py test accounts.tests
 python manage.py test events.tests
 python manage.py test daily_plan.tests
-python manage.py test accounts.tests
-
-# With coverage
-pytest --cov=accounts --cov=events --cov=daily_plan --cov=core --cov-report=term-missing
 ```
-
----
-
-## Docker (Production)
-
-```bash
-docker compose up --build
-```
-
-The entrypoint automatically runs `migrate`, `collectstatic`, and `load_data` (if events table is empty) before starting Gunicorn.
-
-Visit **http://localhost**
-
-For production, set `DJANGO_SETTINGS_MODULE=config.settings_production` and provide `DATABASE_URL` and `REDIS_URL` in `.env`.
-
----
-
-## How the AI Plan Generator Works
-
-When you click **Generate AI Plan** on the daily plan page, the engine builds a personalized 5-place itinerary based on your preferences set in `/onboarding/`.
-
-### Inputs
-
-- **Interests** — your selected categories (restaurant, cafe, outdoor, culture, shopping, etc.)
-- **Budget** — your min/max price range in SAR
-
-### Algorithm (3 phases)
-
-**Phase 1 — Category diversity:**
-Picks the highest-scored place from each of your interest categories first, so if you like restaurants + outdoor + culture, you're guaranteed at least one of each.
-
-**Phase 2 — Fill with nearby places:**
-Remaining slots are filled considering **geographic proximity**. The engine calculates the centroid (geographic center) of already-selected places and favors candidates within 10 km. Places farther away get penalized — this prevents plans that send you from north Riyadh to south Riyadh and back. The centroid recalculates as each place is added, keeping the cluster tight.
-
-**Phase 3 — Route ordering:**
-The final 5 places are reordered using a nearest-neighbour algorithm so the plan reads as a logical path, minimizing travel between stops.
-
-### Scoring factors
-
-| Factor | Effect |
-|---|---|
-| **Budget fit** | Places priced closer to your budget midpoint score higher |
-| **Recency** | Places already in your plans from the last 7 days are penalized (no repeats) |
-| **Distance** | Places within 10 km of the cluster: no penalty. Beyond that: -0.1 per extra km |
-| **Free places** | Always included regardless of budget filters (price = null) |
-
-### Edge cases
-
-- **No preferences set** → prompts you to go to `/onboarding/`
-- **No matching places** → suggests adjusting your budget
-- **All places recently visited** → still returns results but with lower scores, naturally rotating through different places
-
----
-
-## Pages
-
-| URL | Description |
-|---|---|
-| `/` | Public landing page |
-| `/home/` | Dashboard — daily plan timeline, recommended places, popular places |
-| `/events/page/` | Browse all places with search, category filters, favorites, and interactive map |
-| `/events/page/<id>/` | Place detail with info, map link, and add-to-plan |
-| `/daily-plan/` | Daily plan — generate AI plan, add activities, export, map view |
-| `/map/` | Full-page map (Coming Soon — real map tiles visible behind blur overlay) |
-| `/onboarding/` | Set interests, budget, and language preferences |
-| `/profile/` | User profile |
-| `/settings/` | Account settings and change password |
-
-### Map Features
-
-- **Events page (`/events/page/`)** — Fully interactive Google Map with pins for all places that have coordinates. Pins show info windows with place name, location, and a link to details. Pins update automatically when filters or search change.
-- **Map page (`/map/`)** — Displays a real Google Map of Riyadh behind a blurred "Coming Soon" overlay (bilingual EN/AR). Sidebar shows a "Soon" badge next to the Map nav item.
-- **Daily plan page (`/daily-plan/`)** — Interactive map showing the day's planned places with route visualization.
-
-### Bilingual Support (EN/AR)
-
-All pages support English and Arabic with a one-click language toggle in the header. The layout switches to RTL automatically in Arabic mode.
-
----
-
-## API Endpoints
-
-All endpoints require `Authorization: Bearer <access_token>` unless noted.
-
-### Authentication — `/api/auth/`
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/auth/signup/` | No | Register — returns JWT tokens |
-| POST | `/api/auth/login/` | No | Login — returns JWT tokens |
-| POST | `/api/auth/token/refresh/` | No | Refresh access token |
-| GET | `/api/auth/me/` | Yes | Current user info |
-| GET/PUT | `/api/auth/preferences/` | Yes | Get or update preferences |
-| POST | `/api/auth/change-password/` | Yes | Change password |
-
-### Events — `/api/events/`
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/events/` | No | List places (100 per page) — `?category=restaurant`, `?search=keyword` |
-| GET | `/api/events/<id>/` | No | Single place detail |
-| GET | `/api/events/filtered/` | Yes | Places matching user preferences and budget |
-| GET | `/api/events/favorites/` | Yes | User's favorited places |
-| POST | `/api/events/favorites/` | Yes | Add favorite — `{"event_id": 1}` |
-| DELETE | `/api/events/favorites/<event_id>/` | Yes | Remove favorite |
-
-### Daily Plans — `/api/daily-plan/`
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/daily-plan/` | List user's plans |
-| POST | `/api/daily-plan/` | Create plan — `{"date": "YYYY-MM-DD", "events": [1,2,3]}` |
-| POST | `/api/daily-plan/generate/` | AI-generated plan — `{"date": "YYYY-MM-DD"}` |
-| GET/PUT/DELETE | `/api/daily-plan/<id>/` | Retrieve, update, or delete a plan |
-
----
-
-## Project Structure
-
-```
-tizahab-web/
-├── accounts/          # User auth, signup, login, preferences
-├── config/            # Django settings, URLs, WSGI
-├── core/              # Shared middleware, context processors
-├── daily_plan/        # AI plan generator, daily plan CRUD
-├── data/              # Riyadh places dataset (JSON)
-├── events/            # Event/place models, serializers, views
-├── itinerary/         # Multi-day itinerary logic
-├── services/          # External service integrations
-├── specs/             # Feature specifications and task tracking
-├── static/            # CSS, JS, images
-│   ├── css/
-│   └── js/
-│       ├── api.js           # Auth-aware fetch wrapper
-│       ├── map.js           # Google Maps initialization
-│       ├── events.js        # Events page logic + map pins
-│       └── daily_plan_integration.js
-├── templates/         # Django HTML templates
-├── theme/             # Tailwind theme app
-├── manage.py
-├── requirements.txt
-├── Dockerfile
-└── docker-compose.yml
-```
-
----
-
-## Commit Convention
-
-| Prefix | Use |
-|---|---|
-| `feat:` | New feature |
-| `fix:` | Bug fix |
-| `refactor:` | Code restructuring |
-| `docs:` | Documentation |
-| `test:` | Test changes |
-
----
-
-**Project:** Tizahab | **University:** PNU | **Stack:** Django 6 + DRF + TailwindCSS

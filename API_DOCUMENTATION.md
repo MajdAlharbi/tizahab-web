@@ -1,395 +1,653 @@
 # Tizahab API Documentation
 
-**Base URL:** `http://localhost:8000/api` or `https://tizahab.example.com/api`
+Base API URL in local development: `http://localhost:8000/api`
 
----
+The current implementation uses JWT authentication for protected endpoints.
 
-## Authentication
+## Authentication Model
 
-All endpoints (except login/signup) require JWT authentication.
+Authorization header for protected endpoints:
 
-**Authorization Header:**
-```
+```http
 Authorization: Bearer <access_token>
 ```
 
-**Get tokens:**
-- **Login:** `POST /auth/login/` → Returns `access` and `refresh` tokens
-- **Refresh:** `POST /auth/token/refresh/` → Returns new `access` token
+Token lifetimes from `config/settings.py`:
 
----
+- Access token: 15 minutes
+- Refresh token: 7 days
+
+Frontend request behavior from `static/js/api.js`:
+
+- Requests use a shared helper
+- On `401`, the helper calls `POST /api/auth/token/refresh/`
+- If refresh succeeds, the original request is retried
+- If refresh fails, the helper clears tokens and redirects to `/login/`
+
+## Validation Rules
+
+Unified validation behavior in the current backend:
+
+- Invalid category input returns HTTP `400`
+- Invalid date input returns HTTP `400`
+- Invalid `trip_duration` input returns HTTP `400`
+- There is no silent fallback for invalid values
+
+All invalid inputs return HTTP `400` with descriptive messages unless the request fails for a different reason such as missing authentication or no matching recommendations.
+
+## Valid Categories
+
+The backend currently accepts only:
+
+- `restaurant`
+- `cafe`
+- `fast_food`
+- `dessert`
+- `bakery`
+- `juice`
+- `food_truck`
+- `culture`
+- `outdoor`
+- `shopping`
+- `other`
+
+`food` is not valid.
 
 ## Endpoints
 
-### 1. Authentication
+### `POST /api/auth/signup/`
 
-#### Sign Up
-```
-POST /auth/signup/
-Content-Type: application/json
+Creates a user and returns JWT tokens.
 
+Request body:
+
+```json
 {
-    "email": "user@example.com",
-    "password": "SecurePassword123!",
-    "password2": "SecurePassword123!"
-}
-
-Response: 201 Created
-{
-    "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
-    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+  "email": "user@example.com",
+  "password": "StrongPass123!",
+  "password2": "StrongPass123!"
 }
 ```
 
-#### Log In
-```
-POST /auth/login/
-Content-Type: application/json
+Validation rules:
 
+- `email` is required and must be unique
+- `password` and `password2` are required
+- `password` and `password2` must match
+- Django password validators are applied
+
+Success response: `201 Created`
+
+```json
 {
-    "email": "user@example.com",
-    "password": "SecurePassword123!"
-}
-
-Response: 200 OK
-{
-    "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
-    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
-}
-```
-
-#### Refresh Token
-```
-POST /auth/token/refresh/
-Content-Type: application/json
-
-{
-    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
-}
-
-Response: 200 OK
-{
-    "access": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
----
+Example `400 Bad Request`:
 
-### 2. User Preferences
-
-#### Get Preferences
-```
-GET /auth/preferences/
-Authorization: Bearer <access_token>
-
-Response: 200 OK
+```json
 {
-    "preferred_language": "en",
-    "budget_min": 50,
-    "budget_max": 500,
-    "interests": ["food", "culture", "outdoor"]
+  "non_field_errors": [
+    "Passwords do not match."
+  ]
 }
 ```
 
-#### Update Preferences
-```
-POST /auth/preferences/
-Authorization: Bearer <access_token>
-Content-Type: application/json
+### `POST /api/auth/login/`
 
+Authenticates by email and password and returns JWT tokens.
+
+Request body:
+
+```json
 {
-    "preferred_language": "ar",
-    "budget_min": 100,
-    "budget_max": 1000,
-    "interests": ["food", "shopping", "culture"]
+  "email": "user@example.com",
+  "password": "StrongPass123!"
 }
-
-Response: 200 OK or 201 Created
-(Same as GET response)
 ```
 
----
+Validation rules:
 
-### 3. Events
+- `email` is required
+- `password` is required
+- Credentials must match an existing user
 
-#### List All Events
-```
-GET /events/?category=food&date=2026-03-15
-Authorization: Bearer <access_token>
+Success response: `200 OK`
 
-Query Parameters:
-- category: (optional) food | culture | outdoor | shopping | other
-- date: (optional) YYYY-MM-DD format
-
-Response: 200 OK
+```json
 {
-    "count": 150,
-    "next": null,
-    "previous": null,
-    "results": [
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+Example `400 Bad Request`:
+
+```json
+{
+  "non_field_errors": [
+    "Invalid email or password."
+  ]
+}
+```
+
+### `GET /api/auth/preferences/`
+
+Returns the authenticated user's preferences. If no row exists yet, the backend creates one and returns defaults.
+
+Request format:
+
+- No request body
+- Requires JWT authentication
+
+Success response: `200 OK`
+
+```json
+{
+  "preferred_language": "en",
+  "budget_min": null,
+  "budget_max": null,
+  "interests": [],
+  "min_rating": null,
+  "trip_duration": 1
+}
+```
+
+Validation rules:
+
+- Authentication is required
+- This endpoint does not take query parameters or a request body
+
+Example `400 Bad Request`:
+
+This endpoint does not currently define request-body validation for `GET`. Validation errors are produced on `POST` and `PUT` instead.
+
+### `POST /api/auth/preferences/`
+
+Partially updates or creates preferences for the authenticated user. `PUT` is routed to the same behavior.
+
+Request body:
+
+```json
+{
+  "preferred_language": "ar",
+  "budget_min": 50,
+  "budget_max": 300,
+  "interests": ["restaurant", "culture"],
+  "min_rating": 4.0,
+  "trip_duration": 3
+}
+```
+
+Validation rules:
+
+- `interests` must be an array
+- Every interest must be one of the valid backend categories
+- `budget_min` and `budget_max` must be non-negative when provided
+- `budget_min` cannot be greater than `budget_max`
+- `trip_duration` must be between `1` and `30`
+
+Success response: `200 OK` or `201 Created`
+
+```json
+{
+  "preferred_language": "ar",
+  "budget_min": 50,
+  "budget_max": 300,
+  "interests": ["restaurant", "culture"],
+  "min_rating": "4.0",
+  "trip_duration": 3
+}
+```
+
+Example `400 Bad Request` for invalid category:
+
+```json
+{
+  "interests": [
+    "Invalid interests: ['food']. Valid options: ['restaurant', 'cafe', 'fast_food', 'dessert', 'bakery', 'juice', 'food_truck', 'culture', 'outdoor', 'shopping', 'other']"
+  ]
+}
+```
+
+Example `400 Bad Request` for invalid trip duration:
+
+```json
+{
+  "trip_duration": [
+    "trip_duration must be between 1 and 30."
+  ]
+}
+```
+
+### `GET /api/events/`
+
+Returns a paginated list of events. This endpoint is public.
+
+Query parameters:
+
+- `category` optional
+- `date` optional, format `YYYY-MM-DD`
+- `search` optional
+
+Example request:
+
+```http
+GET /api/events/?category=restaurant&date=2026-06-15&search=riyadh
+```
+
+Validation rules:
+
+- `category` must be one of the valid categories
+- `date` must use `YYYY-MM-DD`
+
+Success response: `200 OK`
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "title": "Example Place",
+      "category": "restaurant",
+      "description": "A sample place",
+      "date": "2026-06-15T10:00:00Z",
+      "start_date": null,
+      "end_date": null,
+      "location": "Riyadh",
+      "price": "50.00",
+      "price_range": "",
+      "latitude": 24.7136,
+      "longitude": 46.6753,
+      "rating": "4.3"
+    }
+  ]
+}
+```
+
+Example `400 Bad Request` for invalid category:
+
+```json
+{
+  "detail": "Invalid category. Valid options: ['bakery', 'cafe', 'culture', 'dessert', 'fast_food', 'food_truck', 'juice', 'other', 'outdoor', 'restaurant', 'shopping']"
+}
+```
+
+Example `400 Bad Request` for invalid date:
+
+```json
+{
+  "detail": "Invalid date format. Use YYYY-MM-DD."
+}
+```
+
+### `GET /api/events/filtered/`
+
+Returns a paginated list of events filtered by the authenticated user's saved preferences.
+
+Current behavior:
+
+- Filters by saved interest categories when present
+- Applies saved `budget_min` and `budget_max`
+- Includes events with `price = null` during budget filtering
+- Optionally filters by date range
+
+Query parameters:
+
+- `date_from` optional, format `YYYY-MM-DD`
+- `date_to` optional, format `YYYY-MM-DD`
+
+Example request:
+
+```http
+GET /api/events/filtered/?date_from=2026-06-15&date_to=2026-06-20
+```
+
+Validation rules:
+
+- Requires JWT authentication
+- `date_from` and `date_to` must use `YYYY-MM-DD`
+- `date_from` cannot be later than `date_to`
+
+Success response: `200 OK`
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "title": "Example Place",
+      "category": "restaurant",
+      "description": "A sample place",
+      "date": "2026-06-15T10:00:00Z",
+      "start_date": null,
+      "end_date": null,
+      "location": "Riyadh",
+      "price": "50.00",
+      "price_range": "",
+      "latitude": 24.7136,
+      "longitude": 46.6753,
+      "rating": "4.3"
+    }
+  ]
+}
+```
+
+Example `400 Bad Request` for invalid date:
+
+```json
+{
+  "detail": "Invalid date_from format. Use YYYY-MM-DD."
+}
+```
+
+Example `400 Bad Request` for invalid date range:
+
+```json
+{
+  "detail": "date_from cannot be later than date_to."
+}
+```
+
+### `GET /api/daily-plan/`
+
+Returns the authenticated user's daily plans ordered by date descending.
+
+Request format:
+
+- No request body
+- Requires JWT authentication
+
+Success response: `200 OK`
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 10,
+      "date": "2026-06-15",
+      "events": [
         {
-            "id": 1,
-            "title": "Al Tazaj",
-            "category": "food",
-            "description": "Traditional grilled chicken restaurant",
-            "date": "2026-03-15T19:00:00Z",
-            "location": "Olaya Street, Riyadh",
-            "price_range": "50-200 SAR",
-            "latitude": 24.7136,
-            "longitude": 46.6753
+          "id": 1,
+          "title": "Example Place",
+          "category": "restaurant",
+          "description": "A sample place",
+          "date": "2026-06-15T10:00:00Z",
+          "start_date": null,
+          "end_date": null,
+          "location": "Riyadh",
+          "price": "50.00",
+          "price_range": "",
+          "latitude": 24.7136,
+          "longitude": 46.6753,
+          "rating": "4.3"
         }
-    ]
+      ],
+      "created_at": "2026-06-14T12:00:00Z"
+    }
+  ]
 }
 ```
 
-#### Get Filtered Events (by preferences)
-```
-GET /events/filtered/?date_from=2026-03-15&date_to=2026-03-20
-Authorization: Bearer <access_token>
+Validation rules:
 
-Query Parameters:
-- date_from: (optional) YYYY-MM-DD format
-- date_to: (optional) YYYY-MM-DD format
-- Automatically filters by user preferences (interests, budget)
+- Authentication is required
+- This endpoint does not currently define `GET` input validation
 
-Response: 200 OK
-(Same structure as /events/)
-```
+Example `400 Bad Request`:
 
----
+This endpoint does not currently define request-body validation for `GET`. Validation errors are produced on `POST /api/daily-plan/`.
 
-### 4. Daily Plans
+### `POST /api/daily-plan/`
 
-#### List Daily Plans
-```
-GET /daily-plan/
-Authorization: Bearer <access_token>
+Creates a daily plan manually.
 
-Response: 200 OK
+Request body:
+
+```json
 {
-    "count": 5,
-    "next": null,
-    "previous": null,
-    "results": [
+  "date": "2026-06-15",
+  "events": [1, 2, 3]
+}
+```
+
+Current serializer behavior:
+
+- Write operations accept event IDs
+- Read responses return full event objects
+
+Validation rules:
+
+- `date` is required and must be a valid date
+- Each event ID must reference an existing event
+- A user can only have one plan per date
+
+Success response: `201 Created`
+
+```json
+{
+  "id": 10,
+  "date": "2026-06-15",
+  "events": [
+    {
+      "id": 1,
+      "title": "Example Place",
+      "category": "restaurant",
+      "description": "A sample place",
+      "date": "2026-06-15T10:00:00Z",
+      "start_date": null,
+      "end_date": null,
+      "location": "Riyadh",
+      "price": "50.00",
+      "price_range": "",
+      "latitude": 24.7136,
+      "longitude": 46.6753,
+      "rating": "4.3"
+    }
+  ],
+  "created_at": "2026-06-14T12:00:00Z"
+}
+```
+
+Example `400 Bad Request` for invalid date:
+
+```json
+{
+  "date": [
+    "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
+  ]
+}
+```
+
+### `POST /api/daily-plan/generate/`
+
+Generates or regenerates one day's plan from the user's saved preferences.
+
+Request body:
+
+```json
+{
+  "date": "2026-06-15"
+}
+```
+
+Optional request fields supported by the current code:
+
+- `seed`
+- `exclude_plan_dates`
+
+Current recommendation behavior:
+
+- Uses saved preference categories
+- Applies budget filters while keeping events with `price = null`
+- Penalizes events used in the previous 7 days
+- Selects one event per interest category first
+- Fills remaining slots from remaining candidates
+- Returns up to 5 events
+
+Validation rules:
+
+- Requires JWT authentication
+- `date` is required
+- `date` must use `YYYY-MM-DD`
+- Past dates are rejected
+- `exclude_plan_dates`, when present, must be a list of `YYYY-MM-DD` values
+- Missing saved interests returns `400`
+- No matching recommendations returns `404`
+
+Success response: `201 Created` on first create, `200 OK` on update
+
+```json
+{
+  "id": 10,
+  "date": "2026-06-15",
+  "events": [
+    {
+      "id": 1,
+      "title": "Example Place",
+      "category": "restaurant",
+      "description": "A sample place",
+      "date": "2026-06-15T10:00:00Z",
+      "start_date": null,
+      "end_date": null,
+      "location": "Riyadh",
+      "price": "50.00",
+      "price_range": "",
+      "latitude": 24.7136,
+      "longitude": 46.6753,
+      "rating": "4.3"
+    }
+  ],
+  "count": 1
+}
+```
+
+Example `400 Bad Request` for invalid date:
+
+```json
+{
+  "detail": "Invalid date format. Expected YYYY-MM-DD"
+}
+```
+
+Example `400 Bad Request` for missing date:
+
+```json
+{
+  "detail": "Date is required. Format: YYYY-MM-DD"
+}
+```
+
+### `POST /api/daily-plan/generate-multiday/`
+
+Generates and saves multiple daily plans in one request.
+
+Request body:
+
+```json
+{
+  "start_date": "2026-06-15",
+  "trip_duration": 3
+}
+```
+
+Current behavior:
+
+- Uses the request `trip_duration` when provided
+- Otherwise uses the saved preference `trip_duration`
+- Generates consecutive daily plans starting from `start_date`
+- Excludes events already selected earlier in the same generated trip
+- Replaces existing plans only within the requested generated date range
+
+Validation rules:
+
+- Requires JWT authentication
+- `start_date` is required
+- `start_date` must use `YYYY-MM-DD`
+- Past dates are rejected
+- `trip_duration` must be an integer between `1` and `30`
+- Missing saved interests returns `400`
+- No matching recommendations across the generated trip returns `404`
+
+Success response: `201 Created` on first create, `200 OK` when replacing existing plans in the requested range
+
+```json
+{
+  "trip_duration": 3,
+  "start_date": "2026-06-15",
+  "plans": [
+    {
+      "id": 21,
+      "date": "2026-06-15",
+      "events": [
         {
-            "id": 1,
-            "date": "2026-03-15",
-            "events": [
-                {
-                    "id": 1,
-                    "title": "Al Tazaj",
-                    "category": "food",
-                    ...
-                }
-            ],
-            "created_at": "2026-03-12T10:00:00Z"
+          "id": 1,
+          "title": "Example Place",
+          "category": "restaurant",
+          "description": "A sample place",
+          "date": "2026-06-15T10:00:00Z",
+          "start_date": null,
+          "end_date": null,
+          "location": "Riyadh",
+          "price": "50.00",
+          "price_range": "",
+          "latitude": 24.7136,
+          "longitude": 46.6753,
+          "rating": "4.3"
         }
-    ]
+      ],
+      "count": 1
+    }
+  ],
+  "total_events": 3
 }
 ```
 
-#### Generate Daily Plan
-```
-POST /daily-plan/generate/
-Authorization: Bearer <access_token>
-Content-Type: application/json
+Example `400 Bad Request` for invalid date:
 
-{
-    "date": "2026-03-15"
-}
-
-Response: 201 Created
-{
-    "id": 1,
-    "date": "2026-03-15",
-    "events": [
-        {
-            "id": 1,
-            "title": "Al Tazaj",
-            "category": "food",
-            ...
-        },
-        {
-            "id": 5,
-            "title": "National Museum",
-            "category": "culture",
-            ...
-        }
-    ],
-    "count": 2
-}
-```
-
-#### Get Daily Plan Details
-```
-GET /daily-plan/{id}/
-Authorization: Bearer <access_token>
-
-Response: 200 OK
-{
-    "id": 1,
-    "date": "2026-03-15",
-    "events": [...],
-    "created_at": "2026-03-12T10:00:00Z"
-}
-```
-
-#### Update Daily Plan
-```
-PUT /daily-plan/{id}/
-Authorization: Bearer <access_token>
-Content-Type: application/json
-
-{
-    "date": "2026-03-16",
-    "events": [1, 3, 5]
-}
-
-Response: 200 OK
-(Same structure as GET)
-```
-
----
-
-## Error Responses
-
-### 400 Bad Request
 ```json
 {
-    "detail": "Invalid date format. Expected YYYY-MM-DD"
+  "detail": "Invalid start_date format. Expected YYYY-MM-DD"
 }
 ```
 
-### 401 Unauthorized
+Example `400 Bad Request` for invalid trip duration:
+
 ```json
 {
-    "detail": "Authentication credentials were not provided."
+  "detail": "trip_duration must be an integer between 1 and 30."
 }
 ```
 
-### 403 Forbidden
+## Related Auth Endpoint
+
+### `POST /api/auth/token/refresh/`
+
+Exchanges a refresh token for a new access token.
+
+Request body:
+
 ```json
 {
-    "detail": "You do not have permission to perform this action."
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
-### 404 Not Found
+Success response: `200 OK`
+
 ```json
 {
-    "detail": "No recommendations found for your interests and budget on this date."
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
-
-### 500 Internal Server Error
-```json
-{
-    "detail": "Unexpected error while generating plan."
-}
-```
-
----
-
-## Status Codes
-
-| Code | Meaning |
-|------|---------|
-| 200 | Success (GET, POST update) |
-| 201 | Created (POST creation) |
-| 400 | Bad Request (invalid input) |
-| 401 | Unauthorized (missing/invalid token) |
-| 403 | Forbidden (insufficient permissions) |
-| 404 | Not Found |
-| 500 | Internal Server Error |
-| 503 | Service Unavailable (external API down) |
-
----
-
-## Rate Limiting
-
-Anonymous users: 100 requests/hour
-Authenticated users: 1000 requests/hour
-
-Remaining requests shown in headers:
-```
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1234567890
-```
-
----
-
-## Examples
-
-### Complete Workflow
-
-```bash
-# 1. Sign up
-curl -X POST http://localhost:8000/api/auth/signup/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "user@example.com",
-    "password": "SecurePass123!",
-    "password2": "SecurePass123!"
-  }'
-
-# Response: {"access": "...", "refresh": "..."}
-# Save the access token
-
-TOKEN="access_token_here"
-
-# 2. Set preferences
-curl -X POST http://localhost:8000/api/auth/preferences/ \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "preferred_language": "en",
-    "budget_min": 50,
-    "budget_max": 500,
-    "interests": ["food", "culture", "outdoor"]
-  }'
-
-# 3. Browse events
-curl -X GET "http://localhost:8000/api/events/?category=food" \
-  -H "Authorization: Bearer $TOKEN"
-
-# 4. Generate daily plan
-curl -X POST http://localhost:8000/api/daily-plan/generate/ \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"date": "2026-03-15"}'
-
-# 5. View all plans
-curl -X GET http://localhost:8000/api/daily-plan/ \
-  -H "Authorization: Bearer $TOKEN"
-```
-
----
-
-## Best Practices
-
-1. **Token Management**
-   - Store tokens securely (e.g., httpOnly cookie)
-   - Refresh token before expiry (15 minutes)
-   - Clear tokens on logout
-
-2. **Error Handling**
-   - Always check response status code
-   - Display user-friendly error messages
-   - Log errors for debugging
-
-3. **Performance**
-   - Use date filters to reduce result size
-   - Cache results locally when possible
-   - Implement pagination for large datasets
-
-4. **Security**
-   - Never log tokens or sensitive data
-   - Validate input on client and server
-   - Use HTTPS in production
-
----
-
-## Support
-
-For issues or questions, contact: support@tizahab.com

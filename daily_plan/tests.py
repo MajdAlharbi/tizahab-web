@@ -1,4 +1,6 @@
 from datetime import date, timedelta
+import subprocess
+import textwrap
 from unittest.mock import patch
 
 from django.test import TestCase
@@ -805,4 +807,48 @@ class DailyPlanCRUDTests(TestCase):
         client = APIClient()
         response = client.get("/api/daily-plan/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_add_activity_uses_selected_date_not_today(self):
+        script = textwrap.dedent(
+            r"""
+            const fs = require("fs");
+            const vm = require("vm");
+
+            const code = fs.readFileSync("static/js/daily_plan_integration.js", "utf8");
+            const storage = new Map();
+            const context = {
+              console: { log() {}, error() {}, warn() {} },
+              window: {},
+              document: {
+                addEventListener() {},
+                getElementById() { return null; },
+              },
+              localStorage: {
+                getItem(key) { return storage.has(key) ? storage.get(key) : null; },
+                setItem(key, value) { storage.set(key, String(value)); },
+              },
+              setTimeout,
+              clearTimeout,
+            };
+
+            vm.createContext(context);
+            vm.runInContext(
+              code + "\nthis.__test__ = { getSelectedPlanDate, setSelectedPlanDate };",
+              context,
+            );
+            vm.runInContext('setSelectedPlanDate(\"2099-12-31\"); currentDayIndex = 0;', context);
+            process.stdout.write(context.__test__.getSelectedPlanDate());
+            """
+        )
+
+        result = subprocess.run(
+            ["node", "-e", script],
+            capture_output=True,
+            text=True,
+            cwd=".",
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        self.assertEqual(result.stdout, "2099-12-31")
 

@@ -2,6 +2,7 @@
 //  Utilities
 // ======================
 // Auth helpers (getToken, apiGet, catLabel, catEmoji, catColor) come from api.js
+const SELECTED_PLAN_DATE_STORAGE_KEY = "tz_selected_plan_date";
 
 function escapeHtml(str) {
   return String(str || "")
@@ -10,6 +11,14 @@ function escapeHtml(str) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function getSelectedPlanDate() {
+  const selectedDate = localStorage.getItem(SELECTED_PLAN_DATE_STORAGE_KEY);
+  if (selectedDate) return selectedDate;
+
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 }
 
 function clearFilter() {
@@ -738,15 +747,14 @@ function wireGetTickets(eventId) {
     msg.className = "text-sm text-center min-h-[20px]";
 
     try {
-      const d = new Date();
-      const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const targetDate = getSelectedPlanDate();
 
-      // Fetch existing plans for today
+      // Fetch existing plans for the selected trip date, falling back to today.
       const data = await apiGet("/api/daily-plan/");
       if (!data) return; // apiGet handles 401 → logout
 
       const plans = Array.isArray(data) ? data : data.results || [];
-      const todayPlan = plans.find((p) => p.date === today);
+      const todayPlan = plans.find((p) => p.date === targetDate);
 
       if (todayPlan) {
         // Plan exists — merge this event in (deduplicate)
@@ -755,13 +763,13 @@ function wireGetTickets(eventId) {
         );
         const merged = [...new Set([...existingIds, Number(eventId)])];
         await apiPut(`/api/daily-plan/${todayPlan.id}/`, {
-          date: today,
+          date: targetDate,
           events: merged,
         });
       } else {
-        // No plan for today — create one with just this event
+        // No plan for the selected date — create one with just this event
         await apiPost("/api/daily-plan/", {
-          date: today,
+          date: targetDate,
           events: [Number(eventId)],
         });
       }
