@@ -90,17 +90,43 @@
     </div>
   </div>
 
-  <div class="flex-1 bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50 rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
+  <div class="flex-1 rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative"
     style="min-height: 420px;">
-    <svg class="w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#7e1ca1" stroke-width="0.5"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
-    </svg>
+
+    <!-- Real Google Map rendered behind the overlay -->
+    <div id="mapPageMap" class="w-full h-full" style="min-height: 420px;"></div>
+
+    <!-- Blur overlay -->
+    <div class="absolute inset-0 backdrop-blur-sm bg-white/50 flex flex-col items-center justify-center gap-4 z-10 text-center px-4">
+      <div class="text-4xl mb-2">🗺️</div>
+      <h2 class="text-xl lg:text-2xl font-bold text-gray-900">
+        <span class="nav-label-en">Interactive Map — Coming Soon!</span>
+        <span class="nav-label-ar hidden">خريطة تفاعلية — قريباً!</span>
+      </h2>
+      <p class="text-gray-500 max-w-sm mb-2">
+        <span class="nav-label-en">We're working to bring you a fully interactive map of Riyadh's best spots. Stay tuned!</span>
+        <span class="nav-label-ar hidden">نعمل على خريطة تفاعلية لمساعدتك في اكتشاف أفضل الأماكن في الرياض. ترقبوا المزيد!</span>
+      </p>
+      <a href="/daily-plan/" class="inline-flex items-center gap-2 h-10 px-5 rounded-xl bg-brand text-white font-medium hover:bg-brand-dark transition-colors shadow-sm">
+        <span class="nav-label-en">Plan Your Trip Instead →</span>
+        <span class="nav-label-ar hidden">← خطط لرحلتك بدلاً من ذلك</span>
+      </a>
+    </div>
   </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/map.js' %}"></script>
+<script>
+  function initMapPage() {
+    if (!window.TZMap) return;
+    window.TZMap.initMap("mapPageMap", { zoom: 12 });
+  }
+</script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_BROWSER_MAPS_API_KEY }}&callback=initMapPage"
+  async
+  defer></script>
 {% endblock %}

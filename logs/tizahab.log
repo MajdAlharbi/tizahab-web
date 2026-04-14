@@ -8144,3 +8144,754 @@ INFO 2026-04-12 16:17:13 log 5348 12492 "GET /api/events/?category=outdoor HTTP/
 INFO 2026-04-12 16:17:13 log 5348 23496 "GET /api/events/ HTTP/1.1" 200 20634
 INFO 2026-04-12 16:17:13 log 5348 1928 "GET /api/events/?category=food HTTP/1.1" 200 15232
 INFO 2026-04-12 16:17:14 log 5348 1928 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-13 15:59:13 autoreload 32740 27856 Watching for file changes with StatReloader
+INFO 2026-04-13 15:59:23 log 32740 12052 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-13 15:59:23 log 32740 12052 "GET /static/css/design-system.css HTTP/1.1" 304 0
+INFO 2026-04-13 15:59:26 log 32740 12052 "GET /login/ HTTP/1.1" 200 5489
+WARNING 2026-04-13 15:59:41 log 32740 12052 Bad Request: /api/auth/login/
+WARNING 2026-04-13 15:59:41 log 32740 12052 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-13 15:59:42 log 32740 25620 Bad Request: /api/auth/login/
+WARNING 2026-04-13 15:59:42 log 32740 25620 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-13 15:59:43 log 32740 25620 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5894
+INFO 2026-04-13 15:59:45 log 32740 25620 "GET /api/auth/ui/login/ HTTP/1.1" 200 5489
+INFO 2026-04-13 15:59:46 log 32740 25620 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5894
+INFO 2026-04-13 15:59:47 log 32740 25620 "GET /api/auth/ui/login/ HTTP/1.1" 200 5489
+WARNING 2026-04-13 15:59:54 log 32740 25620 Bad Request: /api/auth/login/
+WARNING 2026-04-13 15:59:54 log 32740 25620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-13 15:59:55 log 32740 12052 Bad Request: /api/auth/login/
+WARNING 2026-04-13 15:59:55 log 32740 12052 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-13 16:00:02 log 32740 12052 Bad Request: /api/auth/login/
+WARNING 2026-04-13 16:00:02 log 32740 12052 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-13 16:00:03 log 32740 12052 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5894
+WARNING 2026-04-13 16:00:04 log 32740 25620 Bad Request: /api/auth/login/
+WARNING 2026-04-13 16:00:04 log 32740 25620 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-13 16:00:33 log 32740 25620 "POST /api/auth/signup/ HTTP/1.1" 201 491
+INFO 2026-04-13 16:00:33 log 32740 25620 "GET /onboarding/ HTTP/1.1" 200 23324
+INFO 2026-04-13 16:00:33 log 32740 25620 "GET /api/auth/preferences/ HTTP/1.1" 200 114
+ERROR 2026-04-13 16:00:34 log 32740 12052 Internal Server Error: /api/auth/signup/
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: auth_user.username
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\accounts\views.py", line 202, in post
+    user = serializer.save()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\accounts\serializers.py", line 113, in create
+    user = User.objects.create_user(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\models.py", line 175, in create_user
+    return self._create_user(username, email, password, **extra_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\models.py", line 163, in _create_user
+    user.save(using=self._db)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\contrib\auth\base_user.py", line 62, in save
+    super().save(**kwargs)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 1167, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\base.py", line 1218, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: auth_user.username
+ERROR 2026-04-13 16:00:34 log 32740 12052 "POST /api/auth/signup/ HTTP/1.1" 500 228955
+INFO 2026-04-13 16:00:44 log 32740 12052 "POST /api/auth/preferences/ HTTP/1.1" 200 213
+INFO 2026-04-13 16:00:45 log 32740 12052 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 16:00:45 log 32740 25620 "GET /static/js/api.js HTTP/1.1" 200 5592
+INFO 2026-04-13 16:00:45 log 32740 12052 "GET /static/js/home.js HTTP/1.1" 200 14938
+INFO 2026-04-13 16:00:45 log 32740 11896 "GET /static/js/api.js HTTP/1.1" 200 5592
+INFO 2026-04-13 16:00:45 log 32740 17856 "GET /static/js/home.js HTTP/1.1" 200 14938
+INFO 2026-04-13 16:00:46 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:00:46 log 32740 6064 "GET /api/daily-plan/ HTTP/1.1" 200 52
+INFO 2026-04-13 16:00:46 log 32740 25620 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:00:46 log 32740 23516 "GET /api/events/filtered/ HTTP/1.1" 200 16835
+INFO 2026-04-13 16:00:52 log 32740 23516 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:00:52 log 32740 23516 "GET /static/js/map.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:00:52 log 32740 25620 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 200 33922
+INFO 2026-04-13 16:00:52 log 32740 17856 "GET /static/js/map.js HTTP/1.1" 200 2119
+INFO 2026-04-13 16:00:52 log 32740 11896 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 200 33922
+INFO 2026-04-13 16:00:52 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:00:52 log 32740 6064 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:00:52 log 32740 23516 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:00:52 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:00:52 log 32740 12052 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:00:52 log 32740 12052 "GET /api/daily-plan/ HTTP/1.1" 200 52
+INFO 2026-04-13 16:00:54 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:00:55 log 32740 12052 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 201 3870
+INFO 2026-04-13 16:01:27 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:01:28 views 32740 12052 Daily plan updated for user 16 on 2026-04-14
+INFO 2026-04-13 16:01:28 log 32740 12052 "POST /api/daily-plan/generate/ HTTP/1.1" 200 1963
+INFO 2026-04-13 16:01:33 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:01:34 log 32740 12052 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 3870
+INFO 2026-04-13 16:01:38 log 32740 12052 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-13 16:01:38 log 32740 12052 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:01:39 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 272
+INFO 2026-04-13 16:01:39 log 32740 1388 "GET /api/auth/preferences/ HTTP/1.1" 200 213
+INFO 2026-04-13 16:01:41 log 32740 1388 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-13 16:01:41 log 32740 1388 "GET /api/auth/preferences/ HTTP/1.1" 200 213
+INFO 2026-04-13 16:01:45 log 32740 1388 "POST /api/auth/preferences/ HTTP/1.1" 200 186
+INFO 2026-04-13 16:01:47 log 32740 1388 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 16:01:47 log 32740 1388 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:01:47 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:01:47 log 32740 12052 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:01:47 log 32740 6064 "GET /api/daily-plan/ HTTP/1.1" 200 3914
+INFO 2026-04-13 16:01:47 log 32740 23516 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 16:01:49 log 32740 23516 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:01:49 log 32740 23516 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 16:01:49 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:01:49 log 32740 12052 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:01:49 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:01:49 log 32740 6064 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:01:49 log 32740 1388 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:01:49 log 32740 1388 "GET /api/daily-plan/ HTTP/1.1" 200 3914
+INFO 2026-04-13 16:01:50 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:01:51 log 32740 1388 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 4263
+INFO 2026-04-13 16:02:01 log 32740 1388 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:02:01 log 32740 1388 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:02:01 log 32740 6064 "GET /static/js/events.js HTTP/1.1" 200 28283
+INFO 2026-04-13 16:02:01 log 32740 11896 "GET /static/js/events.js HTTP/1.1" 200 28283
+INFO 2026-04-13 16:02:01 log 32740 6064 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:02:01 log 32740 1388 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:02:01 log 32740 1388 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:02:07 log 32740 1388 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:02:07 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:02:07 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:02:07 log 32740 25620 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:02:07 log 32740 6064 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:02:07 log 32740 12052 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:02:07 log 32740 12052 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:02:10 log 32740 12052 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:02:10 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:02:10 log 32740 6064 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:02:10 log 32740 12052 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:03:31 log 32740 12052 "GET /map/ HTTP/1.1" 200 16661
+INFO 2026-04-13 16:03:31 log 32740 12052 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:03:32 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:03:39 log 32740 12052 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:03:39 log 32740 12052 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:03:39 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:03:39 log 32740 6064 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:03:39 log 32740 6064 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:04:10 log 32740 6064 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:04:10 log 32740 6064 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 16:04:10 log 32740 6064 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:04:11 log 32740 6064 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:11 log 32740 25620 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:04:11 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:11 log 32740 12052 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:04:11 log 32740 23516 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:04:11 log 32740 23516 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:04:12 log 32740 23516 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 16:04:12 log 32740 23516 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:04:12 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:12 log 32740 12052 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:04:12 log 32740 25620 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:04:13 log 32740 1388 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 16:04:13 log 32740 1388 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:04:14 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:14 log 32740 12052 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:04:14 log 32740 6064 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:14 log 32740 25620 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:04:14 log 32740 23516 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:04:14 log 32740 23516 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:04:14 log 32740 23516 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 16:04:15 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:15 log 32740 12052 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:04:15 log 32740 25620 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:04:15 log 32740 6064 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 16:04:22 log 32740 6064 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:04:23 log 32740 6064 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:04:23 log 32740 6064 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:04:23 log 32740 25620 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:04:23 log 32740 25620 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:05:48 log 32740 25620 "GET /map/ HTTP/1.1" 200 16661
+INFO 2026-04-13 16:05:48 log 32740 25620 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:05:49 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:06:47 log 32740 25620 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:06:51 log 32740 25620 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:06:51 log 32740 25620 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 16:06:51 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:51 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:51 log 32740 12052 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:06:51 log 32740 6064 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:06:51 log 32740 23516 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:06:51 log 32740 23516 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:06:52 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:53 log 32740 23516 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 4263
+INFO 2026-04-13 16:06:57 log 32740 23516 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 16:06:57 log 32740 23516 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:06:58 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:58 log 32740 1388 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:06:58 log 32740 6064 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:06:58 log 32740 12052 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 16:06:58 log 32740 12052 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-13 16:06:59 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:59 log 32740 23516 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:06:59 log 32740 6064 "GET /api/auth/preferences/ HTTP/1.1" 200 186
+INFO 2026-04-13 16:06:59 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:06:59 log 32740 1388 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:07:35 log 32740 1388 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:07:35 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:07:35 log 32740 1388 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:07:35 log 32740 1388 "GET /api/events/ HTTP/1.1" 200 13245
+WARNING 2026-04-13 16:08:29 log 23268 18444 Bad Request: /api/auth/login/
+WARNING 2026-04-13 16:08:33 log 23268 18444 Bad Request: /api/auth/login/
+INFO 2026-04-13 16:08:35 log 32740 1388 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:08:36 log 32740 1388 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 16:08:36 log 32740 25620 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:08:36 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:08:36 log 32740 6064 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:08:36 log 32740 12052 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:08:36 log 32740 1388 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:08:36 log 32740 23516 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:08:36 log 32740 23516 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 16:08:39 log 32740 23516 "GET /events/page/ HTTP/1.1" 200 24387
+INFO 2026-04-13 16:08:39 log 32740 23516 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 16:08:39 log 32740 23516 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:08:39 log 32740 1388 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 16:08:39 log 32740 1388 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:08:40 log 32740 1388 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 16:08:41 log 32740 1388 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:08:41 log 32740 12052 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 16:08:41 log 32740 25620 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:08:41 log 32740 23516 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 16:08:41 log 32740 6064 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 16:08:41 log 32740 6064 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+WARNING 2026-04-13 16:08:44 log 23268 18444 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 16:08:44 log 23268 18444 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 16:08:44 log 23268 18444 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 16:08:49 log 23268 18444 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 16:08:59 log 23268 18444 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 16:09:04 log 23268 18444 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 16:09:09 log 23268 18444 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-13 16:09:14 log 23268 18444 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 16:09:20 log 23268 18444 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 16:09:27 log 23268 18444 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 16:09:40 log 23268 18444 Unauthorized: /api/daily-plan/
+WARNING 2026-04-13 16:10:09 views 23268 18444 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-13 16:10:09 log 23268 18444 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 16:10:14 log 23268 18444 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 16:10:19 log 23268 18444 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-13 16:10:24 log 23268 18444 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 16:10:29 log 23268 18444 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-13 16:10:34 views 23268 18444 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 16:10:39 views 23268 18444 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 16:10:39 views 23268 18444 Daily plan updated for user 1 on 2026-04-14
+INFO 2026-04-13 16:10:44 views 23268 18444 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 16:10:49 views 23268 18444 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 16:10:49 views 23268 18444 Daily plan updated for user 1 on 2026-04-15
+WARNING 2026-04-13 16:10:54 log 23268 18444 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-13 16:10:59 views 23268 18444 Daily plan updated for user 1 on 2026-04-15
+ERROR 2026-04-13 16:11:04 views 23268 18444 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 16:11:04 log 23268 18444 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:11:19 views 23268 18444 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-13 16:11:19 log 23268 18444 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:11:24 log 23268 18444 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:11:29 log 23268 18444 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:11:34 log 23268 18444 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:11:44 log 23268 18444 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 16:12:30 log 23268 18444 Bad Request: /api/events/filtered/
+WARNING 2026-04-13 16:12:52 log 23268 18444 Bad Request: /api/events/favorites/
+WARNING 2026-04-13 16:13:17 log 23268 18444 Not Found: /api/events/favorites/1/
+WARNING 2026-04-13 16:13:24 log 23268 18444 Unauthorized: /api/events/favorites/
+INFO 2026-04-13 16:26:11 log 32740 36336 "GET /map/ HTTP/1.1" 200 16661
+INFO 2026-04-13 16:26:11 log 32740 36336 "GET /static/js/api.js HTTP/1.1" 304 0
+WARNING 2026-04-13 16:26:11 log 32740 36336 Unauthorized: /api/auth/me/
+WARNING 2026-04-13 16:26:11 log 32740 36336 "GET /api/auth/me/ HTTP/1.1" 401 172
+INFO 2026-04-13 16:26:12 log 32740 36336 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-13 16:26:12 log 32740 36336 "GET /api/auth/me/ HTTP/1.1" 200 245
+WARNING 2026-04-13 19:09:21 log 16712 35016 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:09:24 log 16712 35016 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:09:35 log 16712 35016 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:09:35 log 16712 35016 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:09:35 log 16712 35016 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:09:40 log 16712 35016 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:09:50 log 16712 35016 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:09:55 log 16712 35016 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:09:59 log 16712 35016 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-13 19:10:11 log 16712 35016 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 19:10:17 log 16712 35016 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 19:10:30 log 16712 35016 Unauthorized: /api/daily-plan/
+WARNING 2026-04-13 19:11:00 views 16712 35016 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-13 19:11:00 log 16712 35016 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:11:04 log 16712 35016 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:11:09 log 16712 35016 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-13 19:11:14 log 16712 35016 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:11:19 log 16712 35016 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-13 19:11:24 views 16712 35016 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 19:11:29 views 16712 35016 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 19:11:29 views 16712 35016 Daily plan updated for user 1 on 2026-04-14
+INFO 2026-04-13 19:11:34 views 16712 35016 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 19:11:38 views 16712 35016 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 19:11:38 views 16712 35016 Daily plan updated for user 1 on 2026-04-15
+WARNING 2026-04-13 19:11:43 log 16712 35016 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-13 19:11:48 views 16712 35016 Daily plan updated for user 1 on 2026-04-15
+ERROR 2026-04-13 19:11:53 views 16712 35016 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 19:11:53 log 16712 35016 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:12:08 views 16712 35016 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-13 19:12:08 log 16712 35016 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:12:13 log 16712 35016 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:12:17 log 16712 35016 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:12:22 log 16712 35016 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:12:32 log 16712 35016 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:13:19 log 16712 35016 Bad Request: /api/events/filtered/
+WARNING 2026-04-13 19:13:39 log 16712 35016 Bad Request: /api/events/favorites/
+WARNING 2026-04-13 19:14:05 log 16712 35016 Not Found: /api/events/favorites/1/
+WARNING 2026-04-13 19:14:12 log 16712 35016 Unauthorized: /api/events/favorites/
+WARNING 2026-04-13 19:17:45 log 29328 26876 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:17:49 log 29328 26876 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:18:00 log 29328 26876 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:18:00 log 29328 26876 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:18:00 log 29328 26876 Bad Request: /api/auth/signup/
+WARNING 2026-04-13 19:18:05 log 29328 26876 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:18:15 log 29328 26876 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:18:20 log 29328 26876 Bad Request: /api/auth/preferences/
+WARNING 2026-04-13 19:18:25 log 29328 26876 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-13 19:18:37 log 29328 26876 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 19:18:44 log 29328 26876 Not Found: /api/daily-plan/1/
+WARNING 2026-04-13 19:18:57 log 29328 26876 Unauthorized: /api/daily-plan/
+WARNING 2026-04-13 19:19:27 views 29328 26876 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-13 19:19:27 log 29328 26876 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:19:32 log 29328 26876 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:19:38 log 29328 26876 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-13 19:19:43 log 29328 26876 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-13 19:19:48 log 29328 26876 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-13 19:19:53 views 29328 26876 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 19:19:58 views 29328 26876 Daily plan created for user 1 on 2026-04-14
+INFO 2026-04-13 19:19:58 views 29328 26876 Daily plan updated for user 1 on 2026-04-14
+INFO 2026-04-13 19:20:03 views 29328 26876 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 19:20:08 views 29328 26876 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-13 19:20:08 views 29328 26876 Daily plan updated for user 1 on 2026-04-15
+WARNING 2026-04-13 19:20:13 log 29328 26876 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-13 19:20:18 views 29328 26876 Daily plan updated for user 1 on 2026-04-15
+ERROR 2026-04-13 19:20:23 views 29328 26876 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-13 19:20:23 log 29328 26876 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:20:39 views 29328 26876 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-13 19:20:39 log 29328 26876 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:20:43 log 29328 26876 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:20:49 log 29328 26876 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:20:54 log 29328 26876 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:21:04 log 29328 26876 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-13 19:21:53 log 29328 26876 Bad Request: /api/events/filtered/
+WARNING 2026-04-13 19:22:14 log 29328 26876 Bad Request: /api/events/favorites/
+WARNING 2026-04-13 19:22:41 log 29328 26876 Not Found: /api/events/favorites/1/
+WARNING 2026-04-13 19:22:47 log 29328 26876 Unauthorized: /api/events/favorites/
+INFO 2026-04-13 19:40:09 autoreload 5952 31096 Watching for file changes with StatReloader
+INFO 2026-04-13 19:40:11 log 5952 26748 "GET /map/ HTTP/1.1" 200 17474
+INFO 2026-04-13 19:40:11 log 5952 26748 "GET /static/js/api.js HTTP/1.1" 304 0
+WARNING 2026-04-13 19:40:12 log 5952 26748 Unauthorized: /api/auth/me/
+WARNING 2026-04-13 19:40:12 log 5952 26748 "GET /api/auth/me/ HTTP/1.1" 401 172
+WARNING 2026-04-13 19:40:12 log 5952 26748 Not Found: /favicon.ico
+WARNING 2026-04-13 19:40:12 log 5952 26748 "GET /favicon.ico HTTP/1.1" 404 5312
+INFO 2026-04-13 19:40:12 log 5952 26748 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:12 log 5952 26748 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:12 log 5952 26748 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 19:40:12 log 5952 26748 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-13 19:40:13 log 5952 26748 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:13 log 5952 1708 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:13 log 5952 18028 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:40:13 log 5952 24260 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 19:40:14 log 5952 24260 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 19:40:14 log 5952 24260 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 19:40:15 log 5952 24260 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:15 log 5952 1708 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:40:15 log 5952 21964 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:15 log 5952 18028 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 19:40:15 log 5952 26748 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:15 log 5952 26748 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:40:17 log 5952 26748 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:40:17 log 5952 26748 "GET /static/js/events.js HTTP/1.1" 200 30485
+INFO 2026-04-13 19:40:17 log 5952 26748 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:17 log 5952 18028 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:40:17 log 5952 26748 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:28 log 5952 26748 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 19:40:30 log 5952 26748 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:38 log 5952 26748 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 19:40:40 log 5952 26748 "GET /api/events/?category=cafe HTTP/1.1" 200 18242
+INFO 2026-04-13 19:40:41 log 5952 26748 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:44 log 5952 26748 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 19:40:45 log 5952 21964 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:40:45 log 5952 26748 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:45 log 5952 18028 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 19:40:45 log 5952 21964 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:45 log 5952 1708 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:40:45 log 5952 1708 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:40:49 log 5952 1708 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:50 log 5952 1708 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 4263
+INFO 2026-04-13 19:40:58 log 5952 1708 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:40:58 log 5952 1708 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:40:58 log 5952 21964 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:40:58 log 5952 21964 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:41:02 log 5952 21964 "GET /map/ HTTP/1.1" 200 17474
+INFO 2026-04-13 19:41:02 log 5952 21964 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:17 log 5952 21964 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-13 19:41:17 log 5952 21964 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:17 log 5952 1708 "GET /api/auth/preferences/ HTTP/1.1" 200 186
+INFO 2026-04-13 19:41:17 log 5952 26748 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:41:17 log 5952 24260 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:17 log 5952 18028 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:41:18 log 5952 18028 "GET /map/ HTTP/1.1" 200 17474
+INFO 2026-04-13 19:41:19 log 5952 18028 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:19 log 5952 18028 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 19:41:20 log 5952 18028 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:20 log 5952 26748 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:41:20 log 5952 21964 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:20 log 5952 24260 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 19:41:20 log 5952 1708 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:41:20 log 5952 1708 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:41:23 log 5952 1708 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 19:41:23 log 5952 1708 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:23 log 5952 26748 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:41:23 log 5952 24260 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:41:23 log 5952 21964 "GET /api/events/filtered/ HTTP/1.1" 200 16834
+INFO 2026-04-13 19:41:37 log 5952 13264 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 19:41:38 log 5952 13264 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:38 log 5952 26528 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:38 log 5952 28012 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 19:41:38 log 5952 30704 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:41:38 log 5952 31824 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:41:38 log 5952 31824 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:41:44 log 5952 31824 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:41:44 log 5952 31824 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:41:44 log 5952 30704 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:41:44 log 5952 30704 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:41:57 log 5952 30704 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:41:59 log 5952 30704 "GET /api/events/?category=culture HTTP/1.1" 200 5537
+INFO 2026-04-13 19:42:01 log 5952 30704 "GET /api/events/?category=shopping HTTP/1.1" 200 2919
+INFO 2026-04-13 19:42:02 log 5952 30704 "GET /api/events/?category=food_truck HTTP/1.1" 200 18917
+INFO 2026-04-13 19:42:03 log 5952 30704 "GET /api/events/?category=juice HTTP/1.1" 200 18537
+INFO 2026-04-13 19:42:04 log 5952 30704 "GET /api/events/?category=bakery HTTP/1.1" 200 18285
+INFO 2026-04-13 19:42:05 log 5952 30704 "GET /api/events/?category=dessert HTTP/1.1" 200 18524
+INFO 2026-04-13 19:42:06 log 5952 30704 "GET /api/events/?category=fast_food HTTP/1.1" 200 19202
+INFO 2026-04-13 19:42:06 log 5952 30704 "GET /api/events/?category=cafe HTTP/1.1" 200 18242
+INFO 2026-04-13 19:42:07 log 5952 30704 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 19:42:08 log 5952 30704 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:42:14 log 5952 30704 "GET /api/events/?page=2 HTTP/1.1" 200 18447
+INFO 2026-04-13 19:42:23 log 5952 30704 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 19:42:24 log 5952 30704 "GET /api/events/?category=cafe HTTP/1.1" 200 18242
+INFO 2026-04-13 19:42:25 log 5952 30704 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:43:20 log 5952 30704 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-13 19:43:20 log 5952 31824 "GET /api/auth/preferences/ HTTP/1.1" 200 186
+INFO 2026-04-13 19:43:20 log 5952 30704 "GET /api/auth/me/ HTTP/1.1" 200 245
+INFO 2026-04-13 19:43:22 log 5952 30704 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-13 19:43:23 log 5952 30704 "GET /api/auth/preferences/ HTTP/1.1" 200 186
+INFO 2026-04-13 19:43:27 log 5952 30704 "POST /api/auth/preferences/ HTTP/1.1" 200 205
+INFO 2026-04-13 19:43:28 log 5952 30704 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 19:43:29 log 5952 30704 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:43:29 log 5952 31824 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:43:29 log 5952 26528 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:43:29 log 5952 28012 "GET /api/events/filtered/ HTTP/1.1" 200 16835
+INFO 2026-04-13 19:43:30 log 5952 28012 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 19:43:31 log 5952 28012 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:43:31 log 5952 31824 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 19:43:31 log 5952 13264 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:43:31 log 5952 26528 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 19:43:31 log 5952 30704 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:43:31 log 5952 30704 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:43:33 log 5952 30704 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:43:33 log 5952 30704 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 19:43:33 log 5952 30704 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:43:33 log 5952 26528 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:43:33 log 5952 26528 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:43:41 log 5952 26528 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 19:43:42 log 5952 26528 "GET /api/events/?category=cafe HTTP/1.1" 200 18242
+INFO 2026-04-13 19:43:44 log 5952 26528 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:43:49 log 5952 26528 "GET /events/page/43647/ HTTP/1.1" 200 14635
+INFO 2026-04-13 19:43:49 log 5952 26528 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:43:49 log 5952 30704 "GET /api/events/43647/ HTTP/1.1" 200 388
+INFO 2026-04-13 19:44:29 log 5952 33364 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:44:29 log 5952 33364 "GET /static/css/design-system.css HTTP/1.1" 200 8063
+INFO 2026-04-13 19:44:29 log 5952 16596 "GET /static/js/map.js HTTP/1.1" 200 2119
+INFO 2026-04-13 19:44:29 log 5952 4412 "GET /static/js/api.js HTTP/1.1" 200 5592
+INFO 2026-04-13 19:44:29 log 5952 36488 "GET /static/js/events.js HTTP/1.1" 200 30485
+WARNING 2026-04-13 19:44:30 log 5952 4412 Unauthorized: /api/auth/me/
+WARNING 2026-04-13 19:44:30 log 5952 4412 "GET /api/auth/me/ HTTP/1.1" 401 58
+INFO 2026-04-13 19:44:30 log 5952 4412 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:44:30 log 5952 4412 "GET /login/ HTTP/1.1" 200 5489
+WARNING 2026-04-13 19:44:31 log 5952 4412 Not Found: /favicon.ico
+WARNING 2026-04-13 19:44:31 log 5952 4412 "GET /favicon.ico HTTP/1.1" 404 5312
+WARNING 2026-04-13 19:44:44 log 5952 4412 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:44:44 log 5952 4412 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-13 19:44:56 log 5952 4412 Bad Request: /api/auth/login/
+WARNING 2026-04-13 19:44:56 log 5952 4412 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-13 19:45:12 log 5952 4412 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-13 19:45:12 log 5952 4412 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 19:45:12 log 5952 4412 "GET /static/js/home.js HTTP/1.1" 200 14938
+INFO 2026-04-13 19:45:13 log 5952 4412 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:45:13 log 5952 2756 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 19:45:13 log 5952 33364 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 19:45:13 log 5952 16596 "GET /api/events/filtered/ HTTP/1.1" 200 16835
+INFO 2026-04-13 19:45:14 log 5952 36488 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-13 19:45:41 log 5952 36488 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 19:45:41 log 5952 36488 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 19:45:41 log 5952 36488 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 19:45:41 log 5952 36488 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:26:37 log 5952 23208 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-13 22:26:37 log 5952 23208 "GET /static/js/api.js HTTP/1.1" 304 0
+WARNING 2026-04-13 22:26:37 log 5952 23208 Unauthorized: /api/auth/me/
+WARNING 2026-04-13 22:26:37 log 5952 24372 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-13 22:26:37 log 5952 23208 "GET /api/auth/me/ HTTP/1.1" 401 172
+WARNING 2026-04-13 22:26:37 log 5952 24372 "GET /api/auth/preferences/ HTTP/1.1" 401 172
+INFO 2026-04-13 22:26:37 log 5952 24372 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-13 22:26:37 log 5952 24372 "GET /login/ HTTP/1.1" 200 5489
+WARNING 2026-04-13 22:26:45 log 5952 6068 Unauthorized: /api/events/
+WARNING 2026-04-13 22:26:45 log 5952 6068 "GET /api/events/?category=restaurant HTTP/1.1" 401 172
+INFO 2026-04-13 22:26:45 log 5952 6068 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-13 22:26:45 log 5952 6068 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 22:26:46 log 5952 6068 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:26:48 log 5952 6068 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-13 22:26:48 log 5952 6068 "GET /static/js/api.js HTTP/1.1" 304 0
+INFO 2026-04-13 22:26:49 log 5952 6068 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 22:26:49 log 5952 32804 "GET /api/auth/preferences/ HTTP/1.1" 200 205
+INFO 2026-04-13 22:26:49 log 5952 20264 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:26:49 log 5952 11736 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 22:26:49 log 5952 16320 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 22:26:49 log 5952 16320 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-13 22:26:50 log 5952 16320 "GET /api/auth/me/ HTTP/1.1" 200 264
+INFO 2026-04-13 22:26:50 log 5952 11736 "GET /api/auth/preferences/ HTTP/1.1" 200 205
+INFO 2026-04-13 22:26:56 log 5952 11736 "PUT /api/auth/preferences/ HTTP/1.1" 200 195
+INFO 2026-04-13 22:26:58 log 5952 11736 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 22:26:58 log 5952 11736 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-13 22:26:58 log 5952 11736 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:26:58 log 5952 16320 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:26:58 log 5952 16320 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:26:59 log 5952 16320 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 22:26:59 log 5952 16320 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 304 0
+INFO 2026-04-13 22:26:59 log 5952 16320 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:26:59 log 5952 20264 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 22:26:59 log 5952 6068 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:26:59 log 5952 11736 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 22:26:59 log 5952 32804 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:26:59 log 5952 32804 "GET /api/daily-plan/ HTTP/1.1" 200 4307
+INFO 2026-04-13 22:27:04 log 5952 32804 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:27:06 log 5952 32804 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 3856
+INFO 2026-04-13 22:27:12 log 5952 32804 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 22:27:12 log 5952 32804 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:27:12 log 5952 11736 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:27:13 log 5952 11736 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:27:20 log 5952 11736 "GET /api/events/?category=culture HTTP/1.1" 200 5537
+INFO 2026-04-13 22:27:24 log 5952 11736 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:27:26 log 5952 11736 "GET /api/events/?category=restaurant HTTP/1.1" 200 19029
+INFO 2026-04-13 22:27:29 log 5952 11736 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:27:40 log 5952 11736 "GET /api/events/?category=fast_food HTTP/1.1" 200 19202
+INFO 2026-04-13 22:27:41 log 5952 11736 "GET /api/events/?category=dessert HTTP/1.1" 200 18524
+INFO 2026-04-13 22:27:42 log 5952 11736 "GET /api/events/?category=bakery HTTP/1.1" 200 18285
+INFO 2026-04-13 22:27:43 log 5952 11736 "GET /api/events/ HTTP/1.1" 200 13245
+INFO 2026-04-13 22:29:17 autoreload 5952 31096 C:\Users\90538\Documents\Progarmming_Projects\tizahab-web\config\settings.py changed, reloading.
+INFO 2026-04-13 22:29:18 autoreload 28312 5944 Watching for file changes with StatReloader
+INFO 2026-04-13 22:30:51 autoreload 5088 30808 Watching for file changes with StatReloader
+INFO 2026-04-13 22:31:25 log 5088 11720 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 22:31:26 log 5088 11720 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:31:26 log 5088 25760 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:31:26 log 5088 25760 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:31:44 log 5088 25760 "GET /events/page/ HTTP/1.1" 200 23658
+INFO 2026-04-13 22:31:44 log 5088 11720 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:31:44 log 5088 25760 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:31:45 log 5088 25760 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:31:54 log 5088 25760 "GET /api/events/?category=restaurant HTTP/1.1" 200 38154
+INFO 2026-04-13 22:31:58 log 5088 25760 "GET /api/events/?category=cafe HTTP/1.1" 200 36112
+INFO 2026-04-13 22:32:00 log 5088 25760 "GET /api/events/?category=fast_food HTTP/1.1" 200 38070
+INFO 2026-04-13 22:32:02 log 5088 25760 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:03 log 5088 25760 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-13 22:34:03 log 5088 25760 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:03 log 5088 25760 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:34:03 log 5088 25760 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:13 log 5088 25760 "GET /api/events/?page=2 HTTP/1.1" 200 37504
+INFO 2026-04-13 22:34:19 log 5088 25760 "GET /api/events/?category=restaurant HTTP/1.1" 200 38154
+INFO 2026-04-13 22:34:20 log 5088 25760 "GET /api/events/?category=cafe HTTP/1.1" 200 36112
+INFO 2026-04-13 22:34:21 log 5088 25760 "GET /api/events/?category=fast_food HTTP/1.1" 200 38070
+INFO 2026-04-13 22:34:22 log 5088 25760 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:25 log 5088 25760 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 22:34:25 log 5088 25760 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:25 log 5088 13224 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 22:34:26 log 5088 11720 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 22:34:26 log 5088 31984 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:26 log 5088 17880 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:26 log 5088 17880 "GET /api/daily-plan/ HTTP/1.1" 200 3900
+INFO 2026-04-13 22:34:27 log 5088 17880 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:28 log 5088 17880 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 3856
+INFO 2026-04-13 22:34:35 log 5088 17880 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-13 22:34:35 log 5088 17880 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:35 log 5088 31984 "GET /api/auth/preferences/ HTTP/1.1" 200 195
+INFO 2026-04-13 22:34:38 log 5088 31984 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-13 22:34:39 log 5088 31984 "GET /api/auth/preferences/ HTTP/1.1" 200 195
+INFO 2026-04-13 22:34:45 log 5088 31984 "POST /api/auth/preferences/ HTTP/1.1" 200 195
+INFO 2026-04-13 22:34:46 log 5088 31984 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 22:34:46 log 5088 31984 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-13 22:34:46 log 5088 31984 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:46 log 5088 13224 "GET /api/daily-plan/ HTTP/1.1" 200 3900
+INFO 2026-04-13 22:34:46 log 5088 17880 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:46 log 5088 11720 "GET /api/events/filtered/ HTTP/1.1" 200 37193
+INFO 2026-04-13 22:34:47 log 5088 11720 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 22:34:48 log 5088 11720 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:48 log 5088 13224 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 22:34:48 log 5088 25760 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:48 log 5088 17880 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 22:34:48 log 5088 31984 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:34:48 log 5088 31984 "GET /api/daily-plan/ HTTP/1.1" 200 3900
+INFO 2026-04-13 22:34:53 log 5088 31984 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:34:55 log 5088 31984 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 7968
+INFO 2026-04-13 22:35:02 log 5088 31984 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-13 22:35:09 log 5088 31984 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:35:09 log 5088 17880 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:35:09 log 5088 17880 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:35:14 log 5088 17880 "GET /map/ HTTP/1.1" 200 17474
+INFO 2026-04-13 22:35:14 log 5088 17880 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:37:59 log 5088 17512 "GET /map/ HTTP/1.1" 200 17903
+INFO 2026-04-13 22:37:59 log 5088 17512 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:11 log 5088 17512 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-13 22:38:11 log 5088 17512 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:11 log 5088 36692 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:38:11 log 5088 36692 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:38:12 log 5088 36692 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-13 22:38:12 log 5088 36692 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:12 log 5088 17512 "GET /api/auth/preferences/ HTTP/1.1" 200 195
+INFO 2026-04-13 22:38:12 log 5088 17352 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-13 22:38:12 log 5088 26908 "GET /api/daily-plan/ HTTP/1.1" 200 8078
+INFO 2026-04-13 22:38:12 log 5088 17540 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:13 log 5088 17540 "GET /map/ HTTP/1.1" 200 17903
+INFO 2026-04-13 22:38:13 log 5088 17540 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:14 log 5088 17540 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 22:38:15 log 5088 17540 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:15 log 5088 17352 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 22:38:15 log 5088 17512 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:15 log 5088 26908 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 22:38:15 log 5088 36692 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:38:15 log 5088 36692 "GET /api/daily-plan/ HTTP/1.1" 200 8078
+INFO 2026-04-13 22:38:18 log 5088 36692 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:20 log 5088 36692 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 7968
+INFO 2026-04-13 22:38:25 log 5088 36692 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 22:38:25 log 5088 36692 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:25 log 5088 17540 "GET /api/daily-plan/ HTTP/1.1" 200 8078
+INFO 2026-04-13 22:38:25 log 5088 26908 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:38:25 log 5088 17512 "GET /api/events/filtered/ HTTP/1.1" 200 37193
+INFO 2026-04-13 22:38:33 log 5088 17512 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-13 22:38:34 log 5088 17512 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:34 log 5088 17352 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:34 log 5088 26908 "GET /api/events/?category=outdoor HTTP/1.1" 200 494
+INFO 2026-04-13 22:38:34 log 5088 17540 "GET /api/events/?category=food HTTP/1.1" 200 7722
+INFO 2026-04-13 22:38:34 log 5088 36692 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:38:34 log 5088 36692 "GET /api/daily-plan/ HTTP/1.1" 200 8078
+INFO 2026-04-13 22:38:35 log 5088 36692 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-13 22:38:35 log 5088 36692 "GET /api/auth/me/ HTTP/1.1" 200 254
+INFO 2026-04-13 22:38:35 log 5088 17352 "GET /api/daily-plan/ HTTP/1.1" 200 8078
+INFO 2026-04-13 22:38:35 log 5088 17540 "GET /api/events/ HTTP/1.1" 200 31568
+INFO 2026-04-13 22:38:35 log 5088 26908 "GET /api/events/filtered/ HTTP/1.1" 200 37193

@@ -1,36 +1,62 @@
+# ========================
 # Python
+# ========================
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 *.egg-info/
 dist/
+build/
 
+# ========================
 # Virtual environments
+# ========================
 .venv/
 venv/
 
+# ========================
 # Environment variables
+# ========================
 .env
-.env*
+.env.*
+!.env.example
 
+# ========================
 # Django
-
+# ========================
 db.sqlite3
 media/
+staticfiles/
 
-# Temp files
-*.tmp
-*.swp
+# ========================
+# Testing & coverage
+# ========================
+htmlcov/
+coverage.xml
+*.cover
+.coverage
+.pytest_cache/
+bandit-report.json
 
-# Local builds
-build/
+# ========================
+# Tool / IDE folders
+# ========================
+.gemini/
+.vscode/
+.idea/
+.tmp-node/
+logs/
 
-# OS
+# ========================
+# OS files
+# ========================
 .DS_Store
 Thumbs.db
 
-# Editors
-.vscode/
-.idea/
-.env
+# ========================
+# Temp files
+# ========================
+*.tmp
+*.swp
+*.log
