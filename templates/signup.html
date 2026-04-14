@@ -98,9 +98,22 @@ font-arimo relative{% endblock %} {% block content %}
 
 <a href="/" class="absolute bottom-6 text-white text-sm"> ← Back to Home </a>
 {% endblock %} {% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
 <script>
   const form = document.querySelector("form");
   const errorBox = document.getElementById("signup-error");
+
+  function getSignupErrorMessage(err) {
+    const fromResponse =
+      typeof extractApiErrorMessage === "function"
+        ? extractApiErrorMessage(err?.responseData, "")
+        : "";
+    const fromError = typeof err?.message === "string" ? err.message.trim() : "";
+
+    if (fromResponse) return fromResponse;
+    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+    return "Something went wrong. Please try again.";
+  }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -113,36 +126,17 @@ font-arimo relative{% endblock %} {% block content %}
     const password2 = form.querySelector("input[name='password2']").value;
 
     try {
-      const response = await fetch("/api/auth/signup/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "{{ csrf_token }}",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          password2: password2,
-        }),
+      const data = await apiPost("/api/auth/signup/", {
+        email: email,
+        password: password,
+        password2: password2,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        const message =
-          data.email?.[0] ||
-          data.password?.[0] ||
-          data.non_field_errors?.[0] ||
-          data.detail ||
-          "Unable to create account";
-        throw new Error(message);
-      }
 
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       window.location.href = "/onboarding/";
     } catch (err) {
-      errorBox.textContent = err.message;
+      errorBox.textContent = getSignupErrorMessage(err);
       errorBox.classList.remove("hidden");
     }
   });

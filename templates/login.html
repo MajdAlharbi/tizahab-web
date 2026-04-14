@@ -81,6 +81,7 @@ font-arimo relative{% endblock %} {% block content %}
 
 <a href="/" class="absolute bottom-6 text-white text-sm"> ← Back to Home </a>
 {% endblock %} {% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
 <script>
   const form = document.querySelector("form");
   const errorBox = document.getElementById("login-error");
@@ -88,8 +89,22 @@ font-arimo relative{% endblock %} {% block content %}
   const nextParam =
     rawNextParam && rawNextParam.startsWith("/") ? rawNextParam : null;
 
+  function getLoginErrorMessage(err) {
+    const fromResponse =
+      typeof extractApiErrorMessage === "function"
+        ? extractApiErrorMessage(err?.responseData, "")
+        : "";
+    const fromError = typeof err?.message === "string" ? err.message.trim() : "";
+
+    if (fromResponse) return fromResponse;
+    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+    return "Something went wrong. Please try again.";
+  }
+
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    if (!form.reportValidity()) return;
 
     errorBox.classList.add("hidden");
     errorBox.textContent = "";
@@ -98,37 +113,31 @@ font-arimo relative{% endblock %} {% block content %}
     const password = form.querySelector("input[name='password']").value;
 
     try {
-      const response = await fetch("/api/auth/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "{{ csrf_token }}",
-        },
-        body: JSON.stringify({ email: email, password: password }),
+      const data = await apiPost("/api/auth/login/", {
+        email: email,
+        password: password,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        const message =
-          data.non_field_errors?.[0] ||
-          data.detail ||
-          "Invalid email or password";
-        throw new Error(message);
-      }
 
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
 
+      let isAdmin = false;
+      try {
+        await apiGet("/api/auth/admin/users/");
+        isAdmin = true;
+      } catch {
+        isAdmin = false;
+      }
+
       if (nextParam) {
         window.location.href = nextParam;
-      } else if (email === "aaaa@aaa.aaa") {
+      } else if (isAdmin) {
         window.location.href = "/admin-panel/";
       } else {
         window.location.href = "/home/";
       }
     } catch (err) {
-      errorBox.textContent = err.message;
+      errorBox.textContent = getLoginErrorMessage(err);
       errorBox.classList.remove("hidden");
     }
   });

@@ -11,6 +11,7 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Cantata+One&family=Arimo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
+  <script src="{% static 'js/api.js' %}"></script>
 </head>
 
 <body class="min-h-screen bg-[#f6f7fb]" style="font-family:'Arimo',sans-serif">
@@ -340,14 +341,24 @@
       if (+budgetMax.value < +budgetMin.value) { budgetMin.value = budgetMax.value; budgetMinLabel.textContent = budgetMaxLabel.textContent; }
     });
 
+    function getPreferencesErrorMessage(err) {
+      const fromResponse =
+        typeof extractApiErrorMessage === "function"
+          ? extractApiErrorMessage(err?.responseData, "")
+          : "";
+      const fromError = typeof err?.message === "string" ? err.message.trim() : "";
+
+      if (fromResponse) return fromResponse;
+      if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+      return "Something went wrong. Please try again.";
+    }
+
     /* ---- Load existing preferences ---- */
     async function loadPreferences() {
-      const token = localStorage.getItem("access");
-      if (!token) return;
+      if (!isLoggedIn()) return;
       try {
-        const res = await fetch("/api/auth/preferences/", { headers: { Authorization: `Bearer ${token}` } });
-        if (!res.ok) return;
-        const data = await res.json();
+        const data = await apiGet("/api/auth/preferences/");
+        if (!data) return;
 
         const interests = Array.isArray(data.interests) ? data.interests : [];
         document.querySelectorAll(".interest-card").forEach(card => {
@@ -395,8 +406,7 @@
 
     /* ---- Save ---- */
     document.getElementById("savePrefsBtn").addEventListener("click", async () => {
-      const token = localStorage.getItem("access");
-      if (!token) { window.location.href = "/login/"; return; }
+      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
 
       const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
       const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
@@ -427,13 +437,7 @@
       msgEl.classList.add("hidden"); errEl.classList.add("hidden");
 
       try {
-        const res = await fetch("/api/auth/preferences/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify(payload)
-        });
-        if (res.status === 401) { localStorage.removeItem("access"); window.location.href = "/login/"; return; }
-        if (!res.ok) { const d = await res.json(); throw new Error(d?.detail || "Failed to save."); }
+        await apiPost("/api/auth/preferences/", payload);
 
         // Cache trip duration locally as a fallback for the daily plan page
         localStorage.setItem("tz_trip_duration", String(tripDuration));
@@ -442,7 +446,7 @@
         msgEl.classList.remove("hidden");
         setTimeout(() => { window.location.href = "/home/"; }, 1200);
       } catch (err) {
-        errEl.textContent = err.message;
+        errEl.textContent = getPreferencesErrorMessage(err);
         errEl.classList.remove("hidden");
       } finally {
         btn.disabled = false; btn.textContent = "Save Preferences";

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +7,7 @@
   <title>Admin Panel | Tizahab</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{% static 'js/api.js' %}"></script>
 </head>
 
 <body class="bg-slate-100">
@@ -13,7 +15,6 @@
   <div class="mx-auto max-w-7xl px-4 py-6 lg:px-6">
     <div class="space-y-6">
 
-      <!-- HEADER -->
       <section class="rounded-3xl bg-slate-900 text-white p-6 flex justify-between items-center">
         <div>
           <h1 class="text-2xl font-bold">Admin Dashboard</h1>
@@ -24,7 +25,6 @@
         </button>
       </section>
 
-      <!-- STATS -->
       <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-xl">
           <p>Events</p>
@@ -44,7 +44,6 @@
         </div>
       </section>
 
-      <!-- EVENTS -->
       <section class="bg-white rounded-xl p-4">
         <div class="flex justify-between mb-3">
           <input id="adminSearch" placeholder="Search..." class="border p-2 rounded w-1/2" />
@@ -66,7 +65,6 @@
         </table>
       </section>
 
-      <!-- USERS -->
       <section class="bg-white rounded-xl p-4">
         <h2 class="font-bold mb-3">Users</h2>
         <table class="w-full text-sm">
@@ -85,7 +83,6 @@
   </div>
 
   <script>
-
     const EVENTS_API = "/api/events/admin/events/";
     const USERS_API = "/api/auth/admin/users/";
 
@@ -101,49 +98,22 @@
         .replaceAll("'", "&#039;");
     }
 
-    /* Auth: JWT stored in localStorage */
-
-    function getToken() {
-      return localStorage.getItem("access") || "";
-    }
-
     function logout() {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
       window.location.href = "/login/";
     }
 
-    async function fetchWithAuth(url, options = {}) {
-      const headers = {
-        ...(options.headers || {}),
-        "Authorization": `Bearer ${getToken()}`,
-      };
-
-      const res = await fetch(url, { ...options, headers });
-
-      if (res.status === 401 || res.status === 403) {
-        window.location.href = "/login/";
-        return null;
-      }
-
-      if (!res.ok) {
-        console.error(`[Admin] ${options.method || 'GET'} ${url} → ${res.status}`);
-        return null;
-      }
-
-      return res;
-    }
-
-    /* ================= EVENTS ================= */
-
     async function loadEvents() {
-      const res = await fetchWithAuth(EVENTS_API);
-      if (!res) return;
-
-      const data = await res.json();
-      events = Array.isArray(data) ? data : (data.results || []);
-      renderEvents();
-      updateStats();
+      try {
+        const data = await apiGet(EVENTS_API);
+        if (!data) return;
+        events = Array.isArray(data) ? data : (data.results || []);
+        renderEvents();
+        updateStats();
+      } catch (error) {
+        console.error(`[Admin] GET ${EVENTS_API} -> ${error.message}`);
+      }
     }
 
     function renderEvents() {
@@ -166,11 +136,12 @@
     async function deleteEvent(id) {
       if (!confirm("Delete this event?")) return;
 
-      await fetchWithAuth(`${EVENTS_API}${id}/`, {
-        method: "DELETE"
-      });
-
-      loadEvents();
+      try {
+        await apiDelete(`${EVENTS_API}${id}/`);
+        loadEvents();
+      } catch (error) {
+        console.error(`[Admin] DELETE ${EVENTS_API}${id}/ -> ${error.message}`);
+      }
     }
 
     async function editEvent(id) {
@@ -178,25 +149,24 @@
       const title = prompt("New title", event?.title || "");
       if (title === null) return;
 
-      await fetchWithAuth(`${EVENTS_API}${id}/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title })
-      });
-
-      loadEvents();
+      try {
+        await apiPatch(`${EVENTS_API}${id}/`, { title });
+        loadEvents();
+      } catch (error) {
+        console.error(`[Admin] PATCH ${EVENTS_API}${id}/ -> ${error.message}`);
+      }
     }
 
-    /* ================= USERS ================= */
-
     async function loadUsers() {
-      const res = await fetchWithAuth(USERS_API);
-      if (!res) return;
-
-      const data = await res.json();
-      users = Array.isArray(data) ? data : (data.results || []);
-      renderUsers();
-      updateStats();
+      try {
+        const data = await apiGet(USERS_API);
+        if (!data) return;
+        users = Array.isArray(data) ? data : (data.results || []);
+        renderUsers();
+        updateStats();
+      } catch (error) {
+        console.error(`[Admin] GET ${USERS_API} -> ${error.message}`);
+      }
     }
 
     function renderUsers() {
@@ -216,14 +186,13 @@
     async function deleteUser(id) {
       if (!confirm("Delete this user?")) return;
 
-      await fetchWithAuth(`${USERS_API}${id}/`, {
-        method: "DELETE"
-      });
-
-      loadUsers();
+      try {
+        await apiDelete(`${USERS_API}${id}/`);
+        loadUsers();
+      } catch (error) {
+        console.error(`[Admin] DELETE ${USERS_API}${id}/ -> ${error.message}`);
+      }
     }
-
-    /* ================= STATS ================= */
 
     function updateStats() {
       document.getElementById("stat-events").textContent = events.length;
@@ -235,8 +204,6 @@
       const categories = new Set(events.map(e => e.category));
       document.getElementById("stat-categories").textContent = categories.size;
     }
-
-    /* ================= SEARCH ================= */
 
     document.getElementById("adminSearch").addEventListener("input", (e) => {
       const value = e.target.value.toLowerCase();
@@ -261,19 +228,16 @@
   `).join("");
     });
 
-    /* ================= INIT ================= */
-
     document.getElementById("refreshEvents").addEventListener("click", loadEvents);
 
     document.addEventListener("DOMContentLoaded", () => {
-      if (!getToken()) {
+      if (!isLoggedIn()) {
         window.location.href = "/login/";
         return;
       }
       loadEvents();
       loadUsers();
     });
-
   </script>
 
 </body>

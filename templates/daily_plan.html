@@ -7,7 +7,6 @@
         <span class="nav-label-en">Daily Plan</span>
         <span class="nav-label-ar hidden">الخطة اليومية</span>
       </h1>
-      <p id="month-label" class="text-gray-500 mt-1"></p>
     </div>
 
     <div class="flex gap-3">
@@ -54,14 +53,8 @@
   </section>
 
   <div class="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
-    <div class="flex items-center justify-between">
-      <button id="prev-week" type="button" class="text-gray-400 text-xl">
-        &lt;
-      </button>
+    <div class="text-center">
       <h3 id="week-label" class="font-medium text-gray-700"></h3>
-      <button id="next-week" type="button" class="text-gray-400 text-xl">
-        &gt;
-      </button>
     </div>
 
     <div
@@ -154,26 +147,6 @@
           </span>
           <span id="summary-duration" class="font-semibold text-brand">0h</span>
         </div>
-
-        <div class="flex justify-between">
-          <span class="text-gray-600">
-            <span class="nav-label-en">Distance</span>
-            <span class="nav-label-ar hidden">المسافة</span>
-          </span>
-          <span id="summary-distance" class="font-semibold text-brand"
-            >0km</span
-          >
-        </div>
-
-        <div class="flex justify-between">
-          <span class="text-gray-600">
-            <span class="nav-label-en">Completed</span>
-            <span class="nav-label-ar hidden">المكتمل</span>
-          </span>
-          <span id="summary-completed" class="font-semibold text-green-500"
-            >0</span
-          >
-        </div>
       </div>
     </div>
 
@@ -236,3 +209,4 @@
 </main>
 
 {% endblock %}
+

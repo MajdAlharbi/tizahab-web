@@ -8895,3 +8895,830 @@ INFO 2026-04-13 22:38:35 log 5088 36692 "GET /api/auth/me/ HTTP/1.1" 200 254
 INFO 2026-04-13 22:38:35 log 5088 17352 "GET /api/daily-plan/ HTTP/1.1" 200 8078
 INFO 2026-04-13 22:38:35 log 5088 17540 "GET /api/events/ HTTP/1.1" 200 31568
 INFO 2026-04-13 22:38:35 log 5088 26908 "GET /api/events/filtered/ HTTP/1.1" 200 37193
+INFO 2026-04-14 09:42:00 autoreload 19752 4056 Watching for file changes with StatReloader
+INFO 2026-04-14 09:42:03 log 19752 20272 "GET / HTTP/1.1" 200 20644
+WARNING 2026-04-14 09:42:07 log 19752 20272 Not Found: /favicon.ico
+WARNING 2026-04-14 09:42:07 log 19752 20272 "GET /favicon.ico HTTP/1.1" 404 5312
+INFO 2026-04-14 09:42:08 log 19752 20272 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 09:42:23 log 19752 20272 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 09:42:23 log 19752 20272 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 09:42:23 log 19752 20272 "GET /static/js/home.js HTTP/1.1" 304 0
+INFO 2026-04-14 09:42:23 log 19752 13600 "GET /static/js/api.js HTTP/1.1" 200 5778
+INFO 2026-04-14 09:42:24 log 19752 13600 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:24 log 19752 20272 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:42:24 log 19752 16732 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:42:24 log 19752 4648 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 09:42:26 log 19752 4648 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 09:42:26 log 19752 4648 "GET /static/js/map.js HTTP/1.1" 200 2191
+INFO 2026-04-14 09:42:26 log 19752 16732 "GET /static/js/daily_plan_integration.js?v=99 HTTP/1.1" 200 35033
+INFO 2026-04-14 09:42:26 log 19752 16732 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:26 log 19752 6628 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:26 log 19752 4648 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 09:42:26 log 19752 20272 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:42:26 log 19752 13600 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 09:42:26 log 19752 6628 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:42:28 log 19752 6628 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-14 09:42:28 log 19752 6628 "GET /static/js/events.js HTTP/1.1" 200 29129
+INFO 2026-04-14 09:42:28 log 19752 6628 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:28 log 19752 6628 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 09:42:28 log 19752 6628 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:42:32 log 19752 6628 "GET /map/ HTTP/1.1" 200 17903
+INFO 2026-04-14 09:42:32 log 19752 6628 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:39 log 19752 6628 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-14 09:42:39 log 19752 6628 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:39 log 19752 20272 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 09:42:39 log 19752 4648 "GET /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:39 log 19752 16732 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:39 log 19752 13600 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:42:42 log 19752 13600 "GET /settings/ HTTP/1.1" 200 41250
+INFO 2026-04-14 09:42:42 log 19752 13600 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:42 log 19752 16732 "GET /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:47 log 19752 16732 "PUT /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:49 log 19752 16732 "PUT /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:50 log 19752 16732 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-14 09:42:51 log 19752 16732 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:51 log 19752 20272 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 09:42:51 log 19752 13600 "GET /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:51 log 19752 6628 "GET /api/auth/me/ HTTP/1.1" 200 215
+INFO 2026-04-14 09:42:51 log 19752 4648 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:42:52 log 19752 4648 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-14 09:42:52 log 19752 4648 "GET /api/auth/preferences/ HTTP/1.1" 200 176
+INFO 2026-04-14 09:42:58 log 19752 4648 "POST /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 09:42:59 log 19752 4648 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 09:42:59 log 19752 4648 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 09:42:59 log 19752 20272 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:42:59 log 19752 6628 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:42:59 log 19752 13600 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 09:43:01 log 19752 13600 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-14 09:43:01 log 19752 13600 "GET /static/js/events.js HTTP/1.1" 304 0
+INFO 2026-04-14 09:43:02 log 19752 13600 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 09:43:02 log 19752 13600 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 09:43:02 log 19752 13600 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:43:07 log 19752 13600 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 09:43:07 log 19752 13600 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 09:43:07 log 19752 16732 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 09:43:07 log 19752 20272 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 09:43:07 log 19752 6628 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 09:43:07 log 19752 4648 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 09:43:07 log 19752 16732 "GET /api/daily-plan/ HTTP/1.1" 200 13471
+INFO 2026-04-14 09:43:08 log 19752 16732 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 09:43:09 log 19752 16732 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 201 2158
+WARNING 2026-04-14 09:48:49 log 21188 4352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 09:48:49 log 21188 4352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 09:48:49 log 21188 4352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 09:48:53 log 21188 4352 Bad Request: /api/auth/login/
+WARNING 2026-04-14 09:48:55 log 21188 4352 Bad Request: /api/auth/login/
+WARNING 2026-04-14 09:48:57 log 21188 4352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 09:49:03 log 21188 4352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 09:49:05 log 21188 4352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 09:49:08 log 21188 4352 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-14 09:49:41 views 21188 4352 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 09:49:41 log 21188 4352 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 09:55:58 log 21188 4352 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 09:56:01 log 21188 4352 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 09:56:05 log 21188 4352 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 09:56:08 log 21188 4352 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 09:56:12 views 21188 4352 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 09:56:21 views 21188 4352 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 09:56:21 views 21188 4352 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 09:56:28 views 21188 4352 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 09:56:36 views 21188 4352 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 09:56:36 views 21188 4352 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 09:56:43 log 21188 4352 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 09:56:47 views 21188 4352 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 09:56:49 views 21188 4352 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 231, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 569, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 09:56:50 log 21188 4352 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:00 views 21188 4352 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-14 09:57:00 log 21188 4352 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:04 log 21188 4352 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:07 log 21188 4352 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:11 log 21188 4352 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:18 log 21188 4352 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 09:57:22 log 21188 4352 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 09:57:25 log 21188 4352 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 09:57:33 log 21188 4352 Unauthorized: /api/daily-plan/
+WARNING 2026-04-14 09:57:51 log 21188 4352 Bad Request: /api/events/filtered/
+WARNING 2026-04-14 09:58:14 log 21188 4352 Bad Request: /api/events/favorites/
+WARNING 2026-04-14 09:58:30 log 21188 4352 Not Found: /api/events/favorites/1/
+WARNING 2026-04-14 09:58:35 log 21188 4352 Unauthorized: /api/events/favorites/
+WARNING 2026-04-14 10:18:06 views 19304 22504 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:18:06 log 19304 22504 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:18:09 log 19304 22504 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:18:12 log 19304 22504 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 10:18:14 log 19304 22504 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:18:17 log 19304 22504 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 10:18:19 views 19304 22504 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:18:21 views 19304 22504 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:18:21 views 19304 22504 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 10:18:24 views 19304 22504 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:18:27 views 19304 22504 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:18:27 views 19304 22504 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 10:18:30 log 19304 22504 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 10:18:33 views 19304 22504 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 10:18:35 views 19304 22504 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 624, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:18:35 log 19304 22504 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:18:43 views 19304 22504 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:18:43 log 19304 22504 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:18:46 log 19304 22504 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:18:52 log 19304 22504 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:18:55 log 19304 22504 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:19:00 log 19304 22504 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:19:04 log 19304 22504 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:19:08 log 19304 22504 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:19:15 log 19304 22504 Unauthorized: /api/daily-plan/
+WARNING 2026-04-14 10:20:06 views 24440 17164 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:20:06 log 24440 17164 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:20:09 log 24440 17164 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:20:11 log 24440 17164 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 10:20:14 log 24440 17164 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:20:16 log 24440 17164 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 10:20:19 views 24440 17164 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:20:22 views 24440 17164 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:20:22 views 24440 17164 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 10:20:25 views 24440 17164 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:20:27 views 24440 17164 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:20:27 views 24440 17164 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 10:20:30 log 24440 17164 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 10:20:32 views 24440 17164 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 10:20:35 views 24440 17164 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 624, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:20:35 log 24440 17164 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:20:43 views 24440 17164 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:20:43 log 24440 17164 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:20:45 log 24440 17164 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:20:51 log 24440 17164 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:20:54 log 24440 17164 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:20:59 log 24440 17164 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:21:02 log 24440 17164 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:21:06 log 24440 17164 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:21:13 log 24440 17164 Unauthorized: /api/daily-plan/
+INFO 2026-04-14 10:21:56 autoreload 3120 21536 Watching for file changes with StatReloader
+INFO 2026-04-14 10:21:59 log 3120 24284 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 10:22:01 log 3120 24284 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 10:22:12 log 3120 24284 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 10:22:12 log 3120 24284 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 10:22:13 log 3120 24284 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:13 log 3120 20984 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:22:13 log 3120 22660 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:22:13 log 3120 23512 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 10:22:18 log 3120 23512 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 10:22:18 log 3120 23512 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:18 log 3120 20984 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:22:18 log 3120 22660 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:22:18 log 3120 24284 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:22:18 log 3120 8628 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:19 log 3120 8628 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:22:22 log 3120 8628 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:22 log 3120 8628 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+INFO 2026-04-14 10:22:23 log 3120 8628 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:23 log 3120 8628 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+INFO 2026-04-14 10:22:26 log 3120 8628 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:22:26 log 3120 8628 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+WARNING 2026-04-14 10:27:14 views 21280 24804 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:27:14 log 21280 24804 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:27:16 log 21280 24804 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:27:18 log 21280 24804 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 10:27:19 log 21280 24804 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:27:21 log 21280 24804 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 10:27:23 views 21280 24804 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:27:24 views 21280 24804 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:27:24 views 21280 24804 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 10:27:26 views 21280 24804 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:27:28 views 21280 24804 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:27:28 views 21280 24804 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 10:27:29 log 21280 24804 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 10:27:31 views 21280 24804 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 10:27:32 views 21280 24804 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 650, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:27:32 log 21280 24804 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:37 views 21280 24804 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:27:37 log 21280 24804 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:39 log 21280 24804 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:43 log 21280 24804 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:44 log 21280 24804 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:49 log 21280 24804 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:27:52 log 21280 24804 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:27:54 log 21280 24804 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:27:58 log 21280 24804 Unauthorized: /api/daily-plan/
+INFO 2026-04-14 10:28:42 autoreload 21292 25456 Watching for file changes with StatReloader
+INFO 2026-04-14 10:28:44 log 21292 1392 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 10:28:47 log 21292 1392 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 10:28:49 log 21292 1392 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 10:28:50 log 21292 1392 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:28:50 log 21292 24788 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:28:50 log 21292 21940 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:28:50 log 21292 20924 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:28:50 log 21292 25428 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:28:50 log 21292 25428 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+WARNING 2026-04-14 10:28:59 log 21292 25428 Bad Request: /api/auth/login/
+WARNING 2026-04-14 10:28:59 log 21292 25428 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 10:29:04 log 21292 25428 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 10:29:04 log 21292 25428 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 10:29:05 log 21292 25428 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:05 log 21292 24788 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:29:05 log 21292 21940 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:29:05 log 21292 20924 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 10:29:16 log 21292 20924 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-14 10:29:17 log 21292 20924 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:17 log 21292 25428 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 10:29:17 log 21292 21940 "GET /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 10:29:17 log 21292 1392 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:17 log 21292 24788 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:29:20 log 21292 24788 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-14 10:29:20 log 21292 24788 "GET /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 10:29:24 log 21292 24788 "POST /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 10:29:25 log 21292 24788 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 10:29:26 log 21292 24788 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:26 log 21292 25428 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:29:26 log 21292 1392 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:29:26 log 21292 21940 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 10:29:27 log 21292 21940 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 10:29:28 log 21292 21940 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:28 log 21292 20924 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:29:28 log 21292 25428 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:29:28 log 21292 24788 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:29:28 log 21292 1392 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:29:28 log 21292 25428 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+WARNING 2026-04-14 10:35:32 views 21264 3952 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:35:32 log 21264 3952 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:35:33 log 21264 3952 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:35:35 log 21264 3952 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 10:35:37 log 21264 3952 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 10:35:38 log 21264 3952 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 10:35:40 views 21264 3952 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:35:41 views 21264 3952 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 10:35:42 views 21264 3952 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 10:35:43 views 21264 3952 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:35:45 views 21264 3952 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 10:35:45 views 21264 3952 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 10:35:47 log 21264 3952 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 10:35:49 views 21264 3952 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 10:35:50 views 21264 3952 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 238, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 650, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 10:35:50 log 21264 3952 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:35:55 views 21264 3952 Invalid start_date format from user 1: 15/06/2026
+WARNING 2026-04-14 10:35:55 log 21264 3952 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:35:57 log 21264 3952 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:36:01 log 21264 3952 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:36:02 log 21264 3952 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:36:07 log 21264 3952 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 10:36:10 log 21264 3952 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:36:12 log 21264 3952 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 10:36:16 log 21264 3952 Unauthorized: /api/daily-plan/
+INFO 2026-04-14 10:38:35 autoreload 7216 15712 Watching for file changes with StatReloader
+INFO 2026-04-14 10:38:36 log 7216 17888 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 10:38:42 log 7216 17888 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 10:38:43 log 7216 17888 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:38:43 log 7216 2884 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:38:43 log 7216 20388 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:38:43 log 7216 23176 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:38:43 log 7216 22688 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:38:43 log 7216 20388 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:38:52 log 7216 20388 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:38:52 log 7216 20388 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+INFO 2026-04-14 10:42:53 autoreload 20972 24604 Watching for file changes with StatReloader
+INFO 2026-04-14 10:42:56 log 20972 22432 "GET /daily-plan/ HTTP/1.1" 200 22048
+INFO 2026-04-14 10:42:56 log 20972 22432 "GET /static/js/daily_plan_integration.js?v=100 HTTP/1.1" 200 37757
+INFO 2026-04-14 10:43:00 log 20972 22432 "GET /daily-plan/ HTTP/1.1" 200 22048
+INFO 2026-04-14 10:43:00 log 20972 22432 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:43:00 log 20972 10624 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:43:00 log 20972 8296 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:43:00 log 20972 25288 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:43:00 log 20972 5368 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:43:00 log 20972 25288 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:43:27 log 20972 25288 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:43:27 log 20972 25288 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+INFO 2026-04-14 10:44:28 autoreload 4224 23164 Watching for file changes with StatReloader
+INFO 2026-04-14 10:44:30 log 4224 12132 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 10:44:34 log 4224 12132 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 10:44:41 log 4224 12132 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 10:44:41 log 4224 12132 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 10:44:41 log 4224 12132 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:44:41 log 4224 14064 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:44:41 log 4224 21104 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 10:44:41 log 4224 11948 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 10:44:43 log 4224 11948 "GET /daily-plan/ HTTP/1.1" 200 22048
+INFO 2026-04-14 10:44:43 log 4224 11948 "GET /static/js/daily_plan_integration.js?v=100 HTTP/1.1" 304 0
+INFO 2026-04-14 10:44:43 log 4224 11948 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:44:43 log 4224 14064 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:44:43 log 4224 22928 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:44:44 log 4224 21104 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:44:44 log 4224 12132 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:44:44 log 4224 22928 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+ERROR 2026-04-14 10:46:42 log 24144 204 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-04-14 10:46:42 log 24144 204 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\.venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+INFO 2026-04-14 10:47:45 autoreload 24808 8756 Watching for file changes with StatReloader
+INFO 2026-04-14 10:47:46 log 24808 17100 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 10:47:53 log 24808 17100 "GET /daily-plan/ HTTP/1.1" 200 22048
+INFO 2026-04-14 10:47:53 log 24808 17100 "GET /static/js/daily_plan_integration.js?v=100 HTTP/1.1" 304 0
+INFO 2026-04-14 10:47:53 log 24808 17100 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:47:53 log 24808 23148 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 10:47:53 log 24808 3368 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 10:47:53 log 24808 24324 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 10:47:53 log 24808 14592 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 10:47:53 log 24808 14592 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:10:42 autoreload 25756 12776 Watching for file changes with StatReloader
+INFO 2026-04-14 11:10:44 log 25756 26160 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 11:10:49 log 25756 26160 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 11:10:57 log 25756 26160 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:10:57 log 25756 26160 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:10:57 log 25756 26160 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:10:57 log 25756 15224 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:10:57 log 25756 10900 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:10:57 log 25756 21328 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 11:10:58 log 25756 26144 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:10:59 log 25756 26144 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-14 11:10:59 log 25756 15224 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 11:10:59 log 25756 21328 "GET /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 11:10:59 log 25756 26144 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:10:59 log 25756 10900 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:10:59 log 25756 26160 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:11:04 log 25756 26160 "GET /daily-plan/ HTTP/1.1" 200 22048
+INFO 2026-04-14 11:11:04 log 25756 26160 "GET /static/js/daily_plan_integration.js?v=100 HTTP/1.1" 200 37797
+INFO 2026-04-14 11:11:04 log 25756 26160 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:11:04 log 25756 15224 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:11:04 log 25756 21328 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:11:04 log 25756 10900 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:11:04 log 25756 26144 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:11:04 log 25756 21328 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:11:21 log 25756 21328 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:11:22 log 25756 21328 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 2158
+INFO 2026-04-14 11:17:05 autoreload 1132 3080 Watching for file changes with StatReloader
+INFO 2026-04-14 11:17:08 log 1132 23868 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 11:17:11 log 1132 23868 "GET /login/ HTTP/1.1" 200 5489
+INFO 2026-04-14 11:17:20 log 1132 23868 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:17:20 log 1132 23868 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:17:21 log 1132 23868 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:17:21 log 1132 21312 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:17:21 log 1132 26160 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:17:21 log 1132 10376 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 11:17:36 log 1132 10376 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 11:17:36 log 1132 10376 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:17:36 log 1132 21312 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:17:36 log 1132 20116 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:17:37 log 1132 23868 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:17:37 log 1132 26160 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:17:37 log 1132 26160 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:17:45 log 1132 26160 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 11:17:45 log 1132 26160 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:17:45 log 1132 10376 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:17:45 log 1132 20116 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:17:45 log 1132 21312 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:17:45 log 1132 23868 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:17:45 log 1132 23868 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:18:07 log 1132 23868 "GET /profile/ HTTP/1.1" 200 28800
+INFO 2026-04-14 11:18:07 log 1132 21312 "GET /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 11:18:07 log 1132 10376 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 11:18:07 log 1132 23868 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:07 log 1132 26160 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:07 log 1132 20116 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:18:08 log 1132 20116 "GET /api/auth/ui/preferences/ HTTP/1.1" 200 23324
+INFO 2026-04-14 11:18:08 log 1132 20116 "GET /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 11:18:14 log 1132 20116 "POST /api/auth/preferences/ HTTP/1.1" 200 184
+INFO 2026-04-14 11:18:15 log 1132 20116 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:18:15 log 1132 20116 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:15 log 1132 26160 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:18:15 log 1132 23868 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:18:15 log 1132 10376 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 11:18:17 log 1132 10376 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 11:18:17 log 1132 10376 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:17 log 1132 21312 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:17 log 1132 26160 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:18:17 log 1132 23868 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:18:17 log 1132 20116 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:18:17 log 1132 21312 "GET /api/daily-plan/ HTTP/1.1" 200 15590
+INFO 2026-04-14 11:18:24 log 1132 21312 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:24 views 1132 21312 Daily plan created for user 10 on 2026-04-18
+INFO 2026-04-14 11:18:24 log 1132 21312 "POST /api/daily-plan/generate/ HTTP/1.1" 201 1925
+INFO 2026-04-14 11:18:26 log 1132 21312 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:26 views 1132 21312 Daily plan created for user 10 on 2026-04-17
+INFO 2026-04-14 11:18:26 log 1132 21312 "POST /api/daily-plan/generate/ HTTP/1.1" 201 1996
+INFO 2026-04-14 11:18:30 log 1132 21312 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:18:30 views 1132 21312 Daily plan created for user 10 on 2026-04-16
+INFO 2026-04-14 11:18:30 log 1132 21312 "POST /api/daily-plan/generate/ HTTP/1.1" 201 1751
+INFO 2026-04-14 11:24:25 autoreload 24244 25272 Watching for file changes with StatReloader
+INFO 2026-04-14 11:24:28 log 24244 24312 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 11:24:29 log 24244 24312 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:24:29 log 24244 2496 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:24:29 log 24244 26436 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:24:29 log 24244 26452 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:24:29 log 24244 372 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:24:29 log 24244 26452 "GET /api/daily-plan/ HTTP/1.1" 200 21365
+INFO 2026-04-14 11:24:36 log 24244 26452 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:24:36 views 24244 26452 Daily plan created for user 10 on 2026-04-15
+INFO 2026-04-14 11:24:36 log 24244 26452 "POST /api/daily-plan/generate/ HTTP/1.1" 201 1818
+INFO 2026-04-14 11:37:30 autoreload 11168 24648 Watching for file changes with StatReloader
+INFO 2026-04-14 11:37:39 log 11168 11196 "GET /daily-plan/ HTTP/1.1" 200 22047
+WARNING 2026-04-14 11:37:41 log 11168 11196 Unauthorized: /api/auth/me/
+WARNING 2026-04-14 11:37:41 log 11168 26048 Unauthorized: /api/events/
+WARNING 2026-04-14 11:37:41 log 11168 22652 Unauthorized: /api/events/
+WARNING 2026-04-14 11:37:41 log 11168 17372 Unauthorized: /api/events/
+WARNING 2026-04-14 11:37:41 log 11168 11196 "GET /api/auth/me/ HTTP/1.1" 401 172
+WARNING 2026-04-14 11:37:41 log 11168 26048 "GET /api/events/?category=food HTTP/1.1" 401 172
+WARNING 2026-04-14 11:37:41 log 11168 22652 "GET /api/events/?category=outdoor HTTP/1.1" 401 172
+WARNING 2026-04-14 11:37:41 log 11168 11196 Unauthorized: /api/auth/me/
+WARNING 2026-04-14 11:37:41 log 11168 17372 "GET /api/events/ HTTP/1.1" 401 172
+WARNING 2026-04-14 11:37:41 log 11168 11196 "GET /api/auth/me/ HTTP/1.1" 401 172
+INFO 2026-04-14 11:37:41 log 11168 11196 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-14 11:37:41 log 11168 22652 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-14 11:37:41 log 11168 26048 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-14 11:37:41 log 11168 17372 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-14 11:37:41 log 11168 23400 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+INFO 2026-04-14 11:37:41 log 11168 23400 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:37:41 log 11168 22652 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:37:41 log 11168 26048 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:37:41 log 11168 23400 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:37:41 log 11168 17372 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:37:41 log 11168 22652 "GET /api/daily-plan/ HTTP/1.1" 200 23217
+INFO 2026-04-14 11:37:52 log 11168 22652 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:37:52 log 11168 22652 "GET /api/auth/me/ HTTP/1.1" 200 223
+INFO 2026-04-14 11:37:52 log 11168 17372 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:37:52 log 11168 26048 "GET /api/daily-plan/ HTTP/1.1" 200 23217
+INFO 2026-04-14 11:37:52 log 11168 23400 "GET /api/events/filtered/ HTTP/1.1" 200 36581
+INFO 2026-04-14 11:37:53 log 11168 23400 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 11:37:57 log 11168 23400 "GET /login/ HTTP/1.1" 200 5222
+INFO 2026-04-14 11:38:05 log 11168 23400 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:05 log 11168 23400 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:38:05 log 11168 23400 "GET /admin-panel/ HTTP/1.1" 200 7087
+INFO 2026-04-14 11:38:05 log 11168 26048 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:38:05 log 11168 23400 "GET /api/events/admin/events/ HTTP/1.1" 200 39841
+INFO 2026-04-14 11:38:19 log 11168 22652 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 11:38:22 log 11168 22652 "GET /login/ HTTP/1.1" 200 5222
+INFO 2026-04-14 11:38:25 log 11168 23400 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:27 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:30 log 11168 17372 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:36 log 11168 23400 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:36 log 11168 23400 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:38:36 log 11168 23400 "GET /admin-panel/ HTTP/1.1" 200 7087
+INFO 2026-04-14 11:38:37 log 11168 17372 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:38:37 log 11168 23400 "GET /api/events/admin/events/ HTTP/1.1" 200 39841
+INFO 2026-04-14 11:38:38 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:38:42 log 11168 26048 "GET /login/ HTTP/1.1" 200 5222
+INFO 2026-04-14 11:39:14 log 11168 26048 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5392
+INFO 2026-04-14 11:39:28 log 11168 26048 "GET /api/auth/ui/login/ HTTP/1.1" 200 5222
+WARNING 2026-04-14 11:39:35 log 11168 26048 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:39:35 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 11:39:41 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 11:39:41 log 11168 26048 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:39:41 log 11168 26048 "GET /admin-panel/ HTTP/1.1" 200 7087
+INFO 2026-04-14 11:39:41 log 11168 23400 "GET /api/auth/admin/users/ HTTP/1.1" 200 1416
+INFO 2026-04-14 11:39:41 log 11168 26048 "GET /api/events/admin/events/ HTTP/1.1" 200 39841
+INFO 2026-04-14 11:39:57 log 11168 26048 "GET /login/ HTTP/1.1" 200 5222
+WARNING 2026-04-14 11:40:04 log 11168 26048 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:40:04 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 11:40:07 log 11168 26048 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:40:07 log 11168 26048 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 11:40:08 log 11168 26048 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5392
+WARNING 2026-04-14 11:40:20 log 11168 26048 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 11:40:20 log 11168 26048 "POST /api/auth/signup/ HTTP/1.1" 400 117
+WARNING 2026-04-14 11:40:47 log 11168 26048 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 11:40:47 log 11168 26048 "POST /api/auth/signup/ HTTP/1.1" 400 35
+WARNING 2026-04-14 11:40:53 log 11168 26048 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 11:40:53 log 11168 26048 "POST /api/auth/signup/ HTTP/1.1" 400 35
+WARNING 2026-04-14 11:40:54 log 11168 26048 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 11:40:54 log 11168 26048 "POST /api/auth/signup/ HTTP/1.1" 400 35
+INFO 2026-04-14 11:41:00 log 11168 26048 "POST /api/auth/signup/ HTTP/1.1" 201 491
+INFO 2026-04-14 11:41:00 log 11168 26048 "GET /onboarding/ HTTP/1.1" 200 22800
+INFO 2026-04-14 11:41:00 log 11168 26048 "GET /api/auth/preferences/ HTTP/1.1" 200 114
+INFO 2026-04-14 11:41:13 log 11168 26048 "POST /api/auth/preferences/ HTTP/1.1" 200 164
+INFO 2026-04-14 11:41:14 log 11168 26048 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:41:15 log 11168 22652 "GET /api/daily-plan/ HTTP/1.1" 200 52
+INFO 2026-04-14 11:41:15 log 11168 26048 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:15 log 11168 23400 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:41:15 log 11168 17372 "GET /api/events/filtered/ HTTP/1.1" 200 37570
+INFO 2026-04-14 11:41:17 log 11168 17372 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 11:41:17 log 11168 17372 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:17 log 11168 11196 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:17 log 11168 26048 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 11:41:17 log 11168 22652 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:41:17 log 11168 26048 "GET /api/daily-plan/ HTTP/1.1" 200 52
+INFO 2026-04-14 11:41:17 log 11168 23400 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 11:41:22 log 11168 23400 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:22 views 11168 23400 Daily plan created for user 17 on 2026-04-15
+INFO 2026-04-14 11:41:22 log 11168 23400 "POST /api/daily-plan/generate/ HTTP/1.1" 201 1897
+INFO 2026-04-14 11:41:26 log 11168 23400 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:26 log 11168 23400 "POST /api/daily-plan/generate-multiday/ HTTP/1.1" 200 3927
+INFO 2026-04-14 11:41:41 log 11168 23400 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-14 11:41:41 log 11168 23400 "GET /static/js/events.js HTTP/1.1" 200 29048
+INFO 2026-04-14 11:41:42 log 11168 23400 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:42 log 11168 23400 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 11:41:42 log 11168 23400 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:41:45 log 11168 23400 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 11:41:45 log 11168 23400 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 11:41:45 log 11168 11196 "GET /api/daily-plan/ HTTP/1.1" 200 3971
+INFO 2026-04-14 11:41:45 log 11168 26048 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 11:41:45 log 11168 22652 "GET /api/events/filtered/ HTTP/1.1" 200 37570
+INFO 2026-04-14 11:41:52 log 11168 22652 "GET /login/ HTTP/1.1" 200 5222
+INFO 2026-04-14 11:46:20 autoreload 25088 17404 Watching for file changes with StatReloader
+WARNING 2026-04-14 11:46:33 log 25088 3196 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:46:33 log 25088 3196 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 11:46:34 log 25088 3196 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:46:34 log 25088 3196 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 11:46:35 log 25088 23080 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:46:35 log 25088 23080 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 11:52:13 autoreload 16892 23788 Watching for file changes with StatReloader
+WARNING 2026-04-14 11:52:18 log 16892 3164 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:52:18 log 16892 3164 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 11:52:19 log 16892 24632 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:52:19 log 16892 24632 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 11:52:20 log 16892 24632 "GET /login/ HTTP/1.1" 200 5723
+INFO 2026-04-14 11:52:21 log 16892 24632 "GET /login/ HTTP/1.1" 200 5723
+WARNING 2026-04-14 11:52:27 log 16892 24632 Bad Request: /api/auth/login/
+WARNING 2026-04-14 11:52:27 log 16892 24632 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 11:52:34 log 16892 24632 "GET /api/auth/ui/signup/ HTTP/1.1" 200 5392
+WARNING 2026-04-14 11:52:49 log 16892 24632 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 11:52:49 log 16892 24632 "POST /api/auth/signup/ HTTP/1.1" 400 114
+WARNING 2026-04-14 12:02:20 log 23436 21352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:02:20 log 23436 21352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:02:20 log 23436 21352 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:02:22 log 23436 21352 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:02:23 log 23436 21352 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:02:25 log 23436 21352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:02:28 log 23436 21352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:02:30 log 23436 21352 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:02:32 log 23436 21352 Unauthorized: /api/auth/preferences/
+INFO 2026-04-14 12:12:41 autoreload 23756 10656 Watching for file changes with StatReloader
+INFO 2026-04-14 12:12:43 log 23756 26620 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 12:12:50 log 23756 26620 "GET /login/ HTTP/1.1" 200 5723
+INFO 2026-04-14 12:13:00 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 200 491
+INFO 2026-04-14 12:13:00 log 23756 26620 "GET /api/auth/admin/users/ HTTP/1.1" 200 1564
+INFO 2026-04-14 12:13:01 log 23756 26620 "GET /admin-panel/ HTTP/1.1" 200 7087
+INFO 2026-04-14 12:13:01 log 23756 9160 "GET /api/auth/admin/users/ HTTP/1.1" 200 1564
+INFO 2026-04-14 12:13:01 log 23756 26620 "GET /api/events/admin/events/ HTTP/1.1" 200 39841
+INFO 2026-04-14 12:13:02 log 23756 26620 "GET /login/ HTTP/1.1" 200 5723
+WARNING 2026-04-14 12:13:11 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:11 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 12:13:15 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:15 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 12:13:22 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:22 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 12:13:30 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:30 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 12:13:40 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:40 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+WARNING 2026-04-14 12:13:48 log 23756 26620 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:13:48 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 12:14:01 log 23756 26620 "POST /api/auth/login/ HTTP/1.1" 200 491
+WARNING 2026-04-14 12:14:01 log 23756 26620 Forbidden: /api/auth/admin/users/
+WARNING 2026-04-14 12:14:01 log 23756 26620 "GET /api/auth/admin/users/ HTTP/1.1" 403 63
+INFO 2026-04-14 12:14:01 log 23756 26620 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 12:14:03 log 23756 26620 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:14:03 log 23756 9160 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 12:14:04 log 23756 20520 "GET /api/daily-plan/ HTTP/1.1" 200 3971
+INFO 2026-04-14 12:14:04 log 23756 3308 "GET /api/events/filtered/ HTTP/1.1" 200 37570
+INFO 2026-04-14 12:14:05 log 23756 3308 "GET /daily-plan/ HTTP/1.1" 200 22047
+INFO 2026-04-14 12:14:06 log 23756 3308 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:14:06 log 23756 5792 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:14:06 log 23756 9160 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 12:14:06 log 23756 26620 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 12:14:06 log 23756 20520 "GET /api/events/?category=food HTTP/1.1" 200 30732
+INFO 2026-04-14 12:14:06 log 23756 5792 "GET /api/daily-plan/ HTTP/1.1" 200 3971
+INFO 2026-04-14 12:14:14 log 23756 5792 "GET /events/page/ HTTP/1.1" 200 23150
+INFO 2026-04-14 12:14:14 log 23756 5792 "GET /static/js/events.js HTTP/1.1" 200 29429
+INFO 2026-04-14 12:14:14 log 23756 5792 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:14:14 log 23756 5792 "GET /api/events/favorites/ HTTP/1.1" 200 2
+INFO 2026-04-14 12:14:15 log 23756 5792 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 12:18:40 autoreload 23756 10656 C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\events\models.py changed, reloading.
+INFO 2026-04-14 12:18:41 autoreload 21500 11400 Watching for file changes with StatReloader
+INFO 2026-04-14 12:19:01 autoreload 21500 11400 C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\accounts\serializers.py changed, reloading.
+INFO 2026-04-14 12:19:01 autoreload 14264 24304 Watching for file changes with StatReloader
+INFO 2026-04-14 12:19:16 autoreload 14264 24304 C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\events\views.py changed, reloading.
+INFO 2026-04-14 12:19:16 autoreload 10440 25892 Watching for file changes with StatReloader
+INFO 2026-04-14 12:19:27 autoreload 10440 25892 C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\services.py changed, reloading.
+WARNING 2026-04-14 12:21:40 log 24564 13472 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:21:42 log 24564 13472 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:21:53 log 24564 13472 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:21:53 log 24564 13472 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:21:53 log 24564 13472 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:21:56 log 24564 13472 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:22:01 log 24564 13472 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:22:04 log 24564 13472 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:22:07 log 24564 13472 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-14 12:22:14 log 24564 13472 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:22:17 log 24564 13472 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:22:26 log 24564 13472 Bad Request: /api/events/
+WARNING 2026-04-14 12:22:29 log 24564 13472 Bad Request: /api/events/filtered/
+WARNING 2026-04-14 12:22:32 log 24564 13472 Bad Request: /api/events/
+WARNING 2026-04-14 12:22:47 log 24564 13472 Bad Request: /api/events/favorites/
+WARNING 2026-04-14 12:23:29 log 24564 13472 Not Found: /api/events/favorites/1/
+WARNING 2026-04-14 12:23:36 log 24564 13472 Unauthorized: /api/events/favorites/
+WARNING 2026-04-14 12:24:04 log 24564 13472 Bad Request: /api/events/filtered/
+WARNING 2026-04-14 12:24:23 log 24564 13472 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 12:24:30 log 24564 13472 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 12:24:48 log 24564 13472 Unauthorized: /api/daily-plan/
+WARNING 2026-04-14 12:25:05 views 24564 13472 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 12:25:05 log 24564 13472 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:25:08 log 24564 13472 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:25:11 log 24564 13472 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 12:25:14 log 24564 13472 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:25:17 log 24564 13472 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 12:25:19 views 24564 13472 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 12:25:21 views 24564 13472 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 12:25:21 views 24564 13472 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 12:25:22 views 24564 13472 Daily plan created for user 1 on 2026-04-16
+WARNING 2026-04-14 12:25:24 views 24564 13472 Invalid date format from user 1: 2026-04-15
+WARNING 2026-04-14 12:25:24 log 24564 13472 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 12:25:25 views 24564 13472 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 12:25:25 views 24564 13472 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 12:25:27 log 24564 13472 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 12:25:28 views 24564 13472 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 12:25:30 views 24564 13472 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 281, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 697, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 12:25:30 log 24564 13472 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:35 views 24564 13472 Invalid multi-day input from user 1: start_date=15/06/2026 trip_duration=None
+WARNING 2026-04-14 12:25:35 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:37 views 24564 13472 Invalid multi-day input from user 1: start_date=2026-04-15 trip_duration=0
+WARNING 2026-04-14 12:25:37 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:37 views 24564 13472 Invalid multi-day input from user 1: start_date=2026-04-15 trip_duration=bad
+WARNING 2026-04-14 12:25:37 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:39 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:42 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:46 log 24564 13472 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:25:51 log 24564 13472 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:26:27 log 4224 25552 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:26:28 log 4224 25552 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:26:34 log 4224 25552 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:26:34 log 4224 25552 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:26:34 log 4224 25552 Bad Request: /api/auth/signup/
+WARNING 2026-04-14 12:26:36 log 4224 25552 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:26:39 log 4224 25552 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:26:41 log 4224 25552 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:26:43 log 4224 25552 Unauthorized: /api/auth/preferences/
+WARNING 2026-04-14 12:26:46 log 4224 25552 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:26:48 log 4224 25552 Bad Request: /api/auth/preferences/
+WARNING 2026-04-14 12:26:53 log 4224 25552 Bad Request: /api/events/
+WARNING 2026-04-14 12:26:55 log 4224 25552 Bad Request: /api/events/filtered/
+WARNING 2026-04-14 12:26:56 log 4224 25552 Bad Request: /api/events/
+WARNING 2026-04-14 12:27:03 log 4224 25552 Bad Request: /api/events/favorites/
+WARNING 2026-04-14 12:27:13 log 4224 25552 Not Found: /api/events/favorites/1/
+WARNING 2026-04-14 12:27:15 log 4224 25552 Unauthorized: /api/events/favorites/
+WARNING 2026-04-14 12:27:22 log 4224 25552 Bad Request: /api/events/filtered/
+WARNING 2026-04-14 12:27:26 log 4224 25552 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 12:27:29 log 4224 25552 Not Found: /api/daily-plan/1/
+WARNING 2026-04-14 12:27:33 log 4224 25552 Unauthorized: /api/daily-plan/
+WARNING 2026-04-14 12:27:44 views 4224 25552 Invalid date format from user 1: 15/06/2026
+WARNING 2026-04-14 12:27:44 log 4224 25552 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:27:46 log 4224 25552 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:27:48 log 4224 25552 Not Found: /api/daily-plan/generate/
+WARNING 2026-04-14 12:27:50 log 4224 25552 Bad Request: /api/daily-plan/generate/
+WARNING 2026-04-14 12:27:51 log 4224 25552 Unauthorized: /api/daily-plan/generate/
+INFO 2026-04-14 12:27:53 views 4224 25552 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 12:27:55 views 4224 25552 Daily plan created for user 1 on 2026-04-15
+INFO 2026-04-14 12:27:55 views 4224 25552 Daily plan updated for user 1 on 2026-04-15
+INFO 2026-04-14 12:27:57 views 4224 25552 Daily plan created for user 1 on 2026-04-16
+WARNING 2026-04-14 12:27:59 views 4224 25552 Invalid date format from user 1: 2026-04-15
+WARNING 2026-04-14 12:27:59 log 4224 25552 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 12:28:01 views 4224 25552 Daily plan created for user 1 on 2026-04-16
+INFO 2026-04-14 12:28:01 views 4224 25552 Daily plan updated for user 1 on 2026-04-16
+WARNING 2026-04-14 12:28:03 log 4224 25552 Bad Request: /api/daily-plan/generate/
+INFO 2026-04-14 12:28:04 views 4224 25552 Daily plan updated for user 1 on 2026-04-16
+ERROR 2026-04-14 12:28:06 views 4224 25552 Error saving multi-day plan for user 1: forced failure
+Traceback (most recent call last):
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\views.py", line 281, in post
+    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1175, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1179, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\majd9\AppData\Local\Programs\Python\Python314\Lib\unittest\mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\majd9\OneDrive\Desktop\tizahab_project1\tizahab-web\daily_plan\tests.py", line 697, in flaky_create
+    raise RuntimeError("forced failure")
+RuntimeError: forced failure
+ERROR 2026-04-14 12:28:06 log 4224 25552 Internal Server Error: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:28:12 views 4224 25552 Invalid multi-day input from user 1: start_date=15/06/2026 trip_duration=None
+WARNING 2026-04-14 12:28:12 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:28:14 views 4224 25552 Invalid multi-day input from user 1: start_date=2026-04-15 trip_duration=0
+WARNING 2026-04-14 12:28:14 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:28:14 views 4224 25552 Invalid multi-day input from user 1: start_date=2026-04-15 trip_duration=bad
+WARNING 2026-04-14 12:28:14 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:28:17 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:28:23 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:29:07 log 4224 25552 Unauthorized: /api/daily-plan/generate-multiday/
+WARNING 2026-04-14 12:29:12 log 4224 25552 Bad Request: /api/daily-plan/generate-multiday/
+INFO 2026-04-14 12:34:28 autoreload 21852 23192 Watching for file changes with StatReloader
+INFO 2026-04-14 12:34:32 log 21852 9912 "GET / HTTP/1.1" 200 20644
+INFO 2026-04-14 12:34:36 log 21852 9912 "GET /login/ HTTP/1.1" 200 5723
+WARNING 2026-04-14 12:34:46 log 21852 9912 Unauthorized: /api/auth/login/
+WARNING 2026-04-14 12:34:46 log 21852 9912 "POST /api/auth/login/ HTTP/1.1" 401 172
+INFO 2026-04-14 12:34:46 log 21852 9912 "POST /api/auth/token/refresh/ HTTP/1.1" 200 245
+WARNING 2026-04-14 12:34:47 log 21852 9912 Bad Request: /api/auth/login/
+WARNING 2026-04-14 12:34:47 log 21852 9912 "POST /api/auth/login/ HTTP/1.1" 400 51
+INFO 2026-04-14 12:34:51 log 21852 9912 "POST /api/auth/login/ HTTP/1.1" 200 491
+WARNING 2026-04-14 12:34:51 log 21852 9912 Forbidden: /api/auth/admin/users/
+WARNING 2026-04-14 12:34:51 log 21852 9912 "GET /api/auth/admin/users/ HTTP/1.1" 403 63
+INFO 2026-04-14 12:34:51 log 21852 9912 "GET /home/ HTTP/1.1" 200 21388
+INFO 2026-04-14 12:34:51 log 21852 9912 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:34:51 log 21852 4300 "GET /api/daily-plan/ HTTP/1.1" 200 3971
+INFO 2026-04-14 12:34:51 log 21852 5720 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 12:34:51 log 21852 3080 "GET /api/events/filtered/ HTTP/1.1" 200 37570
+INFO 2026-04-14 12:34:57 log 21852 3080 "GET /daily-plan/ HTTP/1.1" 200 22047
+WARNING 2026-04-14 12:34:58 log 21852 4300 Bad Request: /api/events/
+INFO 2026-04-14 12:34:58 log 21852 3080 "GET /api/auth/me/ HTTP/1.1" 200 219
+WARNING 2026-04-14 12:34:58 log 21852 4300 "GET /api/events/?category=food HTTP/1.1" 400 168
+INFO 2026-04-14 12:34:58 log 21852 5720 "GET /api/events/?category=outdoor HTTP/1.1" 200 10793
+INFO 2026-04-14 12:34:58 log 21852 9912 "GET /api/events/ HTTP/1.1" 200 39828
+INFO 2026-04-14 12:34:58 log 21852 20520 "GET /api/auth/me/ HTTP/1.1" 200 219
+INFO 2026-04-14 12:34:58 log 21852 20520 "GET /api/daily-plan/ HTTP/1.1" 200 3971

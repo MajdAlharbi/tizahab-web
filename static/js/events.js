@@ -105,20 +105,31 @@ async function removeFavorite(eventId) {
     return false;
   }
 
-  const res = await fetch(`/api/events/favorites/${eventId}/`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (res.status === 401) {
-    promptLoginForFavorites();
-    return false;
-  }
-  if (res.status !== 204 && res.status !== 404) {
-    throw new Error("Could not remove favorite.");
+  try {
+    await apiDelete(`/api/events/favorites/${eventId}/`);
+  } catch (error) {
+    if (error.status === 401) {
+      promptLoginForFavorites();
+      return false;
+    }
+    if (error.status !== 404) {
+      throw new Error("Could not remove favorite.");
+    }
   }
 
   return true;
+}
+
+function getEventsErrorMessage(err) {
+  const fromResponse =
+    typeof extractApiErrorMessage === "function"
+      ? extractApiErrorMessage(err?.responseData, "")
+      : "";
+  const fromError = typeof err?.message === "string" ? err.message.trim() : "";
+
+  if (fromResponse) return fromResponse;
+  if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+  return "Something went wrong. Please try again.";
 }
 
 async function toggleFav(id) {
@@ -761,8 +772,7 @@ function wireGetTickets(eventId) {
     } catch (err) {
       btn.disabled = false;
       btn.textContent = "Get Tickets";
-      msg.textContent =
-        err.message || "Something went wrong. Please try again.";
+      msg.textContent = getEventsErrorMessage(err);
       msg.classList.add("text-red-500");
     }
   });

@@ -15,6 +15,8 @@ else
   echo "Events already present ($EVENT_COUNT rows) — skipping load_data."
 fi
 
+GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"
+
 exec gunicorn config.wsgi:application \
   --bind 0.0.0.0:8000 \
-  --workers 2
+  --workers "$GUNICORN_WORKERS"

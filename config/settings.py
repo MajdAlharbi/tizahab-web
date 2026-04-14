@@ -15,6 +15,13 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def env_bool(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in ("true", "1", "yes", "on")
+
 # Load .env file manually — strip both key and value to handle spaces around "="
 env_path = BASE_DIR / ".env"
 if env_path.exists():
@@ -50,7 +57,7 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
 )
 
 # Read from env so production stays safe; development .env sets DJANGO_DEBUG=True
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").strip().lower() in ("true", "1", "yes")
+DEBUG = env_bool("DJANGO_DEBUG", False)
 
 # Always include localhost in dev; production overrides via DJANGO_ALLOWED_HOSTS
 _allowed = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
@@ -266,9 +273,15 @@ if not DEBUG:
         for h in os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
         if h.strip()
     ]
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", False)
+    secure_cookies = env_bool("DJANGO_SECURE_COOKIES", SECURE_SSL_REDIRECT)
+    SESSION_COOKIE_SECURE = secure_cookies
+    CSRF_COOKIE_SECURE = secure_cookies
+
+    if env_bool("DJANGO_USE_PROXY_SSL_HEADER", False):
+        SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    if env_bool("DJANGO_ENABLE_HSTS", SECURE_SSL_REDIRECT):
+        SECURE_HSTS_SECONDS = 31536000
+        SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+        SECURE_HSTS_PRELOAD = True

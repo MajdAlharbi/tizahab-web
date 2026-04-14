@@ -4,6 +4,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.signing import TimestampSigner, BadSignature
+from unittest.mock import patch
 
 from accounts.models import UserPreferences
 from accounts.views import _make_reset_token, _read_reset_token
@@ -167,6 +168,14 @@ class UserPreferencesTests(TestCase):
         response = self.client.post("/api/auth/preferences/", {"budget_max": 50})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_trip_duration_below_range_returns_400(self):
+        response = self.client.post("/api/auth/preferences/", {"trip_duration": 0})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_trip_duration_above_range_returns_400(self):
+        response = self.client.post("/api/auth/preferences/", {"trip_duration": 31})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_preferences_require_auth(self):
         client = APIClient()
         response = client.get("/api/auth/preferences/")
@@ -175,9 +184,10 @@ class UserPreferencesTests(TestCase):
 
 class PasswordResetTokenTests(TestCase):
     def test_token_roundtrip(self):
-        token = _make_reset_token(42)
+        user = make_user("roundtrip@test.com")
+        token = _make_reset_token(user)
         result = _read_reset_token(token)
-        self.assertEqual(result, "42")
+        self.assertEqual(result, str(user.pk))
 
     def test_bad_token_raises(self):
         with self.assertRaises(BadSignature):
@@ -202,7 +212,7 @@ class PasswordResetTokenTests(TestCase):
 
     def test_reset_with_valid_token_allows_password_change(self):
         user = make_user("resetme@test.com")
-        token = _make_reset_token(user.pk)
+        token = _make_reset_token(user)
         from urllib.parse import quote
 
         safe_token = quote(token, safe="")
@@ -214,3 +224,44 @@ class PasswordResetTokenTests(TestCase):
         self.assertEqual(response.status_code, 302)
         user.refresh_from_db()
         self.assertTrue(user.check_password("NewPass123!"))
+
+    def test_reset_token_cannot_be_reused_after_successful_reset(self):
+        user = make_user("reset-once@test.com")
+        token = _make_reset_token(user)
+        from urllib.parse import quote
+
+        safe_token = quote(token, safe="")
+        url = f"/api/auth/ui/reset-password/{safe_token}/"
+
+        first = self.client.post(
+            url,
+            {"password1": "NewPass123!", "password2": "NewPass123!"},
+        )
+        self.assertEqual(first.status_code, 302)
+
+        second = self.client.post(
+            url,
+            {"password1": "AnotherPass123!", "password2": "AnotherPass123!"},
+        )
+        self.assertEqual(second.status_code, 200)
+        self.assertIn(b"invalid", second.content.lower())
+
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("NewPass123!"))
+
+    @patch("accounts.views.logger")
+    @patch("accounts.views.send_mail", side_effect=RuntimeError("smtp down"))
+    def test_forgot_password_logs_email_failures_but_keeps_safe_response(
+        self, send_mail_mock, logger_mock
+    ):
+        make_user("mailfail@test.com")
+
+        response = self.client.post(
+            "/api/auth/ui/forgot-password/",
+            {"email": "mailfail@test.com"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"if that email is registered", response.content.lower())
+        send_mail_mock.assert_called_once()
+        logger_mock.error.assert_called_once()

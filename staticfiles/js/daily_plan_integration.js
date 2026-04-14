@@ -1,6 +1,6 @@
 console.log("Daily Plan JS Loaded");
 
-let multiDayPlans = {};
+let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
 
@@ -13,6 +13,18 @@ function _localDateStr(d) {
 }
 
 let selectedDate = _localDateStr(new Date());
+
+function getDailyPlanErrorMessage(error, fallback = "Something went wrong. Please try again.") {
+  const fromResponse =
+    typeof extractApiErrorMessage === "function"
+      ? extractApiErrorMessage(error?.responseData, "")
+      : "";
+  const fromError = typeof error?.message === "string" ? error.message.trim() : "";
+
+  if (fromResponse) return fromResponse;
+  if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+  return fallback;
+}
 
 function getTripDuration() {
   // Prefer the freshly-loaded preferences from the API, fall back to localStorage.
@@ -54,7 +66,7 @@ async function generateAllDays(generateBtn) {
   setLoading(true);
 
   _currentPlan = null;
-  multiDayPlans = {};
+  multiDayPlans = [];
 
   // Always pull the latest trip_duration before generating so a just-updated
   // value on the preferences page is picked up without a hard reload.
@@ -125,7 +137,9 @@ async function requestPlanForSelectedDate(generateBtn) {
       exclude_plan_dates: excludePlanDates,
     });
 
-    const events = Array.isArray(data?.events) ? data.events.filter(Boolean) : [];
+    const events = Array.isArray(data?.events)
+      ? data.events.filter(Boolean)
+      : [];
     multiDayPlans[currentDayIndex] = sortEventsByProximity(events);
     _currentPlan = data || _currentPlan;
     selectedDate = targetDate;
@@ -152,7 +166,6 @@ function organizeEventsByTime(events) {
     "bakery",
     "juice",
     "food_truck",
-    "food",
   ]);
   const activityCategories = new Set(["culture", "shopping", "other"]);
   const relaxingCategories = new Set(["outdoor"]);
@@ -641,7 +654,7 @@ async function loadCurrentPlan() {
   // even before any plan exists.
   await refreshPreferences();
   const tripDuration = getTripDuration();
-  multiDayPlans = {};
+  multiDayPlans = [];
 
   try {
     const data = await apiGet("/api/daily-plan/");
@@ -783,15 +796,25 @@ async function searchActivities(query) {
 }
 
 async function addEventToPlan(eventId) {
-  const today = _localDateStr(new Date());
+  const targetDate =
+    multiDayDates[currentDayIndex] || selectedDate || _localDateStr(new Date());
 
-  if (_currentPlan) {
-    const existingIds = _currentPlan.events.map((e) =>
+  let targetPlan =
+    _currentPlan && _currentPlan.date === targetDate ? _currentPlan : null;
+
+  if (!targetPlan) {
+    const data = await apiGet("/api/daily-plan/");
+    const plans = data ? (Array.isArray(data) ? data : data.results || []) : [];
+    targetPlan = plans.find((plan) => plan.date === targetDate) || null;
+  }
+
+  if (targetPlan) {
+    const existingIds = (targetPlan.events || []).map((e) =>
       typeof e === "object" ? e.id : Number(e),
     );
     const merged = [...new Set([...existingIds, Number(eventId)])];
-    const updated = await apiPut(`/api/daily-plan/${_currentPlan.id}/`, {
-      date: _currentPlan.date,
+    const updated = await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
+      date: targetDate,
       events: merged,
     });
     if (updated) {
@@ -801,7 +824,7 @@ async function addEventToPlan(eventId) {
     }
   } else {
     const created = await apiPost("/api/daily-plan/", {
-      date: today,
+      date: targetDate,
       events: [Number(eventId)],
     });
     if (created) {
@@ -869,8 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = document.getElementById("plan-message");
     try {
       const isSpecificDayRegeneration =
-        currentDayIndex > 0 &&
-        Array.isArray(multiDayPlans[currentDayIndex]);
+        currentDayIndex > 0 && Array.isArray(multiDayPlans[currentDayIndex]);
 
       if (isSpecificDayRegeneration) {
         await requestPlanForSelectedDate(generateBtn);
@@ -893,7 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
           `Go to Preferences</a>`;
       } else if (error.status === 400) {
         message.textContent =
-          error.message || "Invalid request. Please try again.";
+          getDailyPlanErrorMessage(error, "Invalid request. Please try again.");
       } else if (error.status === 404) {
         message.innerHTML =
           `No places match your current budget.&nbsp;` +
@@ -902,10 +924,12 @@ document.addEventListener("DOMContentLoaded", () => {
           `Adjust preferences →</a>`;
       } else if (error.status === 500) {
         message.textContent =
-          error.message ||
-          "Server error while generating your trip. Please try again.";
+          getDailyPlanErrorMessage(
+            error,
+            "Server error while generating your trip. Please try again.",
+          );
       } else {
-        message.textContent = "Something went wrong. Please try again.";
+        message.textContent = getDailyPlanErrorMessage(error);
       }
     }
   });
@@ -1102,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCarousel(
     "restaurantsCarousel",
     "restaurantsSection",
-    "food",
+    "restaurant",
     "Restaurant",
   );
   loadCarousel("activitiesCarousel", "activitiesSection", "outdoor", "Outdoor");
