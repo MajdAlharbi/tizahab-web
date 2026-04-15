@@ -51,11 +51,3 @@ urlpatterns = [
     path("admin-panel/", staff_required(admin_panel_view), name="admin_panel"),
     path("onboarding/", protected_template("preferences.html"), name="onboarding"),
 ]
-USE_I18N = True
-
-LANGUAGES = [
-    ('en', 'English'),
-    ('ar', 'Arabic'),
-]
-
-LANGUAGE_CODE = 'en'

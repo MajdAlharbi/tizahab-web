@@ -79,17 +79,19 @@ LOGGING["loggers"]["tizahab"]["level"] = "INFO"
 # Caching (Production)
 # ========================
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/1"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-        "KEY_PREFIX": "tizahab",
-        "TIMEOUT": 300,  # 5 minutes
+REDIS_URL = os.environ.get("REDIS_URL")
+if REDIS_URL:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": REDIS_URL,
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            },
+            "KEY_PREFIX": "tizahab",
+            "TIMEOUT": 300,  # 5 minutes
+        }
     }
-}
 
 # ========================
 # Email Configuration (Production)

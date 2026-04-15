@@ -1,5 +1,3 @@
-console.log("Daily Plan JS Loaded");
-
 let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
@@ -52,9 +50,6 @@ function getTripDuration() {
     Number.isFinite(Number(fromPrefs)) && Number(fromPrefs) > 0
       ? Number(fromPrefs)
       : fromCache;
-  console.log(fromPrefs);
-  console.log(fromCache);
-  console.log(raw);
   return Math.max(1, Math.min(30, raw));
 }
 
