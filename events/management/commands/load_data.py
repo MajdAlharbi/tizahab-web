@@ -187,8 +187,8 @@ class Command(BaseCommand):
                         "start_date": None,
                         "end_date": None,
                         "location": "Riyadh",
-                        "latitude": lat,
-                        "longitude": lng,
+                        "lat": lat,
+                        "lng": lng,
                     },
                 )
                 if created:

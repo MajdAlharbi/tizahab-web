@@ -486,14 +486,11 @@ function applyMultiDayPlan(plan, preferences) {
 
   _currentPreferences = preferences || _currentPreferences;
 
-  // Only overwrite day 0 if this is a single-plan load (e.g. loadCurrentPlan)
-  // Don't clear other days that may have been generated
   const targetIndex =
     diffDays >= 0 && diffDays < getTripDuration() ? diffDays : 0;
   currentDayIndex = targetIndex;
-  if (!multiDayPlans[targetIndex] || !multiDayPlans[targetIndex].length) {
-    multiDayPlans[targetIndex] = sortEventsByProximity(events.filter(Boolean));
-  }
+  multiDayPlans[targetIndex] = sortEventsByProximity(events.filter(Boolean));
+  console.log("applyMultiDayPlan events:", multiDayPlans[targetIndex]);
 
   renderDaysBar();
   renderPlanForDay(currentDayIndex);
@@ -624,15 +621,15 @@ function renderDailyPlan(data) {
 
   const mapPoints = events
     .map((e) => {
-      const lat = Number.parseFloat(e.latitude);
-      const lng = Number.parseFloat(e.longitude);
-      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+      const latitude = Number.parseFloat(e.latitude);
+      const longitude = Number.parseFloat(e.longitude);
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
       return {
         id: e.id,
         title: e.title,
         location: e.location,
-        lat,
-        lng,
+        latitude,
+        longitude,
       };
     })
     .filter(Boolean);
@@ -779,6 +776,7 @@ async function searchActivities(query) {
         item
           .querySelector(".add-to-plan-btn")
           .addEventListener("click", async (e) => {
+            console.log("Clicked Add:", ev);
             const btn = e.currentTarget;
             btn.disabled = true;
             btn.textContent = "Adding...";
@@ -808,6 +806,11 @@ async function searchActivities(query) {
 }
 
 async function addEventToPlan(eventId) {
+  const normalizedEventId = Number(eventId);
+  if (!Number.isFinite(normalizedEventId) || normalizedEventId <= 0) {
+    throw new Error("Invalid event ID");
+  }
+
   const targetDate = getSelectedPlanDate();
 
   let targetPlan =
@@ -823,11 +826,13 @@ async function addEventToPlan(eventId) {
     const existingIds = (targetPlan.events || []).map((e) =>
       typeof e === "object" ? e.id : Number(e),
     );
-    const merged = [...new Set([...existingIds, Number(eventId)])];
+    const merged = [...new Set([...existingIds, normalizedEventId])];
+    console.log("Merged events:", merged);
     const updated = await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
       date: targetDate,
       events: merged,
     });
+    console.log("API response:", updated);
     if (updated) {
       _currentPlan = updated;
       const preferences = await loadCurrentPreferences();
@@ -836,8 +841,9 @@ async function addEventToPlan(eventId) {
   } else {
     const created = await apiPost("/api/daily-plan/", {
       date: targetDate,
-      events: [Number(eventId)],
+      events: [normalizedEventId],
     });
+    console.log("API response:", created);
     if (created) {
       _currentPlan = created;
       const preferences = await loadCurrentPreferences();
@@ -997,6 +1003,7 @@ function initDailyPlanMap() {
 
 function renderDailyPlanMarkers(points) {
   if (!window.google || !google.maps || !window.__TZ_DP_MAP) return;
+  console.log("Map update points:", points);
 
   Object.values(window.__TZ_DP_MARKERS || {}).forEach((m) => {
     if (m?.setMap) m.setMap(null);
@@ -1008,23 +1015,37 @@ function renderDailyPlanMarkers(points) {
   const info = new google.maps.InfoWindow();
   const bounds = new google.maps.LatLngBounds();
 
-  (Array.isArray(points) ? points : []).forEach((p) => {
-    if (typeof p.lat !== "number" || typeof p.lng !== "number") return;
+  (Array.isArray(points) ? points : []).forEach((event) => {
+    if (
+      typeof event.latitude !== "number" ||
+      typeof event.longitude !== "number"
+    ) {
+      return;
+    }
 
-    const pos = { lat: p.lat, lng: p.lng };
-    const marker = new google.maps.Marker({ position: pos, map });
+    const marker = new google.maps.Marker({
+      position: {
+        lat: event.latitude,
+        lng: event.longitude,
+      },
+      map: map,
+      title: event.title,
+    });
 
-    window.__TZ_DP_MARKERS[p.id] = marker;
+    window.__TZ_DP_MARKERS[event.id] = marker;
 
     marker.addListener("click", () => {
       info.setContent(
-        `<div style="font-weight:600;margin-bottom:4px;">${escapeHtml(p.title)}</div>
-         <div style="font-size:12px;opacity:.85;">${escapeHtml(p.location)}</div>`,
+        `<div style="font-weight:600;margin-bottom:4px;">${escapeHtml(event.title)}</div>
+         <div style="font-size:12px;opacity:.85;">${escapeHtml(event.location)}</div>`,
       );
       info.open({ anchor: marker, map });
     });
 
-    bounds.extend(pos);
+    bounds.extend({
+      lat: event.latitude,
+      lng: event.longitude,
+    });
   });
 
   if (!bounds.isEmpty()) map.fitBounds(bounds);
