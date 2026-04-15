@@ -772,30 +772,31 @@ async function searchActivities(query) {
         </button>
       `;
 
-      if (!alreadyAdded) {
-        item
-          .querySelector(".add-to-plan-btn")
-          .addEventListener("click", async (e) => {
-            console.log("Clicked Add:", ev);
-            const btn = e.currentTarget;
-            btn.disabled = true;
-            btn.textContent = "Adding...";
+      item
+        .querySelector(".add-to-plan-btn")
+        .addEventListener("click", async (e) => {
+          console.log("Clicked Add:", ev);
+          const btn = e.currentTarget;
+          const wasAdded = btn.textContent.trim() === "Added";
+          btn.disabled = true;
+          btn.textContent = wasAdded ? "Removing..." : "Adding...";
 
-            try {
-              await addEventToPlan(ev.id);
-              btn.textContent = "Added";
-              btn.classList.remove("bg-brand", "hover:opacity-90");
-              btn.classList.add(
-                "bg-gray-100",
-                "text-gray-400",
-                "cursor-not-allowed",
-              );
-            } catch {
-              btn.disabled = false;
-              btn.textContent = "Add";
-            }
-          });
-      }
+          try {
+            await addEventToPlan(ev.id);
+            const isAdded = !wasAdded;
+            btn.disabled = false;
+            btn.textContent = isAdded ? "Added" : "Add";
+            btn.classList.toggle("bg-brand", !isAdded);
+            btn.classList.toggle("text-white", !isAdded);
+            btn.classList.toggle("hover:opacity-90", !isAdded);
+            btn.classList.toggle("bg-gray-100", isAdded);
+            btn.classList.toggle("text-gray-400", isAdded);
+            btn.classList.toggle("cursor-not-allowed", false);
+          } catch {
+            btn.disabled = false;
+            btn.textContent = wasAdded ? "Added" : "Add";
+          }
+        });
 
       results.appendChild(item);
     });
@@ -826,13 +827,16 @@ async function addEventToPlan(eventId) {
     const existingIds = (targetPlan.events || []).map((e) =>
       typeof e === "object" ? e.id : Number(e),
     );
-    const merged = [...new Set([...existingIds, normalizedEventId])];
-    console.log("Merged events:", merged);
+    const updatedEvents = existingIds.includes(normalizedEventId)
+      ? existingIds.filter((id) => id !== normalizedEventId)
+      : [...new Set([...existingIds, normalizedEventId])];
+    console.log("Merged events:", updatedEvents);
     const updated = await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
       date: targetDate,
-      events: merged,
+      events: updatedEvents,
     });
     console.log("API response:", updated);
+    console.log("Plan events:", updated?.events);
     if (updated) {
       _currentPlan = updated;
       const preferences = await loadCurrentPreferences();
@@ -844,6 +848,7 @@ async function addEventToPlan(eventId) {
       events: [normalizedEventId],
     });
     console.log("API response:", created);
+    console.log("Plan events:", created?.events);
     if (created) {
       _currentPlan = created;
       const preferences = await loadCurrentPreferences();
@@ -1016,17 +1021,18 @@ function renderDailyPlanMarkers(points) {
   const bounds = new google.maps.LatLngBounds();
 
   (Array.isArray(points) ? points : []).forEach((event) => {
-    if (
-      typeof event.latitude !== "number" ||
-      typeof event.longitude !== "number"
-    ) {
+    const lat = Number.parseFloat(event.latitude);
+    const lng = Number.parseFloat(event.longitude);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      console.log("Skipped invalid coords:", event);
       return;
     }
 
     const marker = new google.maps.Marker({
       position: {
-        lat: event.latitude,
-        lng: event.longitude,
+        lat: lat,
+        lng: lng,
       },
       map: map,
       title: event.title,
@@ -1043,8 +1049,8 @@ function renderDailyPlanMarkers(points) {
     });
 
     bounds.extend({
-      lat: event.latitude,
-      lng: event.longitude,
+      lat: lat,
+      lng: lng,
     });
   });
 
