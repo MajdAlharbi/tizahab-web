@@ -210,7 +210,7 @@ LOCALE_PATHS = [
 # Static
 # ========================
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
 
 # Where collectstatic writes files for production serving by WhiteNoise / CDN.
 # Must NOT overlap with any path inside STATICFILES_DIRS.
@@ -223,6 +223,14 @@ STATICFILES_DIRS = [
 # WhiteNoise: compress files and append content-hash to filenames for
 # cache-busting. Requires `python manage.py collectstatic` before deployment.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # ========================
 # Email

@@ -1,32 +1,27 @@
 """
-Management command to import events from the Riyadh restaurants dataset.
-
-Reads from data/dataset-Tizahab/riyadh_resturants_clean.csv (19,361 places
-with lat/lng from Foursquare).
+Management command to import events from the Riyadh restaurants CSV dataset.
 
 Usage:
     python manage.py load_data
-    python manage.py load_data --clear   # wipe existing events first
+    python manage.py load_data --clear
 """
 
 import csv
 from pathlib import Path
+
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+
 from events.models import Event
 
-_DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "dataset-Tizahab"
-_CSV_FILE = _DATA_DIR / "riyadh_resturants_clean.csv"
+DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "dataset-Tizahab"
+CSV_FILE = DATA_DIR / "riyadh_resturants_clean.csv"
 
-# Map Foursquare categories → Event.category
-# Uses the first matching keyword from the raw category string.
-_KEYWORD_CATEGORY = [
-    # Order matters — more specific keywords first
+KEYWORD_CATEGORY = [
     ("food truck", "food_truck"),
     ("food stand", "food_truck"),
     ("food court", "food_truck"),
     ("coffee shop", "cafe"),
-    ("café", "cafe"),
     ("cafe", "cafe"),
     ("tea room", "cafe"),
     ("juice bar", "juice"),
@@ -79,30 +74,35 @@ _KEYWORD_CATEGORY = [
 ]
 
 
-def _classify(raw_category):
-    """Match a Foursquare category string to an Event category."""
-    lower = raw_category.lower()
-    for keyword, category in _KEYWORD_CATEGORY:
+def classify_category(raw_category):
+    lower = str(raw_category or "").lower()
+    for keyword, category in KEYWORD_CATEGORY:
         if keyword in lower:
             return category
-    # Default: if it contains "restaurant" anywhere, it's a restaurant
+
     if "restaurant" in lower:
         return "restaurant"
-    # Remaining food-related terms
-    for term in ["steakhouse", "bbq", "noodle", "dumpling", "sushi",
-                  "seafood", "bistro", "diner", "buffet", "cafeteria",
-                  "breakfast", "brunch", "snack", "food"]:
+
+    for term in [
+        "steakhouse",
+        "bbq",
+        "noodle",
+        "dumpling",
+        "sushi",
+        "seafood",
+        "bistro",
+        "diner",
+        "buffet",
+        "cafeteria",
+        "breakfast",
+        "brunch",
+        "snack",
+        "food",
+    ]:
         if term in lower:
             return "restaurant"
-    return "other"
 
-# Convert Foursquare price labels to SAR values
-_PRICE_MAP = {
-    "Cheap": 25.0,
-    "Moderate": 75.0,
-    "Expensive": 150.0,
-    "Very Expensive": 250.0,
-}
+    return "other"
 
 
 class Command(BaseCommand):
@@ -116,10 +116,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if not _CSV_FILE.exists():
-            self.stderr.write(self.style.ERROR(
-                f"Dataset not found: {_CSV_FILE}"
-            ))
+        if not CSV_FILE.exists():
+            self.stderr.write(self.style.ERROR(f"Dataset not found: {CSV_FILE}"))
             return
 
         if options["clear"]:
@@ -127,77 +125,77 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING(f"Deleted {deleted} existing events."))
 
         now = timezone.now()
+        rows_read = 0
         created_count = 0
         updated_count = 0
         skipped_count = 0
 
-        self.stdout.write(f"Reading {_CSV_FILE.name}...")
+        self.stdout.write(f"Reading {CSV_FILE.name}...")
 
-        with open(_CSV_FILE, encoding="utf-8") as f:
-            reader = csv.DictReader(f)
+        with CSV_FILE.open(encoding="utf-8", newline="") as csv_file:
+            reader = csv.DictReader(csv_file)
+            self.stdout.write(f"Columns: {', '.join(reader.fieldnames or [])}")
 
             for row in reader:
-                name = (row.get("name") or "").strip()
+                rows_read += 1
+
+                name = (row.get("place_name") or "").strip()
                 if not name:
                     skipped_count += 1
                     continue
 
-                # Map category
-                raw_cat = (row.get("categories") or "").strip()
-                category = _classify(raw_cat)
+                raw_category = (row.get("categories") or "").strip()
+                category = classify_category(raw_category)
 
-                # Parse coordinates
                 try:
-                    lat = float(row.get("lat", ""))
-                    lng = float(row.get("lng", ""))
-                except (ValueError, TypeError):
-                    lat = None
-                    lng = None
+                    latitude = float(row.get("latitude", ""))
+                    longitude = float(row.get("longitude", ""))
+                except (TypeError, ValueError):
+                    latitude = None
+                    longitude = None
 
-                # Parse price
-                price_label = (row.get("price") or "").strip()
-                price = _PRICE_MAP.get(price_label)
-
-                # Parse rating
                 rating = None
-                raw_rating = (row.get("rating") or "").strip()
+                raw_rating = (row.get("average_rating") or "").strip()
                 if raw_rating:
                     try:
-                        r = float(raw_rating)
-                        # Foursquare uses 0-10 scale, convert to 0-5
-                        rating = round(r / 2, 1) if 0 <= r <= 10 else None
-                    except (ValueError, TypeError):
-                        pass
+                        parsed_rating = float(raw_rating)
+                        rating = round(parsed_rating, 1) if 0 <= parsed_rating <= 5 else None
+                    except (TypeError, ValueError):
+                        rating = None
 
-                # Build description from category + address
-                address = (row.get("address") or "").strip()
-                description = raw_cat.title() or "Place in Riyadh"
-                if address:
-                    description = f"{description} — {address}"
+                rate_count = (row.get("rate_count") or "").strip()
+                description = raw_category.replace("|", ", ") or "Place in Riyadh"
+                if rate_count:
+                    description = f"{description} - {rate_count} ratings"
 
-                obj, created = Event.objects.update_or_create(
+                _, created = Event.objects.update_or_create(
                     title=name,
                     defaults={
                         "category": category,
                         "description": description,
-                        "price": price,
-                        "price_range": price_label or None,
+                        "price": None,
+                        "price_range": None,
                         "rating": rating,
                         "date": now,
                         "start_date": None,
                         "end_date": None,
-                        "location": "Riyadh",
-                        "lat": lat,
-                        "lng": lng,
+                        "location": "Riyadh, Saudi Arabia",
+                        "latitude": latitude,
+                        "longitude": longitude,
                     },
                 )
+
                 if created:
                     created_count += 1
                 else:
                     updated_count += 1
 
-        total = created_count + updated_count
-        self.stdout.write(self.style.SUCCESS(
-            f"Done. Created: {created_count}, Updated: {updated_count}, "
-            f"Skipped: {skipped_count}, Total: {total}"
-        ))
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Done. "
+                f"Rows read: {rows_read}, "
+                f"Created: {created_count}, "
+                f"Updated: {updated_count}, "
+                f"Skipped: {skipped_count}"
+            )
+        )
