@@ -29,7 +29,7 @@ font-arimo relative{% endblock %} {% block content %}
   </div>
 
   <!-- Form -->
-  <form method="post" class="space-y-6">
+  <form id="signup-form" method="post" class="space-y-6">
     {% csrf_token %}
 
     <!-- Full Name -->
@@ -99,46 +99,5 @@ font-arimo relative{% endblock %} {% block content %}
 <a href="/" class="absolute bottom-6 text-white text-sm"> ← Back to Home </a>
 {% endblock %} {% block scripts %}
 <script src="{% static 'js/api.js' %}"></script>
-<script>
-  const form = document.querySelector("form");
-  const errorBox = document.getElementById("signup-error");
-
-  function getSignupErrorMessage(err) {
-    const fromResponse =
-      typeof extractApiErrorMessage === "function"
-        ? extractApiErrorMessage(err?.responseData, "")
-        : "";
-    const fromError = typeof err?.message === "string" ? err.message.trim() : "";
-
-    if (fromResponse) return fromResponse;
-    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
-    return "Something went wrong. Please try again.";
-  }
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    errorBox.classList.add("hidden");
-    errorBox.textContent = "";
-
-    const email = form.querySelector("input[name='email']").value;
-    const password = form.querySelector("input[name='password']").value;
-    const password2 = form.querySelector("input[name='password2']").value;
-
-    try {
-      const data = await apiPost("/api/auth/signup/", {
-        email: email,
-        password: password,
-        password2: password2,
-      });
-
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
-      window.location.href = "/onboarding/";
-    } catch (err) {
-      errorBox.textContent = getSignupErrorMessage(err);
-      errorBox.classList.remove("hidden");
-    }
-  });
-</script>
+<script src="{% static 'js/auth.js' %}"></script>
 {% endblock %}

@@ -1,4 +1,8 @@
-if (document.getElementById("signup-form")) {
+const signupForm = document.getElementById("signup-form");
+
+if (signupForm) {
+  const errorBox = document.getElementById("signup-error");
+
   function getSignupPageErrorMessage(err) {
     const fromResponse =
       typeof extractApiErrorMessage === "function"
@@ -11,21 +15,39 @@ if (document.getElementById("signup-form")) {
     return "Something went wrong. Please try again.";
   }
 
-  document.getElementById("signup-form").addEventListener("submit", async function(e) {
+  signupForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const password2 = e.target.password2.value;
+    errorBox?.classList.add("hidden");
+    if (errorBox) errorBox.textContent = "";
+
+    if (typeof window.apiPost !== "function") {
+      if (errorBox) {
+        errorBox.textContent = "Signup is temporarily unavailable. Please reload the page.";
+        errorBox.classList.remove("hidden");
+      }
+      return;
+    }
+
+    const email = signupForm.querySelector("input[name='email']").value;
+    const password = signupForm.querySelector("input[name='password']").value;
+    const password2 = signupForm.querySelector("input[name='password2']").value;
 
     try {
-      await apiPost("/api/auth/signup/", { username, email, password, password2});
-      alert("Signup successful!");
-      window.location.href = "/login/";
+      const data = await window.apiPost("/api/auth/signup/", {
+        email,
+        password,
+        password2,
+      });
+
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      window.location.href = "/onboarding/";
     } catch (err) {
-      document.getElementById("signup-error").innerText =
-        getSignupPageErrorMessage(err);
+      if (errorBox) {
+        errorBox.textContent = getSignupPageErrorMessage(err);
+        errorBox.classList.remove("hidden");
+      }
     }
   });
 }
