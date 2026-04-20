@@ -265,3 +265,66 @@ class PasswordResetTokenTests(TestCase):
         self.assertIn(b"if that email is registered", response.content.lower())
         send_mail_mock.assert_called_once()
         logger_mock.error.assert_called_once()
+
+
+class LogoutFlowTests(TestCase):
+    def test_logout_post_clears_server_session(self):
+        user = make_user("logout@test.com")
+        self.client.force_login(user)
+
+        response = self.client.post("/logout/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_logout_get_redirects_to_login_and_clears_session(self):
+        user = make_user("logout-get@test.com")
+        self.client.force_login(user)
+
+        response = self.client.get("/logout/")
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/login/")
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+
+class AdminUserValidationTests(TestCase):
+    def setUp(self):
+        self.admin = make_user("admin@test.com")
+        self.admin.is_staff = True
+        self.admin.save()
+        self.user = make_user("member@test.com")
+        self.other = make_user("other@test.com")
+        self.client = auth_client(self.admin)
+
+    def test_admin_patch_rejects_duplicate_email(self):
+        response = self.client.patch(
+            f"/api/auth/admin/users/{self.user.pk}/",
+            {"email": self.other.email},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "member@test.com")
+
+    def test_admin_patch_rejects_invalid_email_format(self):
+        response = self.client.patch(
+            f"/api/auth/admin/users/{self.user.pk}/",
+            {"email": "not-an-email"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_admin_patch_updates_valid_fields(self):
+        response = self.client.patch(
+            f"/api/auth/admin/users/{self.user.pk}/",
+            {"email": "updated@test.com", "is_active": False},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "updated@test.com")
+        self.assertFalse(self.user.is_active)

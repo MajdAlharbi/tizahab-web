@@ -22,6 +22,11 @@ def env_bool(name, default=False):
         return default
     return value.strip().lower() in ("true", "1", "yes", "on")
 
+
+def env_list(name, default=""):
+    value = os.environ.get(name, default)
+    return [item.strip() for item in value.split(",") if item.strip()]
+
 # Load .env file manually — strip both key and value to handle spaces around "="
 env_path = BASE_DIR / ".env"
 if env_path.exists():
@@ -60,8 +65,7 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
 DEBUG = env_bool("DJANGO_DEBUG", False)
 
 # Always include localhost in dev; production overrides via DJANGO_ALLOWED_HOSTS
-_allowed = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
-ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 
 # ========================
 # Applications
@@ -268,11 +272,7 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = "DENY"
-    CSRF_TRUSTED_ORIGINS = [
-        h.strip()
-        for h in os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
-        if h.strip()
-    ]
+    CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "http://localhost")
     SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", False)
     secure_cookies = env_bool("DJANGO_SECURE_COOKIES", SECURE_SSL_REDIRECT)
     SESSION_COOKIE_SECURE = secure_cookies

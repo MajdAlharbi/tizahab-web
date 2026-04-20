@@ -5,13 +5,14 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate, login as django_login
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.conf import settings
+from django.http import JsonResponse
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import is_ratelimited
 import logging
@@ -21,6 +22,7 @@ from .serializers import (
     UserPreferencesSerializer,
     SignupSerializer,
     LoginSerializer,
+    AdminUserUpdateSerializer,
 )
 from .throttles import (
     ChangePasswordRateThrottle,
@@ -80,6 +82,13 @@ def signup_page(request):
 
 def preferences_page(request):
     return render(request, "preferences.html")
+
+
+def logout_view(request):
+    django_logout(request)
+    if request.method == "POST":
+        return JsonResponse({"detail": "Logged out successfully."}, status=200)
+    return redirect("/login/")
 
 
 @ratelimit(
@@ -400,12 +409,21 @@ class AdminUserDetailAPIView(APIView):
 
     def patch(self, request, pk):
         u = get_object_or_404(User, pk=pk)
-        u.username = request.data.get("username", u.username)
-        u.email = request.data.get("email", u.email)
-        if "is_active" in request.data:
-            u.is_active = request.data["is_active"]
-        u.save()
-        return Response({"id": u.id, "username": u.username, "email": u.email, "is_active": u.is_active})
+        serializer = AdminUserUpdateSerializer(
+            u,
+            data=request.data,
+            partial=True,
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                "id": u.id,
+                "username": u.username,
+                "email": u.email,
+                "is_active": u.is_active,
+            }
+        )
 
     def delete(self, request, pk):
         if str(pk) == str(request.user.pk):

@@ -130,7 +130,7 @@
 
     <!-- Logout -->
     <div class="p-3 border-t border-gray-100 shrink-0">
-      <button type="button" onclick="localStorage.removeItem('access');localStorage.removeItem('refresh');window.location.href='/login/';"
+      <button type="button" onclick="logout();"
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors w-full">
         <i data-lucide="log-out" class="w-[18px] h-[18px] shrink-0"></i>
         <span class="nav-label-en">Logout</span>
@@ -312,3 +312,4 @@
 </body>
 
 </html>
+

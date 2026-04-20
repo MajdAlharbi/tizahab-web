@@ -28,10 +28,21 @@ function redirectToLogin() {
   window.location.href = "/login/?next=" + encodeURIComponent(next);
 }
 
+function getCookie(name) {
+  const prefix = `${name}=`;
+  return document.cookie
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(prefix))
+    ?.slice(prefix.length) || "";
+}
+
 function authHeaders() {
   const token = getToken();
   const headers = { "Content-Type": "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
+  const csrfToken = getCookie("csrftoken");
+  if (csrfToken) headers["X-CSRFToken"] = csrfToken;
   return headers;
 }
 
@@ -128,10 +139,25 @@ async function _tryRefresh() {
 }
 
 /** Redirect to login and clear stored tokens. */
-function _logout() {
+async function logout(options = {}) {
+  const redirect = options.redirect !== false;
+
+  try {
+    await fetch("/logout/", {
+      method: "POST",
+      headers: authHeaders(),
+    });
+  } catch {}
+
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");
-  window.location.href = "/login/";
+  if (redirect) {
+    window.location.href = "/login/";
+  }
+}
+
+function _logout() {
+  return logout();
 }
 
 async function apiGet(url) {
@@ -265,3 +291,4 @@ window.catColor = catColor;
 window.getToken = getToken;
 window.isLoggedIn = isLoggedIn;
 window.redirectToLogin = redirectToLogin;
+window.logout = logout;

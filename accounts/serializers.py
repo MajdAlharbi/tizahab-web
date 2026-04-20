@@ -141,3 +141,23 @@ class LoginSerializer(serializers.Serializer):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
+
+
+class AdminUserUpdateSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "is_active")
+
+    def validate_email(self, value):
+        queryset = User.objects.exclude(pk=getattr(self.instance, "pk", None))
+        if queryset.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+
+    def validate_username(self, value):
+        queryset = User.objects.exclude(pk=getattr(self.instance, "pk", None))
+        if queryset.filter(username=value).exists():
+            raise serializers.ValidationError("A user with this username already exists.")
+        return value

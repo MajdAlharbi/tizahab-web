@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required, user_passes_test
-from accounts.views import admin_panel_view
+from accounts.views import admin_panel_view, logout_view
 
 
 protected_template = lambda template_name: login_required(  # noqa: E731
@@ -30,7 +29,7 @@ urlpatterns = [
     # Auth Pages
     path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
-    path("logout/", auth_views.LogoutView.as_view(next_page="/login/"), name="logout"),
+    path("logout/", logout_view, name="logout"),
 
     # Auth APIs
     path("api/auth/", include("accounts.urls")),

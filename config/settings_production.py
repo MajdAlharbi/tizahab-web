@@ -1,13 +1,12 @@
 """
 Production settings for Tizahab.
 
-Use this file for production deployments.
-Override sensitive settings via environment variables.
-
-Usage:
-    export DJANGO_SETTINGS_MODULE=config.settings_production
-    python manage.py runserver
+Use this module for real deployments only.
+It builds on the shared base settings and hardens the runtime defaults.
 """
+
+from django.core.exceptions import ImproperlyConfigured
+import dj_database_url
 
 from .settings import *  # noqa
 
@@ -17,52 +16,56 @@ from .settings import *  # noqa
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
-if not ALLOWED_HOSTS or ALLOWED_HOSTS == [""]:
-    raise ValueError("DJANGO_ALLOWED_HOSTS environment variable must be set")
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "")
+if not ALLOWED_HOSTS:
+    raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS environment variable must be set")
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 if not SECRET_KEY or SECRET_KEY == "unsafe-default-key":
-    raise ValueError("DJANGO_SECRET_KEY must be set for production")
+    raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set for production")
 
 # HTTPS and Security Headers
-SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "True") == "True"
+SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_SECURITY_POLICY = {
-    "default-src": ("'self'",),
-    "script-src": ("'self'",),
-    "style-src": ("'self'", "'unsafe-inline'"),
-    "img-src": ("'self'", "data:", "https:"),
-}
-
 X_FRAME_OPTIONS = "DENY"
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 
 # ========================
 # Database (Production)
 # ========================
 
-# Must configure in environment for production database
-DB_ENGINE = os.environ.get("DB_ENGINE", "")
-if not DB_ENGINE:
-    raise ValueError("DB_ENGINE environment variable must be set in production")
-if DB_ENGINE == "django.db.backends.postgresql":
+database_url = os.environ.get("DATABASE_URL", "").strip()
+if database_url:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            database_url,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=database_url.startswith("postgres"),
+        )
+    }
+else:
+    db_engine = os.environ.get("DB_ENGINE", "").strip()
+    if not db_engine:
+        raise ImproperlyConfigured(
+            "DATABASE_URL must be set for production, or supply DB_ENGINE and related DB_* variables."
+        )
     DATABASES = {
         "default": {
-            "ENGINE": DB_ENGINE,
+            "ENGINE": db_engine,
             "NAME": os.environ.get("DB_NAME", "tizahab_db"),
             "USER": os.environ.get("DB_USER", "postgres"),
             "PASSWORD": os.environ.get("DB_PASSWORD"),
             "HOST": os.environ.get("DB_HOST", "localhost"),
             "PORT": os.environ.get("DB_PORT", "5432"),
             "CONN_MAX_AGE": 600,
-            "OPTIONS": {
-                "sslmode": "require",
-            },
+            "CONN_HEALTH_CHECKS": True,
         }
     }
 
