@@ -156,7 +156,9 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     if not interests:
         return None
 
-    queryset = Event.objects.filter(category__in=interests)
+    base_queryset = Event.objects.filter(category__in=interests)
+    queryset = base_queryset
+    used_fallback = False
 
     if preferences.budget_max is not None:
         queryset = queryset.filter(
@@ -176,6 +178,35 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
         queryset = queryset.exclude(id__in=exclude_ids)
 
     candidates = list(queryset)
+    has_strict_filters = any(
+        value is not None
+        for value in (
+            preferences.budget_min,
+            preferences.budget_max,
+            preferences.min_rating,
+        )
+    )
+    if not candidates and base_queryset.exists() and has_strict_filters:
+        fallback_queryset = Event.objects.all()
+
+        if preferences.budget_max is not None:
+            fallback_queryset = fallback_queryset.filter(
+                Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
+            )
+        if preferences.budget_min is not None:
+            fallback_queryset = fallback_queryset.filter(
+                Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
+            )
+        if preferences.min_rating is not None:
+            fallback_queryset = fallback_queryset.filter(
+                Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
+            )
+        if exclude_ids:
+            fallback_queryset = fallback_queryset.exclude(id__in=exclude_ids)
+
+        candidates = list(fallback_queryset)
+        used_fallback = bool(candidates)
+
     if not candidates:
         return []
 
@@ -240,7 +271,8 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
             clat, clng = _centroid(selected)
 
     # Phase 3: reorder into a logical route (nearest-neighbour)
-    selected = _order_by_route(selected[:5])
+    limit = 7 if used_fallback else 5
+    selected = _order_by_route(selected[:limit])
 
     return selected
 

@@ -51,8 +51,11 @@ async function parseResponseBody(res) {
   const trimmed = text.trim();
 
   if (trimmed.startsWith("<!DOCTYPE") || trimmed.startsWith("<html")) {
-    redirectToLogin();
-    return null;
+    console.warn("Unexpected HTML response");
+    const err = new Error("Invalid response");
+    err.type = "server";
+    err.status = res.status;
+    throw err;
   }
 
   if (!trimmed) return null;
@@ -165,10 +168,22 @@ async function apiGet(url) {
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
-    if (!refreshed) { _logout(); return null; }
+    if (!refreshed) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
     // Retry with the new access token
     res = await fetch(url, { headers: authHeaders() });
-    if (res.status === 401) { _logout(); return null; }
+    if (res.status === 401) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
   }
 
   if (!res.ok) await _raiseApiError(res, "Unable to load data");
@@ -184,14 +199,26 @@ async function apiPost(url, data) {
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
-    if (!refreshed) { _logout(); return null; }
+    if (!refreshed) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
     // Retry with the new access token
     res = await fetch(url, {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) { _logout(); return null; }
+    if (res.status === 401) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
   }
 
   if (!res.ok) await _raiseApiError(res, "Unable to complete request");
@@ -207,13 +234,25 @@ async function apiPut(url, data) {
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
-    if (!refreshed) { _logout(); return null; }
+    if (!refreshed) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
     res = await fetch(url, {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) { _logout(); return null; }
+    if (res.status === 401) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
   }
 
   if (!res.ok) await _raiseApiError(res, "Unable to save changes");
@@ -229,13 +268,25 @@ async function apiPatch(url, data) {
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
-    if (!refreshed) { _logout(); return null; }
+    if (!refreshed) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
     res = await fetch(url, {
       method: "PATCH",
       headers: authHeaders(),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) { _logout(); return null; }
+    if (res.status === 401) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
   }
 
   if (!res.ok) await _raiseApiError(res, "Unable to update data");
@@ -250,12 +301,24 @@ async function apiDelete(url) {
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
-    if (!refreshed) { _logout(); return null; }
+    if (!refreshed) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
     res = await fetch(url, {
       method: "DELETE",
       headers: authHeaders(),
     });
-    if (res.status === 401) { _logout(); return null; }
+    if (res.status === 401) {
+      console.warn("401 Unauthorized - not forcing logout");
+      const err = new Error("Unauthorized");
+      err.type = "auth";
+      err.status = 401;
+      throw err;
+    }
   }
 
   if (!res.ok) await _raiseApiError(res, "Unable to delete data");

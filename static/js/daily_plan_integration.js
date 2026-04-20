@@ -940,7 +940,7 @@ document.addEventListener("DOMContentLoaded", () => {
           getDailyPlanErrorMessage(error, "Invalid request. Please try again.");
       } else if (error.status === 404) {
         message.innerHTML =
-          `No places match your current budget.&nbsp;` +
+          `No places match your current preferences (interests, rating, or budget).&nbsp;` +
           `<a href="/onboarding/" ` +
           `class="underline text-brand font-medium hover:opacity-80">` +
           `Adjust preferences →</a>`;
