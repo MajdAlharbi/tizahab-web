@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from datetime import date
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -29,6 +30,8 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             "interests",
             "min_rating",
             "trip_duration",
+            "start_date",
+            "end_date",
         ]
 
     def to_representation(self, instance):
@@ -93,6 +96,21 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         if min_b is not None and max_b is not None and min_b > max_b:
             raise serializers.ValidationError(
                 "budget_min cannot be greater than budget_max"
+            )
+
+        start_date = attrs.get(
+            "start_date", getattr(instance, "start_date", None) if instance else None
+        )
+        end_date = attrs.get(
+            "end_date", getattr(instance, "end_date", None) if instance else None
+        )
+        if start_date and start_date < date.today():
+            raise serializers.ValidationError(
+                {"start_date": "Cannot save a past start_date."}
+            )
+        if end_date and start_date and end_date < start_date:
+            raise serializers.ValidationError(
+                {"end_date": "end_date must be on or after start_date."}
             )
 
         return attrs

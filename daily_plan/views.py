@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .models import DailyPlan
 from .serializers import DailyPlanSerializer
 from .services import generate_multiday_plan, generate_recommendations
+from accounts.models import UserPreferences
 from events.serializers import EventSerializer
 import logging
 
@@ -79,6 +80,21 @@ def _parse_exclude_plan_dates(raw_value):
     return parsed_dates
 
 
+def _resolve_request_or_preference_dates(user, date_str=None, start_date_str=None, end_date_str=None):
+    if date_str or start_date_str or end_date_str:
+        return date_str, start_date_str, end_date_str
+
+    preferences = UserPreferences.objects.filter(user=user).first()
+    if not preferences or not preferences.start_date:
+        return date_str, start_date_str, end_date_str
+
+    return (
+        preferences.start_date.isoformat(),
+        preferences.start_date.isoformat(),
+        preferences.end_date.isoformat() if preferences.end_date else None,
+    )
+
+
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = DailyPlanSerializer
     permission_classes = [IsAuthenticated]
@@ -145,9 +161,13 @@ class GenerateDailyPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        date_str = request.data.get("date")
-        start_date_str = request.data.get("start_date") or date_str
-        end_date_str = request.data.get("end_date")
+        date_str, start_date_str, end_date_str = _resolve_request_or_preference_dates(
+            user,
+            date_str=request.data.get("date"),
+            start_date_str=request.data.get("start_date"),
+            end_date_str=request.data.get("end_date"),
+        )
+        start_date_str = start_date_str or date_str
         seed = request.data.get("seed")
         exclude_plan_dates = request.data.get("exclude_plan_dates")
 
@@ -256,8 +276,11 @@ class GenerateMultiDayPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        start_date_str = request.data.get("start_date") or request.data.get("date_from")
-        end_date_str = request.data.get("end_date") or request.data.get("date_to")
+        start_date_str, _, end_date_str = _resolve_request_or_preference_dates(
+            user,
+            start_date_str=request.data.get("start_date") or request.data.get("date_from"),
+            end_date_str=request.data.get("end_date") or request.data.get("date_to"),
+        )
         trip_duration = request.data.get("trip_duration")
 
         if not start_date_str:

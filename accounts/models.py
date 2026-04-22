@@ -36,6 +36,9 @@ class UserPreferences(models.Model):
         help_text="Number of trip days (1-30). Used by multi-day plan generation.",
     )
 
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

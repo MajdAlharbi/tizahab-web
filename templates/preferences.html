@@ -108,7 +108,19 @@
 
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 shadow-sm">
       <h2 class="text-lg font-semibold text-gray-800">Trip Details</h2>
-      <p class="text-sm text-gray-500">Trip length is saved here. You will choose exact travel dates on the plan page.</p>
+      <p class="text-sm text-gray-500">Save your trip length and preferred travel dates here. The Daily Plan page can still override them when needed.</p>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">Start Date</label>
+          <input id="tripStartDate" type="date"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">End Date</label>
+          <input id="tripEndDate" type="date"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+        </div>
+      </div>
       <div class="grid sm:grid-cols-2 gap-5">
         <div class="space-y-1.5">
           <label class="text-sm font-medium text-gray-700">Trip Duration (days)</label>
@@ -219,6 +231,49 @@
 
   <script>
     const selectedCards = new Set();
+    const tripDurationInput = document.getElementById("tripDuration");
+    const tripStartDateInput = document.getElementById("tripStartDate");
+    const tripEndDateInput = document.getElementById("tripEndDate");
+    const prefErrorEl = document.getElementById("prefError");
+
+    if (tripDurationInput) {
+      tripDurationInput.readOnly = true;
+      tripDurationInput.setAttribute("aria-readonly", "true");
+    }
+
+    function syncTripDurationFromDates() {
+      if (!tripDurationInput || !tripStartDateInput || !tripEndDateInput) return;
+
+      const startDate = tripStartDateInput.value;
+      const endDate = tripEndDateInput.value;
+
+      if (!startDate || !endDate) {
+        tripDurationInput.value = "";
+        return;
+      }
+
+      if (endDate < startDate) {
+        tripDurationInput.value = "";
+        if (prefErrorEl) {
+          prefErrorEl.textContent = "End date must be on or after start date.";
+          prefErrorEl.classList.remove("hidden");
+        }
+        return;
+      }
+
+      const start = new Date(`${startDate}T00:00:00`);
+      const end = new Date(`${endDate}T00:00:00`);
+      const duration = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      tripDurationInput.value = String(duration);
+      if (prefErrorEl && prefErrorEl.textContent === "End date must be on or after start date.") {
+        prefErrorEl.classList.add("hidden");
+        prefErrorEl.textContent = "";
+      }
+    }
+
+    tripStartDateInput?.addEventListener("change", syncTripDurationFromDates);
+    tripEndDateInput?.addEventListener("change", syncTripDurationFromDates);
+    tripDurationInput?.addEventListener("input", syncTripDurationFromDates);
 
     document.querySelectorAll(".interest-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -330,6 +385,11 @@
           if (durInput) durInput.value = data.trip_duration;
           localStorage.setItem("tz_trip_duration", String(data.trip_duration));
         }
+        const startDateInput = document.getElementById("tripStartDate");
+        const endDateInput = document.getElementById("tripEndDate");
+        if (startDateInput) startDateInput.value = data.start_date || "";
+        if (endDateInput) endDateInput.value = data.end_date || "";
+        syncTripDurationFromDates();
       } catch {}
     }
     loadPreferences();
@@ -345,8 +405,11 @@
 
       const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
       const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
+      syncTripDurationFromDates();
       const rawDuration = parseInt(document.getElementById("tripDuration")?.value) || 1;
       const tripDuration = Math.max(1, Math.min(30, rawDuration));
+      const startDate = document.getElementById("tripStartDate")?.value || null;
+      const endDate = document.getElementById("tripEndDate")?.value || null;
       const payload = {
         interests,
         budget_min: parseInt(budgetMin.value),
@@ -354,6 +417,8 @@
         preferred_language: lang,
         min_rating: selectedRating ? parseFloat(selectedRating) : null,
         trip_duration: tripDuration,
+        start_date: startDate,
+        end_date: endDate,
       };
 
       const msgEl = document.getElementById("prefMessage");
@@ -372,9 +437,28 @@
       msgEl.classList.add("hidden");
       errEl.classList.add("hidden");
 
+      if (startDate && endDate && endDate < startDate) {
+        errEl.textContent = "End date must be on or after start date.";
+        errEl.classList.remove("hidden");
+        btn.disabled = false;
+        btn.textContent = "Save Preferences";
+        return;
+      }
+
       try {
         await apiPost("/api/auth/preferences/", payload);
         localStorage.setItem("tz_trip_duration", String(tripDuration));
+        if (startDate) {
+          localStorage.setItem("tz_plan_start_date", startDate);
+          if (endDate) {
+            localStorage.setItem("tz_plan_end_date", endDate);
+          } else {
+            localStorage.removeItem("tz_plan_end_date");
+          }
+        } else {
+          localStorage.removeItem("tz_plan_start_date");
+          localStorage.removeItem("tz_plan_end_date");
+        }
         msgEl.textContent = "Preferences saved! Redirecting...";
         msgEl.classList.remove("hidden");
         setTimeout(() => { window.location.href = "/home/"; }, 1200);

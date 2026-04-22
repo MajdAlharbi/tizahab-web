@@ -556,6 +556,34 @@ class GenerateDailyPlanAPITests(TestCase):
         ids_b = [event["id"] for event in response_b.data.get("events", [])]
         self.assertEqual(ids_a, ids_b)
 
+    def test_generate_falls_back_to_preference_dates_when_request_omits_them(self):
+        Event.objects.all().delete()
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["events"]
+        pref.start_date = date.today() + timedelta(days=5)
+        pref.end_date = pref.start_date
+        pref.save()
+
+        matching = make_event(
+            "Preferred Date Event",
+            category="events",
+            start_date=timezone.now() + timedelta(days=5),
+            end_date=timezone.now() + timedelta(days=5),
+        )
+        make_event(
+            "Other Date Event",
+            category="events",
+            start_date=timezone.now() + timedelta(days=8),
+            end_date=timezone.now() + timedelta(days=8),
+        )
+
+        response = self.client.post("/api/daily-plan/generate/", {})
+
+        self.assertIn(response.status_code, (status.HTTP_201_CREATED, status.HTTP_200_OK))
+        self.assertEqual(response.data["date"], pref.start_date.isoformat())
+        returned_ids = {event["id"] for event in response.data.get("events", [])}
+        self.assertIn(matching.id, returned_ids)
+
     def test_generate_uses_date_range_for_recommendations(self):
         Event.objects.all().delete()
         start_day = date.today() + timedelta(days=4)
@@ -718,6 +746,20 @@ class GenerateMultiDayPlanAPITests(TestCase):
         self._set_prefs()
         response = self.client.post("/api/daily-plan/generate-multiday/", {})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_generate_multiday_falls_back_to_preference_start_date(self):
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture"]
+        pref.trip_duration = 2
+        pref.start_date = date.today() + timedelta(days=2)
+        pref.end_date = pref.start_date + timedelta(days=1)
+        pref.save()
+
+        response = self.client.post("/api/daily-plan/generate-multiday/", {})
+
+        self.assertIn(response.status_code, (status.HTTP_201_CREATED, status.HTTP_200_OK))
+        self.assertEqual(response.data["start_date"], pref.start_date.isoformat())
+        self.assertEqual(response.data["end_date"], pref.end_date.isoformat())
 
     def test_generate_multiday_past_date_returns_400(self):
         self._set_prefs()

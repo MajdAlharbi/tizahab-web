@@ -323,6 +323,8 @@ class CurrentUserView(APIView):
                 "preferred_language": preferences.preferred_language,
                 "min_rating": preferences.min_rating,
                 "trip_duration": preferences.trip_duration or 1,
+                "start_date": preferences.start_date,
+                "end_date": preferences.end_date,
             },
             status=status.HTTP_200_OK,
         )

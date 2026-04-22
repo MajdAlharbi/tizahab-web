@@ -18,11 +18,15 @@ let selectedDate =
   _localDateStr(new Date());
 
 function getStoredPlanStartDate() {
-  return localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) || _localDateStr(new Date());
+  return (
+    localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) ||
+    _currentPreferences?.start_date ||
+    _localDateStr(new Date())
+  );
 }
 
 function getStoredPlanEndDate() {
-  return localStorage.getItem(PLAN_END_DATE_STORAGE_KEY) || "";
+  return localStorage.getItem(PLAN_END_DATE_STORAGE_KEY) || _currentPreferences?.end_date || "";
 }
 
 function setStoredPlanRange(startDateStr, endDateStr = "") {
@@ -56,8 +60,8 @@ function updateTripLengthLabel() {
 function syncPlanDateInputs() {
   const startInput = document.getElementById("plan-start-date");
   const endInput = document.getElementById("plan-end-date");
-  if (startInput && !startInput.value) startInput.value = getStoredPlanStartDate();
-  if (endInput && !endInput.value) endInput.value = getStoredPlanEndDate();
+  if (startInput) startInput.value = getStoredPlanStartDate();
+  if (endInput) endInput.value = getStoredPlanEndDate();
   updateTripLengthLabel();
 }
 
@@ -124,6 +128,9 @@ async function refreshPreferences() {
       _currentPreferences = data;
       if (data.trip_duration) {
         localStorage.setItem("tz_trip_duration", String(data.trip_duration));
+      }
+      if (!localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) && data.start_date) {
+        setStoredPlanRange(data.start_date, data.end_date || "");
       }
     }
   } catch {
