@@ -146,22 +146,25 @@ class GenerateDailyPlanAPIView(APIView):
     def post(self, request):
         user = request.user
         date_str = request.data.get("date")
+        start_date_str = request.data.get("start_date") or date_str
+        end_date_str = request.data.get("end_date")
         seed = request.data.get("seed")
         exclude_plan_dates = request.data.get("exclude_plan_dates")
 
-        if not date_str:
+        if not date_str and not start_date_str:
             return Response(
                 {"detail": "Date is required. Format: YYYY-MM-DD"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            plan_date = _parse_iso_date(date_str, "date")
+            resolved_start_date, resolved_end_date, _ = _resolve_date_range(
+                start_date_str=start_date_str,
+                end_date_str=end_date_str,
+            )
+            plan_date = _parse_iso_date(date_str or start_date_str, "date")
             if plan_date < date.today():
-                return Response(
-                    {"detail": "Cannot create plans for past dates."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                raise ValueError("Cannot create plans for past dates.")
             valid_exclude_dates = _parse_exclude_plan_dates(exclude_plan_dates)
         except ValueError as exc:
             logger.warning("Invalid date format from user %s: %s", user.id, date_str)
@@ -182,7 +185,11 @@ class GenerateDailyPlanAPIView(APIView):
         try:
             recommended_events = generate_recommendations(
                 user,
-                date_str,
+                date_str=date_str or resolved_start_date.isoformat(),
+                start_date_str=resolved_start_date.isoformat(),
+                end_date_str=(
+                    resolved_end_date.isoformat() if resolved_end_date else None
+                ),
                 seed=seed,
                 exclude_ids=exclude_ids,
             )
@@ -226,7 +233,7 @@ class GenerateDailyPlanAPIView(APIView):
             return Response(
                 {
                     "id": daily_plan.id,
-                    "date": date_str,
+                    "date": plan_date.isoformat(),
                     "events": events_data,
                     "count": len(events_data),
                 },

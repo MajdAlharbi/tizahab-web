@@ -155,6 +155,39 @@ class RecommendationServiceTests(TestCase):
         self.assertIn(matching.id, result_ids)
         self.assertNotIn(future_event.id, result_ids)
 
+    def test_date_range_includes_events_that_overlap_any_day_in_range(self):
+        Event.objects.all().delete()
+        start_day = date.today() + timedelta(days=3)
+        end_day = start_day + timedelta(days=2)
+
+        overlapping = make_event(
+            "Range Festival",
+            category="events",
+            start_date=timezone.now() + timedelta(days=4),
+            end_date=timezone.now() + timedelta(days=6),
+        )
+        outside = make_event(
+            "Later Festival",
+            category="events",
+            start_date=timezone.now() + timedelta(days=10),
+            end_date=timezone.now() + timedelta(days=11),
+        )
+        make_event("Evergreen Food", category="food", price=30)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["events", "food"]
+        pref.save()
+
+        result = generate_recommendations(
+            self.user,
+            date_str=start_day.isoformat(),
+            start_date_str=start_day.isoformat(),
+            end_date_str=end_day.isoformat(),
+        )
+        result_ids = {event.id for event in result}
+        self.assertIn(overlapping.id, result_ids)
+        self.assertNotIn(outside.id, result_ids)
+
     def test_inactive_events_are_excluded(self):
         Event.objects.all().delete()
         make_event("Closed Event", category="events", is_active=False)
@@ -392,6 +425,14 @@ class GenerateDailyPlanAPITests(TestCase):
         response = self.client.post("/api/daily-plan/generate/", {"date": YESTERDAY})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_generate_past_start_date_returns_400(self):
+        self._set_prefs()
+        response = self.client.post(
+            "/api/daily-plan/generate/",
+            {"date": TOMORROW, "start_date": YESTERDAY},
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_generate_invalid_date_format_returns_400(self):
         self._set_prefs()
         response = self.client.post("/api/daily-plan/generate/", {"date": "15/06/2026"})
@@ -514,6 +555,52 @@ class GenerateDailyPlanAPITests(TestCase):
         ids_a = [event["id"] for event in response_a.data.get("events", [])]
         ids_b = [event["id"] for event in response_b.data.get("events", [])]
         self.assertEqual(ids_a, ids_b)
+
+    def test_generate_uses_date_range_for_recommendations(self):
+        Event.objects.all().delete()
+        start_day = date.today() + timedelta(days=4)
+        end_day = start_day + timedelta(days=2)
+        overlapping = make_event(
+            "Window Event",
+            category="events",
+            start_date=timezone.now() + timedelta(days=5),
+            end_date=timezone.now() + timedelta(days=6),
+        )
+        make_event(
+            "Outside Window Event",
+            category="events",
+            start_date=timezone.now() + timedelta(days=10),
+            end_date=timezone.now() + timedelta(days=11),
+        )
+        make_event("Always Open Food", category="food", price=25)
+        self._set_prefs(interests=["events", "food"])
+
+        response = self.client.post(
+            "/api/daily-plan/generate/",
+            {
+                "date": start_day.isoformat(),
+                "start_date": start_day.isoformat(),
+                "end_date": end_day.isoformat(),
+                "seed": "range-generate-test",
+            },
+        )
+
+        self.assertIn(response.status_code, (status.HTTP_201_CREATED, status.HTTP_200_OK))
+        returned_ids = {event["id"] for event in response.data.get("events", [])}
+        self.assertIn(overlapping.id, returned_ids)
+
+    def test_generate_rejects_end_date_before_start_date(self):
+        self._set_prefs()
+        start_day = date.today() + timedelta(days=3)
+        response = self.client.post(
+            "/api/daily-plan/generate/",
+            {
+                "date": start_day.isoformat(),
+                "start_date": start_day.isoformat(),
+                "end_date": (start_day - timedelta(days=1)).isoformat(),
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class GenerateMultiDayPlanAPITests(TestCase):
@@ -923,4 +1010,79 @@ class DailyPlanCRUDTests(TestCase):
 
         self.assertEqual(result.returncode, 0, msg=result.stderr)
         self.assertEqual(result.stdout, "2099-12-31")
+
+    def test_generate_request_includes_start_and_end_dates(self):
+        script = textwrap.dedent(
+            r"""
+            const fs = require("fs");
+            const vm = require("vm");
+
+            const code = fs.readFileSync("static/js/daily_plan_integration.js", "utf8");
+            const storage = new Map();
+            const startInput = {
+              value: "2099-04-10",
+              addEventListener() {},
+            };
+            const endInput = {
+              value: "2099-04-12",
+              addEventListener() {},
+            };
+            const elements = {
+              "plan-start-date": startInput,
+              "plan-end-date": endInput,
+              "trip-length-label": { textContent: "" },
+            };
+            let capturedPayload = null;
+            const context = {
+              console: { log() {}, error() {}, warn() {} },
+              window: {},
+              document: {
+                addEventListener() {},
+                getElementById(id) { return elements[id] || null; },
+              },
+              localStorage: {
+                getItem(key) { return storage.has(key) ? storage.get(key) : null; },
+                setItem(key, value) { storage.set(key, String(value)); },
+                removeItem(key) { storage.delete(key); },
+              },
+              setTimeout,
+              clearTimeout,
+              apiPost: async (_url, payload) => {
+                capturedPayload = payload;
+                return { events: [] };
+              },
+              apiGet: async () => ({ trip_duration: 3 }),
+              setLoading() {},
+              renderDaysBar() {},
+              renderPlanForDay() {},
+              sortEventsByProximity(events) { return events; },
+            };
+
+            vm.createContext(context);
+            vm.runInContext(
+              code + "\nthis.__test__ = { requestPlanForSelectedDate, setSelectedPlanDate };",
+              context,
+            );
+            vm.runInContext(
+              'currentDayIndex = 0; setSelectedPlanDate(\"2099-04-10\");',
+              context,
+            );
+
+            context.__test__.requestPlanForSelectedDate(null).then(() => {
+              process.stdout.write(JSON.stringify(capturedPayload));
+            });
+            """
+        )
+
+        result = subprocess.run(
+            ["node", "-e", script],
+            capture_output=True,
+            text=True,
+            cwd=".",
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        self.assertIn('"start_date":"2099-04-10"', result.stdout)
+        self.assertIn('"end_date":"2099-04-12"', result.stdout)
 

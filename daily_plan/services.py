@@ -1,5 +1,7 @@
 import math
+import logging
 import random
+from hashlib import sha1
 from datetime import date, timedelta
 
 from django.db.models import Q
@@ -9,6 +11,10 @@ from accounts.models import UserPreferences
 from daily_plan.models import DailyPlan
 from events.categories import normalize_category
 
+logger = logging.getLogger(__name__)
+
+DATE_RELEVANCE_WEIGHT = 0.25
+
 
 def _parse_reference_date(date_str):
     if not date_str:
@@ -17,6 +23,17 @@ def _parse_reference_date(date_str):
         return date.fromisoformat(str(date_str))
     except ValueError:
         return date.today()
+
+
+def _resolve_selected_dates(date_str=None, start_date_str=None, end_date_str=None):
+    reference_date = _parse_reference_date(date_str or start_date_str)
+    range_start = _parse_reference_date(start_date_str) if start_date_str else reference_date
+    range_end = _parse_reference_date(end_date_str) if end_date_str else None
+    return reference_date, range_start, range_end
+
+
+def _has_explicit_selected_date(date_str=None, start_date_str=None, end_date_str=None):
+    return any(value not in (None, "") for value in (date_str, start_date_str, end_date_str))
 
 
 def _budget_midpoint(preferences):
@@ -29,26 +46,90 @@ def _budget_midpoint(preferences):
     return None
 
 
-def _available_for_date(queryset, reference_date):
+def _date_window_q(window_start, window_end=None):
+    effective_end = window_end or window_start
     explicit_window = (
-        Q(start_date__date__lte=reference_date)
-        & (Q(end_date__isnull=True) | Q(end_date__date__gte=reference_date))
+        Q(start_date__date__lte=effective_end)
+        & (Q(end_date__isnull=True) | Q(end_date__date__gte=window_start))
     ) | (
         Q(start_date__isnull=True)
-        & Q(end_date__date__gte=reference_date)
+        & Q(end_date__date__gte=window_start)
     )
     legacy_day_event = (
         Q(category="events")
         & Q(start_date__isnull=True)
         & Q(end_date__isnull=True)
-        & Q(date__date=reference_date)
+        & Q(date__date__gte=window_start)
+        & Q(date__date__lte=effective_end)
     )
     evergreen_places = (
         ~Q(category="events")
         & Q(start_date__isnull=True)
         & Q(end_date__isnull=True)
     )
-    return queryset.filter(explicit_window | legacy_day_event | evergreen_places)
+    return explicit_window | legacy_day_event | evergreen_places
+
+
+def _available_for_date(queryset, reference_date, end_date=None):
+    return queryset.filter(_date_window_q(reference_date, end_date))
+
+
+def _event_overlaps_selected_window(event, selected_date, end_date=None):
+    effective_end = end_date or selected_date
+    event_start, event_end = event.availability_window()
+    return event_start <= effective_end and event_end >= selected_date
+
+
+def _stable_date_affinity(event, selected_date, end_date=None):
+    """
+    Deterministic date-aware tie-breaker so evergreen places do not keep the
+    exact same ranking whenever the user changes the selected date.
+    """
+    effective_end = end_date or selected_date
+    window_key = f"{selected_date.isoformat()}:{effective_end.isoformat()}"
+    digest = sha1(f"{event.id}:{event.category}:{window_key}".encode("utf-8")).hexdigest()
+    return int(digest[:8], 16) / 0xFFFFFFFF
+
+
+def _dated_event_q(window_start, window_end=None):
+    effective_end = window_end or window_start
+    explicit_window = (
+        Q(start_date__isnull=False)
+        & Q(start_date__date__lte=effective_end)
+        & (Q(end_date__isnull=True) | Q(end_date__date__gte=window_start))
+    ) | (
+        Q(end_date__isnull=False)
+        & Q(start_date__isnull=True)
+        & Q(end_date__date__gte=window_start)
+    )
+    legacy_day_event = (
+        Q(category="events")
+        & Q(start_date__isnull=True)
+        & Q(end_date__isnull=True)
+        & Q(date__date__gte=window_start)
+        & Q(date__date__lte=effective_end)
+    )
+    return explicit_window | legacy_day_event
+
+
+def _evergreen_place_q():
+    return (
+        ~Q(category="events")
+        & Q(start_date__isnull=True)
+        & Q(end_date__isnull=True)
+    )
+
+
+def is_event_available_for_selection(event, selected_date, end_date=None):
+    effective_end = end_date or selected_date
+
+    if not event.is_active:
+        return False
+    if event.start_date or event.end_date:
+        return _event_overlaps_selected_window(event, selected_date, effective_end)
+    if event.category == "events":
+        return selected_date <= event.date.date() <= effective_end
+    return True
 
 
 def _recent_event_ids(user, reference_date):
@@ -91,16 +172,25 @@ def _centroid(events):
     return sum(lats) / len(lats), sum(lngs) / len(lngs)
 
 
-def _date_relevance_score(event, reference_date):
-    if event.start_date and event.end_date and event.occurs_on(reference_date):
-        return 2.5
-    if event.start_date and not event.end_date and event.occurs_on(reference_date):
-        return 2.0
-    if event.category == "events" and event.date.date() == reference_date:
-        return 1.8
+def _date_match_score(event, reference_date, end_date=None, has_selected_date=False):
+    if not has_selected_date:
+        return 0.0
+    if event.start_date and event.end_date and _event_overlaps_selected_window(
+        event, reference_date, end_date
+    ):
+        return 1.0
+    if event.start_date and not event.end_date and _event_overlaps_selected_window(
+        event, reference_date, end_date
+    ):
+        return 0.9
+    if (
+        event.category == "events"
+        and reference_date <= event.date.date() <= (end_date or reference_date)
+    ):
+        return 0.95
     if event.category == "events":
-        return -5.0
-    return 0.9
+        return -2.0
+    return -1.5 + (_stable_date_affinity(event, reference_date, end_date) * 0.1)
 
 
 def _category_match_score(event, interests):
@@ -118,12 +208,26 @@ def _budget_fit_score(event, budget_midpoint):
     return max(0.0, 1.2 - (distance / scale))
 
 
-def _score_event(event, budget_midpoint, recent_event_ids, interests, reference_date):
+def _score_event(
+    event,
+    budget_midpoint,
+    recent_event_ids,
+    interests,
+    reference_date,
+    has_selected_date=False,
+    end_date=None,
+):
     """Readable ranking score for tourism recommendations."""
     score = 0.0
+    date_match = _date_match_score(
+        event,
+        reference_date,
+        end_date=end_date,
+        has_selected_date=has_selected_date,
+    )
 
     score += _category_match_score(event, interests)
-    score += _date_relevance_score(event, reference_date)
+    score += date_match * DATE_RELEVANCE_WEIGHT
     score += _budget_fit_score(event, budget_midpoint)
     score += float(event.tourism_relevance or 3) * 0.6
     if event.rating is not None:
@@ -186,7 +290,14 @@ def _order_by_route(selected):
     return ordered + without_coords
 
 
-def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
+def generate_recommendations(
+    user,
+    date_str=None,
+    start_date_str=None,
+    end_date_str=None,
+    seed=None,
+    exclude_ids=None,
+):
     """
     Generate a list of up to 5 recommended events for a user on a given date.
 
@@ -206,10 +317,20 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     if not interests:
         return None
 
-    reference_date = _parse_reference_date(date_str)
+    has_selected_date = _has_explicit_selected_date(
+        date_str=date_str,
+        start_date_str=start_date_str,
+        end_date_str=end_date_str,
+    )
+    reference_date, selected_start_date, selected_end_date = _resolve_selected_dates(
+        date_str=date_str,
+        start_date_str=start_date_str,
+        end_date_str=end_date_str,
+    )
     active_queryset = _available_for_date(
         Event.objects.filter(is_active=True),
-        reference_date,
+        selected_start_date,
+        end_date=selected_end_date,
     )
     base_queryset = active_queryset.filter(category__in=interests)
     queryset = base_queryset
@@ -232,7 +353,33 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     if exclude_ids:
         queryset = queryset.exclude(id__in=exclude_ids)
 
-    candidates = list(queryset)
+    if has_selected_date:
+        dated_queryset = queryset.filter(
+            _dated_event_q(selected_start_date, selected_end_date)
+        )
+        evergreen_queryset = queryset.filter(_evergreen_place_q())
+
+        candidates = list(dated_queryset)
+        if candidates:
+            logger.info(
+                "Using date-specific candidates for user=%s start=%s end=%s count=%s",
+                user.id,
+                selected_start_date,
+                selected_end_date or selected_start_date,
+                len(candidates),
+            )
+        else:
+            candidates = list(evergreen_queryset)
+            logger.info(
+                "Falling back to evergreen candidates for user=%s start=%s end=%s count=%s",
+                user.id,
+                selected_start_date,
+                selected_end_date or selected_start_date,
+                len(candidates),
+            )
+    else:
+        candidates = list(queryset)
+
     has_strict_filters = any(
         value is not None
         for value in (
@@ -245,7 +392,8 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
         fallback_queryset = Event.objects.all()
         fallback_queryset = _available_for_date(
             fallback_queryset.filter(is_active=True),
-            reference_date,
+            selected_start_date,
+            end_date=selected_end_date,
         )
         if preferences.budget_max is not None:
             fallback_queryset = fallback_queryset.filter(
@@ -262,7 +410,16 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
         if exclude_ids:
             fallback_queryset = fallback_queryset.exclude(id__in=exclude_ids)
 
-        candidates = list(fallback_queryset)
+        if has_selected_date:
+            dated_fallback_queryset = fallback_queryset.filter(
+                _dated_event_q(selected_start_date, selected_end_date)
+            )
+            evergreen_fallback_queryset = fallback_queryset.filter(_evergreen_place_q())
+            candidates = list(dated_fallback_queryset)
+            if not candidates:
+                candidates = list(evergreen_fallback_queryset)
+        else:
+            candidates = list(fallback_queryset)
         used_fallback = bool(candidates)
 
     if not candidates:
@@ -289,10 +446,38 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
             recent_event_ids,
             interests,
             reference_date,
+            has_selected_date=has_selected_date,
+            end_date=selected_end_date,
         )
                   + rng.uniform(-0.25, 0.25)
         for event in candidates
     }
+    if has_selected_date:
+        date_scores = {
+            event.id: _date_match_score(
+                event,
+                reference_date,
+                end_date=selected_end_date,
+                has_selected_date=True,
+            )
+            for event in candidates
+        }
+        unique_date_scores = {round(value, 4) for value in date_scores.values()}
+        if len(unique_date_scores) <= 1:
+            logger.warning(
+                "Selected date window produced no ranking variance for user=%s start=%s end=%s",
+                user.id,
+                selected_start_date,
+                selected_end_date or selected_start_date,
+            )
+        else:
+            logger.info(
+                "Applying date-aware ranking for user=%s start=%s end=%s candidates=%s",
+                user.id,
+                selected_start_date,
+                selected_end_date or selected_start_date,
+                len(candidates),
+            )
 
     selected = []
     selected_ids = set()

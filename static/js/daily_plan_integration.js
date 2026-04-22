@@ -198,8 +198,11 @@ async function requestPlanForSelectedDate(generateBtn) {
 
   try {
     await refreshPreferences();
+    savePlanRangeFromInputs();
 
     const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
+    const startDate = getStoredPlanStartDate();
+    const endDate = getStoredPlanEndDate();
     const tripDuration = getTripDuration();
     const excludePlanDates = [];
 
@@ -208,11 +211,15 @@ async function requestPlanForSelectedDate(generateBtn) {
       excludePlanDates.push(_localDateStr(getPlanDateForIndex(index)));
     }
 
-    const data = await apiPost("/api/daily-plan/generate/", {
+    const payload = {
       date: targetDate,
+      start_date: startDate,
       seed: Date.now(),
       exclude_plan_dates: excludePlanDates,
-    });
+    };
+    if (endDate) payload.end_date = endDate;
+
+    const data = await apiPost("/api/daily-plan/generate/", payload);
 
     const events = Array.isArray(data?.events)
       ? data.events.filter(Boolean)
