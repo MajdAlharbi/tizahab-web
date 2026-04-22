@@ -129,7 +129,7 @@ class UserPreferencesTests(TestCase):
         response = self.client.post(
             "/api/auth/preferences/",
             {
-                "interests": ["restaurant", "culture"],
+                "interests": ["food", "culture"],
                 "budget_min": 0,
                 "budget_max": 300,
                 "preferred_language": "ar",
@@ -139,8 +139,21 @@ class UserPreferencesTests(TestCase):
             response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
         )
         pref = UserPreferences.objects.get(user=self.user)
-        self.assertEqual(pref.interests, ["restaurant", "culture"])
+        self.assertEqual(pref.interests, ["food", "culture"])
         self.assertEqual(pref.budget_max, 300)
+
+    def test_legacy_interest_alias_is_normalized(self):
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["restaurant", "outdoor"],
+            },
+        )
+        self.assertIn(
+            response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
+        )
+        pref = UserPreferences.objects.get(user=self.user)
+        self.assertEqual(pref.interests, ["food", "nature"])
 
     def test_invalid_interest_rejected(self):
         response = self.client.post(

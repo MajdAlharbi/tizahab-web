@@ -29,6 +29,7 @@ from .throttles import (
     LoginRateThrottle,
     SignupRateThrottle,
 )
+from events.categories import normalize_category_input
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -312,7 +313,11 @@ class CurrentUserView(APIView):
             {
                 "email": user.email,
                 "username": user.username,
-                "interests": preferences.interests or [],
+                "interests": [
+                    normalize_category_input(value) or str(value).strip().lower()
+                    for value in (preferences.interests or [])
+                    if str(value).strip()
+                ],
                 "budget_min": preferences.budget_min,
                 "budget_max": preferences.budget_max,
                 "preferred_language": preferences.preferred_language,

@@ -3,9 +3,11 @@ import random
 from datetime import date, timedelta
 
 from django.db.models import Q
+
 from events.models import Event
 from accounts.models import UserPreferences
 from daily_plan.models import DailyPlan
+from events.categories import normalize_category
 
 
 def _parse_reference_date(date_str):
@@ -25,6 +27,28 @@ def _budget_midpoint(preferences):
     if preferences.budget_max is not None:
         return float(preferences.budget_max)
     return None
+
+
+def _available_for_date(queryset, reference_date):
+    explicit_window = (
+        Q(start_date__date__lte=reference_date)
+        & (Q(end_date__isnull=True) | Q(end_date__date__gte=reference_date))
+    ) | (
+        Q(start_date__isnull=True)
+        & Q(end_date__date__gte=reference_date)
+    )
+    legacy_day_event = (
+        Q(category="events")
+        & Q(start_date__isnull=True)
+        & Q(end_date__isnull=True)
+        & Q(date__date=reference_date)
+    )
+    evergreen_places = (
+        ~Q(category="events")
+        & Q(start_date__isnull=True)
+        & Q(end_date__isnull=True)
+    )
+    return queryset.filter(explicit_window | legacy_day_event | evergreen_places)
 
 
 def _recent_event_ids(user, reference_date):
@@ -67,20 +91,46 @@ def _centroid(events):
     return sum(lats) / len(lats), sum(lngs) / len(lngs)
 
 
-def _score_event(event, budget_midpoint, recent_event_ids):
-    """Base score: budget fit + recency penalty (no distance yet)."""
+def _date_relevance_score(event, reference_date):
+    if event.start_date and event.end_date and event.occurs_on(reference_date):
+        return 2.5
+    if event.start_date and not event.end_date and event.occurs_on(reference_date):
+        return 2.0
+    if event.category == "events" and event.date.date() == reference_date:
+        return 1.8
+    if event.category == "events":
+        return -5.0
+    return 0.9
+
+
+def _category_match_score(event, interests):
+    return 2.0 if event.category in interests else 0.4
+
+
+def _budget_fit_score(event, budget_midpoint):
+    if event.price is None:
+        return 0.4
+    if budget_midpoint is None:
+        return 0.8
+    price = float(event.price)
+    distance = abs(price - budget_midpoint)
+    scale = max(budget_midpoint, 1.0)
+    return max(0.0, 1.2 - (distance / scale))
+
+
+def _score_event(event, budget_midpoint, recent_event_ids, interests, reference_date):
+    """Readable ranking score for tourism recommendations."""
     score = 0.0
 
-    # Budget fit score: values closer to midpoint rank higher.
-    if event.price is None:
-        score += 0.5
-    elif budget_midpoint is not None:
-        price = float(event.price)
-        distance = abs(price - budget_midpoint)
-        scale = max(budget_midpoint, 1.0)
-        score += max(0.0, 1.0 - (distance / scale))
+    score += _category_match_score(event, interests)
+    score += _date_relevance_score(event, reference_date)
+    score += _budget_fit_score(event, budget_midpoint)
+    score += float(event.tourism_relevance or 3) * 0.6
+    if event.rating is not None:
+        score += float(event.rating) * 0.2
+    if event.source_url:
+        score += 0.15
 
-    # Recency penalty: avoid repeating events from last 7 days.
     if event.id in recent_event_ids:
         score -= 2.0
 
@@ -152,11 +202,16 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     if preferences is None:
         return None
 
-    interests = [i.lower() for i in (preferences.interests or [])]
+    interests = [normalize_category(i) for i in (preferences.interests or [])]
     if not interests:
         return None
 
-    base_queryset = Event.objects.filter(category__in=interests)
+    reference_date = _parse_reference_date(date_str)
+    active_queryset = _available_for_date(
+        Event.objects.filter(is_active=True),
+        reference_date,
+    )
+    base_queryset = active_queryset.filter(category__in=interests)
     queryset = base_queryset
     used_fallback = False
 
@@ -188,7 +243,10 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     )
     if not candidates and base_queryset.exists() and has_strict_filters:
         fallback_queryset = Event.objects.all()
-
+        fallback_queryset = _available_for_date(
+            fallback_queryset.filter(is_active=True),
+            reference_date,
+        )
         if preferences.budget_max is not None:
             fallback_queryset = fallback_queryset.filter(
                 Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
@@ -210,7 +268,6 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     if not candidates:
         return []
 
-    reference_date = _parse_reference_date(date_str)
     budget_midpoint = _budget_midpoint(preferences)
     recent_event_ids = _recent_event_ids(user, reference_date)
 
@@ -226,77 +283,84 @@ def generate_recommendations(user, date_str=None, seed=None, exclude_ids=None):
     # Base scores (budget + recency) + small seeded jitter so the top-N
     # selection varies between days even when scores are very close.
     base_scores = {
-        event.id: _score_event(event, budget_midpoint, recent_event_ids)
+        event.id: _score_event(
+            event,
+            budget_midpoint,
+            recent_event_ids,
+            interests,
+            reference_date,
+        )
                   + rng.uniform(-0.25, 0.25)
         for event in candidates
     }
 
     selected = []
     selected_ids = set()
+    selected_category_counts = {}
+    limit = 7 if used_fallback else 5
+    clat, clng = None, None
 
-    # Phase 1: pick the top-scored event from each interest category (diversity).
-    # Tie-break on shuffled order (no `e.id` — that would be deterministic).
-    ranked_by_base = sorted(candidates, key=lambda e: base_scores[e.id], reverse=True)
-    for category in interests:
-        best = next(
-            (e for e in ranked_by_base if e.category == category and e.id not in selected_ids),
-            None,
-        )
-        if best:
-            selected.append(best)
-            selected_ids.add(best.id)
-            if len(selected) >= 5:
-                break
+    while len(selected) < limit:
+        remaining = [event for event in candidates if event.id not in selected_ids]
+        if not remaining:
+            break
 
-    # Phase 2: fill remaining slots considering distance to the current cluster
-    if len(selected) < 5:
-        remaining = [e for e in candidates if e.id not in selected_ids]
-        clat, clng = _centroid(selected)
-
-        # Score remaining candidates with distance penalty
-        combined_scores = {}
-        for event in remaining:
-            combined_scores[event.id] = (
-                base_scores[event.id] + _distance_penalty(event, clat, clng)
+        def combined_score(event):
+            category_count = selected_category_counts.get(event.category, 0)
+            diversity_bonus = 0.6 if category_count == 0 else 0.0
+            diversity_penalty = 0.75 * category_count
+            return (
+                base_scores[event.id]
+                + diversity_bonus
+                - diversity_penalty
+                + _distance_penalty(event, clat, clng)
             )
 
-        remaining.sort(key=lambda e: combined_scores[e.id], reverse=True)
+        best = max(remaining, key=combined_score)
+        selected.append(best)
+        selected_ids.add(best.id)
+        selected_category_counts[best.category] = (
+            selected_category_counts.get(best.category, 0) + 1
+        )
+        clat, clng = _centroid(selected)
 
-        for event in remaining:
-            selected.append(event)
-            selected_ids.add(event.id)
-            if len(selected) >= 5:
-                break
-            # Recalculate centroid as we add more places
-            clat, clng = _centroid(selected)
-
-    # Phase 3: reorder into a logical route (nearest-neighbour)
     limit = 7 if used_fallback else 5
     selected = _order_by_route(selected[:limit])
 
     return selected
 
 
-def generate_multiday_plan(user, start_date_str, trip_duration=None):
-    """Generate recommendations for N consecutive days based on trip_duration."""
+def generate_multiday_plan(user, start_date_str, trip_duration=None, end_date_str=None):
+    """Generate recommendations for N consecutive days based on trip_duration or end_date."""
     preferences = UserPreferences.objects.filter(user=user).first()
     if preferences is None:
         return None
 
-    interests = [i.lower() for i in (preferences.interests or [])]
+    interests = [normalize_category(i) for i in (preferences.interests or [])]
     if not interests:
         return None
 
     start_date = date.fromisoformat(str(start_date_str))
-    resolved_duration = (
-        trip_duration if trip_duration is not None else preferences.trip_duration
-    )
-    try:
-        trip_duration = int(resolved_duration or 1)
-    except (TypeError, ValueError) as exc:
-        raise ValueError("trip_duration must be an integer between 1 and 30.") from exc
-    if trip_duration < 1 or trip_duration > 30:
-        raise ValueError("trip_duration must be an integer between 1 and 30.")
+    if end_date_str:
+        end_date = date.fromisoformat(str(end_date_str))
+        if end_date < start_date:
+            raise ValueError("end_date must be on or after start_date.")
+        derived_duration = (end_date - start_date).days + 1
+        if trip_duration is not None and int(trip_duration) != derived_duration:
+            raise ValueError(
+                "trip_duration must match the provided start_date and end_date range."
+            )
+        trip_duration = derived_duration
+    else:
+        resolved_duration = (
+            trip_duration if trip_duration is not None else preferences.trip_duration
+        )
+        try:
+            trip_duration = int(resolved_duration or 1)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("trip_duration must be an integer between 1 and 30.") from exc
+        if trip_duration < 1 or trip_duration > 30:
+            raise ValueError("trip_duration must be an integer between 1 and 30.")
 
     multiday_recommendations = []
     exclude_ids = set()

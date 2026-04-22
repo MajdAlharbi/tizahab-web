@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from datetime import date
+
 from .models import DailyPlan
 from events.models import Event
 from events.serializers import EventSerializer
@@ -12,6 +14,11 @@ class DailyPlanSerializer(serializers.ModelSerializer):
         model = DailyPlan
         fields = ["id", "date", "events", "created_at"]
         read_only_fields = ["id", "created_at"]
+
+    def validate_date(self, value):
+        if value < date.today():
+            raise serializers.ValidationError("Cannot create plans for past dates.")
+        return value
 
     def to_internal_value(self, data):
         events_data = data.get("events")

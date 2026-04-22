@@ -127,30 +127,24 @@ Tizahab{% endblock %} {% block content %}
 
 <script>
   const CATEGORY_LABELS = {
-    restaurant: "Restaurants",
-    cafe: "Cafes & Coffee",
-    fast_food: "Fast Food",
-    dessert: "Desserts & Sweets",
-    bakery: "Bakery",
-    juice: "Juice & Smoothies",
-    food_truck: "Food Trucks",
-    culture: "Heritage Places",
-    outdoor: "Outdoor",
+    culture: "Culture",
+    heritage: "Heritage",
+    entertainment: "Entertainment",
+    food: "Food",
     shopping: "Shopping",
-    other: "Other",
+    nature: "Nature",
+    family: "Family",
+    events: "Events",
   };
   const CATEGORY_COLORS = {
-    restaurant: "bg-orange-100 text-orange-700",
-    cafe: "bg-amber-100 text-amber-700",
-    fast_food: "bg-red-100 text-red-700",
-    dessert: "bg-pink-100 text-pink-700",
-    bakery: "bg-yellow-100 text-yellow-700",
-    juice: "bg-lime-100 text-lime-700",
-    food_truck: "bg-indigo-100 text-indigo-700",
     culture: "bg-blue-100 text-blue-700",
-    outdoor: "bg-green-100 text-green-700",
+    heritage: "bg-amber-100 text-amber-700",
+    entertainment: "bg-rose-100 text-rose-700",
+    food: "bg-orange-100 text-orange-700",
     shopping: "bg-purple-100 text-purple-700",
-    other: "bg-gray-100 text-gray-700",
+    nature: "bg-green-100 text-green-700",
+    family: "bg-cyan-100 text-cyan-700",
+    events: "bg-indigo-100 text-indigo-700",
   };
 
   function escapeHtml(value) {
@@ -315,7 +309,7 @@ Tizahab{% endblock %} {% block content %}
   }
 
   function buildFavCard(ev) {
-    const emojiMap = {restaurant:"🍽️",cafe:"☕",fast_food:"🍔",dessert:"🍰",bakery:"🥐",juice:"🧃",food_truck:"🚚",culture:"🏛️",outdoor:"🌿",shopping:"🛍️"};
+    const emojiMap = {culture:"🏛️",heritage:"🕌",entertainment:"🎡",food:"🍽️",shopping:"🛍️",nature:"🌿",family:"👨‍👩‍👧",events:"🎫"};
     const card = document.createElement("div");
     card.className =
       "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-start gap-3";

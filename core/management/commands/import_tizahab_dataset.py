@@ -1,11 +1,12 @@
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, time, timezone
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from events.models import Event
+from events.categories import normalize_category
 
 DATASET_DIR = os.path.join(settings.BASE_DIR, "data", "dataset-Tizahab")
 
@@ -19,7 +20,7 @@ CATEGORY_MAP = {
     "restaurant": "food",
     "cafe": "food",
     "mall": "shopping",
-    "museum": "culture",
+    "museum": "heritage",
 }
 
 NOW = datetime.now(tz=timezone.utc)
@@ -31,7 +32,8 @@ def _price(record):
 
 
 def _category(type_of_utility):
-    return CATEGORY_MAP.get(type_of_utility.lower(), "other")
+    mapped = CATEGORY_MAP.get(type_of_utility.lower(), type_of_utility.lower())
+    return normalize_category(mapped, description=type_of_utility)
 
 
 def _description(name, type_of_utility):
@@ -87,6 +89,11 @@ class Command(BaseCommand):
                 rating=record.get("Rating"),
                 latitude=None,
                 longitude=None,
+                start_time=time(8, 0),
+                end_time=time(23, 0),
+                source="Tizahab dataset",
+                is_active=True,
+                tourism_relevance=3,
             )
             count += 1
             stats["food"] += 1
@@ -117,6 +124,11 @@ class Command(BaseCommand):
                 rating=record.get("Rating"),
                 latitude=None,
                 longitude=None,
+                start_time=time(8, 0),
+                end_time=time(23, 0),
+                source="Tizahab dataset",
+                is_active=True,
+                tourism_relevance=3,
             )
             count += 1
             stats["food"] += 1
@@ -149,6 +161,11 @@ class Command(BaseCommand):
                 rating=record.get("Rating"),
                 latitude=None,
                 longitude=None,
+                start_time=time(10, 0),
+                end_time=time(22, 0),
+                source="Tizahab dataset",
+                is_active=True,
+                tourism_relevance=4 if cat in {"heritage", "events"} else 3,
             )
             count += 1
             stats[cat] = stats.get(cat, 0) + 1

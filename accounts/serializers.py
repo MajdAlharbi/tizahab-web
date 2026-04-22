@@ -5,6 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import UserPreferences
 from events.models import Event
+from events.categories import normalize_category_input
 
 
 class UserPreferencesSerializer(serializers.ModelSerializer):
@@ -30,6 +31,15 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
             "trip_duration",
         ]
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["interests"] = [
+            normalize_category_input(value) or str(value).strip().lower()
+            for value in (data.get("interests") or [])
+            if str(value).strip()
+        ]
+        return data
+
     def validate_trip_duration(self, value):
         """Require trip_duration to stay within the supported range."""
         if value is None:
@@ -45,7 +55,9 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
         if not isinstance(value, list):
             raise serializers.ValidationError("Interests must be a list.")
 
-        normalized_interests = [str(i).strip().lower() for i in value if str(i).strip()]
+        normalized_interests = [
+            normalize_category_input(i) for i in value if str(i).strip()
+        ]
         invalid_interests = [
             i for i in normalized_interests if i not in self.VALID_INTERESTS
         ]

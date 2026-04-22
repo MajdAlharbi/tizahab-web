@@ -19,16 +19,18 @@ def make_user(email="dp@test.com", password="StrongPass1!"):
     return User.objects.create_user(username=email, email=email, password=password)
 
 
-def make_event(title="Place", category="restaurant", price=50.0):
-    return Event.objects.create(
-        title=title,
-        category=category,
-        description="desc",
-        date=timezone.now(),
-        location="Riyadh",
-        price=price,
-        price_range="",
-    )
+def make_event(title="Place", category="food", price=50.0, **kwargs):
+    defaults = {
+        "title": title,
+        "category": category,
+        "description": "desc",
+        "date": timezone.now(),
+        "location": "Riyadh",
+        "price": price,
+        "price_range": "",
+    }
+    defaults.update(kwargs)
+    return Event.objects.create(**defaults)
 
 
 def auth_client(user, password="StrongPass1!"):
@@ -51,7 +53,7 @@ class RecommendationServiceTests(TestCase):
     def setUp(self):
         self.user = make_user("rec@test.com")
         for i in range(7):
-            make_event(f"Food Place {i}", category="restaurant", price=30 + i * 10)
+            make_event(f"Food Place {i}", category="food", price=30 + i * 10)
         make_event("Culture Spot", category="culture", price=20)
 
     def test_returns_none_without_preferences(self):
@@ -67,7 +69,7 @@ class RecommendationServiceTests(TestCase):
 
     def test_returns_list_with_valid_preferences(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
         result = generate_recommendations(self.user)
         self.assertIsInstance(result, list)
@@ -75,7 +77,7 @@ class RecommendationServiceTests(TestCase):
 
     def test_caps_at_five_results(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
         result = generate_recommendations(self.user)
         self.assertLessEqual(len(result), 5)
@@ -91,7 +93,7 @@ class RecommendationServiceTests(TestCase):
 
     def test_budget_max_excludes_expensive_events(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.budget_max = 35
         pref.save()
         result = generate_recommendations(self.user)
@@ -101,9 +103,9 @@ class RecommendationServiceTests(TestCase):
                 self.assertLessEqual(event.price, 35)
 
     def test_null_price_events_included_when_budget_set(self):
-        make_event("Free Food", category="restaurant", price=None)
+        make_event("Free Food", category="food", price=None)
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.budget_max = 10
         pref.save()
         result = generate_recommendations(self.user)
@@ -119,32 +121,73 @@ class RecommendationServiceTests(TestCase):
         self.assertIsInstance(result, list)
         self.assertEqual(result, [])
 
-    def test_date_str_arg_is_accepted_and_ignored(self):
+    def test_date_str_arg_is_accepted(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
         result = generate_recommendations(self.user, date_str="2026-01-01")
         self.assertIsInstance(result, list)
 
+    def test_date_relevance_filters_events_by_selected_date(self):
+        Event.objects.all().delete()
+        tomorrow = date.today() + timedelta(days=1)
+
+        matching = make_event(
+            "Tomorrow Festival",
+            category="events",
+            start_date=timezone.now() + timedelta(days=1),
+            end_date=timezone.now() + timedelta(days=1),
+        )
+        future_event = make_event(
+            "Next Week Festival",
+            category="events",
+            start_date=timezone.now() + timedelta(days=7),
+            end_date=timezone.now() + timedelta(days=7),
+        )
+        make_event("Evergreen Food", category="food", price=40)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["events", "food"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=tomorrow.isoformat())
+        result_ids = {event.id for event in result}
+        self.assertIn(matching.id, result_ids)
+        self.assertNotIn(future_event.id, result_ids)
+
+    def test_inactive_events_are_excluded(self):
+        Event.objects.all().delete()
+        make_event("Closed Event", category="events", is_active=False)
+        make_event("Open Food", category="food")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["events", "food"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+        titles = [event.title for event in result]
+        self.assertIn("Open Food", titles)
+        self.assertNotIn("Closed Event", titles)
+
     def test_category_diversity_prefers_multiple_interest_categories(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant", "culture"]
+        pref.interests = ["food", "culture"]
         pref.save()
 
         result = generate_recommendations(self.user)
         categories = {event.category for event in result}
 
-        self.assertIn("restaurant", categories)
+        self.assertIn("food", categories)
         self.assertIn("culture", categories)
 
     def test_budget_midpoint_ranks_closest_price_first(self):
         Event.objects.all().delete()
-        low = make_event("Low", category="restaurant", price=20)
-        mid = make_event("Mid", category="restaurant", price=40)
-        high = make_event("High", category="restaurant", price=75)
+        low = make_event("Low", category="food", price=20)
+        mid = make_event("Mid", category="food", price=40)
+        high = make_event("High", category="food", price=75)
 
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.budget_min = 0
         pref.budget_max = 80
         pref.save()
@@ -156,15 +199,15 @@ class RecommendationServiceTests(TestCase):
 
     def test_recently_recommended_events_are_penalized(self):
         Event.objects.all().delete()
-        repeated = make_event("Repeated", category="restaurant", price=50)
-        fresh = make_event("Fresh", category="restaurant", price=50)
+        repeated = make_event("Repeated", category="food", price=50)
+        fresh = make_event("Fresh", category="food", price=50)
 
         yesterday = date.today() - timedelta(days=1)
         plan = DailyPlan.objects.create(user=self.user, date=yesterday)
         plan.events.add(repeated)
 
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.budget_min = 0
         pref.budget_max = 100
         pref.save()
@@ -175,7 +218,7 @@ class RecommendationServiceTests(TestCase):
 
     def test_excluded_events_never_appear_in_results(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
 
         baseline = generate_recommendations(self.user, seed="exclude-target")
@@ -191,7 +234,7 @@ class RecommendationServiceTests(TestCase):
 
     def test_none_or_empty_exclusions_preserve_existing_behavior(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
 
         seed = "exclude-empty-equivalence"
@@ -218,11 +261,11 @@ class RecommendationServiceTests(TestCase):
 
     def test_all_candidates_excluded_returns_empty_list(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant"]
+        pref.interests = ["food"]
         pref.save()
 
         excluded_ids = set(
-            Event.objects.filter(category="restaurant").values_list("id", flat=True)
+            Event.objects.filter(category="food").values_list("id", flat=True)
         )
         result = generate_recommendations(self.user, exclude_ids=excluded_ids)
         self.assertEqual(result, [])
@@ -232,13 +275,13 @@ class MultiDayRecommendationServiceTests(TestCase):
     def setUp(self):
         self.user = make_user("multiday-service@test.com")
         for i in range(8):
-            make_event(f"MD Food {i}", category="restaurant", price=40 + i)
+            make_event(f"MD Food {i}", category="food", price=40 + i)
         for i in range(5):
             make_event(f"MD Culture {i}", category="culture", price=10 + i)
 
     def _set_prefs(self, interests=None, trip_duration=None):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = interests or ["restaurant", "culture"]
+        pref.interests = interests or ["food", "culture"]
         if trip_duration is not None:
             pref.trip_duration = trip_duration
         pref.save()
@@ -276,9 +319,9 @@ class MultiDayRecommendationServiceTests(TestCase):
     def test_multiday_service_distributes_when_events_are_limited(self):
         Event.objects.all().delete()
         for i in range(4):
-            make_event(f"Limited Food {i}", category="restaurant", price=30 + i)
+            make_event(f"Limited Food {i}", category="food", price=30 + i)
 
-        self._set_prefs(interests=["restaurant"], trip_duration=6)
+        self._set_prefs(interests=["food"], trip_duration=6)
         result = generate_multiday_plan(self.user, TOMORROW)
 
         self.assertEqual(len(result), 6)
@@ -319,11 +362,11 @@ class GenerateDailyPlanAPITests(TestCase):
         self.user = make_user("gen@test.com")
         self.client = auth_client(self.user)
         for i in range(3):
-            make_event(f"Food {i}", category="restaurant", price=50)
+            make_event(f"Food {i}", category="food", price=50)
 
     def _set_prefs(self, interests=None, budget_max=None):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = interests or ["restaurant"]
+        pref.interests = interests or ["food"]
         pref.budget_max = budget_max
         pref.save()
 
@@ -378,7 +421,7 @@ class GenerateDailyPlanAPITests(TestCase):
     def test_generate_with_exclude_plan_dates_excludes_sibling_events(self):
         self._set_prefs()
         for i in range(4, 8):
-            make_event(f"Food {i}", category="restaurant", price=45 + i)
+            make_event(f"Food {i}", category="food", price=45 + i)
 
         target_date = date.today() + timedelta(days=2)
         day_before = target_date - timedelta(days=1)
@@ -420,7 +463,7 @@ class GenerateDailyPlanAPITests(TestCase):
     def test_regeneration_one_day_does_not_change_other_plans(self):
         self._set_prefs()
         for i in range(4, 8):
-            make_event(f"Food {i}", category="restaurant", price=55 + i)
+            make_event(f"Food {i}", category="food", price=55 + i)
 
         day_1 = date.today() + timedelta(days=1)
         day_2 = date.today() + timedelta(days=2)
@@ -480,13 +523,13 @@ class GenerateMultiDayPlanAPITests(TestCase):
         self.start_date = TOMORROW
 
         for i in range(8):
-            make_event(f"API Food {i}", category="restaurant", price=45 + i)
+            make_event(f"API Food {i}", category="food", price=45 + i)
         for i in range(5):
             make_event(f"API Culture {i}", category="culture", price=10 + i)
 
     def _set_prefs(self, interests=None, trip_duration=3):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = interests or ["restaurant", "culture"]
+        pref.interests = interests or ["food", "culture"]
         pref.trip_duration = trip_duration
         pref.save()
 
@@ -506,6 +549,35 @@ class GenerateMultiDayPlanAPITests(TestCase):
         self.assertIn("date", response.data["plans"][0])
         self.assertIn("events", response.data["plans"][0])
         self.assertIn("count", response.data["plans"][0])
+
+    def test_generate_multiday_accepts_end_date_range(self):
+        self._set_prefs(trip_duration=1)
+        end_date = (date.fromisoformat(self.start_date) + timedelta(days=2)).isoformat()
+
+        response = self.client.post(
+            "/api/daily-plan/generate-multiday/",
+            {"start_date": self.start_date, "end_date": end_date},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["trip_duration"], 3)
+        self.assertEqual(response.data["end_date"], end_date)
+        self.assertEqual(len(response.data["plans"]), 3)
+
+    def test_generate_multiday_rejects_mismatched_end_date_and_trip_duration(self):
+        self._set_prefs(trip_duration=1)
+        end_date = (date.fromisoformat(self.start_date) + timedelta(days=2)).isoformat()
+
+        response = self.client.post(
+            "/api/daily-plan/generate-multiday/",
+            {
+                "start_date": self.start_date,
+                "end_date": end_date,
+                "trip_duration": 2,
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_generate_multiday_seven_days_creates_and_returns_seven_plans(self):
         self._set_prefs(trip_duration=7)
@@ -633,7 +705,7 @@ class GenerateMultiDayPlanAPITests(TestCase):
         )
 
     def test_generate_multiday_only_replaces_plans_within_requested_range(self):
-        self._set_prefs(interests=["restaurant", "culture"], trip_duration=3)
+        self._set_prefs(interests=["food", "culture"], trip_duration=3)
 
         start_dt = date.fromisoformat(self.start_date)
         before_dt = start_dt - timedelta(days=2)

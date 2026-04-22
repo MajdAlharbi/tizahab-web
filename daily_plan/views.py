@@ -34,6 +34,34 @@ def _parse_trip_duration(raw_value):
     return trip_duration
 
 
+def _resolve_date_range(start_date_str=None, end_date_str=None, trip_duration=None):
+    if not start_date_str:
+        raise ValueError("start_date is required. Format: YYYY-MM-DD")
+
+    start_date = _parse_iso_date(start_date_str, "start_date")
+    end_date = (
+        _parse_iso_date(end_date_str, "end_date")
+        if end_date_str not in (None, "")
+        else None
+    )
+
+    if start_date < date.today():
+        raise ValueError("Cannot create plans for past dates.")
+    if end_date and end_date < start_date:
+        raise ValueError("end_date must be on or after start_date.")
+
+    resolved_trip_duration = _parse_trip_duration(trip_duration)
+    if end_date:
+        derived_duration = (end_date - start_date).days + 1
+        if resolved_trip_duration is not None and resolved_trip_duration != derived_duration:
+            raise ValueError(
+                "trip_duration must match the provided start_date and end_date range."
+            )
+        resolved_trip_duration = derived_duration
+
+    return start_date, end_date, resolved_trip_duration
+
+
 def _parse_exclude_plan_dates(raw_value):
     if raw_value is None:
         return []
@@ -221,7 +249,8 @@ class GenerateMultiDayPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        start_date_str = request.data.get("start_date")
+        start_date_str = request.data.get("start_date") or request.data.get("date_from")
+        end_date_str = request.data.get("end_date") or request.data.get("date_to")
         trip_duration = request.data.get("trip_duration")
 
         if not start_date_str:
@@ -231,18 +260,17 @@ class GenerateMultiDayPlanAPIView(APIView):
             )
 
         try:
-            start_date = _parse_iso_date(start_date_str, "start_date")
-            trip_duration = _parse_trip_duration(trip_duration)
-            if start_date < date.today():
-                return Response(
-                    {"detail": "Cannot create plans for past dates."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+            start_date, end_date, trip_duration = _resolve_date_range(
+                start_date_str=start_date_str,
+                end_date_str=end_date_str,
+                trip_duration=trip_duration,
+            )
         except ValueError as exc:
             logger.warning(
-                "Invalid multi-day input from user %s: start_date=%s trip_duration=%s",
+                "Invalid multi-day input from user %s: start_date=%s end_date=%s trip_duration=%s",
                 user.id,
                 start_date_str,
+                end_date_str,
                 request.data.get("trip_duration"),
             )
             return Response(
@@ -255,6 +283,7 @@ class GenerateMultiDayPlanAPIView(APIView):
                 user,
                 start_date_str,
                 trip_duration=trip_duration,
+                end_date_str=end_date_str,
             )
         except ValueError as exc:
             return Response(
@@ -321,6 +350,7 @@ class GenerateMultiDayPlanAPIView(APIView):
                 {
                     "trip_duration": len(generated_days),
                     "start_date": start_date_str,
+                    "end_date": generated_days[-1][0] if generated_days else start_date_str,
                     "plans": plans_payload,
                     "total_events": total_events,
                 },

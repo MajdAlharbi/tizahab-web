@@ -11,7 +11,6 @@ Tizahab{% endblock %} {% block head %}
 </style>
 {% endblock %} {% block content %}
 <div class="px-4 lg:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
-  <!-- Page Header -->
   <div class="flex items-center justify-between gap-3 flex-wrap">
     <div>
       <h1 class="text-2xl font-bold text-gray-900">
@@ -19,38 +18,31 @@ Tizahab{% endblock %} {% block head %}
         <span class="nav-label-ar hidden">الفعاليات والتجارب</span>
       </h1>
       <p class="text-sm text-gray-500 mt-0.5">
-        <span class="nav-label-en">Discover what's happening in Riyadh</span>
-        <span class="nav-label-ar hidden">اكتشف ما يحدث في الرياض</span>
+        <span class="nav-label-en">Discover tourism-ready places and events in Riyadh</span>
+        <span class="nav-label-ar hidden">اكتشف أماكن وفعاليات سياحية في الرياض</span>
       </p>
     </div>
     <div class="flex items-center gap-2">
-      <div
-        class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
+      <div class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
         <span class="text-gray-400">🔍</span>
-        <input
-          id="searchInput"
-          class="w-full outline-none text-sm bg-transparent"
+        <input id="searchInput" class="w-full outline-none text-sm bg-transparent"
           data-placeholder-en="Search places, events..."
-          data-placeholder-ar="ابحث عن الأماكن والفعاليات..."
+          data-placeholder-ar="ابحث عن أماكن وفعاليات..."
           placeholder="Search places, events..." />
       </div>
     </div>
   </div>
 
-  <!-- Search (Mobile) -->
   <div class="sm:hidden">
     <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
       <span class="text-gray-400">🔍</span>
-      <input
-        id="searchInputMobile"
-        class="w-full outline-none text-sm bg-transparent"
+      <input id="searchInputMobile" class="w-full outline-none text-sm bg-transparent"
         data-placeholder-en="Search places, events..."
-        data-placeholder-ar="ابحث عن الأماكن والفعاليات..."
+        data-placeholder-ar="ابحث عن أماكن وفعاليات..."
         placeholder="Search places, events..." />
     </div>
   </div>
 
-  <!-- Trending -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -61,31 +53,17 @@ Tizahab{% endblock %} {% block head %}
         </h2>
       </div>
       <div class="flex items-center gap-2">
-        <button
-          id="trendPrev"
-          class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">
-          ‹
-        </button>
-        <button
-          id="trendNext"
-          class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">
-          ›
-        </button>
+        <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
+        <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
       </div>
     </div>
-    <div
-      id="trendingRow"
-      class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      <div
-        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div
-        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div
-        class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+    <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
     </div>
   </section>
 
-  <!-- Map (Coming Soon) -->
   <section class="space-y-3">
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold">
@@ -94,90 +72,36 @@ Tizahab{% endblock %} {% block head %}
       </h2>
       <span class="text-sm text-gray-500">
         <span class="nav-label-en">Click a pin to see details</span>
-        <span class="nav-label-ar hidden">انقر على الدبوس لرؤية التفاصيل</span>
+        <span class="nav-label-ar hidden">اضغط على العلامة لرؤية التفاصيل</span>
       </span>
     </div>
     <div class="relative rounded-2xl overflow-hidden" style="height: 380px">
-      <!-- Placeholder map background -->
-      <div
-        id="eventsMap"
-        class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50"
-        style="height: 380px"></div>
+      <div id="eventsMap" class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50" style="height: 380px"></div>
     </div>
   </section>
 
-  <!-- Category filter pills + Favorites -->
   <section class="flex items-center justify-between gap-3 flex-wrap">
     <div class="flex gap-2 flex-wrap">
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-sm font-medium"
-        data-cat="">
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-sm font-medium" data-cat="">
         <span class="nav-label-en">All</span>
         <span class="nav-label-ar hidden">الكل</span>
       </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="restaurant">
-        🍽️ <span class="nav-label-en">Restaurants</span><span class="nav-label-ar hidden">مطاعم</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="cafe">
-        ☕ <span class="nav-label-en">Cafes</span><span class="nav-label-ar hidden">مقاهي</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="fast_food">
-        🍔 <span class="nav-label-en">Fast Food</span><span class="nav-label-ar hidden">وجبات سريعة</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="dessert">
-        🍰 <span class="nav-label-en">Desserts</span><span class="nav-label-ar hidden">حلويات</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="bakery">
-        🥐 <span class="nav-label-en">Bakery</span><span class="nav-label-ar hidden">مخبوزات</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="juice">
-        🧃 <span class="nav-label-en">Juice</span><span class="nav-label-ar hidden">عصائر</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="food_truck">
-        🚚 <span class="nav-label-en">Food Trucks</span><span class="nav-label-ar hidden">شاحنات الطعام</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="shopping">
-        🛍️ <span class="nav-label-en">Shopping</span><span class="nav-label-ar hidden">تسوق</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="culture">
-        🏛️ <span class="nav-label-en">Culture</span><span class="nav-label-ar hidden">ثقافة</span>
-      </button>
-      <button
-        class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50"
-        data-cat="outdoor">
-        🌿 <span class="nav-label-en">Outdoor</span><span class="nav-label-ar hidden">خارجي</span>
-      </button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="heritage">🕌 Heritage</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="entertainment">🎡 Entertainment</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">🍽️ Food</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="nature">🌿 Nature</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="family">👨‍👩‍👧 Family</button>
+      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="events">🎫 Events</button>
     </div>
-    <button
-      id="prefBtn"
-      type="button"
-      class="h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50">
+    <button id="prefBtn" type="button" class="h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50">
       ♡ <span class="nav-label-en">Favorites</span><span class="nav-label-ar hidden">المفضلة</span>
     </button>
   </section>
 
-  <!-- Favorites section (hidden by default) -->
   <section id="favoritesSection" class="hidden space-y-4">
-    <div
-      class="flex items-center justify-between border-b border-black/10 pb-3">
+    <div class="flex items-center justify-between border-b border-black/10 pb-3">
       <h2 class="text-lg font-semibold">
         <span class="nav-label-en">Favorites</span>
         <span class="nav-label-ar hidden">المفضلة</span>
@@ -187,13 +111,12 @@ Tizahab{% endblock %} {% block head %}
     <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
   </section>
 
-  <!-- All Places -->
   <section id="allEventsSection" class="space-y-4">
     <div class="flex items-end justify-between gap-3">
       <div>
         <h2 class="text-lg font-semibold">
           <span class="nav-label-en">All Places</span>
-          <span class="nav-label-ar hidden">جميع الأماكن</span>
+          <span class="nav-label-ar hidden">كل الأماكن</span>
         </h2>
         <p id="countText" class="text-sm text-gray-500"></p>
       </div>
@@ -206,10 +129,7 @@ Tizahab{% endblock %} {% block head %}
       <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
     </div>
     <div id="loadMoreWrap" class="hidden pt-1">
-      <button
-        id="loadMoreBtn"
-        type="button"
-        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+      <button id="loadMoreBtn" type="button" class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
         <span class="nav-label-en">Load More</span>
         <span class="nav-label-ar hidden">عرض المزيد</span>
       </button>
