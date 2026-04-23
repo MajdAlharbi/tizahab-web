@@ -14,6 +14,54 @@ from events.categories import normalize_category
 logger = logging.getLogger(__name__)
 
 DATE_RELEVANCE_WEIGHT = 0.25
+SHOPPING_WHITELIST = {
+    "riyadh front",
+    "via riyadh",
+    "souq al zal",
+    "kafd",
+}
+KNOWN_LANDMARK_NAMES = {
+    "boulevard city",
+    "kingdom centre tower",
+    "al faisaliah tower",
+    "kafd",
+}
+GENERIC_NAME_TERMS = {
+    "mall",
+    "park",
+    "restaurant",
+    "cafe",
+    "café",
+    "shopping center",
+    "shopping centre",
+    "tower",
+    "city",
+    "place",
+}
+TOURISM_BOOST_CATEGORIES = {"nature", "entertainment", "heritage", "events"}
+NOISY_SUBCATEGORIES = {"themed land", "lobby", "walkway", "plaza"}
+MACRO_ATTRACTION_SUBCATEGORIES = {
+    "public park",
+    "landmark",
+    "historic site",
+    "world heritage site",
+    "unesco world heritage site",
+    "museum",
+    "historical palace",
+    "religious landmark",
+    "wildlife reserve",
+    "zoo",
+    "theme park",
+    "amusement park",
+    "sports arena",
+    "performance arts",
+    "cinema",
+    "cultural center",
+    "art gallery",
+    "natural landmark",
+    "lookout point",
+    "viewpoint",
+}
 
 
 def _parse_reference_date(date_str):
@@ -44,6 +92,109 @@ def _budget_midpoint(preferences):
     if preferences.budget_max is not None:
         return float(preferences.budget_max)
     return None
+
+
+def _normalized_title(title):
+    return " ".join(str(title or "").strip().lower().split())
+
+
+def _normalized_subcategory(subcategory):
+    return " ".join(str(subcategory or "").strip().lower().split())
+
+
+def _dataset_priority(event):
+    tourism_priority = getattr(event, "tourism_priority", None)
+    if tourism_priority is not None:
+        return tourism_priority
+    return getattr(event, "tourism_relevance", None)
+
+
+def _is_suspicious_name(event):
+    title = _normalized_title(event.title)
+    if not title:
+        return True
+    if title in KNOWN_LANDMARK_NAMES:
+        return False
+    if "tower" in title and title not in KNOWN_LANDMARK_NAMES:
+        return True
+    if "city" in title and "boulevard city" not in title:
+        return True
+    if title in GENERIC_NAME_TERMS:
+        return True
+    return False
+
+
+def _passes_dataset_quality(event):
+    title = _normalized_title(event.title)
+    subcategory = _normalized_subcategory(getattr(event, "subcategory", ""))
+    priority = _dataset_priority(event)
+    if priority is not None and int(priority) < 3:
+        return False
+    if event.rating is None:
+        if str(getattr(event, "source", "")).strip().lower() == "google_places":
+            return False
+    elif float(event.rating) < 4.2:
+        return False
+    if (
+        event.category == "shopping"
+        and title not in SHOPPING_WHITELIST
+    ):
+        return False
+    if "-" in str(event.title or ""):
+        return False
+    if len(title.split()) > 6:
+        return False
+    if subcategory in NOISY_SUBCATEGORIES:
+        return False
+    if _is_suspicious_name(event):
+        return False
+    return True
+
+
+def _filter_dataset_quality(events):
+    return [event for event in events if _passes_dataset_quality(event)]
+
+
+def _dedupe_by_normalized_title(events):
+    best_by_title = {}
+    for event in events:
+        title = _normalized_title(event.title)
+        if not title:
+            continue
+        current = best_by_title.get(title)
+        if current is None:
+            best_by_title[title] = event
+            continue
+        current_key = (
+            _dataset_priority(current) or 0,
+            float(current.rating or 0),
+            float(current.tourism_relevance or 0),
+            current.id,
+        )
+        candidate_key = (
+            _dataset_priority(event) or 0,
+            float(event.rating or 0),
+            float(event.tourism_relevance or 0),
+            event.id,
+        )
+        if candidate_key > current_key:
+            best_by_title[title] = event
+    return list(best_by_title.values())
+
+
+def _tourism_category_boost(event):
+    return 0.9 if event.category in TOURISM_BOOST_CATEGORIES else 0.0
+
+
+def _macro_attraction_boost(event):
+    subcategory = _normalized_subcategory(getattr(event, "subcategory", ""))
+    if event.category in {"heritage", "events"}:
+        return 0.9
+    if subcategory in MACRO_ATTRACTION_SUBCATEGORIES:
+        return 0.6
+    if event.category in {"nature", "entertainment", "culture"}:
+        return 0.25
+    return 0.0
 
 
 def _date_window_q(window_start, window_end=None):
@@ -229,6 +380,8 @@ def _score_event(
     score += _category_match_score(event, interests)
     score += date_match * DATE_RELEVANCE_WEIGHT
     score += _budget_fit_score(event, budget_midpoint)
+    score += _tourism_category_boost(event)
+    score += _macro_attraction_boost(event)
     score += float(event.tourism_relevance or 3) * 0.6
     if event.rating is not None:
         score += float(event.rating) * 0.2
@@ -290,6 +443,102 @@ def _order_by_route(selected):
     return ordered + without_coords
 
 
+def _apply_quality_filters_with_logging(events, label):
+    quality_filtered_events = _filter_dataset_quality(events)
+    deduped_events = _dedupe_by_normalized_title(quality_filtered_events)
+    removed_count = len(events) - len(deduped_events)
+    if removed_count:
+        logger.info("Filtered %s low-quality tourism entries from %s", removed_count, label)
+    return deduped_events
+
+
+def _ensure_non_food_activity(selected, fallback_candidates, base_scores):
+    if not selected:
+        return selected
+    if any(event.category != "food" for event in selected):
+        return selected
+
+    replacement_pool = [
+        event
+        for event in fallback_candidates
+        if event.category != "food" and event.id not in {selected_event.id for selected_event in selected}
+    ]
+    if not replacement_pool:
+        return selected
+
+    best_non_food = max(
+        replacement_pool,
+        key=lambda event: base_scores.get(event.id, float("-inf")),
+    )
+    food_indices = [
+        index for index, event in enumerate(selected) if event.category == "food"
+    ]
+    if not food_indices:
+        return selected
+
+    weakest_food_index = min(
+        food_indices,
+        key=lambda index: base_scores.get(selected[index].id, float("-inf")),
+    )
+    updated = list(selected)
+    updated[weakest_food_index] = best_non_food
+    return updated
+
+
+def _enforce_subcategory_diversity(selected, fallback_candidates, base_scores):
+    if not selected:
+        return selected
+
+    used_titles = {_normalized_title(event.title) for event in selected}
+    used_subcategories = set()
+    updated = []
+
+    replacement_pool = [
+        event
+        for event in fallback_candidates
+        if _normalized_title(event.title) not in used_titles
+    ]
+
+    for event in selected:
+        subcategory = _normalized_subcategory(getattr(event, "subcategory", ""))
+        if not subcategory or subcategory not in used_subcategories:
+            updated.append(event)
+            if subcategory:
+                used_subcategories.add(subcategory)
+            continue
+
+        replacement = next(
+            (
+                candidate
+                for candidate in sorted(
+                    replacement_pool,
+                    key=lambda item: base_scores.get(item.id, float("-inf")),
+                    reverse=True,
+                )
+                if (
+                    _normalized_subcategory(getattr(candidate, "subcategory", ""))
+                    not in used_subcategories
+                )
+            ),
+            None,
+        )
+        if replacement is None:
+            continue
+
+        replacement_pool = [
+            candidate for candidate in replacement_pool if candidate.id != replacement.id
+        ]
+        used_titles.add(_normalized_title(replacement.title))
+        replacement_subcategory = _normalized_subcategory(
+            getattr(replacement, "subcategory", "")
+        )
+        if replacement_subcategory:
+            used_subcategories.add(replacement_subcategory)
+        updated.append(replacement)
+
+    return updated
+
+
 def generate_recommendations(
     user,
     date_str=None,
@@ -332,7 +581,10 @@ def generate_recommendations(
         selected_start_date,
         end_date=selected_end_date,
     )
-    base_queryset = active_queryset.filter(category__in=interests)
+    filtered_queryset = active_queryset.filter(tourism_relevance__gt=2).filter(
+        Q(rating__isnull=True) | Q(rating__gte=4.2)
+    )
+    base_queryset = filtered_queryset.filter(category__in=interests)
     queryset = base_queryset
     used_fallback = False
 
@@ -353,13 +605,32 @@ def generate_recommendations(
     if exclude_ids:
         queryset = queryset.exclude(id__in=exclude_ids)
 
+    support_queryset = filtered_queryset
+    if preferences.budget_max is not None:
+        support_queryset = support_queryset.filter(
+            Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
+        )
+    if preferences.budget_min is not None:
+        support_queryset = support_queryset.filter(
+            Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
+        )
+    if preferences.min_rating is not None:
+        support_queryset = support_queryset.filter(
+            Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
+        )
+    if exclude_ids:
+        support_queryset = support_queryset.exclude(id__in=exclude_ids)
+
     if has_selected_date:
         dated_queryset = queryset.filter(
             _dated_event_q(selected_start_date, selected_end_date)
         )
         evergreen_queryset = queryset.filter(_evergreen_place_q())
 
-        candidates = list(dated_queryset)
+        candidates = _apply_quality_filters_with_logging(
+            list(dated_queryset),
+            "dated_queryset",
+        )
         if candidates:
             logger.info(
                 "Using date-specific candidates for user=%s start=%s end=%s count=%s",
@@ -369,7 +640,10 @@ def generate_recommendations(
                 len(candidates),
             )
         else:
-            candidates = list(evergreen_queryset)
+            candidates = _apply_quality_filters_with_logging(
+                list(evergreen_queryset),
+                "evergreen_queryset",
+            )
             logger.info(
                 "Falling back to evergreen candidates for user=%s start=%s end=%s count=%s",
                 user.id,
@@ -378,7 +652,30 @@ def generate_recommendations(
                 len(candidates),
             )
     else:
-        candidates = list(queryset)
+        candidates = _apply_quality_filters_with_logging(
+            list(queryset),
+            "default_queryset",
+        )
+
+    if has_selected_date:
+        dated_support_queryset = support_queryset.filter(
+            _dated_event_q(selected_start_date, selected_end_date)
+        )
+        evergreen_support_queryset = support_queryset.filter(_evergreen_place_q())
+        support_candidates = _apply_quality_filters_with_logging(
+            list(dated_support_queryset),
+            "dated_support_queryset",
+        )
+        if not support_candidates:
+            support_candidates = _apply_quality_filters_with_logging(
+                list(evergreen_support_queryset),
+                "evergreen_support_queryset",
+            )
+    else:
+        support_candidates = _apply_quality_filters_with_logging(
+            list(support_queryset),
+            "support_queryset",
+        )
 
     has_strict_filters = any(
         value is not None
@@ -415,11 +712,20 @@ def generate_recommendations(
                 _dated_event_q(selected_start_date, selected_end_date)
             )
             evergreen_fallback_queryset = fallback_queryset.filter(_evergreen_place_q())
-            candidates = list(dated_fallback_queryset)
+            candidates = _apply_quality_filters_with_logging(
+                list(dated_fallback_queryset),
+                "dated_fallback_queryset",
+            )
             if not candidates:
-                candidates = list(evergreen_fallback_queryset)
+                candidates = _apply_quality_filters_with_logging(
+                    list(evergreen_fallback_queryset),
+                    "evergreen_fallback_queryset",
+                )
         else:
-            candidates = list(fallback_queryset)
+            candidates = _apply_quality_filters_with_logging(
+                list(fallback_queryset),
+                "fallback_queryset",
+            )
         used_fallback = bool(candidates)
 
     if not candidates:
@@ -509,6 +815,8 @@ def generate_recommendations(
         )
         clat, clng = _centroid(selected)
 
+    selected = _ensure_non_food_activity(selected, support_candidates, base_scores)
+    selected = _enforce_subcategory_diversity(selected, support_candidates, base_scores)
     limit = 7 if used_fallback else 5
     selected = _order_by_route(selected[:limit])
 

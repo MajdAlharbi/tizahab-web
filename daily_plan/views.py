@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import IntegrityError, transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -143,6 +144,36 @@ class DailyPlanRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVie
     def get_queryset(self):
         return DailyPlan.objects.filter(user=self.request.user).prefetch_related(
             "events"
+        )
+
+
+class DailyPlanEventRemoveAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, event_id):
+        daily_plan = get_object_or_404(
+            DailyPlan.objects.prefetch_related("events"),
+            pk=pk,
+            user=request.user,
+        )
+
+        if not daily_plan.events.filter(pk=event_id).exists():
+            return Response(
+                {"detail": "Event is not part of this plan."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        daily_plan.events.remove(event_id)
+        events = list(daily_plan.events.all())
+        events_data = EventSerializer(events, many=True).data
+        return Response(
+            {
+                "id": daily_plan.id,
+                "date": daily_plan.date.isoformat(),
+                "events": events_data,
+                "count": len(events_data),
+            },
+            status=status.HTTP_200_OK,
         )
 
 

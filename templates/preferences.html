@@ -273,7 +273,6 @@
 
     tripStartDateInput?.addEventListener("change", syncTripDurationFromDates);
     tripEndDateInput?.addEventListener("change", syncTripDurationFromDates);
-    tripDurationInput?.addEventListener("input", syncTripDurationFromDates);
 
     document.querySelectorAll(".interest-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -405,7 +404,6 @@
 
       const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
       const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
-      syncTripDurationFromDates();
       const rawDuration = parseInt(document.getElementById("tripDuration")?.value) || 1;
       const tripDuration = Math.max(1, Math.min(30, rawDuration));
       const startDate = document.getElementById("tripStartDate")?.value || null;

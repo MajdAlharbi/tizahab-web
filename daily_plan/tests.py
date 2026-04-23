@@ -202,6 +202,126 @@ class RecommendationServiceTests(TestCase):
         self.assertIn("Open Food", titles)
         self.assertNotIn("Closed Event", titles)
 
+    def test_quality_filter_excludes_weak_and_suspicious_places(self):
+        Event.objects.all().delete()
+        whitelisted_shopping = make_event(
+            "Riyadh Front",
+            category="shopping",
+            price=40,
+            rating=4.8,
+            tourism_relevance=5,
+        )
+        make_event(
+            "Random Mall",
+            category="shopping",
+            price=35,
+            rating=4.9,
+            tourism_relevance=5,
+        )
+        known_landmark = make_event(
+            "Kingdom Centre Tower",
+            category="heritage",
+            price=30,
+            rating=4.7,
+            tourism_relevance=5,
+        )
+        make_event(
+            "Mystery Tower",
+            category="entertainment",
+            price=25,
+            rating=4.8,
+            tourism_relevance=5,
+        )
+        make_event(
+            "Low Priority Heritage",
+            category="heritage",
+            price=20,
+            rating=4.7,
+            tourism_relevance=2,
+        )
+        make_event(
+            "Low Rating Event",
+            category="events",
+            price=20,
+            rating=4.1,
+            tourism_relevance=5,
+        )
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["shopping", "heritage", "entertainment", "events"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+        result_ids = {event.id for event in result}
+
+        self.assertIn(whitelisted_shopping.id, result_ids)
+        self.assertIn(known_landmark.id, result_ids)
+        self.assertNotIn(
+            Event.objects.get(title="Random Mall").id,
+            result_ids,
+        )
+        self.assertNotIn(
+            Event.objects.get(title="Mystery Tower").id,
+            result_ids,
+        )
+
+    def test_boosted_tourism_categories_rank_above_food(self):
+        Event.objects.all().delete()
+        food = make_event(
+            "Food Favorite",
+            category="food",
+            price=40,
+            rating=4.8,
+            tourism_relevance=5,
+        )
+        nature = make_event(
+            "Nature Escape",
+            category="nature",
+            price=40,
+            rating=4.8,
+            tourism_relevance=5,
+        )
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "nature"]
+        pref.budget_min = 0
+        pref.budget_max = 100
+        pref.save()
+
+        result = generate_recommendations(self.user, seed="tourism-boost")
+
+        self.assertGreaterEqual(len(result), 2)
+        self.assertEqual(result[0].id, nature.id)
+        self.assertIn(food.id, [event.id for event in result])
+
+    def test_plan_includes_non_food_activity_when_available(self):
+        Event.objects.all().delete()
+        for i in range(4):
+            make_event(
+                f"Food Spot {i}",
+                category="food",
+                price=35 + i,
+                rating=4.8,
+                tourism_relevance=5,
+            )
+        make_event(
+            "Nature Walk",
+            category="nature",
+            price=35,
+            rating=4.8,
+            tourism_relevance=5,
+        )
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food"]
+        pref.budget_min = 0
+        pref.budget_max = 100
+        pref.save()
+
+        result = generate_recommendations(self.user, seed="require-non-food")
+
+        self.assertTrue(any(event.category != "food" for event in result))
+
     def test_category_diversity_prefers_multiple_interest_categories(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
         pref.interests = ["food", "culture"]
@@ -997,6 +1117,21 @@ class DailyPlanCRUDTests(TestCase):
         response = self.client.delete(f"/api/daily-plan/{plan.pk}/")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(DailyPlan.objects.filter(pk=plan.pk).exists())
+
+    def test_remove_event_from_persisted_plan(self):
+        second_event = make_event(title="Second Place")
+        plan = DailyPlan.objects.create(user=self.user, date=date.today())
+        plan.events.add(self.event, second_event)
+
+        response = self.client.delete(
+            f"/api/daily-plan/{plan.pk}/events/{self.event.id}/"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        plan.refresh_from_db()
+        self.assertEqual(list(plan.events.values_list("id", flat=True)), [second_event.id])
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["events"][0]["id"], second_event.id)
 
     def test_cannot_delete_other_users_plan(self):
         plan = DailyPlan.objects.create(user=self.other_user, date=date.today())

@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     DailyPlanListCreateAPIView,
     DailyPlanRetrieveUpdateDestroyAPIView,
+    DailyPlanEventRemoveAPIView,
     GenerateDailyPlanAPIView,
     GenerateMultiDayPlanAPIView,
 )
@@ -20,5 +21,10 @@ urlpatterns = [
         "<int:pk>/",
         DailyPlanRetrieveUpdateDestroyAPIView.as_view(),
         name="daily-plan-detail",
+    ),
+    path(
+        "<int:pk>/events/<int:event_id>/",
+        DailyPlanEventRemoveAPIView.as_view(),
+        name="daily-plan-event-remove",
     ),
 ]

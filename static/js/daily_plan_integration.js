@@ -580,12 +580,6 @@ function renderDailyPlan(data) {
   const rawEvents = Array.isArray(data?.events) ? data.events : [];
   const nearbyEvents = filterEventsByArea(rawEvents);
   const events = organizeEventsByTime(nearbyEvents);
-  const sectionTimes = {
-    "☀️ Breakfast": "8:00 AM",
-    Activity: "11:00 AM",
-    "🍽️ Lunch": "2:00 PM",
-    Evening: "6:00 PM",
-  };
 
   if (events.length === 0) {
     const empty = document.createElement("div");
@@ -618,12 +612,7 @@ function renderDailyPlan(data) {
       title.className = "text-lg font-semibold text-gray-900";
       title.textContent = sectionLabel;
 
-      const timeHint = document.createElement("span");
-      timeHint.className = "text-sm text-gray-500";
-      timeHint.textContent = sectionTimes[sectionLabel] || "";
-
       header.appendChild(title);
-      header.appendChild(timeHint);
       section.appendChild(header);
 
       sections.set(sectionLabel, section);
@@ -665,6 +654,9 @@ function renderDailyPlan(data) {
     left.appendChild(location);
     left.appendChild(price);
 
+    const actions = document.createElement("div");
+    actions.className = "flex flex-col items-end gap-2 shrink-0";
+
     const actionBtn = document.createElement("a");
     const navQuery = encodeURIComponent((event.title || "") + " Riyadh");
     actionBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${navQuery}`;
@@ -674,8 +666,34 @@ function renderDailyPlan(data) {
       "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90 inline-block";
     actionBtn.textContent = "Navigate";
 
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className =
+      "px-3 py-1.5 border border-red-200 text-red-600 rounded-lg text-xs font-medium hover:bg-red-50 transition";
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", async () => {
+      removeBtn.disabled = true;
+      removeBtn.textContent = "Removing...";
+      try {
+        await removeEventFromPlan(event.id);
+      } catch (error) {
+        removeBtn.disabled = false;
+        removeBtn.textContent = "Remove";
+        const planMessage = document.getElementById("plan-message");
+        if (planMessage) {
+          planMessage.textContent = getDailyPlanErrorMessage(
+            error,
+            "Unable to remove this activity.",
+          );
+        }
+      }
+    });
+
+    actions.appendChild(actionBtn);
+    actions.appendChild(removeBtn);
+
     card.appendChild(left);
-    card.appendChild(actionBtn);
+    card.appendChild(actions);
     sections.get(sectionLabel).appendChild(card);
   });
 
@@ -720,6 +738,12 @@ function setLoading(isLoading) {
   const message = document.getElementById("plan-message");
   if (!message) return;
   message.innerText = isLoading ? "Generating..." : "";
+}
+
+function resetGenerateActionState() {
+  setLoading(false);
+  const generateBtn = document.getElementById("generate-btn");
+  if (generateBtn) generateBtn.disabled = false;
 }
 
 /* =========================
@@ -926,6 +950,81 @@ async function addEventToPlan(eventId) {
   }
 }
 
+async function findPlanForDate(targetDate) {
+  if (_currentPlan && _currentPlan.date === targetDate && _currentPlan.id) {
+    return _currentPlan;
+  }
+
+  const data = await apiGet("/api/daily-plan/");
+  const plans = data ? (Array.isArray(data) ? data : data.results || []) : [];
+  return plans.find((plan) => plan.date === targetDate) || null;
+}
+
+function updateCurrentDayEvents(events, planData = null) {
+  const safeEvents = sortEventsByProximity(
+    (Array.isArray(events) ? events : []).filter(Boolean),
+  );
+  multiDayPlans[currentDayIndex] = safeEvents;
+
+  const targetDate = getSelectedPlanDate();
+  if (planData) {
+    _currentPlan = planData;
+  } else if (_currentPlan && _currentPlan.date === targetDate) {
+    _currentPlan = {
+      ..._currentPlan,
+      date: targetDate,
+      events: safeEvents,
+      count: safeEvents.length,
+    };
+  }
+
+  if (safeEvents.length === 0) {
+    resetGenerateActionState();
+  }
+
+  renderDaysBar();
+  renderPlanForDay(currentDayIndex);
+}
+
+async function removeEventFromPlan(eventId) {
+  const normalizedEventId = Number(eventId);
+  if (!Number.isFinite(normalizedEventId) || normalizedEventId <= 0) {
+    throw new Error("Invalid event ID");
+  }
+
+  const currentEvents = Array.isArray(multiDayPlans[currentDayIndex])
+    ? multiDayPlans[currentDayIndex]
+    : [];
+  const nextEvents = currentEvents.filter(
+    (event) => Number(event?.id) !== normalizedEventId,
+  );
+
+  if (nextEvents.length === currentEvents.length) {
+    return;
+  }
+
+  const previousEvents = [...currentEvents];
+  updateCurrentDayEvents(nextEvents);
+
+  const targetDate = getSelectedPlanDate();
+  try {
+    const targetPlan = await findPlanForDate(targetDate);
+    if (!targetPlan?.id) {
+      return;
+    }
+
+    const updated = await apiDelete(
+      `/api/daily-plan/${targetPlan.id}/events/${normalizedEventId}/`,
+    );
+    if (updated) {
+      updateCurrentDayEvents(updated.events || [], updated);
+    }
+  } catch (error) {
+    updateCurrentDayEvents(previousEvents);
+    throw error;
+  }
+}
+
 /* =========================
    Export Plan
 ========================= */
@@ -994,8 +1093,13 @@ document.addEventListener("DOMContentLoaded", () => {
   generateBtn?.addEventListener("click", async () => {
     const message = document.getElementById("plan-message");
     try {
+      const currentDayEvents = Array.isArray(multiDayPlans[currentDayIndex])
+        ? multiDayPlans[currentDayIndex].filter(Boolean)
+        : [];
+      const hasCurrentDayPlan = currentDayEvents.length > 0;
       const isSpecificDayRegeneration =
-        currentDayIndex > 0 && Array.isArray(multiDayPlans[currentDayIndex]);
+        Array.isArray(multiDayPlans[currentDayIndex]) &&
+        (currentDayIndex > 0 || !hasCurrentDayPlan);
 
       if (isSpecificDayRegeneration) {
         await requestPlanForSelectedDate(generateBtn);
