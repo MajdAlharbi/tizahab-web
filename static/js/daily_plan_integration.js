@@ -155,8 +155,8 @@ async function generateAllDays(generateBtn) {
   await refreshPreferences();
 
   savePlanRangeFromInputs();
-  const startDate = getStoredPlanStartDate();
-  const endDate = getStoredPlanEndDate();
+  const startDate = toISODate(getStoredPlanStartDate());
+  const endDate = toISODate(getStoredPlanEndDate());
 
   try {
     const payload = {
@@ -208,8 +208,8 @@ async function requestPlanForSelectedDate(generateBtn) {
     savePlanRangeFromInputs();
 
     const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
-    const startDate = getStoredPlanStartDate();
-    const endDate = getStoredPlanEndDate();
+    const startDate = toISODate(getStoredPlanStartDate());
+    const endDate = toISODate(getStoredPlanEndDate());
     const tripDuration = getTripDuration();
     const excludePlanDates = [];
 

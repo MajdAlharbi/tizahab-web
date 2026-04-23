@@ -43,6 +43,17 @@ function authHeaders() {
   return headers;
 }
 
+function toISODate(dateStr) {
+  if (!dateStr) return null;
+
+  const parts = dateStr.split("/");
+  if (parts.length === 3) {
+    return `${parts[2]}-${parts[0].padStart(2, "0")}-${parts[1].padStart(2, "0")}`;
+  }
+
+  return dateStr;
+}
+
 async function parseResponseBody(res) {
   const text = await res.text();
   const trimmed = text.trim();
@@ -348,6 +359,7 @@ window.extractApiErrorMessage = extractApiErrorMessage;
 window.catLabel = catLabel;
 window.catEmoji = catEmoji;
 window.catColor = catColor;
+window.toISODate = toISODate;
 window.getToken = getToken;
 window.isLoggedIn = isLoggedIn;
 window.redirectToLogin = redirectToLogin;

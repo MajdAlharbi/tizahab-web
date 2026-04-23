@@ -339,6 +339,55 @@
       return "Something went wrong. Please try again.";
     }
 
+    function buildPreferencesPayload() {
+      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
+      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
+      const rawDuration = parseInt(document.getElementById("tripDuration")?.value, 10) || 1;
+      const tripDuration = Math.max(1, Math.min(30, rawDuration));
+      const startDate = document.getElementById("tripStartDate")?.value || null;
+      const endDate = document.getElementById("tripEndDate")?.value || null;
+      const budgetMinValue = parseInt(budgetMin.value, 10);
+      const budgetMaxValue = parseInt(budgetMax.value, 10);
+      const apiStartDate = toISODate(startDate);
+      const apiEndDate = toISODate(endDate);
+
+      return {
+        payload: {
+          interests,
+          budget_min: budgetMinValue,
+          budget_max: budgetMaxValue,
+          preferred_language: lang,
+          min_rating: selectedRating ? parseFloat(selectedRating) : null,
+          trip_duration: tripDuration,
+          start_date: apiStartDate,
+          end_date: apiEndDate,
+        },
+        raw: {
+          tripDuration,
+          startDate,
+          endDate,
+          budgetMinValue,
+          budgetMaxValue,
+        },
+      };
+    }
+
+    function validatePreferencesPayload(payload, raw) {
+      if (!Array.isArray(payload.interests) || payload.interests.length === 0) {
+        return "Please select at least one interest before saving.";
+      }
+      if (!Number.isFinite(raw.budgetMinValue) || !Number.isFinite(raw.budgetMaxValue)) {
+        return "Budget values are invalid. Please adjust them and try again.";
+      }
+      if (raw.budgetMinValue > raw.budgetMaxValue) {
+        return "Minimum budget cannot be greater than maximum budget.";
+      }
+      if (raw.startDate && raw.endDate && raw.endDate < raw.startDate) {
+        return "End date must be on or after start date.";
+      }
+      return "";
+    }
+
     async function loadPreferences() {
       if (!isLoggedIn()) return;
       try {
@@ -389,7 +438,9 @@
         if (startDateInput) startDateInput.value = data.start_date || "";
         if (endDateInput) endDateInput.value = data.end_date || "";
         syncTripDurationFromDates();
-      } catch {}
+      } catch (err) {
+        console.error("Preferences: failed to load existing preferences", err);
+      }
     }
     loadPreferences();
 
@@ -399,32 +450,23 @@
       if (durInput && !durInput.value) durInput.value = storedDuration;
     }
 
-    document.getElementById("savePrefsBtn").addEventListener("click", async () => {
-      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
+    const savePrefsBtn = document.getElementById("savePrefsBtn");
 
-      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
-      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
-      const rawDuration = parseInt(document.getElementById("tripDuration")?.value) || 1;
-      const tripDuration = Math.max(1, Math.min(30, rawDuration));
-      const startDate = document.getElementById("tripStartDate")?.value || null;
-      const endDate = document.getElementById("tripEndDate")?.value || null;
-      const payload = {
-        interests,
-        budget_min: parseInt(budgetMin.value),
-        budget_max: parseInt(budgetMax.value),
-        preferred_language: lang,
-        min_rating: selectedRating ? parseFloat(selectedRating) : null,
-        trip_duration: tripDuration,
-        start_date: startDate,
-        end_date: endDate,
-      };
+    async function handleSavePreferencesClick() {
+      console.log("Preferences: Save button clicked");
+      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
 
       const msgEl = document.getElementById("prefMessage");
       const errEl = document.getElementById("prefError");
-      const btn = document.getElementById("savePrefsBtn");
+      const btn = savePrefsBtn;
+      const { payload, raw } = buildPreferencesPayload();
+      const validationError = validatePreferencesPayload(payload, raw);
 
-      if (interests.length === 0) {
-        errEl.textContent = "Please select at least one interest before saving.";
+      console.log("Preferences: payload prepared", payload);
+
+      if (validationError) {
+        console.error("Preferences: validation failed", validationError, payload);
+        errEl.textContent = validationError;
         errEl.classList.remove("hidden");
         msgEl.classList.add("hidden");
         return;
@@ -435,21 +477,15 @@
       msgEl.classList.add("hidden");
       errEl.classList.add("hidden");
 
-      if (startDate && endDate && endDate < startDate) {
-        errEl.textContent = "End date must be on or after start date.";
-        errEl.classList.remove("hidden");
-        btn.disabled = false;
-        btn.textContent = "Save Preferences";
-        return;
-      }
-
       try {
+        console.log("Preferences: sending POST /api/auth/preferences/", payload);
         await apiPost("/api/auth/preferences/", payload);
-        localStorage.setItem("tz_trip_duration", String(tripDuration));
-        if (startDate) {
-          localStorage.setItem("tz_plan_start_date", startDate);
-          if (endDate) {
-            localStorage.setItem("tz_plan_end_date", endDate);
+        console.log("Preferences: save completed successfully");
+        localStorage.setItem("tz_trip_duration", String(raw.tripDuration));
+        if (raw.startDate) {
+          localStorage.setItem("tz_plan_start_date", raw.startDate);
+          if (raw.endDate) {
+            localStorage.setItem("tz_plan_end_date", raw.endDate);
           } else {
             localStorage.removeItem("tz_plan_end_date");
           }
@@ -461,13 +497,21 @@
         msgEl.classList.remove("hidden");
         setTimeout(() => { window.location.href = "/home/"; }, 1200);
       } catch (err) {
+        console.error("Preferences: save failed", err, payload);
         errEl.textContent = getPreferencesErrorMessage(err);
         errEl.classList.remove("hidden");
       } finally {
         btn.disabled = false;
         btn.textContent = "Save Preferences";
       }
-    });
+    }
+
+    if (savePrefsBtn) {
+      savePrefsBtn.addEventListener("click", handleSavePreferencesClick);
+      console.log("Preferences: Save button handler bound");
+    } else {
+      console.error("Preferences: Save button not found");
+    }
   </script>
 
 </body>
