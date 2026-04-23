@@ -1,32 +1,29 @@
-import os
-import django
 import json
-from datetime import date  # 👈 جديد
+import os
+from datetime import date
+
+import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from events.models import Event
 
-files = [
-    "data/dataset-Tizahab/cafes_cleaned.json",
-    "data/dataset-Tizahab/restaurants_cleaned.json",
-    "data/dataset-Tizahab/riyadh_malls_museums.json"
-]
+DATASET_FILE = "data/dataset-Tizahab/cleaned_dataset.json"
 
+# Using cleaned_dataset.json as the single source of truth
 Event.objects.all().delete()
 
-for file in files:
-    with open(file, encoding="utf-8") as f:
-        data = json.load(f)
+with open(DATASET_FILE, encoding="utf-8") as dataset_file:
+    data = json.load(dataset_file)
 
-    for item in data:
-        Event.objects.create(
-            title=item.get("Name"),
-            category=item.get("Type_of_Utility"),
-            location="Riyadh",
-            date=date.today(),  # 👈 الحل هنا
-            description=f"Rating: {item.get('Rating')} | Price: {item.get('Price_Level') or item.get('Price_Range')}"
-        )
+for item in data:
+    Event.objects.create(
+        title=item.get("name"),
+        category=item.get("category"),
+        location=item.get("city") or "Riyadh",
+        date=date.today(),
+        description=item.get("subcategory") or f"Rating: {item.get('rating')}",
+    )
 
-print("DONE ✅")
+print("DONE")

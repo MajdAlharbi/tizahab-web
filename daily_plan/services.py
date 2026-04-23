@@ -443,6 +443,89 @@ def _order_by_route(selected):
     return ordered + without_coords
 
 
+def pick_first_by_category(available, category):
+    for index, event in enumerate(available):
+        if event.category == category:
+            return available.pop(index)
+    return None
+
+
+def pick_next_available(available):
+    if not available:
+        return None
+    return available.pop(0)
+
+
+def _build_structured_daily_slots(events):
+    """
+    Build a stable slot-based itinerary while returning the same flat list
+    shape expected by the existing API/frontend.
+    """
+    available = list(events)
+    plan = {
+        "breakfast": None,
+        "activity": None,
+        "lunch": None,
+        "evening": None,
+    }
+
+    plan["breakfast"] = pick_first_by_category(available, "food")
+    if plan["breakfast"] is None:
+        plan["breakfast"] = pick_next_available(available)
+        if plan["breakfast"] is not None:
+            logger.info(
+                "Daily plan breakfast fallback used because no food item was available."
+            )
+
+    plan["activity"] = next(
+        (
+            available.pop(index)
+            for index, event in enumerate(available)
+            if event.category != "food"
+        ),
+        None,
+    )
+    if plan["activity"] is None:
+        plan["activity"] = pick_next_available(available)
+        if plan["activity"] is not None:
+            logger.info(
+                "Daily plan activity fallback used because no non-food item was available."
+            )
+
+    plan["lunch"] = pick_first_by_category(available, "food")
+    if plan["lunch"] is None:
+        plan["lunch"] = pick_next_available(available)
+        if plan["lunch"] is not None:
+            logger.info(
+                "Daily plan lunch fallback used because no food item was available."
+            )
+
+    plan["evening"] = next(
+        (
+            available.pop(index)
+            for index, event in enumerate(available)
+            if event.category != "food"
+        ),
+        None,
+    )
+    if plan["evening"] is None:
+        plan["evening"] = pick_next_available(available)
+        if plan["evening"] is not None:
+            logger.info(
+                "Daily plan evening fallback used because no non-food item was available."
+            )
+
+    final_list = [
+        plan["breakfast"],
+        plan["activity"],
+        plan["lunch"],
+        plan["evening"],
+    ]
+    final_list = [event for event in final_list if event is not None]
+    final_list.extend(available)
+    return final_list
+
+
 def _apply_quality_filters_with_logging(events, label):
     quality_filtered_events = _filter_dataset_quality(events)
     deduped_events = _dedupe_by_normalized_title(quality_filtered_events)
@@ -819,6 +902,7 @@ def generate_recommendations(
     selected = _enforce_subcategory_diversity(selected, support_candidates, base_scores)
     limit = 7 if used_fallback else 5
     selected = _order_by_route(selected[:limit])
+    selected = _build_structured_daily_slots(selected)
 
     return selected
 
@@ -866,6 +950,8 @@ def generate_multiday_plan(user, start_date_str, trip_duration=None, end_date_st
         events = generate_recommendations(
             user,
             date_str=date_str,
+            start_date_str=start_date_str,
+            end_date_str=end_date_str,
             seed=day_seed,
             exclude_ids=exclude_ids,
         )

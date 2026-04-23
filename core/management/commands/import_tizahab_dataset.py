@@ -1,49 +1,27 @@
 import json
 import os
-from datetime import datetime, time, timezone
+from datetime import time
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
-from events.models import Event
 from events.categories import normalize_category
+from events.models import Event
 
 DATASET_DIR = os.path.join(settings.BASE_DIR, "data", "dataset-Tizahab")
-
-PRICE_MAP = {
-    "$": 30,
-    "$$": 80,
-    "$$$": 150,
-}
-
-CATEGORY_MAP = {
-    "restaurant": "food",
-    "cafe": "food",
-    "mall": "shopping",
-    "museum": "heritage",
-}
-
-NOW = datetime.now(tz=timezone.utc)
+DATASET_PATH = os.path.join(DATASET_DIR, "cleaned_dataset.json")
 
 
-def _price(record):
-    raw = record.get("Price_Level") or record.get("Price_Range")
-    return PRICE_MAP.get(raw) if raw else None
-
-
-def _category(type_of_utility):
-    mapped = CATEGORY_MAP.get(type_of_utility.lower(), type_of_utility.lower())
-    return normalize_category(mapped, description=type_of_utility)
-
-
-def _description(name, type_of_utility):
-    return f"{name} — {type_of_utility} in Riyadh"
+def _to_float(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
 
 class Command(BaseCommand):
-    help = (
-        "Import Tizahab dataset (cafes, restaurants, malls/museums) into Event table."
-    )
+    help = "Import the curated Tizahab dataset into the Event table."
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -53,131 +31,63 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        # Using cleaned_dataset.json as the single source of truth
+        if not os.path.exists(DATASET_PATH):
+            self.stderr.write(self.style.ERROR(f"Dataset not found: {DATASET_PATH}"))
+            return
+
         if options["clear"]:
             deleted, _ = Event.objects.all().delete()
             self.stdout.write(self.style.WARNING(f"Cleared {deleted} existing events."))
 
-        seen_titles = {t.lower() for t in Event.objects.values_list("title", flat=True)}
+        with open(DATASET_PATH, encoding="utf-8") as dataset_file:
+            records = json.load(dataset_file)
 
-        stats = {"food": 0, "shopping": 0, "culture": 0, "skipped": 0}
+        seen_titles = {
+            title.lower() for title in Event.objects.values_list("title", flat=True)
+        }
+        created_count = 0
+        skipped_count = 0
+        now = timezone.now()
 
-        # ── Restaurants (limit 2000, highest-rated first) ──────────────────────
-        restaurants_path = os.path.join(DATASET_DIR, "restaurants_cleaned.json")
-        with open(restaurants_path, encoding="utf-8") as f:
-            restaurants = json.load(f)
-
-        restaurants.sort(key=lambda r: r.get("Rating") or 0, reverse=True)
-        restaurants = restaurants[:2000]
-
-        self.stdout.write(f"Importing up to {len(restaurants)} restaurants…")
-        count = 0
-        for record in restaurants:
-            name = record.get("Name", "").strip()
-            if not name or name.lower() in seen_titles:
-                stats["skipped"] += 1
+        for record in records:
+            title = (record.get("name") or "").strip()
+            if not title or title.lower() in seen_titles:
+                skipped_count += 1
                 continue
-            seen_titles.add(name.lower())
-            Event.objects.create(
-                title=name,
-                category="food",
-                description=_description(
-                    name, record.get("Type_of_Utility", "Restaurant")
-                ),
-                date=NOW,
-                location="Riyadh, Saudi Arabia",
-                price=_price(record),
-                rating=record.get("Rating"),
-                latitude=None,
-                longitude=None,
-                start_time=time(8, 0),
-                end_time=time(23, 0),
-                source="Tizahab dataset",
-                is_active=True,
-                tourism_relevance=3,
+
+            seen_titles.add(title.lower())
+            category = normalize_category(
+                record.get("category") or "culture",
+                description=record.get("subcategory"),
             )
-            count += 1
-            stats["food"] += 1
-            if count % 500 == 0:
-                self.stdout.write(f"  … {count} restaurants imported")
-        self.stdout.write(self.style.SUCCESS(f"Restaurants done: {count} imported."))
+            location = ", ".join(
+                part for part in [record.get("city"), "Saudi Arabia"] if part
+            ) or "Riyadh, Saudi Arabia"
+            tourism_score = _to_float(record.get("tourism_score")) or 60
 
-        # ── Cafes ──────────────────────────────────────────────────────────────
-        cafes_path = os.path.join(DATASET_DIR, "cafes_cleaned.json")
-        with open(cafes_path, encoding="utf-8") as f:
-            cafes = json.load(f)
-
-        self.stdout.write(f"Importing {len(cafes)} cafes…")
-        count = 0
-        for i, record in enumerate(cafes):
-            name = record.get("Name", "").strip()
-            if not name or name.lower() in seen_titles:
-                stats["skipped"] += 1
-                continue
-            seen_titles.add(name.lower())
             Event.objects.create(
-                title=name,
-                category="food",
-                description=_description(name, record.get("Type_of_Utility", "Cafe")),
-                date=NOW,
-                location="Riyadh, Saudi Arabia",
-                price=_price(record),
-                rating=record.get("Rating"),
-                latitude=None,
-                longitude=None,
-                start_time=time(8, 0),
-                end_time=time(23, 0),
-                source="Tizahab dataset",
-                is_active=True,
-                tourism_relevance=3,
-            )
-            count += 1
-            stats["food"] += 1
-            if (i + 1) % 500 == 0:
-                self.stdout.write(f"  … {i + 1} cafes processed")
-        self.stdout.write(self.style.SUCCESS(f"Cafes done: {count} imported."))
-
-        # ── Malls & Museums ────────────────────────────────────────────────────
-        malls_path = os.path.join(DATASET_DIR, "riyadh_malls_museums.json")
-        with open(malls_path, encoding="utf-8") as f:
-            malls = json.load(f)
-
-        self.stdout.write(f"Importing {len(malls)} malls/museums…")
-        count = 0
-        for record in malls:
-            name = record.get("Name", "").strip()
-            if not name or name.lower() in seen_titles:
-                stats["skipped"] += 1
-                continue
-            seen_titles.add(name.lower())
-            type_util = record.get("Type_of_Utility", "")
-            cat = _category(type_util)
-            Event.objects.create(
-                title=name,
-                category=cat,
-                description=_description(name, type_util),
-                date=NOW,
-                location="Riyadh, Saudi Arabia",
-                price=_price(record),
-                rating=record.get("Rating"),
-                latitude=None,
-                longitude=None,
-                start_time=time(10, 0),
+                title=title,
+                category=category,
+                description=record.get("subcategory") or f"{title} in Riyadh",
+                date=now,
+                start_date=None,
+                end_date=None,
+                location=location,
+                price=None,
+                price_range=record.get("price_level"),
+                rating=_to_float(record.get("rating")),
+                latitude=_to_float(record.get("latitude")),
+                longitude=_to_float(record.get("longitude")),
+                start_time=time(9, 0),
                 end_time=time(22, 0),
-                source="Tizahab dataset",
+                source="cleaned_dataset.json",
+                source_url="",
                 is_active=True,
-                tourism_relevance=4 if cat in {"heritage", "events"} else 3,
+                tourism_relevance=max(1, min(5, round(tourism_score / 20))),
             )
-            count += 1
-            stats[cat] = stats.get(cat, 0) + 1
-        self.stdout.write(self.style.SUCCESS(f"Malls/museums done: {count} imported."))
+            created_count += 1
 
-        # ── Summary ────────────────────────────────────────────────────────────
-        self.stdout.write("")
         self.stdout.write(self.style.SUCCESS("=== Import complete ==="))
-        self.stdout.write(f"  food     : {stats['food']}")
-        self.stdout.write(f"  shopping : {stats.get('shopping', 0)}")
-        self.stdout.write(f"  culture  : {stats.get('culture', 0)}")
-        self.stdout.write(f"  skipped  : {stats['skipped']} (duplicates / blank names)")
-        self.stdout.write(
-            f"  TOTAL    : {stats['food'] + stats.get('shopping', 0) + stats.get('culture', 0)}"
-        )
+        self.stdout.write(f"  imported : {created_count}")
+        self.stdout.write(f"  skipped  : {skipped_count}")

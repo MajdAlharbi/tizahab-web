@@ -453,7 +453,6 @@
     const savePrefsBtn = document.getElementById("savePrefsBtn");
 
     async function handleSavePreferencesClick() {
-      console.log("Preferences: Save button clicked");
       if (!isLoggedIn()) { window.location.href = "/login/"; return; }
 
       const msgEl = document.getElementById("prefMessage");
@@ -461,8 +460,6 @@
       const btn = savePrefsBtn;
       const { payload, raw } = buildPreferencesPayload();
       const validationError = validatePreferencesPayload(payload, raw);
-
-      console.log("Preferences: payload prepared", payload);
 
       if (validationError) {
         console.error("Preferences: validation failed", validationError, payload);
@@ -478,9 +475,7 @@
       errEl.classList.add("hidden");
 
       try {
-        console.log("Preferences: sending POST /api/auth/preferences/", payload);
         await apiPost("/api/auth/preferences/", payload);
-        console.log("Preferences: save completed successfully");
         localStorage.setItem("tz_trip_duration", String(raw.tripDuration));
         if (raw.startDate) {
           localStorage.setItem("tz_plan_start_date", raw.startDate);
@@ -508,7 +503,6 @@
 
     if (savePrefsBtn) {
       savePrefsBtn.addEventListener("click", handleSavePreferencesClick);
-      console.log("Preferences: Save button handler bound");
     } else {
       console.error("Preferences: Save button not found");
     }

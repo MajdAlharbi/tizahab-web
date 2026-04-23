@@ -34,10 +34,17 @@ function getCookie(name) {
     ?.slice(prefix.length) || "";
 }
 
-function authHeaders() {
+function authHeaders(url = "") {
   const token = getToken();
   const headers = { "Content-Type": "application/json" };
-  if (token) headers.Authorization = `Bearer ${token}`;
+  const isPublicAuthEndpoint =
+    typeof url === "string" &&
+    (
+      url.includes("/api/auth/signup/") ||
+      url.includes("/api/auth/login/") ||
+      url.includes("/api/auth/token/refresh/")
+    );
+  if (token && !isPublicAuthEndpoint) headers.Authorization = `Bearer ${token}`;
   const csrfToken = getCookie("csrftoken");
   if (csrfToken) headers["X-CSRFToken"] = csrfToken;
   return headers;
@@ -136,7 +143,7 @@ async function _tryRefresh() {
   try {
     const res = await fetch("/api/auth/token/refresh/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders("/api/auth/token/refresh/"),
       body: JSON.stringify({ refresh }),
     });
     if (!res.ok) return false;
@@ -145,7 +152,9 @@ async function _tryRefresh() {
       localStorage.setItem("access", data.access);
       return true;
     }
-  } catch {}
+  } catch (error) {
+    console.warn("Token refresh failed", error);
+  }
   return false;
 }
 
@@ -156,12 +165,18 @@ async function logout(options = {}) {
   try {
     await fetch("/logout/", {
       method: "POST",
-      headers: authHeaders(),
+      headers: authHeaders("/logout/"),
     });
-  } catch {}
+  } catch (error) {
+    console.warn("Logout request failed", error);
+  }
 
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");
+  localStorage.removeItem("tz_trip_duration");
+  localStorage.removeItem("tz_plan_start_date");
+  localStorage.removeItem("tz_plan_end_date");
+  localStorage.removeItem("tz_selected_plan_date");
   if (redirect) {
     window.location.href = "/login/";
   }
@@ -172,7 +187,7 @@ function _logout() {
 }
 
 async function apiGet(url) {
-  let res = await fetch(url, { headers: authHeaders() });
+  let res = await fetch(url, { headers: authHeaders(url) });
 
   if (res.status === 401) {
     const refreshed = await _tryRefresh();
@@ -184,7 +199,7 @@ async function apiGet(url) {
       throw err;
     }
     // Retry with the new access token
-    res = await fetch(url, { headers: authHeaders() });
+    res = await fetch(url, { headers: authHeaders(url) });
     if (res.status === 401) {
       console.warn("401 Unauthorized - not forcing logout");
       const err = new Error("Unauthorized");
@@ -201,7 +216,7 @@ async function apiGet(url) {
 async function apiPost(url, data) {
   let res = await fetch(url, {
     method: "POST",
-    headers: authHeaders(),
+    headers: authHeaders(url),
     body: JSON.stringify(data),
   });
 
@@ -217,7 +232,7 @@ async function apiPost(url, data) {
     // Retry with the new access token
     res = await fetch(url, {
       method: "POST",
-      headers: authHeaders(),
+      headers: authHeaders(url),
       body: JSON.stringify(data),
     });
     if (res.status === 401) {
@@ -236,7 +251,7 @@ async function apiPost(url, data) {
 async function apiPut(url, data) {
   let res = await fetch(url, {
     method: "PUT",
-    headers: authHeaders(),
+    headers: authHeaders(url),
     body: JSON.stringify(data),
   });
 
@@ -251,7 +266,7 @@ async function apiPut(url, data) {
     }
     res = await fetch(url, {
       method: "PUT",
-      headers: authHeaders(),
+      headers: authHeaders(url),
       body: JSON.stringify(data),
     });
     if (res.status === 401) {
@@ -270,7 +285,7 @@ async function apiPut(url, data) {
 async function apiPatch(url, data) {
   let res = await fetch(url, {
     method: "PATCH",
-    headers: authHeaders(),
+    headers: authHeaders(url),
     body: JSON.stringify(data),
   });
 
@@ -285,7 +300,7 @@ async function apiPatch(url, data) {
     }
     res = await fetch(url, {
       method: "PATCH",
-      headers: authHeaders(),
+      headers: authHeaders(url),
       body: JSON.stringify(data),
     });
     if (res.status === 401) {
@@ -304,7 +319,7 @@ async function apiPatch(url, data) {
 async function apiDelete(url) {
   let res = await fetch(url, {
     method: "DELETE",
-    headers: authHeaders(),
+    headers: authHeaders(url),
   });
 
   if (res.status === 401) {
@@ -318,7 +333,7 @@ async function apiDelete(url) {
     }
     res = await fetch(url, {
       method: "DELETE",
-      headers: authHeaders(),
+      headers: authHeaders(url),
     });
     if (res.status === 401) {
       console.warn("401 Unauthorized - not forcing logout");

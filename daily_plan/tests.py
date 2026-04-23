@@ -202,6 +202,65 @@ class RecommendationServiceTests(TestCase):
         self.assertIn("Open Food", titles)
         self.assertNotIn("Closed Event", titles)
 
+    def test_recommendations_are_ordered_for_food_and_activity_slots(self):
+        Event.objects.all().delete()
+        breakfast = make_event("Breakfast Cafe", category="food", rating=4.8)
+        lunch = make_event("Lunch Bistro", category="food", rating=4.7)
+        activity = make_event("Museum Visit", category="culture", rating=4.9)
+        evening = make_event("Evening Walk", category="nature", rating=4.6)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture", "nature"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+
+        self.assertGreaterEqual(len(result), 4)
+        self.assertEqual(result[0].category, "food")
+        self.assertNotEqual(result[1].category, "food")
+        self.assertEqual(result[2].category, "food")
+        self.assertNotEqual(result[3].category, "food")
+        self.assertCountEqual([event.id for event in result[:4]], [breakfast.id, lunch.id, activity.id, evening.id])
+        self.assertEqual(len({event.id for event in result[:4]}), 4)
+
+    def test_food_slots_fall_back_and_log_when_no_food_exists(self):
+        Event.objects.all().delete()
+        make_event("Museum Visit", category="culture", rating=4.9)
+        make_event("Park Walk", category="nature", rating=4.7)
+        make_event("Show Night", category="events", rating=4.8)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["culture", "nature", "events"]
+        pref.save()
+
+        with self.assertLogs("daily_plan.services", level="INFO") as captured:
+            result = generate_recommendations(self.user, date_str=TOMORROW)
+
+        self.assertTrue(result)
+        self.assertNotEqual(result[1].category, "food")
+        self.assertTrue(
+            any("breakfast fallback used because no food item was available" in line for line in captured.output)
+        )
+
+    def test_structured_slots_do_not_duplicate_items(self):
+        Event.objects.all().delete()
+        for title, category in [
+            ("Breakfast Cafe", "food"),
+            ("Lunch Spot", "food"),
+            ("Museum", "culture"),
+            ("Evening Park", "nature"),
+            ("Extra Activity", "events"),
+        ]:
+            make_event(title, category=category, rating=4.8)
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture", "nature", "events"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+        self.assertGreaterEqual(len(result), 4)
+        self.assertEqual(len({event.id for event in result[:4]}), len(result[:4]))
+
     def test_quality_filter_excludes_weak_and_suspicious_places(self):
         Event.objects.all().delete()
         whitelisted_shopping = make_event(

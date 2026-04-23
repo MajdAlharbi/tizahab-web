@@ -9,8 +9,9 @@ python manage.py collectstatic --noinput
 if [ "${DJANGO_LOAD_INITIAL_DATA:-True}" = "True" ]; then
   EVENT_COUNT=$(python manage.py shell -c "from events.models import Event; print(Event.objects.count())")
   if [ "$EVENT_COUNT" = "0" ]; then
-    echo "No events found - loading fixture events.json..."
-    python manage.py loaddata events.json
+    # Using cleaned_dataset.json as the single source of truth
+    echo "No events found - importing curated Tizahab dataset..."
+    python manage.py import_tizahab_dataset
     EVENT_COUNT=$(python manage.py shell -c "from events.models import Event; print(Event.objects.count())")
     echo "Initial data load complete ($EVENT_COUNT events)."
   else

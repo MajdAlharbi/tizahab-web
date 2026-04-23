@@ -560,7 +560,6 @@ function applyMultiDayPlan(plan, preferences) {
     diffDays >= 0 && diffDays < getTripDuration() ? diffDays : 0;
   currentDayIndex = targetIndex;
   multiDayPlans[targetIndex] = sortEventsByProximity(events.filter(Boolean));
-  console.log("applyMultiDayPlan events:", multiDayPlans[targetIndex]);
 
   renderDaysBar();
   renderPlanForDay(currentDayIndex);
@@ -788,7 +787,8 @@ async function loadCurrentPlan() {
     setSelectedPlanDate(_localDateStr(startDate));
     renderDaysBar();
     renderPlanForDay(0);
-  } catch {
+  } catch (error) {
+    console.error("Failed to load current daily plan", error);
     // Even on error, still render an empty days bar so the UI is consistent.
     renderDaysBar();
     renderPlanForDay(0);
@@ -868,7 +868,6 @@ async function searchActivities(query) {
       item
         .querySelector(".add-to-plan-btn")
         .addEventListener("click", async (e) => {
-          console.log("Clicked Add:", ev);
           const btn = e.currentTarget;
           const wasAdded = btn.textContent.trim() === "Added";
           btn.disabled = true;
@@ -885,7 +884,8 @@ async function searchActivities(query) {
             btn.classList.toggle("bg-gray-100", isAdded);
             btn.classList.toggle("text-gray-400", isAdded);
             btn.classList.toggle("cursor-not-allowed", false);
-          } catch {
+          } catch (error) {
+            console.error("Unable to update plan activity state", error);
             btn.disabled = false;
             btn.textContent = wasAdded ? "Added" : "Add";
           }
@@ -923,13 +923,10 @@ async function addEventToPlan(eventId) {
     const updatedEvents = existingIds.includes(normalizedEventId)
       ? existingIds.filter((id) => id !== normalizedEventId)
       : [...new Set([...existingIds, normalizedEventId])];
-    console.log("Merged events:", updatedEvents);
     const updated = await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
       date: targetDate,
       events: updatedEvents,
     });
-    console.log("API response:", updated);
-    console.log("Plan events:", updated?.events);
     if (updated) {
       _currentPlan = updated;
       const preferences = await loadCurrentPreferences();
@@ -940,8 +937,6 @@ async function addEventToPlan(eventId) {
       date: targetDate,
       events: [normalizedEventId],
     });
-    console.log("API response:", created);
-    console.log("Plan events:", created?.events);
     if (created) {
       _currentPlan = created;
       const preferences = await loadCurrentPreferences();
@@ -1193,7 +1188,6 @@ function initDailyPlanMap() {
 
 function renderDailyPlanMarkers(points) {
   if (!window.google || !google.maps || !window.__TZ_DP_MAP) return;
-  console.log("Map update points:", points);
 
   Object.values(window.__TZ_DP_MARKERS || {}).forEach((m) => {
     if (m?.setMap) m.setMap(null);
@@ -1210,7 +1204,6 @@ function renderDailyPlanMarkers(points) {
     const lng = Number.parseFloat(event.longitude);
 
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-      console.log("Skipped invalid coords:", event);
       return;
     }
 

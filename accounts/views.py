@@ -213,6 +213,7 @@ def reset_password_page(request, token):
 
 
 class SignupAPIView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
     throttle_classes = [SignupRateThrottle]
 
@@ -244,6 +245,7 @@ class SignupAPIView(APIView):
 
 
 class LoginAPIView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
     throttle_classes = [LoginRateThrottle]
 
