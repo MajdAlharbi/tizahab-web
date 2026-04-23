@@ -178,7 +178,7 @@
         "Type_of_Utility": "entertainment",
         "Rating": 4.5,
         "Price_Range": "$$$"
-    }
+    },
     {"Name":"Boulevard World","Type_of_Utility":"entertainment","Rating":4.7,"Price_Range":"$$$"},
     {"Name":"Boulevard Riyadh City","Type_of_Utility":"entertainment","Rating":4.7,"Price_Range":"$$$"},
     {"Name":"Winter Wonderland Riyadh","Type_of_Utility":"entertainment","Rating":4.5,"Price_Range":"$$$"},
