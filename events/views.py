@@ -18,9 +18,10 @@ from django.contrib.auth import get_user_model
 
 from .models import Event, Favorite
 from .serializers import EventSerializer, FavoriteSerializer
+from .categories import TOURISM_CATEGORY_VALUES, normalize_category_input
 from daily_plan.models import DailyPlan
 
-VALID_EVENT_CATEGORIES = set(Event.CATEGORY_VALUES)
+VALID_EVENT_CATEGORIES = set(TOURISM_CATEGORY_VALUES)
 
 def events_list_page(request):
     return render(request, "events_list.html")
@@ -52,9 +53,10 @@ def _parse_required_query_date(value, field_name):
 def _validate_category(value):
     if value is None:
         return None
-    normalized = str(value).strip().lower()
-    if not normalized:
+    raw_value = str(value).strip().lower()
+    if not raw_value:
         return None
+    normalized = normalize_category_input(raw_value)
     if normalized not in VALID_EVENT_CATEGORIES:
         raise ValidationError(
             {
@@ -106,11 +108,11 @@ class FilteredEventsAPIView(ListAPIView):
 
     def get_queryset(self):
         prefs = getattr(self.request.user, "preferences", None)
-        queryset = Event.objects.all()
+        queryset = Event.objects.filter(is_active=True)
 
         if prefs and prefs.interests:
             interests = [
-                str(x).strip().lower() for x in prefs.interests if str(x).strip()
+                normalize_category_input(x) for x in prefs.interests if str(x).strip()
             ]
             if interests:
                 queryset = queryset.filter(category__in=interests)
@@ -157,7 +159,7 @@ class EventListAPIView(ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Event.objects.all()
+        queryset = Event.objects.filter(is_active=True)
 
         category = _validate_category(self.request.query_params.get("category"))
         date_raw = self.request.query_params.get("date")
@@ -185,7 +187,7 @@ class EventRetrieveAPIView(RetrieveAPIView):
 
     serializer_class = EventSerializer
     permission_classes = [AllowAny]
-    queryset = Event.objects.all()
+    queryset = Event.objects.filter(is_active=True)
 
 
 class FavoriteListCreateAPIView(APIView):

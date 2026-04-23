@@ -20,21 +20,18 @@
   }
 
   const CATEGORY_IMAGES = {
-    restaurant: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80",
-    cafe: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80",
-    fast_food: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
-    dessert: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80",
-    bakery: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=80",
-    juice: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=400&q=80",
-    food_truck: "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=400&q=80",
     culture: "https://images.unsplash.com/photo-1564399579883-451a5d44ec08?w=400&q=80",
-    outdoor: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=80",
+    heritage: "https://images.unsplash.com/photo-1548013146-72479768bada?w=400&q=80",
+    entertainment: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&q=80",
+    food: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80",
     shopping: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&q=80",
-    other: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=80",
+    nature: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=80",
+    family: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&q=80",
+    events: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80",
   };
 
   function catImage(category) {
-    return CATEGORY_IMAGES[category] || CATEGORY_IMAGES.other;
+    return CATEGORY_IMAGES[category] || CATEGORY_IMAGES.events;
   }
 
   // ── XSS guard ──────────────────────────────────────────────────────────────

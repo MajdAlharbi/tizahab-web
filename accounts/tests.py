@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import date, timedelta
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.signing import TimestampSigner, BadSignature
@@ -129,7 +130,7 @@ class UserPreferencesTests(TestCase):
         response = self.client.post(
             "/api/auth/preferences/",
             {
-                "interests": ["restaurant", "culture"],
+                "interests": ["food", "culture"],
                 "budget_min": 0,
                 "budget_max": 300,
                 "preferred_language": "ar",
@@ -139,8 +140,21 @@ class UserPreferencesTests(TestCase):
             response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
         )
         pref = UserPreferences.objects.get(user=self.user)
-        self.assertEqual(pref.interests, ["restaurant", "culture"])
+        self.assertEqual(pref.interests, ["food", "culture"])
         self.assertEqual(pref.budget_max, 300)
+
+    def test_legacy_interest_alias_is_normalized(self):
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["restaurant", "outdoor"],
+            },
+        )
+        self.assertIn(
+            response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
+        )
+        pref = UserPreferences.objects.get(user=self.user)
+        self.assertEqual(pref.interests, ["food", "nature"])
 
     def test_invalid_interest_rejected(self):
         response = self.client.post(
@@ -167,6 +181,53 @@ class UserPreferencesTests(TestCase):
         pref.save()
         response = self.client.post("/api/auth/preferences/", {"budget_max": 50})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_set_trip_dates_in_preferences(self):
+        start_date = (date.today() + timedelta(days=2)).isoformat()
+        end_date = (date.today() + timedelta(days=4)).isoformat()
+
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["food"],
+                "start_date": start_date,
+                "end_date": end_date,
+            },
+        )
+
+        self.assertIn(
+            response.status_code, [status.HTTP_200_OK, status.HTTP_201_CREATED]
+        )
+        pref = UserPreferences.objects.get(user=self.user)
+        self.assertEqual(pref.start_date.isoformat(), start_date)
+        self.assertEqual(pref.end_date.isoformat(), end_date)
+
+    def test_preferences_reject_end_date_before_start_date(self):
+        start_date = (date.today() + timedelta(days=4)).isoformat()
+        end_date = (date.today() + timedelta(days=2)).isoformat()
+
+        response = self.client.post(
+            "/api/auth/preferences/",
+            {
+                "interests": ["food"],
+                "start_date": start_date,
+                "end_date": end_date,
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_current_user_returns_saved_trip_dates(self):
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.start_date = date.today() + timedelta(days=1)
+        pref.end_date = date.today() + timedelta(days=3)
+        pref.save()
+
+        response = self.client.get("/api/auth/me/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["start_date"], pref.start_date)
+        self.assertEqual(response.data["end_date"], pref.end_date)
 
     def test_trip_duration_below_range_returns_400(self):
         response = self.client.post("/api/auth/preferences/", {"trip_duration": 0})

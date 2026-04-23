@@ -215,12 +215,7 @@
         "Rating":4.0,
         "Price_Range":"$"
     },
-    {
-        "Name":"Al Batha Mall",
-        "Type_of_Utility":"mall",
-        "Rating":3.9,
-        "Price_Range":"$"
-    },
+
     {
         "Name":"Diriyah Mall",
         "Type_of_Utility":"mall",

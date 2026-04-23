@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import timedelta
 from rest_framework.test import APIClient
 from rest_framework import status
 
@@ -13,7 +14,7 @@ def make_user(email="ev@test.com", password="StrongPass1!"):
     return User.objects.create_user(username=email, email=email, password=password)
 
 
-def make_event(title="Test Event", category="restaurant", price=50.00, **kwargs):
+def make_event(title="Test Event", category="food", price=50.00, **kwargs):
     defaults = {
         "description": "A test event",
         "date": timezone.now(),
@@ -49,9 +50,9 @@ class EventListAPITests(TestCase):
     def setUp(self):
         self.user = make_user()
         self.client = auth_client(self.user)
-        make_event("Food Place", category="restaurant", price=50)
+        make_event("Food Place", category="food", price=50)
         make_event("Culture Spot", category="culture", price=0)
-        make_event("Outdoor Park", category="outdoor", price=0)
+        make_event("Nature Park", category="nature", price=0)
 
     def test_list_returns_all_events(self):
         response = self.client.get("/api/events/")
@@ -62,11 +63,17 @@ class EventListAPITests(TestCase):
         self.assertGreaterEqual(len(results), 3)
 
     def test_filter_by_category(self):
-        response = self.client.get("/api/events/?category=restaurant")
+        response = self.client.get("/api/events/?category=food")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         results = response.data.get("results", response.data)
         for event in results:
-            self.assertEqual(event["category"], "restaurant")
+            self.assertEqual(event["category"], "food")
+
+    def test_legacy_category_alias_is_accepted(self):
+        response = self.client.get("/api/events/?category=restaurant")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        results = response.data.get("results", response.data)
+        self.assertTrue(all(event["category"] == "food" for event in results))
 
     def test_search_by_title(self):
         response = self.client.get("/api/events/?search=Culture")
@@ -80,7 +87,7 @@ class EventListAPITests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_category_returns_400(self):
-        response = self.client.get("/api/events/?category=food")
+        response = self.client.get("/api/events/?category=music")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_event_list_date_returns_400(self):
@@ -107,22 +114,22 @@ class FilteredEventsAPITests(TestCase):
     def setUp(self):
         self.user = make_user("filt@test.com")
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
-        pref.interests = ["restaurant", "culture"]
+        pref.interests = ["food", "culture"]
         pref.budget_max = 100
         pref.save()
         self.client = auth_client(self.user)
 
-        make_event("Cheap Food", category="restaurant", price=30)
-        make_event("Expensive Food", category="restaurant", price=200)
+        make_event("Cheap Food", category="food", price=30)
+        make_event("Expensive Food", category="food", price=200)
         make_event("Free Culture", category="culture", price=0)
-        make_event("Outdoor Park", category="outdoor", price=0)
+        make_event("Nature Park", category="nature", price=0)
 
     def test_filters_by_user_interests(self):
         response = self.client.get("/api/events/filtered/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         results = response.data.get("results", response.data)
         categories = {e["category"] for e in results}
-        self.assertNotIn("outdoor", categories)
+        self.assertNotIn("nature", categories)
 
     def test_budget_filter_excludes_expensive(self):
         response = self.client.get("/api/events/filtered/")
@@ -133,7 +140,7 @@ class FilteredEventsAPITests(TestCase):
                 self.assertLessEqual(float(price), 100)
 
     def test_null_price_events_included_with_budget(self):
-        make_event("No Price Food", category="restaurant", price=None)
+        make_event("No Price Food", category="food", price=None)
         response = self.client.get("/api/events/filtered/")
         results = response.data.get("results", response.data)
         titles = [e["title"] for e in results]
@@ -144,6 +151,53 @@ class FilteredEventsAPITests(TestCase):
             "/api/events/filtered/?date_from=2026-06-16&date_to=2026-06-15"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class EventAvailabilityAPITests(TestCase):
+    def setUp(self):
+        self.user = make_user("availability@test.com")
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["events", "food"]
+        pref.save()
+        self.client = auth_client(self.user)
+
+        today = timezone.now()
+        tomorrow = today + timedelta(days=1)
+        next_week = today + timedelta(days=7)
+        self.live_event = make_event(
+            "Live Festival",
+            category="events",
+            start_date=today,
+            end_date=tomorrow,
+        )
+        self.future_event = make_event(
+            "Future Expo",
+            category="events",
+            start_date=next_week,
+            end_date=next_week,
+        )
+        self.food_place = make_event("Anyday Food", category="food")
+
+    def test_event_list_date_filter_respects_event_window(self):
+        target_date = timezone.localdate().isoformat()
+        response = self.client.get(f"/api/events/?date={target_date}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        results = response.data.get("results", response.data)
+        titles = [event["title"] for event in results]
+        self.assertIn("Live Festival", titles)
+        self.assertNotIn("Future Expo", titles)
+
+    def test_filtered_events_date_range_excludes_inactive_future_only_events(self):
+        target_date = timezone.localdate().isoformat()
+        response = self.client.get(
+            f"/api/events/filtered/?date_from={target_date}&date_to={target_date}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        results = response.data.get("results", response.data)
+        titles = [event["title"] for event in results]
+        self.assertIn("Live Festival", titles)
+        self.assertIn("Anyday Food", titles)
+        self.assertNotIn("Future Expo", titles)
 
 
 class EventModelTests(TestCase):
@@ -160,13 +214,17 @@ class EventModelTests(TestCase):
         self.assertIsNone(event.start_date)
         self.assertIsNone(event.end_date)
 
+    def test_legacy_category_is_normalized_on_save(self):
+        event = make_event("Legacy Restaurant", category="restaurant")
+        self.assertEqual(event.category, "food")
+
 
 class FavoritesAPITests(TestCase):
     def setUp(self):
         self.user = make_user("fav@test.com")
         self.other_user = make_user("other-fav@test.com")
         self.client = auth_client(self.user)
-        self.event1 = make_event("Fav Event 1", category="restaurant")
+        self.event1 = make_event("Fav Event 1", category="food")
         self.event2 = make_event("Fav Event 2", category="culture")
 
     def test_list_favorites_returns_only_own_items(self):

@@ -1,26 +1,17 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+
+from .categories import TOURISM_CATEGORY_CHOICES, TOURISM_CATEGORY_VALUES, normalize_category
 
 
 User = get_user_model()
 
 
 class Event(models.Model):
-    CATEGORY_CHOICES = [
-        ("restaurant", "Restaurants"),
-        ("cafe", "Cafes & Coffee"),
-        ("fast_food", "Fast Food"),
-        ("dessert", "Desserts & Sweets"),
-        ("bakery", "Bakery"),
-        ("juice", "Juice & Smoothies"),
-        ("food_truck", "Food Trucks"),
-        ("culture", "Culture"),
-        ("outdoor", "Outdoor"),
-        ("shopping", "Shopping"),
-        ("other", "Other"),
-    ]
-    CATEGORY_VALUES = [value for value, _ in CATEGORY_CHOICES]
+    CATEGORY_CHOICES = TOURISM_CATEGORY_CHOICES
+    CATEGORY_VALUES = TOURISM_CATEGORY_VALUES
 
     title = models.CharField(max_length=255, db_index=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, db_index=True)
@@ -28,6 +19,8 @@ class Event(models.Model):
     date = models.DateTimeField(db_index=True)
     start_date = models.DateTimeField(null=True, blank=True, db_index=True)
     end_date = models.DateTimeField(null=True, blank=True)
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
     location = models.CharField(max_length=255)
     price_range = models.CharField(max_length=100, null=True, blank=True)
     price = models.DecimalField(
@@ -41,6 +34,14 @@ class Event(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    source = models.CharField(max_length=255, blank=True, default="")
+    source_url = models.URLField(blank=True, default="")
+    is_active = models.BooleanField(default=True, db_index=True)
+    tourism_relevance = models.PositiveSmallIntegerField(
+        default=3,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        help_text="Simple tourism relevance score from 1 to 5.",
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -53,6 +54,29 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.category = normalize_category(
+            self.category,
+            title=self.title,
+            description=self.description,
+        )
+        super().save(*args, **kwargs)
+
+    @property
+    def primary_date(self):
+        return timezone.localtime(self.start_date).date() if self.start_date else timezone.localtime(self.date).date()
+
+    def availability_window(self):
+        start = timezone.localtime(self.start_date).date() if self.start_date else timezone.localtime(self.date).date()
+        end = timezone.localtime(self.end_date).date() if self.end_date else start
+        return start, end
+
+    def occurs_on(self, target_date):
+        if not self.is_active:
+            return False
+        start, end = self.availability_window()
+        return start <= target_date <= end
 
 
 class Favorite(models.Model):

@@ -16,7 +16,6 @@
 
 <body class="min-h-screen bg-[#f6f7fb]" style="font-family:'Arimo',sans-serif">
 
-  <!-- Header -->
   <header class="bg-white border-b border-gray-100">
     <div class="max-w-3xl mx-auto px-6 h-16 flex items-center gap-3">
       <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shrink-0">
@@ -27,140 +26,101 @@
   </header>
 
   <main class="max-w-3xl mx-auto px-4 py-10 space-y-8">
-
-    <!-- Title -->
     <div class="text-center space-y-2">
       <h1 class="text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
         Customize Your Experience
       </h1>
-      <p class="text-gray-500 text-sm">Tell us what you love and we'll build your perfect Riyadh itinerary</p>
+      <p class="text-gray-500 text-sm">Pick the tourism themes you care about and we will personalize your Riyadh trip.</p>
     </div>
 
-    <!-- Interests -->
     <section class="space-y-4">
       <div>
         <h2 class="text-lg font-semibold text-gray-800">Your Interests</h2>
-        <p class="text-sm text-gray-500 mt-0.5">Select all categories that interest you</p>
+        <p class="text-sm text-gray-500 mt-0.5">Select all categories that match the kind of trip you want.</p>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-
-        <button type="button" data-cat="restaurant"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-orange-400 to-red-600 flex items-end p-3">
-            <span class="text-2xl">🍽️</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Restaurants</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="cafe"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-amber-400 to-orange-500 flex items-end p-3">
-            <span class="text-2xl">☕</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Cafes & Coffee</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="fast_food"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-red-400 to-rose-600 flex items-end p-3">
-            <span class="text-2xl">🍔</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Fast Food</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="dessert"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-pink-400 to-rose-500 flex items-end p-3">
-            <span class="text-2xl">🍰</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Desserts & Sweets</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="bakery"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-yellow-400 to-amber-500 flex items-end p-3">
-            <span class="text-2xl">🥐</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Bakery</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="juice"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-lime-400 to-green-500 flex items-end p-3">
-            <span class="text-2xl">🧃</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Juice & Smoothies</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="food_truck"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-indigo-400 to-blue-600 flex items-end p-3">
-            <span class="text-2xl">🚚</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Food Trucks</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="shopping"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-purple-400 to-violet-600 flex items-end p-3">
-            <span class="text-2xl">🛍️</span>
-          </div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Shopping</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="culture"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-amber-400 to-orange-600 flex items-end p-3">
-            <span class="text-2xl">🏛️</span>
-          </div>
+        <button type="button" data-cat="culture" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-end p-3"><span class="text-2xl">🏛️</span></div>
           <div class="bg-white px-3 py-2.5 flex items-center justify-between">
             <span class="text-sm font-medium text-gray-800">Culture</span>
             <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
           </div>
         </button>
 
-        <button type="button" data-cat="outdoor"
-          class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-green-400 to-emerald-600 flex items-end p-3">
-            <span class="text-2xl">🌿</span>
-          </div>
+        <button type="button" data-cat="heritage" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-amber-400 to-orange-600 flex items-end p-3"><span class="text-2xl">🕌</span></div>
           <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Outdoor</span>
+            <span class="text-sm font-medium text-gray-800">Heritage</span>
             <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
           </div>
         </button>
 
+        <button type="button" data-cat="entertainment" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-rose-400 to-pink-600 flex items-end p-3"><span class="text-2xl">🎡</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Entertainment</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="food" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-orange-400 to-red-600 flex items-end p-3"><span class="text-2xl">🍽️</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Food</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="shopping" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-purple-400 to-violet-600 flex items-end p-3"><span class="text-2xl">🛍️</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Shopping</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="nature" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-green-400 to-emerald-600 flex items-end p-3"><span class="text-2xl">🌿</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Nature</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="family" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-cyan-400 to-blue-500 flex items-end p-3"><span class="text-2xl">👨‍👩‍👧</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Family</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
+
+        <button type="button" data-cat="events" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
+          <div class="h-24 bg-gradient-to-br from-indigo-400 to-blue-600 flex items-end p-3"><span class="text-2xl">🎫</span></div>
+          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-800">Events</span>
+            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+          </div>
+        </button>
       </div>
     </section>
 
-    <!-- Trip Details -->
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 shadow-sm">
       <h2 class="text-lg font-semibold text-gray-800">Trip Details</h2>
+      <p class="text-sm text-gray-500">Save your trip length and preferred travel dates here. The Daily Plan page can still override them when needed.</p>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">Start Date</label>
+          <input id="tripStartDate" type="date"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-sm font-medium text-gray-700">End Date</label>
+          <input id="tripEndDate" type="date"
+            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+        </div>
+      </div>
       <div class="grid sm:grid-cols-2 gap-5">
         <div class="space-y-1.5">
           <label class="text-sm font-medium text-gray-700">Trip Duration (days)</label>
@@ -175,35 +135,33 @@
       </div>
     </section>
 
-    <!-- Age Groups -->
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
       <h2 class="text-lg font-semibold text-gray-800">Age Groups in Your Party</h2>
       <div class="grid grid-cols-2 gap-3">
         <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
           <input type="checkbox" value="kids" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">👶 Kids (0–12)</span>
+          <span class="text-sm text-gray-700">Kids (0-12)</span>
         </label>
         <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
           <input type="checkbox" value="teens" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">🧑 Teens (13–17)</span>
+          <span class="text-sm text-gray-700">Teens (13-17)</span>
         </label>
         <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
           <input type="checkbox" value="adults" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1" checked>
-          <span class="text-sm text-gray-700">👨 Adults (18–59)</span>
+          <span class="text-sm text-gray-700">Adults (18-59)</span>
         </label>
         <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
           <input type="checkbox" value="seniors" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">👴 Seniors (60+)</span>
+          <span class="text-sm text-gray-700">Seniors (60+)</span>
         </label>
       </div>
     </section>
 
-    <!-- Budget Range -->
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-gray-800">Budget Range</h2>
         <span class="text-sm text-brand font-semibold">
-          <span id="budgetMinLabel">0</span> – <span id="budgetMaxLabel">5,000</span> SAR
+          <span id="budgetMinLabel">0</span> - <span id="budgetMaxLabel">5,000</span> SAR
         </span>
       </div>
       <div class="space-y-4">
@@ -222,75 +180,99 @@
       </div>
     </section>
 
-    <!-- Minimum Rating -->
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-gray-800">Minimum Rating</h2>
         <span id="ratingLabel" class="text-sm text-brand font-semibold">Any</span>
       </div>
-      <p class="text-sm text-gray-500">Only show places with at least this rating. Unrated places are always included.</p>
+      <p class="text-sm text-gray-500">Only show places with at least this rating. Unrated places are still allowed.</p>
       <div class="flex gap-3 flex-wrap">
-        <button type="button" data-rating="" class="rating-btn h-10 px-5 rounded-full border-2 border-brand bg-purple-100 text-brand text-sm font-medium transition">
-          Any
-        </button>
-        <button type="button" data-rating="3.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
-          3.0+ ★
-        </button>
-        <button type="button" data-rating="3.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
-          3.5+ ★
-        </button>
-        <button type="button" data-rating="4.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
-          4.0+ ★
-        </button>
-        <button type="button" data-rating="4.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
-          4.5+ ★
-        </button>
+        <button type="button" data-rating="" class="rating-btn h-10 px-5 rounded-full border-2 border-brand bg-purple-100 text-brand text-sm font-medium transition">Any</button>
+        <button type="button" data-rating="3.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">3.0+ ★</button>
+        <button type="button" data-rating="3.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">3.5+ ★</button>
+        <button type="button" data-rating="4.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">4.0+ ★</button>
+        <button type="button" data-rating="4.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">4.5+ ★</button>
       </div>
     </section>
 
-    <!-- Preferred Language -->
     <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
       <h2 class="text-lg font-semibold text-gray-800">Preferred Language</h2>
       <div class="flex gap-3">
         <label class="flex-1">
           <input type="radio" name="prefLang" value="en" class="hidden peer" checked>
           <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-            🇬🇧 English
+            English
           </div>
         </label>
         <label class="flex-1">
           <input type="radio" name="prefLang" value="ar" class="hidden peer">
           <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-            🇸🇦 العربية
+            العربية
           </div>
         </label>
       </div>
     </section>
 
-    <!-- Status messages -->
     <p id="prefMessage" class="text-center text-sm text-green-600 hidden font-medium"></p>
     <p id="prefError" class="text-center text-sm text-red-500 hidden"></p>
 
-    <!-- Actions -->
     <div class="flex gap-4 pb-4">
-      <a href="/home/"
-        class="flex-1 h-12 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center">
+      <a href="/home/" class="flex-1 h-12 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center">
         Back
       </a>
-      <button id="savePrefsBtn" type="button"
-        class="flex-1 h-12 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
+      <button id="savePrefsBtn" type="button" class="flex-1 h-12 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
         Save Preferences
       </button>
     </div>
     <div class="text-center pb-8">
       <a href="/home/" class="text-sm text-gray-400 hover:text-gray-600 transition">Skip for now →</a>
     </div>
-
   </main>
 
   <script>
-    /* ---- Interest cards ---- */
     const selectedCards = new Set();
+    const tripDurationInput = document.getElementById("tripDuration");
+    const tripStartDateInput = document.getElementById("tripStartDate");
+    const tripEndDateInput = document.getElementById("tripEndDate");
+    const prefErrorEl = document.getElementById("prefError");
+
+    if (tripDurationInput) {
+      tripDurationInput.readOnly = true;
+      tripDurationInput.setAttribute("aria-readonly", "true");
+    }
+
+    function syncTripDurationFromDates() {
+      if (!tripDurationInput || !tripStartDateInput || !tripEndDateInput) return;
+
+      const startDate = tripStartDateInput.value;
+      const endDate = tripEndDateInput.value;
+
+      if (!startDate || !endDate) {
+        tripDurationInput.value = "";
+        return;
+      }
+
+      if (endDate < startDate) {
+        tripDurationInput.value = "";
+        if (prefErrorEl) {
+          prefErrorEl.textContent = "End date must be on or after start date.";
+          prefErrorEl.classList.remove("hidden");
+        }
+        return;
+      }
+
+      const start = new Date(`${startDate}T00:00:00`);
+      const end = new Date(`${endDate}T00:00:00`);
+      const duration = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      tripDurationInput.value = String(duration);
+      if (prefErrorEl && prefErrorEl.textContent === "End date must be on or after start date.") {
+        prefErrorEl.classList.add("hidden");
+        prefErrorEl.textContent = "";
+      }
+    }
+
+    tripStartDateInput?.addEventListener("change", syncTripDurationFromDates);
+    tripEndDateInput?.addEventListener("change", syncTripDurationFromDates);
 
     document.querySelectorAll(".interest-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -307,7 +289,6 @@
       });
     });
 
-    /* ---- Rating buttons ---- */
     let selectedRating = null;
 
     document.querySelectorAll(".rating-btn").forEach(btn => {
@@ -326,7 +307,6 @@
       });
     });
 
-    /* ---- Budget sliders ---- */
     const budgetMin = document.getElementById("budgetMin");
     const budgetMax = document.getElementById("budgetMax");
     const budgetMinLabel = document.getElementById("budgetMinLabel");
@@ -334,11 +314,17 @@
 
     budgetMin.addEventListener("input", () => {
       budgetMinLabel.textContent = parseInt(budgetMin.value).toLocaleString();
-      if (+budgetMin.value > +budgetMax.value) { budgetMax.value = budgetMin.value; budgetMaxLabel.textContent = budgetMinLabel.textContent; }
+      if (+budgetMin.value > +budgetMax.value) {
+        budgetMax.value = budgetMin.value;
+        budgetMaxLabel.textContent = budgetMinLabel.textContent;
+      }
     });
     budgetMax.addEventListener("input", () => {
       budgetMaxLabel.textContent = parseInt(budgetMax.value).toLocaleString();
-      if (+budgetMax.value < +budgetMin.value) { budgetMin.value = budgetMax.value; budgetMinLabel.textContent = budgetMaxLabel.textContent; }
+      if (+budgetMax.value < +budgetMin.value) {
+        budgetMin.value = budgetMax.value;
+        budgetMinLabel.textContent = budgetMaxLabel.textContent;
+      }
     });
 
     function getPreferencesErrorMessage(err) {
@@ -353,7 +339,55 @@
       return "Something went wrong. Please try again.";
     }
 
-    /* ---- Load existing preferences ---- */
+    function buildPreferencesPayload() {
+      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
+      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
+      const rawDuration = parseInt(document.getElementById("tripDuration")?.value, 10) || 1;
+      const tripDuration = Math.max(1, Math.min(30, rawDuration));
+      const startDate = document.getElementById("tripStartDate")?.value || null;
+      const endDate = document.getElementById("tripEndDate")?.value || null;
+      const budgetMinValue = parseInt(budgetMin.value, 10);
+      const budgetMaxValue = parseInt(budgetMax.value, 10);
+      const apiStartDate = toISODate(startDate);
+      const apiEndDate = toISODate(endDate);
+
+      return {
+        payload: {
+          interests,
+          budget_min: budgetMinValue,
+          budget_max: budgetMaxValue,
+          preferred_language: lang,
+          min_rating: selectedRating ? parseFloat(selectedRating) : null,
+          trip_duration: tripDuration,
+          start_date: apiStartDate,
+          end_date: apiEndDate,
+        },
+        raw: {
+          tripDuration,
+          startDate,
+          endDate,
+          budgetMinValue,
+          budgetMaxValue,
+        },
+      };
+    }
+
+    function validatePreferencesPayload(payload, raw) {
+      if (!Array.isArray(payload.interests) || payload.interests.length === 0) {
+        return "Please select at least one interest before saving.";
+      }
+      if (!Number.isFinite(raw.budgetMinValue) || !Number.isFinite(raw.budgetMaxValue)) {
+        return "Budget values are invalid. Please adjust them and try again.";
+      }
+      if (raw.budgetMinValue > raw.budgetMaxValue) {
+        return "Minimum budget cannot be greater than maximum budget.";
+      }
+      if (raw.startDate && raw.endDate && raw.endDate < raw.startDate) {
+        return "End date must be on or after start date.";
+      }
+      return "";
+    }
+
     async function loadPreferences() {
       if (!isLoggedIn()) return;
       try {
@@ -369,8 +403,14 @@
           }
         });
 
-        if (data.budget_min != null) { budgetMin.value = data.budget_min; budgetMinLabel.textContent = parseInt(data.budget_min).toLocaleString(); }
-        if (data.budget_max != null) { budgetMax.value = data.budget_max; budgetMaxLabel.textContent = parseInt(data.budget_max).toLocaleString(); }
+        if (data.budget_min != null) {
+          budgetMin.value = data.budget_min;
+          budgetMinLabel.textContent = parseInt(data.budget_min).toLocaleString();
+        }
+        if (data.budget_max != null) {
+          budgetMax.value = data.budget_max;
+          budgetMaxLabel.textContent = parseInt(data.budget_max).toLocaleString();
+        }
         if (data.min_rating != null) {
           selectedRating = String(data.min_rating);
           document.getElementById("ratingLabel").textContent = `${selectedRating}+ ★`;
@@ -393,65 +433,85 @@
           if (durInput) durInput.value = data.trip_duration;
           localStorage.setItem("tz_trip_duration", String(data.trip_duration));
         }
-      } catch { /* silent */ }
+        const startDateInput = document.getElementById("tripStartDate");
+        const endDateInput = document.getElementById("tripEndDate");
+        if (startDateInput) startDateInput.value = data.start_date || "";
+        if (endDateInput) endDateInput.value = data.end_date || "";
+        syncTripDurationFromDates();
+      } catch (err) {
+        console.error("Preferences: failed to load existing preferences", err);
+      }
     }
     loadPreferences();
 
-    // Fallback: restore from localStorage if API hasn't returned yet
     const storedDuration = parseInt(localStorage.getItem("tz_trip_duration") || "");
     if (storedDuration > 0) {
       const durInput = document.getElementById("tripDuration");
       if (durInput && !durInput.value) durInput.value = storedDuration;
     }
 
-    /* ---- Save ---- */
-    document.getElementById("savePrefsBtn").addEventListener("click", async () => {
-      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
+    const savePrefsBtn = document.getElementById("savePrefsBtn");
 
-      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
-      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
-      const rawDuration = parseInt(document.getElementById("tripDuration")?.value) || 1;
-      const tripDuration = Math.max(1, Math.min(30, rawDuration));
-      const payload = {
-        interests,
-        budget_min: parseInt(budgetMin.value),
-        budget_max: parseInt(budgetMax.value),
-        preferred_language: lang,
-        min_rating: selectedRating ? parseFloat(selectedRating) : null,
-        trip_duration: tripDuration,
-      };
+    async function handleSavePreferencesClick() {
+      console.log("Preferences: Save button clicked");
+      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
 
       const msgEl = document.getElementById("prefMessage");
       const errEl = document.getElementById("prefError");
-      const btn = document.getElementById("savePrefsBtn");
+      const btn = savePrefsBtn;
+      const { payload, raw } = buildPreferencesPayload();
+      const validationError = validatePreferencesPayload(payload, raw);
 
-      // Require at least one interest before saving
-      if (interests.length === 0) {
-        errEl.textContent = "Please select at least one interest before saving.";
+      console.log("Preferences: payload prepared", payload);
+
+      if (validationError) {
+        console.error("Preferences: validation failed", validationError, payload);
+        errEl.textContent = validationError;
         errEl.classList.remove("hidden");
         msgEl.classList.add("hidden");
         return;
       }
 
-      btn.disabled = true; btn.textContent = "Saving…";
-      msgEl.classList.add("hidden"); errEl.classList.add("hidden");
+      btn.disabled = true;
+      btn.textContent = "Saving...";
+      msgEl.classList.add("hidden");
+      errEl.classList.add("hidden");
 
       try {
+        console.log("Preferences: sending POST /api/auth/preferences/", payload);
         await apiPost("/api/auth/preferences/", payload);
-
-        // Cache trip duration locally as a fallback for the daily plan page
-        localStorage.setItem("tz_trip_duration", String(tripDuration));
-
-        msgEl.textContent = "Preferences saved! Redirecting…";
+        console.log("Preferences: save completed successfully");
+        localStorage.setItem("tz_trip_duration", String(raw.tripDuration));
+        if (raw.startDate) {
+          localStorage.setItem("tz_plan_start_date", raw.startDate);
+          if (raw.endDate) {
+            localStorage.setItem("tz_plan_end_date", raw.endDate);
+          } else {
+            localStorage.removeItem("tz_plan_end_date");
+          }
+        } else {
+          localStorage.removeItem("tz_plan_start_date");
+          localStorage.removeItem("tz_plan_end_date");
+        }
+        msgEl.textContent = "Preferences saved! Redirecting...";
         msgEl.classList.remove("hidden");
         setTimeout(() => { window.location.href = "/home/"; }, 1200);
       } catch (err) {
+        console.error("Preferences: save failed", err, payload);
         errEl.textContent = getPreferencesErrorMessage(err);
         errEl.classList.remove("hidden");
       } finally {
-        btn.disabled = false; btn.textContent = "Save Preferences";
+        btn.disabled = false;
+        btn.textContent = "Save Preferences";
       }
-    });
+    }
+
+    if (savePrefsBtn) {
+      savePrefsBtn.addEventListener("click", handleSavePreferencesClick);
+      console.log("Preferences: Save button handler bound");
+    } else {
+      console.error("Preferences: Save button not found");
+    }
   </script>
 
 </body>

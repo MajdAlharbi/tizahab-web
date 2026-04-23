@@ -2,6 +2,8 @@ let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
 const SELECTED_PLAN_DATE_STORAGE_KEY = "tz_selected_plan_date";
+const PLAN_START_DATE_STORAGE_KEY = "tz_plan_start_date";
+const PLAN_END_DATE_STORAGE_KEY = "tz_plan_end_date";
 
 /** Format a Date as YYYY-MM-DD in the local timezone (not UTC). */
 function _localDateStr(d) {
@@ -14,6 +16,69 @@ function _localDateStr(d) {
 let selectedDate =
   localStorage.getItem(SELECTED_PLAN_DATE_STORAGE_KEY) ||
   _localDateStr(new Date());
+
+function getStoredPlanStartDate() {
+  return (
+    localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) ||
+    _currentPreferences?.start_date ||
+    _localDateStr(new Date())
+  );
+}
+
+function getStoredPlanEndDate() {
+  return localStorage.getItem(PLAN_END_DATE_STORAGE_KEY) || _currentPreferences?.end_date || "";
+}
+
+function setStoredPlanRange(startDateStr, endDateStr = "") {
+  const safeStart = startDateStr || _localDateStr(new Date());
+  localStorage.setItem(PLAN_START_DATE_STORAGE_KEY, safeStart);
+  if (endDateStr) {
+    localStorage.setItem(PLAN_END_DATE_STORAGE_KEY, endDateStr);
+  } else {
+    localStorage.removeItem(PLAN_END_DATE_STORAGE_KEY);
+  }
+}
+
+function configuredRangeDuration() {
+  const startDate = getStoredPlanStartDate();
+  const endDate = getStoredPlanEndDate();
+  if (!startDate || !endDate) return null;
+
+  const start = new Date(`${startDate}T00:00:00`);
+  const end = new Date(`${endDate}T00:00:00`);
+  const diffDays = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+  return diffDays > 0 ? diffDays : null;
+}
+
+function updateTripLengthLabel() {
+  const label = document.getElementById("trip-length-label");
+  if (!label) return;
+  const duration = getTripDuration();
+  label.textContent = duration === 1 ? "1 day" : `${duration} days`;
+}
+
+function syncPlanDateInputs() {
+  const startInput = document.getElementById("plan-start-date");
+  const endInput = document.getElementById("plan-end-date");
+  if (startInput) startInput.value = getStoredPlanStartDate();
+  if (endInput) endInput.value = getStoredPlanEndDate();
+  updateTripLengthLabel();
+}
+
+function savePlanRangeFromInputs() {
+  const startInput = document.getElementById("plan-start-date");
+  const endInput = document.getElementById("plan-end-date");
+  const startDate = startInput?.value || getStoredPlanStartDate();
+  const endDate = endInput?.value || "";
+
+  if (endDate && endDate < startDate) {
+    endInput.value = startDate;
+    setStoredPlanRange(startDate, startDate);
+  } else {
+    setStoredPlanRange(startDate, endDate);
+  }
+  updateTripLengthLabel();
+}
 
 function setSelectedPlanDate(dateStr) {
   selectedDate = dateStr || _localDateStr(new Date());
@@ -42,7 +107,9 @@ function getDailyPlanErrorMessage(error, fallback = "Something went wrong. Pleas
 }
 
 function getTripDuration() {
-  // Prefer the freshly-loaded preferences from the API, fall back to localStorage.
+  const rangeDuration = configuredRangeDuration();
+  if (rangeDuration) return rangeDuration;
+
   const fromPrefs = _currentPreferences?.trip_duration;
   const fromCache =
     parseInt(localStorage.getItem("tz_trip_duration") || "1") || 1;
@@ -61,6 +128,9 @@ async function refreshPreferences() {
       _currentPreferences = data;
       if (data.trip_duration) {
         localStorage.setItem("tz_trip_duration", String(data.trip_duration));
+      }
+      if (!localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) && data.start_date) {
+        setStoredPlanRange(data.start_date, data.end_date || "");
       }
     }
   } catch {
@@ -84,14 +154,17 @@ async function generateAllDays(generateBtn) {
   // value on the preferences page is picked up without a hard reload.
   await refreshPreferences();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const startDate = _localDateStr(today);
+  savePlanRangeFromInputs();
+  const startDate = toISODate(getStoredPlanStartDate());
+  const endDate = toISODate(getStoredPlanEndDate());
 
   try {
-    const data = await apiPost("/api/daily-plan/generate-multiday/", {
+    const payload = {
       start_date: startDate,
-    });
+    };
+    if (endDate) payload.end_date = endDate;
+
+    const data = await apiPost("/api/daily-plan/generate-multiday/", payload);
 
     const plans = Array.isArray(data?.plans) ? data.plans : [];
     plans.sort((a, b) =>
@@ -105,7 +178,6 @@ async function generateAllDays(generateBtn) {
       multiDayPlans[index] = sortEventsByProximity(events);
     });
 
-    // Keep UI aligned with trip duration even when some days have no events in payload.
     const tripDuration = getTripDuration();
     for (let index = 0; index < tripDuration; index += 1) {
       if (!Array.isArray(multiDayPlans[index])) {
@@ -117,7 +189,7 @@ async function generateAllDays(generateBtn) {
     _currentPlan = firstPlan;
 
     currentDayIndex = 0;
-    setSelectedPlanDate(_localDateStr(today));
+    setSelectedPlanDate(startDate);
 
     renderDaysBar();
     renderPlanForDay(0);
@@ -133,8 +205,11 @@ async function requestPlanForSelectedDate(generateBtn) {
 
   try {
     await refreshPreferences();
+    savePlanRangeFromInputs();
 
     const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
+    const startDate = toISODate(getStoredPlanStartDate());
+    const endDate = toISODate(getStoredPlanEndDate());
     const tripDuration = getTripDuration();
     const excludePlanDates = [];
 
@@ -143,11 +218,15 @@ async function requestPlanForSelectedDate(generateBtn) {
       excludePlanDates.push(_localDateStr(getPlanDateForIndex(index)));
     }
 
-    const data = await apiPost("/api/daily-plan/generate/", {
+    const payload = {
       date: targetDate,
+      start_date: startDate,
       seed: Date.now(),
       exclude_plan_dates: excludePlanDates,
-    });
+    };
+    if (endDate) payload.end_date = endDate;
+
+    const data = await apiPost("/api/daily-plan/generate/", payload);
 
     const events = Array.isArray(data?.events)
       ? data.events.filter(Boolean)
@@ -170,17 +249,9 @@ function organizeEventsByTime(events) {
   const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
   const available = [...normalizedEvents];
 
-  const foodCategories = new Set([
-    "restaurant",
-    "cafe",
-    "fast_food",
-    "dessert",
-    "bakery",
-    "juice",
-    "food_truck",
-  ]);
-  const activityCategories = new Set(["culture", "shopping", "other"]);
-  const relaxingCategories = new Set(["outdoor"]);
+  const foodCategories = new Set(["food"]);
+  const activityCategories = new Set(["culture", "heritage", "shopping", "entertainment", "events"]);
+  const relaxingCategories = new Set(["nature", "family"]);
 
   function takeFirst(predicate) {
     const index = available.findIndex(predicate);
@@ -235,7 +306,7 @@ async function loadCurrentPreferences() {
 }
 
 function getPlanDateForIndex(index) {
-  const day = new Date();
+  const day = new Date(`${getStoredPlanStartDate()}T00:00:00`);
   day.setDate(day.getDate() + index);
   return day;
 }
@@ -479,10 +550,9 @@ function renderPlanForDay(index) {
 function applyMultiDayPlan(plan, preferences) {
   const events = Array.isArray(plan?.events) ? plan.events : [];
   setSelectedPlanDate(plan?.date || selectedDate);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const start = new Date(`${getStoredPlanStartDate()}T00:00:00`);
   const selected = new Date(`${selectedDate}T00:00:00`);
-  const diffDays = Math.round((selected - today) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.round((selected - start) / (1000 * 60 * 60 * 24));
 
   _currentPreferences = preferences || _currentPreferences;
 
@@ -510,12 +580,6 @@ function renderDailyPlan(data) {
   const rawEvents = Array.isArray(data?.events) ? data.events : [];
   const nearbyEvents = filterEventsByArea(rawEvents);
   const events = organizeEventsByTime(nearbyEvents);
-  const sectionTimes = {
-    "☀️ Breakfast": "8:00 AM",
-    Activity: "11:00 AM",
-    "🍽️ Lunch": "2:00 PM",
-    Evening: "6:00 PM",
-  };
 
   if (events.length === 0) {
     const empty = document.createElement("div");
@@ -548,12 +612,7 @@ function renderDailyPlan(data) {
       title.className = "text-lg font-semibold text-gray-900";
       title.textContent = sectionLabel;
 
-      const timeHint = document.createElement("span");
-      timeHint.className = "text-sm text-gray-500";
-      timeHint.textContent = sectionTimes[sectionLabel] || "";
-
       header.appendChild(title);
-      header.appendChild(timeHint);
       section.appendChild(header);
 
       sections.set(sectionLabel, section);
@@ -595,6 +654,9 @@ function renderDailyPlan(data) {
     left.appendChild(location);
     left.appendChild(price);
 
+    const actions = document.createElement("div");
+    actions.className = "flex flex-col items-end gap-2 shrink-0";
+
     const actionBtn = document.createElement("a");
     const navQuery = encodeURIComponent((event.title || "") + " Riyadh");
     actionBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${navQuery}`;
@@ -604,8 +666,34 @@ function renderDailyPlan(data) {
       "px-4 py-2 bg-brand text-white rounded-xl text-sm hover:opacity-90 inline-block";
     actionBtn.textContent = "Navigate";
 
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className =
+      "px-3 py-1.5 border border-red-200 text-red-600 rounded-lg text-xs font-medium hover:bg-red-50 transition";
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", async () => {
+      removeBtn.disabled = true;
+      removeBtn.textContent = "Removing...";
+      try {
+        await removeEventFromPlan(event.id);
+      } catch (error) {
+        removeBtn.disabled = false;
+        removeBtn.textContent = "Remove";
+        const planMessage = document.getElementById("plan-message");
+        if (planMessage) {
+          planMessage.textContent = getDailyPlanErrorMessage(
+            error,
+            "Unable to remove this activity.",
+          );
+        }
+      }
+    });
+
+    actions.appendChild(actionBtn);
+    actions.appendChild(removeBtn);
+
     card.appendChild(left);
-    card.appendChild(actionBtn);
+    card.appendChild(actions);
     sections.get(sectionLabel).appendChild(card);
   });
 
@@ -652,6 +740,12 @@ function setLoading(isLoading) {
   message.innerText = isLoading ? "Generating..." : "";
 }
 
+function resetGenerateActionState() {
+  setLoading(false);
+  const generateBtn = document.getElementById("generate-btn");
+  if (generateBtn) generateBtn.disabled = false;
+}
+
 /* =========================
    Load Current Plan
 ========================= */
@@ -662,20 +756,19 @@ async function loadCurrentPlan() {
   // Always pull fresh preferences first so the days bar shows the correct span
   // even before any plan exists.
   await refreshPreferences();
+  syncPlanDateInputs();
   const tripDuration = getTripDuration();
   multiDayPlans = [];
 
   try {
     const data = await apiGet("/api/daily-plan/");
     const plans = data ? (Array.isArray(data) ? data : data.results || []) : [];
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const startDate = new Date(`${getStoredPlanStartDate()}T00:00:00`);
 
     // Map any existing plan onto its day-offset within the current trip window.
     for (let i = 0; i < tripDuration; i += 1) {
-      const day = new Date(today);
-      day.setDate(today.getDate() + i);
+      const day = new Date(startDate);
+      day.setDate(startDate.getDate() + i);
       const dayStr = _localDateStr(day);
       const match = plans.find((p) => p.date === dayStr);
       if (match && Array.isArray(match.events) && match.events.length) {
@@ -692,7 +785,7 @@ async function loadCurrentPlan() {
     }
 
     currentDayIndex = 0;
-    setSelectedPlanDate(_localDateStr(today));
+    setSelectedPlanDate(_localDateStr(startDate));
     renderDaysBar();
     renderPlanForDay(0);
   } catch {
@@ -857,6 +950,81 @@ async function addEventToPlan(eventId) {
   }
 }
 
+async function findPlanForDate(targetDate) {
+  if (_currentPlan && _currentPlan.date === targetDate && _currentPlan.id) {
+    return _currentPlan;
+  }
+
+  const data = await apiGet("/api/daily-plan/");
+  const plans = data ? (Array.isArray(data) ? data : data.results || []) : [];
+  return plans.find((plan) => plan.date === targetDate) || null;
+}
+
+function updateCurrentDayEvents(events, planData = null) {
+  const safeEvents = sortEventsByProximity(
+    (Array.isArray(events) ? events : []).filter(Boolean),
+  );
+  multiDayPlans[currentDayIndex] = safeEvents;
+
+  const targetDate = getSelectedPlanDate();
+  if (planData) {
+    _currentPlan = planData;
+  } else if (_currentPlan && _currentPlan.date === targetDate) {
+    _currentPlan = {
+      ..._currentPlan,
+      date: targetDate,
+      events: safeEvents,
+      count: safeEvents.length,
+    };
+  }
+
+  if (safeEvents.length === 0) {
+    resetGenerateActionState();
+  }
+
+  renderDaysBar();
+  renderPlanForDay(currentDayIndex);
+}
+
+async function removeEventFromPlan(eventId) {
+  const normalizedEventId = Number(eventId);
+  if (!Number.isFinite(normalizedEventId) || normalizedEventId <= 0) {
+    throw new Error("Invalid event ID");
+  }
+
+  const currentEvents = Array.isArray(multiDayPlans[currentDayIndex])
+    ? multiDayPlans[currentDayIndex]
+    : [];
+  const nextEvents = currentEvents.filter(
+    (event) => Number(event?.id) !== normalizedEventId,
+  );
+
+  if (nextEvents.length === currentEvents.length) {
+    return;
+  }
+
+  const previousEvents = [...currentEvents];
+  updateCurrentDayEvents(nextEvents);
+
+  const targetDate = getSelectedPlanDate();
+  try {
+    const targetPlan = await findPlanForDate(targetDate);
+    if (!targetPlan?.id) {
+      return;
+    }
+
+    const updated = await apiDelete(
+      `/api/daily-plan/${targetPlan.id}/events/${normalizedEventId}/`,
+    );
+    if (updated) {
+      updateCurrentDayEvents(updated.events || [], updated);
+    }
+  } catch (error) {
+    updateCurrentDayEvents(previousEvents);
+    throw error;
+  }
+}
+
 /* =========================
    Export Plan
 ========================= */
@@ -905,16 +1073,33 @@ function exportPlan() {
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+  syncPlanDateInputs();
   initDailyPlanMap();
   loadCurrentPlan();
+
+  document.getElementById("plan-start-date")?.addEventListener("change", () => {
+    savePlanRangeFromInputs();
+    currentDayIndex = 0;
+    loadCurrentPlan();
+  });
+  document.getElementById("plan-end-date")?.addEventListener("change", () => {
+    savePlanRangeFromInputs();
+    currentDayIndex = 0;
+    loadCurrentPlan();
+  });
 
   // Generate AI Plan (multi-day)
   const generateBtn = document.getElementById("generate-btn");
   generateBtn?.addEventListener("click", async () => {
     const message = document.getElementById("plan-message");
     try {
+      const currentDayEvents = Array.isArray(multiDayPlans[currentDayIndex])
+        ? multiDayPlans[currentDayIndex].filter(Boolean)
+        : [];
+      const hasCurrentDayPlan = currentDayEvents.length > 0;
       const isSpecificDayRegeneration =
-        currentDayIndex > 0 && Array.isArray(multiDayPlans[currentDayIndex]);
+        Array.isArray(multiDayPlans[currentDayIndex]) &&
+        (currentDayIndex > 0 || !hasCurrentDayPlan);
 
       if (isSpecificDayRegeneration) {
         await requestPlanForSelectedDate(generateBtn);
@@ -1164,9 +1349,9 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCarousel(
     "restaurantsCarousel",
     "restaurantsSection",
-    "restaurant",
-    "Restaurant",
+    "food",
+    "Food",
   );
-  loadCarousel("activitiesCarousel", "activitiesSection", "outdoor", "Outdoor");
+  loadCarousel("activitiesCarousel", "activitiesSection", "nature", "Nature");
   loadUpcomingCarousel();
 });

@@ -183,6 +183,20 @@ function gmapsUrl(ev) {
   return `https://www.google.com/maps/search/?api=1&query=${name}`;
 }
 
+function formatDateWindow(ev) {
+  if (ev.start_date && ev.end_date) return `${ev.start_date} to ${ev.end_date}`;
+  if (ev.start_date) return ev.start_date;
+  return ev.category === "events" ? "Check event date" : "Available daily";
+}
+
+function formatOpeningHours(ev) {
+  if (ev.start_time && ev.end_time) return `${ev.start_time} - ${ev.end_time}`;
+  if (ev.category === "food") return "8:00 AM - 11:00 PM";
+  if (ev.category === "shopping") return "10:00 AM - 10:00 PM";
+  if (ev.category === "events") return "Varies by event";
+  return "9:00 AM - 9:00 PM";
+}
+
 function buildEventCard(ev) {
   const fav = getFavs().has(String(ev.id));
   const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
@@ -622,7 +636,7 @@ function renderEventDetails(ev) {
               <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-lg shrink-0">📅</div>
               <div>
                 <p class="text-xs text-gray-500">Date</p>
-                <p class="text-sm font-semibold text-gray-800">${ev.start_date ? escapeHtml(ev.start_date) : "Available Daily"}</p>
+                <p class="text-sm font-semibold text-gray-800">${escapeHtml(formatDateWindow(ev))}</p>
               </div>
             </div>
             <div class="flex items-center gap-3">

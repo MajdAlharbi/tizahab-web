@@ -1,10 +1,5 @@
 [
-    {
-        "Name":"المذاق العربي المعتق للآكلات الجنوبية والمشروبات المعتقه",
-        "Type_of_Utility":"Cafe",
-        "Rating":5.0,
-        "Price_Level":"$$$"
-    },
+    
     {
         "Name":"Tim Hortons",
         "Type_of_Utility":"Cafe",
@@ -18,19 +13,7 @@
         "Price_Level":"$$$"
     },
     {
-        "Name":"BUFIA ATHEER- بوفيه",
-        "Type_of_Utility":"Cafe",
-        "Rating":5.0,
-        "Price_Level":"$$$"
-    },
-    {
         "Name":"Lugano",
-        "Type_of_Utility":"Cafe",
-        "Rating":5.0,
-        "Price_Level":"$$$"
-    },
-    {
-        "Name":"حاره العسيري للفره",
         "Type_of_Utility":"Cafe",
         "Rating":5.0,
         "Price_Level":"$$$"
@@ -156,18 +139,6 @@
         "Price_Level":"$$$"
     },
     {
-        "Name":"زياره",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.7,
-        "Price_Level":"$$$"
-    },
-    {
-        "Name":"بوفية جبنة الشرق لتقديم الوجبات",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.7,
-        "Price_Level":"$$$"
-    },
-    {
         "Name":"74 Lounge & Specialty coffee",
         "Type_of_Utility":"Cafe",
         "Rating":4.7,
@@ -175,12 +146,6 @@
     },
     {
         "Name":"Beanery cafe",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.7,
-        "Price_Level":"$$$"
-    },
-    {
-        "Name":"Dur Alhada Compound – مجمع دور الهدا السكني",
         "Type_of_Utility":"Cafe",
         "Rating":4.7,
         "Price_Level":"$$$"
@@ -282,12 +247,6 @@
         "Price_Level":"$$$"
     },
     {
-        "Name":"بوفية تسالي النظيم",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.5,
-        "Price_Level":"$$$"
-    },
-    {
         "Name":"Barn's | بارنز",
         "Type_of_Utility":"Cafe",
         "Rating":4.5,
@@ -382,12 +341,6 @@
         "Type_of_Utility":"Cafe",
         "Rating":4.5,
         "Price_Level":"$$$"
-    },
-    {
-        "Name":"تسالي الحديقة | ساحة السويدي الغربي",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.4,
-        "Price_Level":"$$"
     },
     {
         "Name":"Alf‎",
@@ -577,12 +530,6 @@
     },
     {
         "Name":"stir | ستر",
-        "Type_of_Utility":"Cafe",
-        "Rating":4.3,
-        "Price_Level":"$$"
-    },
-    {
-        "Name":"شاهي في المخ",
         "Type_of_Utility":"Cafe",
         "Rating":4.3,
         "Price_Level":"$$"
@@ -1215,12 +1162,6 @@
         "Name":"Life With Cacao",
         "Type_of_Utility":"Cafe",
         "Rating":3.6,
-        "Price_Level":"$"
-    },
-    {
-        "Name":"مقهي و فوال المرسي السوداني",
-        "Type_of_Utility":"Cafe",
-        "Rating":3.5,
         "Price_Level":"$"
     },
     {

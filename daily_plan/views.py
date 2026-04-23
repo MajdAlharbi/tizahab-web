@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import IntegrityError, transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 from .models import DailyPlan
 from .serializers import DailyPlanSerializer
 from .services import generate_multiday_plan, generate_recommendations
+from accounts.models import UserPreferences
 from events.serializers import EventSerializer
 import logging
 
@@ -34,6 +36,34 @@ def _parse_trip_duration(raw_value):
     return trip_duration
 
 
+def _resolve_date_range(start_date_str=None, end_date_str=None, trip_duration=None):
+    if not start_date_str:
+        raise ValueError("start_date is required. Format: YYYY-MM-DD")
+
+    start_date = _parse_iso_date(start_date_str, "start_date")
+    end_date = (
+        _parse_iso_date(end_date_str, "end_date")
+        if end_date_str not in (None, "")
+        else None
+    )
+
+    if start_date < date.today():
+        raise ValueError("Cannot create plans for past dates.")
+    if end_date and end_date < start_date:
+        raise ValueError("end_date must be on or after start_date.")
+
+    resolved_trip_duration = _parse_trip_duration(trip_duration)
+    if end_date:
+        derived_duration = (end_date - start_date).days + 1
+        if resolved_trip_duration is not None and resolved_trip_duration != derived_duration:
+            raise ValueError(
+                "trip_duration must match the provided start_date and end_date range."
+            )
+        resolved_trip_duration = derived_duration
+
+    return start_date, end_date, resolved_trip_duration
+
+
 def _parse_exclude_plan_dates(raw_value):
     if raw_value is None:
         return []
@@ -49,6 +79,21 @@ def _parse_exclude_plan_dates(raw_value):
                 "exclude_plan_dates must only contain YYYY-MM-DD dates."
             ) from exc
     return parsed_dates
+
+
+def _resolve_request_or_preference_dates(user, date_str=None, start_date_str=None, end_date_str=None):
+    if date_str or start_date_str or end_date_str:
+        return date_str, start_date_str, end_date_str
+
+    preferences = UserPreferences.objects.filter(user=user).first()
+    if not preferences or not preferences.start_date:
+        return date_str, start_date_str, end_date_str
+
+    return (
+        preferences.start_date.isoformat(),
+        preferences.start_date.isoformat(),
+        preferences.end_date.isoformat() if preferences.end_date else None,
+    )
 
 
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
@@ -102,6 +147,36 @@ class DailyPlanRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVie
         )
 
 
+class DailyPlanEventRemoveAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, event_id):
+        daily_plan = get_object_or_404(
+            DailyPlan.objects.prefetch_related("events"),
+            pk=pk,
+            user=request.user,
+        )
+
+        if not daily_plan.events.filter(pk=event_id).exists():
+            return Response(
+                {"detail": "Event is not part of this plan."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        daily_plan.events.remove(event_id)
+        events = list(daily_plan.events.all())
+        events_data = EventSerializer(events, many=True).data
+        return Response(
+            {
+                "id": daily_plan.id,
+                "date": daily_plan.date.isoformat(),
+                "events": events_data,
+                "count": len(events_data),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
 class GenerateDailyPlanAPIView(APIView):
     """
     Generate a personalized daily plan based on user preferences.
@@ -117,23 +192,30 @@ class GenerateDailyPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        date_str = request.data.get("date")
+        date_str, start_date_str, end_date_str = _resolve_request_or_preference_dates(
+            user,
+            date_str=request.data.get("date"),
+            start_date_str=request.data.get("start_date"),
+            end_date_str=request.data.get("end_date"),
+        )
+        start_date_str = start_date_str or date_str
         seed = request.data.get("seed")
         exclude_plan_dates = request.data.get("exclude_plan_dates")
 
-        if not date_str:
+        if not date_str and not start_date_str:
             return Response(
                 {"detail": "Date is required. Format: YYYY-MM-DD"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            plan_date = _parse_iso_date(date_str, "date")
+            resolved_start_date, resolved_end_date, _ = _resolve_date_range(
+                start_date_str=start_date_str,
+                end_date_str=end_date_str,
+            )
+            plan_date = _parse_iso_date(date_str or start_date_str, "date")
             if plan_date < date.today():
-                return Response(
-                    {"detail": "Cannot create plans for past dates."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                raise ValueError("Cannot create plans for past dates.")
             valid_exclude_dates = _parse_exclude_plan_dates(exclude_plan_dates)
         except ValueError as exc:
             logger.warning("Invalid date format from user %s: %s", user.id, date_str)
@@ -154,7 +236,11 @@ class GenerateDailyPlanAPIView(APIView):
         try:
             recommended_events = generate_recommendations(
                 user,
-                date_str,
+                date_str=date_str or resolved_start_date.isoformat(),
+                start_date_str=resolved_start_date.isoformat(),
+                end_date_str=(
+                    resolved_end_date.isoformat() if resolved_end_date else None
+                ),
                 seed=seed,
                 exclude_ids=exclude_ids,
             )
@@ -198,7 +284,7 @@ class GenerateDailyPlanAPIView(APIView):
             return Response(
                 {
                     "id": daily_plan.id,
-                    "date": date_str,
+                    "date": plan_date.isoformat(),
                     "events": events_data,
                     "count": len(events_data),
                 },
@@ -221,7 +307,11 @@ class GenerateMultiDayPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        start_date_str = request.data.get("start_date")
+        start_date_str, _, end_date_str = _resolve_request_or_preference_dates(
+            user,
+            start_date_str=request.data.get("start_date") or request.data.get("date_from"),
+            end_date_str=request.data.get("end_date") or request.data.get("date_to"),
+        )
         trip_duration = request.data.get("trip_duration")
 
         if not start_date_str:
@@ -231,18 +321,17 @@ class GenerateMultiDayPlanAPIView(APIView):
             )
 
         try:
-            start_date = _parse_iso_date(start_date_str, "start_date")
-            trip_duration = _parse_trip_duration(trip_duration)
-            if start_date < date.today():
-                return Response(
-                    {"detail": "Cannot create plans for past dates."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+            start_date, end_date, trip_duration = _resolve_date_range(
+                start_date_str=start_date_str,
+                end_date_str=end_date_str,
+                trip_duration=trip_duration,
+            )
         except ValueError as exc:
             logger.warning(
-                "Invalid multi-day input from user %s: start_date=%s trip_duration=%s",
+                "Invalid multi-day input from user %s: start_date=%s end_date=%s trip_duration=%s",
                 user.id,
                 start_date_str,
+                end_date_str,
                 request.data.get("trip_duration"),
             )
             return Response(
@@ -255,6 +344,7 @@ class GenerateMultiDayPlanAPIView(APIView):
                 user,
                 start_date_str,
                 trip_duration=trip_duration,
+                end_date_str=end_date_str,
             )
         except ValueError as exc:
             return Response(
@@ -321,6 +411,7 @@ class GenerateMultiDayPlanAPIView(APIView):
                 {
                     "trip_duration": len(generated_days),
                     "start_date": start_date_str,
+                    "end_date": generated_days[-1][0] if generated_days else start_date_str,
                     "plans": plans_payload,
                     "total_events": total_events,
                 },
