@@ -3,30 +3,23 @@
 <main class="px-6 py-6 max-w-[1200px] mx-auto space-y-8">
   <div class="flex items-start justify-between">
     <div>
-      <h1 class="text-3xl font-semibold">
-        <span class="nav-label-en">Daily Plan</span>
-        <span class="nav-label-ar hidden">الخطة اليومية</span>
-      </h1>
+      <h1 class="text-3xl font-semibold">Daily Plan</h1>
       <p class="mt-2 text-sm text-gray-500">Choose a travel date or range before generating your itinerary.</p>
     </div>
 
-    <div class="flex gap-3">
+    <div id="plan-actions" class="flex flex-wrap gap-3">
       <button
-        id="generate-btn"
-        data-requires-auth="true"
+        id="generate-plan-btn"
         type="button"
-        class="flex items-center gap-2 px-5 h-11 rounded-xl border border-brand text-brand font-medium hover:bg-brand/5 transition">
-        <span class="nav-label-en">Generate AI Plan</span>
-        <span class="nav-label-ar hidden">إنشاء خطة بالذكاء الاصطناعي</span>
+        class="px-5 h-11 rounded-xl bg-purple-600 text-white font-medium">
+        Generate Plan
       </button>
 
       <button
         id="add-activity-btn"
-        data-requires-auth="true"
         type="button"
-        class="flex items-center gap-2 px-5 h-11 rounded-xl bg-brand text-white font-medium hover:opacity-90 transition">
-        <span class="nav-label-en">Add Activity</span>
-        <span class="nav-label-ar hidden">إضافة نشاط</span>
+        class="px-5 h-11 rounded-xl bg-purple-600 text-white font-medium">
+        Add Activity
       </button>
     </div>
   </div>
@@ -217,8 +210,38 @@
     </div>
   </div>
 
-  <script src="{% static 'js/map.js' %}"></script>
+    <script src="{% static 'js/map.js' %}"></script>
   <script src="{% static 'js/daily_plan_integration.js' %}?v=99"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("generate-plan-btn");
+    if (btn) {
+      btn.style.display = "flex";
+      btn.style.visibility = "visible";
+      btn.style.opacity = "1";
+    }
+  });
+  </script>
+
+  <script>
+  function safeInitMap() {
+    try {
+      if (typeof google === "undefined" || !google.maps) return;
+      if (window.__TZ_DAILY_MAP_INITIALIZED) return;
+      window.__TZ_DAILY_MAP_INITIALIZED = true;
+      if (typeof window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP === "function") {
+        window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP();
+      }
+    } catch (e) {
+      console.warn("Map disabled:", e);
+    }
+  }
+  if (typeof window.initDailyPlanMap === "function") {
+    window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP = window.initDailyPlanMap;
+  }
+  window.initMap = safeInitMap;
+  window.initDailyPlanMap = safeInitMap;
+  </script>
 
   <script
     src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_BROWSER_MAPS_API_KEY }}&callback=initDailyPlanMap"
@@ -227,4 +250,7 @@
 </main>
 
 {% endblock %}
+
+
+
 
