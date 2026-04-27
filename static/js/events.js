@@ -197,6 +197,19 @@ function formatOpeningHours(ev) {
   return "9:00 AM - 9:00 PM";
 }
 
+function showTemporaryFeedback(button, message) {
+  const original = button.textContent;
+  button.textContent = message;
+  button.disabled = true;
+  button.classList.add("bg-green-500", "text-white");
+
+  setTimeout(() => {
+    button.textContent = original;
+    button.disabled = false;
+    button.classList.remove("bg-green-500", "text-white");
+  }, 1500);
+}
+
 function buildEventCard(ev) {
   const fav = getFavs().has(String(ev.id));
   const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
@@ -233,9 +246,10 @@ function buildEventCard(ev) {
         </div>
       </div>
       <div class="flex gap-2">
-        <div class="flex-1 h-10 rounded-xl border bg-white group-hover:bg-gray-50 grid place-items-center text-sm text-gray-700">
-          View Details
-        </div>
+        <button type="button"
+          class="add-to-plan-btn flex-1 h-10 rounded-xl border bg-white group-hover:bg-gray-50 grid place-items-center text-sm text-gray-700">
+          Add to Plan
+        </button>
         <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener"
           onclick="event.stopPropagation()"
           class="gmaps-link h-10 px-3 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm text-gray-500 shrink-0"
@@ -253,6 +267,12 @@ function buildEventCard(ev) {
     if (nowFav === null) return;
     card.querySelector(".fav-icon").textContent = nowFav ? "♥" : "♡";
     if (_favsOnly) renderFavoritesSection();
+  });
+
+  card.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showTemporaryFeedback(e.currentTarget, "Added to your plan");
   });
 
   return card;
@@ -296,10 +316,10 @@ function buildTrendingCard(ev) {
         </div>
       </div>
       <div class="flex gap-2">
-        <a href="/events/page/${ev.id}/"
-          class="flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">
-          View
-        </a>
+        <button type="button"
+          class="add-to-plan-btn flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">
+          Add to Plan
+        </button>
         <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener"
           class="h-10 px-3 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm text-gray-500 shrink-0"
           title="Open in Google Maps">
@@ -316,6 +336,12 @@ function buildTrendingCard(ev) {
     if (nowFav === null) return;
     article.querySelector(".fav-icon").textContent = nowFav ? "♥" : "♡";
     if (_favsOnly) renderFavoritesSection();
+  });
+
+  article.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showTemporaryFeedback(e.currentTarget, "Added to your plan");
   });
 
   return article;

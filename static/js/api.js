@@ -77,7 +77,8 @@ async function parseResponseBody(res) {
 
   try {
     return JSON.parse(text);
-  } catch {
+  } catch (error) {
+    console.error("Failed to parse API response body", error);
     return null;
   }
 }
@@ -129,6 +130,7 @@ async function _raiseApiError(res, fallbackPrefix = "Request failed") {
   );
   err.status = res.status;
   err.responseData = body;
+  console.error("API failure:", err);
   throw err;
 }
 
@@ -153,7 +155,7 @@ async function _tryRefresh() {
       return true;
     }
   } catch (error) {
-    console.warn("Token refresh failed", error);
+    console.error("Token refresh failed", error);
   }
   return false;
 }
@@ -168,7 +170,7 @@ async function logout(options = {}) {
       headers: authHeaders("/logout/"),
     });
   } catch (error) {
-    console.warn("Logout request failed", error);
+    console.error("Logout request failed", error);
   }
 
   localStorage.removeItem("access");
@@ -177,6 +179,10 @@ async function logout(options = {}) {
   localStorage.removeItem("tz_plan_start_date");
   localStorage.removeItem("tz_plan_end_date");
   localStorage.removeItem("tz_selected_plan_date");
+  localStorage.removeItem("selectedStartDate");
+  localStorage.removeItem("selectedEndDate");
+  localStorage.removeItem("tripDuration");
+  localStorage.removeItem("currentDayIndex");
   if (redirect) {
     window.location.href = "/login/";
   }
@@ -187,165 +193,190 @@ function _logout() {
 }
 
 async function apiGet(url) {
-  let res = await fetch(url, { headers: authHeaders(url) });
+  try {
+    let res = await fetch(url, { headers: authHeaders(url) });
 
-  if (res.status === 401) {
-    const refreshed = await _tryRefresh();
-    if (!refreshed) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-    // Retry with the new access token
-    res = await fetch(url, { headers: authHeaders(url) });
     if (res.status === 401) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
+      const refreshed = await _tryRefresh();
+      if (!refreshed) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+      // Retry with the new access token
+      res = await fetch(url, { headers: authHeaders(url) });
+      if (res.status === 401) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
     }
-  }
 
-  if (!res.ok) await _raiseApiError(res, "Unable to load data");
-  return parseResponseBody(res);
+    if (!res.ok) await _raiseApiError(res, "Unable to load data");
+    return parseResponseBody(res);
+  } catch (error) {
+    console.error("API failure:", error);
+    throw error;
+  }
 }
 
 async function apiPost(url, data) {
-  let res = await fetch(url, {
-    method: "POST",
-    headers: authHeaders(url),
-    body: JSON.stringify(data),
-  });
-
-  if (res.status === 401) {
-    const refreshed = await _tryRefresh();
-    if (!refreshed) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-    // Retry with the new access token
-    res = await fetch(url, {
+  try {
+    let res = await fetch(url, {
       method: "POST",
       headers: authHeaders(url),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-  }
 
-  if (!res.ok) await _raiseApiError(res, "Unable to complete request");
-  return parseResponseBody(res);
+    if (res.status === 401) {
+      const refreshed = await _tryRefresh();
+      if (!refreshed) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+      // Retry with the new access token
+      res = await fetch(url, {
+        method: "POST",
+        headers: authHeaders(url),
+        body: JSON.stringify(data),
+      });
+      if (res.status === 401) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+    }
+
+    if (!res.ok) await _raiseApiError(res, "Unable to complete request");
+    return parseResponseBody(res);
+  } catch (error) {
+    console.error("API failure:", error);
+    throw error;
+  }
 }
 
 async function apiPut(url, data) {
-  let res = await fetch(url, {
-    method: "PUT",
-    headers: authHeaders(url),
-    body: JSON.stringify(data),
-  });
-
-  if (res.status === 401) {
-    const refreshed = await _tryRefresh();
-    if (!refreshed) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-    res = await fetch(url, {
+  try {
+    let res = await fetch(url, {
       method: "PUT",
       headers: authHeaders(url),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-  }
 
-  if (!res.ok) await _raiseApiError(res, "Unable to save changes");
-  return parseResponseBody(res);
+    if (res.status === 401) {
+      const refreshed = await _tryRefresh();
+      if (!refreshed) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+      res = await fetch(url, {
+        method: "PUT",
+        headers: authHeaders(url),
+        body: JSON.stringify(data),
+      });
+      if (res.status === 401) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+    }
+
+    if (!res.ok) await _raiseApiError(res, "Unable to save changes");
+    return parseResponseBody(res);
+  } catch (error) {
+    console.error("API failure:", error);
+    throw error;
+  }
 }
 
 async function apiPatch(url, data) {
-  let res = await fetch(url, {
-    method: "PATCH",
-    headers: authHeaders(url),
-    body: JSON.stringify(data),
-  });
-
-  if (res.status === 401) {
-    const refreshed = await _tryRefresh();
-    if (!refreshed) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-    res = await fetch(url, {
+  try {
+    let res = await fetch(url, {
       method: "PATCH",
       headers: authHeaders(url),
       body: JSON.stringify(data),
     });
-    if (res.status === 401) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-  }
 
-  if (!res.ok) await _raiseApiError(res, "Unable to update data");
-  return parseResponseBody(res);
+    if (res.status === 401) {
+      const refreshed = await _tryRefresh();
+      if (!refreshed) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+      res = await fetch(url, {
+        method: "PATCH",
+        headers: authHeaders(url),
+        body: JSON.stringify(data),
+      });
+      if (res.status === 401) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+    }
+
+    if (!res.ok) await _raiseApiError(res, "Unable to update data");
+    return parseResponseBody(res);
+  } catch (error) {
+    console.error("API failure:", error);
+    throw error;
+  }
 }
 
 async function apiDelete(url) {
-  let res = await fetch(url, {
-    method: "DELETE",
-    headers: authHeaders(url),
-  });
-
-  if (res.status === 401) {
-    const refreshed = await _tryRefresh();
-    if (!refreshed) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-    res = await fetch(url, {
+  try {
+    let res = await fetch(url, {
       method: "DELETE",
       headers: authHeaders(url),
     });
-    if (res.status === 401) {
-      console.warn("401 Unauthorized - not forcing logout");
-      const err = new Error("Unauthorized");
-      err.type = "auth";
-      err.status = 401;
-      throw err;
-    }
-  }
 
-  if (!res.ok) await _raiseApiError(res, "Unable to delete data");
-  return parseResponseBody(res);
+    if (res.status === 401) {
+      const refreshed = await _tryRefresh();
+      if (!refreshed) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+      res = await fetch(url, {
+        method: "DELETE",
+        headers: authHeaders(url),
+      });
+      if (res.status === 401) {
+        console.warn("401 Unauthorized - not forcing logout");
+        const err = new Error("Unauthorized");
+        err.type = "auth";
+        err.status = 401;
+        throw err;
+      }
+    }
+
+    if (!res.ok) await _raiseApiError(res, "Unable to delete data");
+    return parseResponseBody(res);
+  } catch (error) {
+    console.error("API failure:", error);
+    throw error;
+  }
 }
 
 function catLabel(cat) { return CATEGORY_MAP[cat]?.label || cat; }
@@ -373,6 +404,7 @@ window.apiDelete = apiDelete;
 window.extractApiErrorMessage = extractApiErrorMessage;
 window.catLabel = catLabel;
 window.catEmoji = catEmoji;
+window.toISODate = toISODate;
 window.catColor = catColor;
 window.toISODate = toISODate;
 window.getToken = getToken;

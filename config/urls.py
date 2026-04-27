@@ -44,7 +44,9 @@ urlpatterns = [
     path("daily-plan/", protected_template("daily_plan.html"), name="daily_plan"),
 
     # Dashboard Pages
+    path("booking/", protected_template("booking.html"), name="booking"),
     path("map/", protected_template("map.html"), name="map"),
+    path("car-rental/", protected_template("car_rental.html"), name="car_rental"),
     path("profile/", protected_template("profile.html"), name="profile"),
     path("settings/", protected_template("settings.html"), name="settings"),
     path("admin-panel/", staff_required(admin_panel_view), name="admin_panel"),

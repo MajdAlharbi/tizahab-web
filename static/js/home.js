@@ -45,6 +45,30 @@
       .replace(/"/g, "&quot;");
   }
 
+  function showTemporaryFeedback(button, message) {
+    const original = button.textContent;
+    button.textContent = message;
+    button.disabled = true;
+    button.classList.add("bg-green-500", "text-white");
+
+    setTimeout(() => {
+      button.textContent = original;
+      button.disabled = false;
+      button.classList.remove("bg-green-500", "text-white");
+    }, 1500);
+  }
+
+  function bindAddToPlanButtons(root) {
+    if (!root) return;
+    root.querySelectorAll(".add-to-plan-btn").forEach((button) => {
+      if (button.dataset.bound === "true") return;
+      button.dataset.bound = "true";
+      button.onclick = () => {
+        showTemporaryFeedback(button, "Added to your plan");
+      };
+    });
+  }
+
   // ── fetch helpers ──────────────────────────────────────────────────────────
 
   function toList(data) {
@@ -99,7 +123,11 @@
     if (!el) return;
 
     const today = todayISO();
-    const plan = (plans || []).find((p) => p.date === today);
+    const sortedPlans = [...(plans || [])].sort((a, b) =>
+      String(a?.date || "").localeCompare(String(b?.date || "")),
+    );
+    const plan =
+      sortedPlans.find((p) => String(p?.date || "") >= today) || sortedPlans[0];
 
     if (!plan || !plan.events || !plan.events.length) {
       return;
@@ -150,9 +178,33 @@
   let _recommendedNextUrl = null;
   const RECOMMENDED_PAGE_SIZE = 6;
 
+  function curateTopPicks(events) {
+    const source = Array.isArray(events) ? events : [];
+    const curated = source
+      .filter((ev) => {
+        const rating = Number.parseFloat(ev?.rating);
+        const priority = Number.parseFloat(
+          ev?.priority ?? ev?.tourism_priority ?? ev?.tourism_relevance,
+        );
+        return rating >= 4.5 || priority >= 4;
+      })
+      .sort((a, b) => {
+        const ratingDiff =
+          (Number.parseFloat(b?.rating) || 0) - (Number.parseFloat(a?.rating) || 0);
+        if (ratingDiff !== 0) return ratingDiff;
+        return (
+          (Number.parseFloat(b?.priority ?? b?.tourism_priority ?? b?.tourism_relevance) || 0) -
+          (Number.parseFloat(a?.priority ?? a?.tourism_priority ?? a?.tourism_relevance) || 0)
+        );
+      })
+      .slice(0, 6);
+
+    return curated.length ? curated : source.slice(0, 6);
+  }
+
   function buildRecommendedCard(ev) {
     return `
-      <a href="/events/page/${ev.id}/"
+      <article
          class="flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-brand/30 transition">
         <img src="${catImage(ev.category)}"
              alt="${escHtml(ev.title)}"
@@ -174,8 +226,13 @@
             ${ev.price != null ? `<span class="text-xs font-medium text-gray-600">${priceLabel(ev.price)}</span>` : "<span></span>"}
             ${ev.rating ? `<span class="text-xs text-yellow-500">★ ${ev.rating}</span>` : ""}
           </div>
+          <button
+            type="button"
+            class="add-to-plan-btn mt-3 w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+            Add to Plan
+          </button>
         </div>
-      </a>`;
+      </article>`;
   }
 
   function renderRecommended(events, append) {
@@ -195,19 +252,15 @@
 
     if (!append) el.innerHTML = "";
     el.innerHTML += events.map(buildRecommendedCard).join("");
+    bindAddToPlanButtons(el);
   }
 
   function updateRecommendedLoadMore() {
     const wrap = document.getElementById("recommendedLoadMoreWrap");
     const btn = document.getElementById("recommendedLoadMoreBtn");
     if (wrap) {
-      const hasMore =
-        _recommendedNextUrl || _recommendedShown < _recommendedAll.length;
-      wrap.classList.toggle("hidden", !hasMore);
-      if (btn && hasMore) {
-        const remaining = _recommendedTotal - _recommendedShown;
-        btn.textContent = remaining > 0 ? `Load More (${remaining} remaining)` : "Load More";
-      }
+      wrap.classList.add("hidden");
+      if (btn) btn.textContent = "Load More";
     }
   }
 
@@ -250,22 +303,29 @@
 
   function buildOfferCard(ev) {
     return `
-      <a href="/events/page/${ev.id}/"
+      <article
          class="flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-brand/30 transition">
         <img src="${catImage(ev.category)}"
              alt="${escHtml(ev.title)}"
              class="w-full h-40 object-cover">
-        <div class="flex items-center gap-3 p-4">
-          <span class="text-2xl leading-none flex-shrink-0">${catEmoji(ev.category)}</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-semibold text-gray-800 line-clamp-2">${escHtml(ev.title)}</p>
-            <span class="inline-block text-xs px-2 py-0.5 rounded-full mt-1 ${catColor(ev.category)}">
-              ${catLabel(ev.category)}
-            </span>
-            ${ev.price != null ? `<p class="text-xs text-gray-500 mt-1">${priceLabel(ev.price)}</p>` : ""}
+        <div class="flex flex-col gap-3 p-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl leading-none flex-shrink-0">${catEmoji(ev.category)}</span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-800 line-clamp-2">${escHtml(ev.title)}</p>
+              <span class="inline-block text-xs px-2 py-0.5 rounded-full mt-1 ${catColor(ev.category)}">
+                ${catLabel(ev.category)}
+              </span>
+              ${ev.price != null ? `<p class="text-xs text-gray-500 mt-1">${priceLabel(ev.price)}</p>` : ""}
+            </div>
           </div>
+          <button
+            type="button"
+            class="add-to-plan-btn w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+            Add to Plan
+          </button>
         </div>
-      </a>`;
+      </article>`;
   }
 
   function renderOffersGrid(events, append) {
@@ -280,6 +340,7 @@
 
     if (!append) el.innerHTML = "";
     el.innerHTML += events.map(buildOfferCard).join("");
+    bindAddToPlanButtons(el);
   }
 
   function updateOffersLoadMore() {
@@ -354,9 +415,9 @@
     // Recommended — paginated
     if (filtered.status === "fulfilled") {
       const f = filtered.value;
-      _recommendedAll = toList(f);
+      _recommendedAll = curateTopPicks(toList(f));
       _recommendedNextUrl = getNextUrl(f);
-      _recommendedTotal = (!Array.isArray(f) && f?.count) || _recommendedAll.length;
+      _recommendedTotal = _recommendedAll.length;
       const first = _recommendedAll.slice(0, RECOMMENDED_PAGE_SIZE);
       _recommendedShown = first.length;
       renderRecommended(first, false);

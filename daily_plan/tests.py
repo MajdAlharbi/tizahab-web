@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 import subprocess
 import textwrap
 from unittest.mock import patch
@@ -10,7 +10,8 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 from events.models import Event
-from daily_plan.models import DailyPlan
+from daily_plan.models import DailyPlan, DailyPlanItem
+from daily_plan.serializers import DailyPlanSerializer
 from daily_plan.services import generate_multiday_plan, generate_recommendations
 from accounts.models import UserPreferences
 
@@ -28,6 +29,11 @@ def make_event(title="Place", category="food", price=50.0, **kwargs):
         "location": "Riyadh",
         "price": price,
         "price_range": "",
+        "rating": 4.8,
+        "latitude": 24.7136,
+        "longitude": 46.6753,
+        "tourism_relevance": 5,
+        "is_active": True,
     }
     defaults.update(kwargs)
     return Event.objects.create(**defaults)
@@ -233,13 +239,13 @@ class RecommendationServiceTests(TestCase):
         pref.interests = ["culture", "nature", "events"]
         pref.save()
 
-        with self.assertLogs("daily_plan.services", level="INFO") as captured:
+        with self.assertLogs("daily_plan.services", level="WARNING") as captured:
             result = generate_recommendations(self.user, date_str=TOMORROW)
 
         self.assertTrue(result)
         self.assertNotEqual(result[1].category, "food")
         self.assertTrue(
-            any("breakfast fallback used because no food item was available" in line for line in captured.output)
+            any("food slot fallback used" in line for line in captured.output)
         )
 
     def test_structured_slots_do_not_duplicate_items(self):
@@ -260,6 +266,68 @@ class RecommendationServiceTests(TestCase):
         result = generate_recommendations(self.user, date_str=TOMORROW)
         self.assertGreaterEqual(len(result), 4)
         self.assertEqual(len({event.id for event in result[:4]}), len(result[:4]))
+
+    def test_food_slots_can_use_weaker_food_before_non_food(self):
+        Event.objects.all().delete()
+        make_event("Strong Museum", category="culture", rating=4.9, description="Museum")
+        make_event("Strong Park", category="nature", rating=4.8, description="Park")
+        make_event("Breakfast Corner", category="food", rating=3.7, description="Cafe")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["culture", "nature", "food"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+
+        self.assertTrue(result)
+        self.assertEqual(result[0].category, "food")
+
+    def test_evening_prefers_entertainment_or_events_when_available(self):
+        Event.objects.all().delete()
+        make_event("Morning Cafe", category="food", rating=4.8, description="Cafe")
+        make_event("Lunch Kitchen", category="food", rating=4.7, description="Restaurant")
+        make_event("History Stop", category="culture", rating=4.9, description="Museum")
+        evening_event = make_event(
+            "Night Show",
+            category="entertainment",
+            rating=4.6,
+            description="Cinema",
+        )
+        make_event("Sunset Garden", category="nature", rating=4.6, description="Public Park")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture", "entertainment", "nature"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+
+        self.assertGreaterEqual(len(result), 4)
+        self.assertEqual(result[3].id, evening_event.id)
+
+    def test_slot_assignment_avoids_duplicate_subcategories_when_alternatives_exist(self):
+        Event.objects.all().delete()
+        make_event("Breakfast Cafe", category="food", rating=4.8, description="Cafe")
+        make_event("Lunch Restaurant", category="food", rating=4.7, description="Restaurant")
+        make_event("History Museum", category="culture", rating=4.9, description="Museum")
+        make_event("Art Museum", category="culture", rating=4.8, description="Museum")
+        landmark = make_event("Sky Landmark", category="entertainment", rating=4.7, description="Landmark")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture", "entertainment"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+        top_four = result[:4]
+
+        self.assertIn(landmark.id, [event.id for event in top_four])
+        self.assertEqual(
+            sum(
+                1
+                for event in top_four
+                if getattr(event, "description", "").lower() == "museum"
+            ),
+            1,
+        )
 
     def test_quality_filter_excludes_weak_and_suspicious_places(self):
         Event.objects.all().delete()
@@ -380,6 +448,27 @@ class RecommendationServiceTests(TestCase):
         result = generate_recommendations(self.user, seed="require-non-food")
 
         self.assertTrue(any(event.category != "food" for event in result))
+
+    def test_relaxed_fallback_returns_candidates_when_strict_filter_is_empty(self):
+        Event.objects.all().delete()
+        relaxed_match = make_event(
+            "Relaxed Nature",
+            category="nature",
+            price=40,
+            rating=4.0,
+            tourism_relevance=2,
+        )
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["nature"]
+        pref.min_rating = 4.5
+        pref.budget_min = 0
+        pref.budget_max = 100
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW)
+
+        self.assertIn(relaxed_match.id, [event.id for event in result])
 
     def test_category_diversity_prefers_multiple_interest_categories(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
@@ -620,11 +709,13 @@ class GenerateDailyPlanAPITests(TestCase):
     def test_generate_without_preferences_returns_400(self):
         response = self.client.post("/api/daily-plan/generate/", {"date": TOMORROW})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"], "Please set your preferences first.")
 
     def test_generate_no_matching_events_returns_404(self):
         self._set_prefs(interests=["shopping"])  # no shopping events
         response = self.client.post("/api/daily-plan/generate/", {"date": TOMORROW})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertNotEqual(response.data["detail"], "Please set your preferences first.")
 
     def test_generate_second_time_same_date_returns_200_and_updates(self):
         self._set_prefs()
@@ -976,6 +1067,7 @@ class GenerateMultiDayPlanAPITests(TestCase):
             {"start_date": self.start_date},
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"], "Please set your preferences first.")
 
     def test_generate_multiday_requires_auth(self):
         client = APIClient()
@@ -1001,7 +1093,9 @@ class GenerateMultiDayPlanAPITests(TestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertFalse(DailyPlan.objects.filter(id=stale_plan.id).exists())
+        stale_plan.refresh_from_db()
+        self.assertTrue(DailyPlan.objects.filter(id=stale_plan.id).exists())
+        self.assertGreater(stale_plan.items.count(), 0)
         self.assertTrue(DailyPlan.objects.filter(id=far_stale.id).exists())
 
         regenerated_dates = set(
@@ -1031,11 +1125,11 @@ class GenerateMultiDayPlanAPITests(TestCase):
         before_plan = DailyPlan.objects.create(user=self.user, date=before_dt)
         before_plan.events.add(before_event)
 
-        inside_plan_ids = []
+        inside_plans = []
         for plan_date, event in zip(inside_dates, inside_events):
             plan = DailyPlan.objects.create(user=self.user, date=plan_date)
             plan.events.add(event)
-            inside_plan_ids.append(plan.id)
+            inside_plans.append(plan)
 
         after_plan = DailyPlan.objects.create(user=self.user, date=after_dt)
         after_plan.events.add(after_event)
@@ -1059,7 +1153,9 @@ class GenerateMultiDayPlanAPITests(TestCase):
         self.assertEqual(list(after_plan.events.values_list("id", flat=True)), [after_event.id])
         self.assertEqual(list(other_plan.events.values_list("id", flat=True)), [before_event.id])
 
-        self.assertFalse(DailyPlan.objects.filter(id__in=inside_plan_ids).exists())
+        for plan in inside_plans:
+            plan.refresh_from_db()
+            self.assertGreater(plan.items.count(), 0)
 
         regenerated_dates = set(
             DailyPlan.objects.filter(user=self.user, date__in=inside_dates)
@@ -1070,16 +1166,15 @@ class GenerateMultiDayPlanAPITests(TestCase):
     def test_generate_multiday_atomicity_rolls_back_all_plans_on_error(self):
         self._set_prefs(trip_duration=2)
         start_dt = date.fromisoformat(self.start_date)
-        original_create = DailyPlan.objects.create
         call_count = {"count": 0}
 
-        def flaky_create(*args, **kwargs):
+        def flaky_persist(*args, **kwargs):
             call_count["count"] += 1
             if call_count["count"] == 2:
                 raise RuntimeError("forced failure")
-            return original_create(*args, **kwargs)
+            return None
 
-        with patch("daily_plan.views.DailyPlan.objects.create", side_effect=flaky_create):
+        with patch("daily_plan.views._persist_generated_plan_items", side_effect=flaky_persist):
             response = self.client.post(
                 "/api/daily-plan/generate-multiday/",
                 {"start_date": self.start_date},
@@ -1321,4 +1416,328 @@ class DailyPlanCRUDTests(TestCase):
         self.assertEqual(result.returncode, 0, msg=result.stderr)
         self.assertIn('"start_date":"2099-04-10"', result.stdout)
         self.assertIn('"end_date":"2099-04-12"', result.stdout)
+
+    def test_empty_slots_render_compactly(self):
+        script = textwrap.dedent(
+            r"""
+            const fs = require("fs");
+            const vm = require("vm");
+
+            const code = fs.readFileSync("static/js/daily_plan_integration.js", "utf8");
+            const storage = new Map();
+
+            function createElement(tag) {
+              return {
+                tagName: tag,
+                children: [],
+                className: "",
+                textContent: "",
+                innerHTML: "",
+                appendChild(child) { this.children.push(child); return child; },
+                append(...children) { this.children.push(...children); },
+                replaceChildren(...children) { this.children = children; },
+                setAttribute() {},
+                addEventListener() {},
+                classList: { add() {}, remove() {}, contains() { return false; } },
+              };
+            }
+
+            const planContainer = createElement("div");
+            const planMessage = createElement("div");
+            const elements = {
+              "plan-container": planContainer,
+              "plan-message": planMessage,
+              "summary-activities": createElement("div"),
+              "summary-duration": createElement("div"),
+            };
+
+            const context = {
+              console: { log() {}, error() {}, warn() {} },
+              window: {},
+              document: {
+                addEventListener() {},
+                getElementById(id) { return elements[id] || null; },
+                createElement,
+              },
+              localStorage: {
+                getItem(key) { return storage.has(key) ? storage.get(key) : null; },
+                setItem(key, value) { storage.set(key, String(value)); },
+                removeItem(key) { storage.delete(key); },
+              },
+              setTimeout,
+              clearTimeout,
+            };
+
+            vm.createContext(context);
+            vm.runInContext(code + "\nthis.__test__ = { renderDailyPlan };", context);
+            vm.runInContext('_currentPreferences = { interests: [\"food\"], start_date: \"2099-04-10\", end_date: \"2099-04-12\", trip_duration: 3 }; currentDayIndex = 0; _slotAssignmentsByDay = { 0: { breakfast: null, activity: null, lunch: null, evening: null } };', context);
+            context.__test__.renderDailyPlan({ events: [] });
+
+            const output = JSON.stringify(planContainer);
+            process.stdout.write(output);
+            """
+        )
+
+        result = subprocess.run(
+            ["node", "-e", script],
+            capture_output=True,
+            text=True,
+            cwd=".",
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        self.assertIn("No activity selected", result.stdout)
+        self.assertNotIn("Add something here without regenerating the full plan", result.stdout)
+        self.assertNotIn("Choose a replacement for this slot", result.stdout)
+
+    def test_slot_renderer_limits_to_one_card_per_slot(self):
+        script = textwrap.dedent(
+            r"""
+            const fs = require("fs");
+            const vm = require("vm");
+
+            const code = fs.readFileSync("static/js/daily_plan_integration.js", "utf8");
+            const context = {
+              console: { log() {}, error() {}, warn() {} },
+              window: {},
+              document: { addEventListener() {}, getElementById() { return null; } },
+              localStorage: { getItem() { return null; }, setItem() {}, removeItem() {} },
+              setTimeout,
+              clearTimeout,
+            };
+
+            vm.createContext(context);
+            vm.runInContext(code + "\nthis.__test__ = { buildStructuredSlotEvents };", context);
+            const structured = vm.runInContext(`this.__test__.buildStructuredSlotEvents([
+              { id: 1, category: "food", title: "Breakfast 1" },
+              { id: 2, category: "food", title: "Breakfast 2" },
+              { id: 3, category: "culture", title: "Museum 1" },
+              { id: 4, category: "nature", title: "Park 1" },
+              { id: 5, category: "events", title: "Show 1" },
+              { id: 6, category: "events", title: "Show 2" }
+            ])`, context);
+            process.stdout.write(String(structured.length));
+            """
+        )
+
+        result = subprocess.run(
+            ["node", "-e", script],
+            capture_output=True,
+            text=True,
+            cwd=".",
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        self.assertEqual(result.stdout.strip(), "4")
+
+
+class DailyPlanItemPersistenceTests(TestCase):
+    def setUp(self):
+        self.user = make_user("items@test.com")
+        self.client = auth_client(self.user)
+        self.plan_date = date.today() + timedelta(days=2)
+        self.breakfast = make_event(
+            "Breakfast Cafe",
+            category="food",
+            description="Cafe",
+        )
+        self.activity = make_event(
+            "Museum Visit",
+            category="culture",
+            description="Museum",
+            latitude=24.72,
+            longitude=46.68,
+        )
+        self.lunch = make_event(
+            "Lunch Kitchen",
+            category="food",
+            description="Restaurant",
+            latitude=24.73,
+            longitude=46.69,
+        )
+        self.evening = make_event(
+            "Night Show",
+            category="entertainment",
+            description="Cinema",
+            latitude=24.74,
+            longitude=46.70,
+        )
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["food", "culture", "entertainment"]
+        pref.trip_duration = 2
+        pref.save()
+
+    def test_daily_plan_item_model_persists_slot_source_and_lock(self):
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        item = DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.breakfast,
+            slot_type="breakfast",
+            order=0,
+            source="manual",
+            locked=True,
+        )
+
+        self.assertEqual(item.slot_type, "breakfast")
+        self.assertEqual(item.order, 0)
+        self.assertEqual(item.source, "manual")
+        self.assertTrue(item.locked)
+
+    def test_serializer_returns_ordered_items_and_backward_compatible_events(self):
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.breakfast,
+            slot_type="breakfast",
+            order=0,
+        )
+        DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.activity,
+            slot_type="activity",
+            order=1,
+        )
+        DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.evening,
+            slot_type="evening",
+            order=3,
+        )
+        plan.events.set([self.breakfast, self.activity, self.evening])
+
+        data = DailyPlanSerializer(plan).data
+
+        self.assertEqual([item["slot_type"] for item in data["items"]], ["breakfast", "activity", "evening"])
+        self.assertEqual([event["id"] for event in data["events"]], [self.breakfast.id, self.activity.id, self.evening.id])
+
+    def test_generate_endpoint_creates_items_with_slot_and_order(self):
+        response = self.client.post(
+            "/api/daily-plan/generate/",
+            {"date": self.plan_date.isoformat()},
+        )
+
+        self.assertIn(response.status_code, {status.HTTP_200_OK, status.HTTP_201_CREATED})
+        plan = DailyPlan.objects.get(user=self.user, date=self.plan_date)
+        items = list(plan.items.order_by("order", "id"))
+        self.assertTrue(items)
+        self.assertEqual(
+            list(item.order for item in items),
+            list(range(len(items))),
+        )
+        self.assertTrue(all(item.slot_type in {"breakfast", "activity", "lunch", "evening"} for item in items))
+        self.assertEqual(len(response.data["items"]), len(items))
+
+    def test_reload_keeps_same_slot_order(self):
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        items = [
+            DailyPlanItem.objects.create(plan=plan, event=self.breakfast, slot_type="breakfast", order=0),
+            DailyPlanItem.objects.create(plan=plan, event=self.activity, slot_type="activity", order=1),
+            DailyPlanItem.objects.create(plan=plan, event=self.lunch, slot_type="lunch", order=2),
+            DailyPlanItem.objects.create(plan=plan, event=self.evening, slot_type="evening", order=3),
+        ]
+        plan.events.set([item.event for item in items])
+
+        response = self.client.get(f"/api/daily-plan/{plan.pk}/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            [(item["slot_type"], item["order"]) for item in response.data["items"]],
+            [("breakfast", 0), ("activity", 1), ("lunch", 2), ("evening", 3)],
+        )
+
+    def test_item_delete_removes_only_target_plan_item(self):
+        other_user = make_user("items-other@test.com")
+        other_plan = DailyPlan.objects.create(user=other_user, date=self.plan_date)
+        other_item = DailyPlanItem.objects.create(
+            plan=other_plan,
+            event=self.activity,
+            slot_type="activity",
+            order=0,
+        )
+        other_plan.events.set([self.activity])
+
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        item = DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.activity,
+            slot_type="activity",
+            order=0,
+        )
+        plan.events.set([self.activity])
+
+        response = self.client.delete(f"/api/daily-plan/{plan.pk}/items/{item.pk}/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(DailyPlanItem.objects.filter(pk=item.pk).exists())
+        self.assertTrue(DailyPlanItem.objects.filter(pk=other_item.pk).exists())
+
+    def test_replace_endpoint_preserves_slot_order_and_marks_source(self):
+        replacement = make_event(
+            "Gallery Tour",
+            category="culture",
+            description="Gallery",
+            date=timezone.make_aware(
+                datetime.combine(self.plan_date, datetime.min.time())
+            ),
+            latitude=24.75,
+            longitude=46.71,
+        )
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        item = DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.activity,
+            slot_type="activity",
+            order=1,
+            source="generated",
+        )
+        plan.events.set([self.activity])
+
+        response = self.client.patch(
+            f"/api/daily-plan/{plan.pk}/items/{item.pk}/",
+            {"event_id": replacement.id},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        item.refresh_from_db()
+        self.assertEqual(item.event_id, replacement.id)
+        self.assertEqual(item.slot_type, "activity")
+        self.assertEqual(item.order, 1)
+        self.assertEqual(item.source, "replacement")
+
+    def test_locked_items_survive_regeneration(self):
+        plan = DailyPlan.objects.create(user=self.user, date=self.plan_date)
+        locked_item = DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.breakfast,
+            slot_type="breakfast",
+            order=0,
+            source="manual",
+            locked=True,
+        )
+        unlocked_item = DailyPlanItem.objects.create(
+            plan=plan,
+            event=self.activity,
+            slot_type="activity",
+            order=1,
+            source="generated",
+            locked=False,
+        )
+        plan.events.set([self.breakfast, self.activity])
+
+        replacement_events = [self.lunch, self.evening]
+        with patch("daily_plan.views.generate_recommendations", return_value=replacement_events):
+            response = self.client.post(
+                "/api/daily-plan/generate/",
+                {"date": self.plan_date.isoformat()},
+            )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        plan.refresh_from_db()
+        remaining_items = list(plan.items.order_by("order", "id"))
+        self.assertTrue(any(item.pk == locked_item.pk for item in remaining_items))
+        self.assertFalse(DailyPlanItem.objects.filter(pk=unlocked_item.pk).exists())
+        self.assertTrue(any(item.event_id == self.breakfast.id and item.locked for item in remaining_items))
 

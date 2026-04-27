@@ -1,20 +1,80 @@
 from datetime import date
 
 from django.db import IntegrityError, transaction
+from django.db.models import Max
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import DailyPlan
-from .serializers import DailyPlanSerializer
-from .services import generate_multiday_plan, generate_recommendations
+from .models import DailyPlan, DailyPlanItem
+from .serializers import DailyPlanSerializer, DailyPlanItemSerializer
+from .services import (
+    build_plan_items_from_ordered_events,
+    generate_multiday_plan,
+    generate_recommendations,
+)
 from accounts.models import UserPreferences
-from events.serializers import EventSerializer
+from events.models import Event
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def _ordered_plan_items(plan):
+    return list(plan.items.select_related("event").order_by("order", "id"))
+
+
+def _sync_legacy_events_from_items(plan):
+    ordered_items = _ordered_plan_items(plan)
+    plan.events.set([item.event for item in ordered_items])
+    return ordered_items
+
+
+def _serialize_plan_with_count(plan):
+    payload = DailyPlanSerializer(plan).data
+    payload["count"] = len(payload.get("events", []))
+    return payload
+
+
+def _persist_generated_plan_items(plan, ordered_events):
+    locked_items = list(
+        plan.items.filter(locked=True).select_related("event").order_by("order", "id")
+    )
+    locked_positions = {(item.slot_type, item.order) for item in locked_items}
+    locked_event_ids = {item.event_id for item in locked_items}
+
+    plan.items.filter(locked=False).delete()
+    item_specs = build_plan_items_from_ordered_events(ordered_events, source="generated", locked=False)
+
+    new_items = []
+    for spec in item_specs:
+        if spec["event_id"] in locked_event_ids:
+            continue
+        if (spec["slot_type"], spec["order"]) in locked_positions:
+            continue
+        new_items.append(
+            DailyPlanItem(
+                plan=plan,
+                event=spec["event"],
+                slot_type=spec["slot_type"],
+                order=spec["order"],
+                source=spec["source"],
+                locked=spec["locked"],
+            )
+        )
+
+    if new_items:
+        DailyPlanItem.objects.bulk_create(new_items)
+
+    _sync_legacy_events_from_items(plan)
+    return _ordered_plan_items(plan)
+
+
+def _next_plan_item_order(plan):
+    current_max = plan.items.aggregate(max_order=Max("order")).get("max_order")
+    return 0 if current_max is None else int(current_max) + 1
 
 
 def _parse_iso_date(value, field_name):
@@ -96,6 +156,15 @@ def _resolve_request_or_preference_dates(user, date_str=None, start_date_str=Non
     )
 
 
+def _has_required_planning_preferences(user):
+    preferences = UserPreferences.objects.filter(user=user).first()
+    if not preferences:
+        return False
+
+    interests = [value for value in (preferences.interests or []) if value]
+    return bool(interests)
+
+
 class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = DailyPlanSerializer
     permission_classes = [IsAuthenticated]
@@ -103,7 +172,7 @@ class DailyPlanListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         return (
             DailyPlan.objects.filter(user=self.request.user)
-            .prefetch_related("events")
+            .prefetch_related("events", "items__event")
             .order_by("-date")
         )
 
@@ -143,7 +212,8 @@ class DailyPlanRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVie
 
     def get_queryset(self):
         return DailyPlan.objects.filter(user=self.request.user).prefetch_related(
-            "events"
+            "events",
+            "items__event",
         )
 
 
@@ -152,29 +222,129 @@ class DailyPlanEventRemoveAPIView(APIView):
 
     def delete(self, request, pk, event_id):
         daily_plan = get_object_or_404(
-            DailyPlan.objects.prefetch_related("events"),
+            DailyPlan.objects.prefetch_related("events", "items__event"),
             pk=pk,
             user=request.user,
         )
 
-        if not daily_plan.events.filter(pk=event_id).exists():
+        matching_items = list(daily_plan.items.filter(event_id=event_id))
+        if not matching_items and not daily_plan.events.filter(pk=event_id).exists():
             return Response(
                 {"detail": "Event is not part of this plan."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        daily_plan.events.remove(event_id)
-        events = list(daily_plan.events.all())
-        events_data = EventSerializer(events, many=True).data
-        return Response(
-            {
-                "id": daily_plan.id,
-                "date": daily_plan.date.isoformat(),
-                "events": events_data,
-                "count": len(events_data),
-            },
-            status=status.HTTP_200_OK,
+        if matching_items:
+            daily_plan.items.filter(event_id=event_id).delete()
+            _sync_legacy_events_from_items(daily_plan)
+        else:
+            daily_plan.events.remove(event_id)
+        return Response(_serialize_plan_with_count(daily_plan), status=status.HTTP_200_OK)
+
+
+class DailyPlanItemListCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        daily_plan = get_object_or_404(
+            DailyPlan.objects.prefetch_related("items__event", "events"),
+            pk=pk,
+            user=request.user,
         )
+
+        event_id = request.data.get("event_id")
+        slot_type = request.data.get("slot_type") or "activity"
+        if slot_type not in {choice for choice, _ in DailyPlanItem.SLOT_CHOICES}:
+            return Response(
+                {"slot_type": "Invalid slot type."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            event = Event.objects.get(pk=event_id)
+        except Event.DoesNotExist:
+            return Response(
+                {"event_id": "Event not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not event.is_available_on(daily_plan.date):
+            return Response(
+                {"event_id": f"Event {event.id} is not available on {daily_plan.date}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if daily_plan.items.filter(event=event).exists():
+            return Response(
+                {"detail": "Event is already part of this plan."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        DailyPlanItem.objects.create(
+            plan=daily_plan,
+            event=event,
+            slot_type=slot_type,
+            order=_next_plan_item_order(daily_plan),
+            source="manual",
+            locked=bool(request.data.get("locked", False)),
+        )
+        _sync_legacy_events_from_items(daily_plan)
+        return Response(_serialize_plan_with_count(daily_plan), status=status.HTTP_201_CREATED)
+
+
+class DailyPlanItemDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk, item_id):
+        daily_plan = get_object_or_404(
+            DailyPlan.objects.prefetch_related("items__event", "events"),
+            pk=pk,
+            user=request.user,
+        )
+        item = get_object_or_404(daily_plan.items.select_related("event"), pk=item_id)
+
+        event_id = request.data.get("event_id")
+        if event_id is not None:
+            try:
+                event = Event.objects.get(pk=event_id)
+            except Event.DoesNotExist:
+                return Response(
+                    {"event_id": "Event not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            if not event.is_available_on(daily_plan.date):
+                return Response(
+                    {"event_id": f"Event {event.id} is not available on {daily_plan.date}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            if (
+                event.id != item.event_id
+                and daily_plan.items.filter(event_id=event.id).exclude(pk=item.pk).exists()
+            ):
+                return Response(
+                    {"detail": "Event is already part of this plan."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            item.event = event
+            item.source = "replacement"
+
+        if "locked" in request.data:
+            item.locked = bool(request.data.get("locked"))
+
+        item.save(update_fields=["event", "source", "locked", "updated_at"])
+        _sync_legacy_events_from_items(daily_plan)
+        return Response(_serialize_plan_with_count(daily_plan), status=status.HTTP_200_OK)
+
+    def delete(self, request, pk, item_id):
+        daily_plan = get_object_or_404(
+            DailyPlan.objects.prefetch_related("items__event", "events"),
+            pk=pk,
+            user=request.user,
+        )
+        item = get_object_or_404(daily_plan.items.select_related("event"), pk=item_id)
+        item.delete()
+        _sync_legacy_events_from_items(daily_plan)
+        return Response(_serialize_plan_with_count(daily_plan), status=status.HTTP_200_OK)
 
 
 class GenerateDailyPlanAPIView(APIView):
@@ -192,6 +362,12 @@ class GenerateDailyPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
+        if not _has_required_planning_preferences(user):
+            return Response(
+                {"detail": "Please set your preferences first."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         date_str, start_date_str, end_date_str = _resolve_request_or_preference_dates(
             user,
             date_str=request.data.get("date"),
@@ -258,9 +434,7 @@ class GenerateDailyPlanAPIView(APIView):
 
         if recommended_events is None:
             return Response(
-                {
-                    "detail": "Please set your interests in preferences before generating a plan."
-                },
+                {"detail": "Please set your preferences first."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -275,19 +449,13 @@ class GenerateDailyPlanAPIView(APIView):
                 user=user,
                 date=plan_date,
             )
-            daily_plan.events.set(recommended_events)
+            _persist_generated_plan_items(daily_plan, recommended_events)
 
             action = "created" if created else "updated"
             logger.info("Daily plan %s for user %s on %s", action, user.id, plan_date)
 
-            events_data = EventSerializer(recommended_events, many=True).data
             return Response(
-                {
-                    "id": daily_plan.id,
-                    "date": plan_date.isoformat(),
-                    "events": events_data,
-                    "count": len(events_data),
-                },
+                _serialize_plan_with_count(daily_plan),
                 status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
             )
         except Exception as e:
@@ -307,7 +475,13 @@ class GenerateMultiDayPlanAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        start_date_str, _, end_date_str = _resolve_request_or_preference_dates(
+        if not _has_required_planning_preferences(user):
+            return Response(
+                {"detail": "Please set your preferences first."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        _, start_date_str, end_date_str = _resolve_request_or_preference_dates(
             user,
             start_date_str=request.data.get("start_date") or request.data.get("date_from"),
             end_date_str=request.data.get("end_date") or request.data.get("date_to"),
@@ -365,9 +539,7 @@ class GenerateMultiDayPlanAPIView(APIView):
 
         if generated_days is None:
             return Response(
-                {
-                    "detail": "Please set your interests in preferences before generating a plan."
-                },
+                {"detail": "Please set your preferences first."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -387,30 +559,20 @@ class GenerateMultiDayPlanAPIView(APIView):
                 existing_qs = DailyPlan.objects.filter(
                     user=user,
                     date__in=generated_dates,
-                )
+                ).prefetch_related("items__event")
                 had_existing = existing_qs.exists()
-                existing_qs.delete()
 
                 plans_payload = []
                 for day_date_str, events in generated_days:
                     day_date = date.fromisoformat(day_date_str)
-                    daily_plan = DailyPlan.objects.create(user=user, date=day_date)
-                    daily_plan.events.set(events)
-
-                    events_data = EventSerializer(events, many=True).data
-                    plans_payload.append(
-                        {
-                            "id": daily_plan.id,
-                            "date": day_date_str,
-                            "events": events_data,
-                            "count": len(events_data),
-                        }
-                    )
+                    daily_plan, _ = DailyPlan.objects.get_or_create(user=user, date=day_date)
+                    _persist_generated_plan_items(daily_plan, events)
+                    plans_payload.append(_serialize_plan_with_count(daily_plan))
 
             return Response(
                 {
                     "trip_duration": len(generated_days),
-                    "start_date": start_date_str,
+                    "start_date": start_date.isoformat(),
                     "end_date": generated_days[-1][0] if generated_days else start_date_str,
                     "plans": plans_payload,
                     "total_events": total_events,
