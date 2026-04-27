@@ -210,6 +210,42 @@ function showTemporaryFeedback(button, message) {
   }, 1500);
 }
 
+function notifyPlanUpdated(detail) {
+  window.dispatchEvent(
+    new CustomEvent("tizahab:plan-updated", {
+      detail: detail || {},
+    }),
+  );
+}
+
+async function addEventToPlan(eventId, button) {
+  const token = getToken();
+  if (!token) {
+    promptLoginForFavorites();
+    return;
+  }
+
+  const original = button.textContent;
+  button.disabled = true;
+  button.textContent = "Adding...";
+
+  try {
+    await apiPost("/api/daily-plan/add/", {
+      event_id: Number(eventId),
+      date: getSelectedPlanDate(),
+    });
+    notifyPlanUpdated({
+      eventId: Number(eventId),
+      date: getSelectedPlanDate(),
+    });
+    showTemporaryFeedback(button, "Added to your plan");
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = original;
+    window.alert(getEventsErrorMessage(error));
+  }
+}
+
 function buildEventCard(ev) {
   const fav = getFavs().has(String(ev.id));
   const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
@@ -272,7 +308,7 @@ function buildEventCard(ev) {
   card.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    showTemporaryFeedback(e.currentTarget, "Added to your plan");
+    addEventToPlan(ev.id, e.currentTarget).catch(console.error);
   });
 
   return card;
@@ -341,7 +377,7 @@ function buildTrendingCard(ev) {
   article.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    showTemporaryFeedback(e.currentTarget, "Added to your plan");
+    addEventToPlan(ev.id, e.currentTarget).catch(console.error);
   });
 
   return article;

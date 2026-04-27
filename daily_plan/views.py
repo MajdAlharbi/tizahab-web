@@ -347,6 +347,87 @@ class DailyPlanItemDetailAPIView(APIView):
         return Response(_serialize_plan_with_count(daily_plan), status=status.HTTP_200_OK)
 
 
+class DailyPlanAddAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        event_id = request.data.get("event_id")
+        date_str = request.data.get("date")
+        slot_type = request.data.get("slot_type") or "activity"
+
+        if event_id is None:
+            return Response(
+                {"event_id": "event_id is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if slot_type not in {choice for choice, _ in DailyPlanItem.SLOT_CHOICES}:
+            return Response(
+                {"slot_type": "Invalid slot type."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if date_str in (None, ""):
+            return Response(
+                {"date": "date is required. Format: YYYY-MM-DD"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            plan_date = _parse_iso_date(date_str, "date")
+        except ValueError as exc:
+            return Response(
+                {"detail": str(exc)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if plan_date < date.today():
+            return Response(
+                {"detail": "Cannot create plans for past dates."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            event = Event.objects.get(pk=event_id)
+        except Event.DoesNotExist:
+            return Response(
+                {"event_id": "Event not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not event.occurs_on(plan_date):
+            return Response(
+                {"event_id": f"Event {event.id} is not available on {plan_date}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        daily_plan, _ = DailyPlan.objects.get_or_create(
+            user=request.user,
+            date=plan_date,
+        )
+
+        if daily_plan.items.filter(event=event).exists() or daily_plan.events.filter(pk=event.pk).exists():
+            _sync_legacy_events_from_items(daily_plan)
+            return Response(
+                _serialize_plan_with_count(daily_plan),
+                status=status.HTTP_200_OK,
+            )
+
+        DailyPlanItem.objects.create(
+            plan=daily_plan,
+            event=event,
+            slot_type=slot_type,
+            order=_next_plan_item_order(daily_plan),
+            source="manual",
+            locked=bool(request.data.get("locked", False)),
+        )
+        _sync_legacy_events_from_items(daily_plan)
+        return Response(
+            _serialize_plan_with_count(daily_plan),
+            status=status.HTTP_201_CREATED,
+        )
+
+
 class GenerateDailyPlanAPIView(APIView):
     """
     Generate a personalized daily plan based on user preferences.

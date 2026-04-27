@@ -76,9 +76,58 @@
 {% block scripts %}
 <script src="{% static 'js/map.js' %}"></script>
 <script>
+  let mapPageMapInstance = null;
+
+  async function loadMapPageMarkers() {
+    if (!mapPageMapInstance || !window.google || !google.maps) return;
+
+    const events = [];
+    let nextUrl = "/api/events/";
+
+    while (nextUrl) {
+      const data = await apiGet(nextUrl);
+      const pageEvents = Array.isArray(data) ? data : data.results || [];
+      events.push(...pageEvents);
+      nextUrl = Array.isArray(data) ? null : data.next || null;
+    }
+
+    const info = new google.maps.InfoWindow();
+    const bounds = new google.maps.LatLngBounds();
+
+    events
+      .filter((event) => Number.isFinite(Number.parseFloat(event?.latitude)) && Number.isFinite(Number.parseFloat(event?.longitude)))
+      .forEach((event) => {
+        const position = {
+          lat: Number.parseFloat(event.latitude),
+          lng: Number.parseFloat(event.longitude),
+        };
+
+        const marker = new google.maps.Marker({
+          position,
+          map: mapPageMapInstance,
+          title: event.title,
+        });
+
+        marker.addListener("click", () => {
+          info.setContent(
+            `<div style="font-weight:600;margin-bottom:4px;">${String(event.title || "").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</div>` +
+            `<div style="font-size:12px;opacity:.85;">${String(event.location || "").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</div>`,
+          );
+          info.open({ anchor: marker, map: mapPageMapInstance });
+        });
+
+        bounds.extend(position);
+      });
+
+    if (!bounds.isEmpty()) {
+      mapPageMapInstance.fitBounds(bounds);
+    }
+  }
+
   function initMapPage() {
     if (!window.TZMap) return;
-    window.TZMap.initMap("mapPageMap", { zoom: 12 });
+    mapPageMapInstance = window.TZMap.initMap("mapPageMap", { zoom: 12 });
+    loadMapPageMarkers().catch((error) => console.error("Failed to load map markers", error));
   }
 </script>
 <script

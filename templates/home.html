@@ -6,104 +6,52 @@
 {% block content %}
 <div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
 
-  <!-- Welcome + Starting Soon -->
-  <section class="grid grid-cols-1 lg:grid-cols-5 gap-5">
-
-    <!-- Welcome card -->
-    <div class="lg:col-span-3 bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[200px] max-h-[380px]">
+  <!-- Hero -->
+  <section class="max-w-3xl">
+    <div class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[180px]">
       <div>
-        <p class="text-sm text-white/70 mb-1">
-          <span class="nav-label-en">Welcome back 👋</span>
-          <span class="nav-label-ar hidden">مرحباً بعودتك 👋</span>
-        </p>
         <h1 class="text-2xl font-bold leading-snug" style="font-family:'Cantata One',serif">
-          <span class="nav-label-en">Discover Riyadh<br>Your Way</span>
-          <span class="nav-label-ar hidden">اكتشف الرياض<br>على طريقتك</span>
+          <span class="nav-label-en">Plan Your Riyadh Trip in Seconds</span>
+          <span class="nav-label-ar hidden">خطط رحلتك في الرياض خلال ثوانٍ</span>
         </h1>
-        <p class="text-sm text-white/80 mt-2">
-          <span class="nav-label-en">Personalized plans, popular events, and local gems — all in one place.</span>
-          <span class="nav-label-ar hidden">خطط مخصصة، فعاليات شهيرة، وكنوز محلية — كل ذلك في مكان واحد.</span>
+        <p class="text-sm text-white/80 mt-3 max-w-xl">
+          <span class="nav-label-en">Personalized daily plans based on your interests</span>
+          <span class="nav-label-ar hidden">خطط يومية مخصصة بناءً على اهتماماتك</span>
         </p>
       </div>
 
-      <div class="flex gap-3 mt-6">
-        <a href="/events/page/"
-          class="px-5 py-2.5 bg-white text-brand rounded-xl text-sm font-semibold hover:shadow-md transition">
-          <span class="nav-label-en">Explore Riyadh →</span>
-          <span class="nav-label-ar hidden">← استكشف الرياض</span>
-        </a>
-
+      <div class="mt-6">
         <a href="/daily-plan/"
-          class="px-5 py-2.5 border border-white/50 text-white rounded-xl text-sm hover:bg-white/10 transition">
+          class="inline-flex items-center justify-center px-5 py-2.5 bg-white text-brand rounded-xl text-sm font-semibold hover:shadow-md transition">
           <span class="nav-label-en">Plan My Trip</span>
-          <span class="nav-label-ar hidden">خطط لرحلتي</span>
+          <span class="nav-label-ar hidden">خطط رحلتي</span>
         </a>
       </div>
     </div>
-
-    <div class="mt-6 lg:col-span-3">
-      <div class="flex justify-between items-center mb-3">
-        <h3 class="text-lg font-semibold"> Hotels Nearby</h3>
-        <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
-          Coming Soon
-        </span>
-      </div>
-
-      <div class="p-6 border rounded-xl text-center text-gray-500 text-sm bg-white">
-        Hotel recommendations based on your trip will be available soon.
-      </div>
-    </div>
-
-    <!-- Starting Soon card -->
-    <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 class="font-semibold text-gray-800">
-          <span class="nav-label-en">Starting Soon</span>
-          <span class="nav-label-ar hidden">تبدأ قريباً</span>
-        </h2>
-        <a href="/events/page/" class="text-xs text-brand hover:underline">
-          <span class="nav-label-en">See all</span>
-          <span class="nav-label-ar hidden">عرض الكل</span>
-        </a>
-      </div>
-
-      <div id="startingSoonList" class="space-y-3 flex-1">
-        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
-        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
-        <div class="h-14 bg-gray-100 rounded-xl animate-pulse"></div>
-      </div>
-
-      <a href="/daily-plan/"
-        class="block w-full h-10 rounded-xl bg-brand text-white text-sm font-medium text-center leading-10 hover:opacity-90 transition">
-        <span class="nav-label-en">View My Plan</span>
-        <span class="nav-label-ar hidden">عرض خطتي</span>
-      </a>
-    </div>
-
   </section>
 
   <!-- Today's Plan -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold text-gray-800">
-        <span class="nav-label-en">Your Daily Plan</span>
-        <span class="nav-label-ar hidden">خطتك اليومية</span>
+        <span class="nav-label-en">Your Trip Plan</span>
+        <span class="nav-label-ar hidden">خطة رحلتك</span>
       </h2>
       <a href="/daily-plan/" class="text-sm text-brand hover:underline">
-        <span class="nav-label-en">Manage →</span>
-        <span class="nav-label-ar hidden">← إدارة</span>
+        <span class="nav-label-en">Manage â†’</span>
+        <span class="nav-label-ar hidden">â†گ ط¥ط¯ط§ط±ط©</span>
       </a>
     </div>
 
     <div id="todayPlanContainer" class="space-y-3">
-      <div class="bg-white rounded-2xl border border-gray-200 p-5 text-center text-sm text-gray-400">
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 text-center text-sm text-gray-400">
         <p>
           <span class="nav-label-en">No plan for today yet.</span>
-          <span class="nav-label-ar hidden">لا توجد خطة لليوم بعد.</span>
+          <span class="nav-label-ar hidden">ظ„ط§ طھظˆط¬ط¯ ط®ط·ط© ظ„ظ„ظٹظˆظ… ط¨ط¹ط¯.</span>
         </p>
         <a href="/daily-plan/" class="text-brand font-medium hover:underline mt-1 inline-block">
-          <span class="nav-label-en">Generate with AI →</span>
-          <span class="nav-label-ar hidden">← إنشاء بالذكاء الاصطناعي</span>
+          <span class="nav-label-en">Generate with AI â†’</span>
+          <span class="nav-label-ar hidden">â†گ ط¥ظ†ط´ط§ط، ط¨ط§ظ„ط°ظƒط§ط، ط§ظ„ط§طµط·ظ†ط§ط¹ظٹ</span>
         </a>
       </div>
     </div>
@@ -114,11 +62,11 @@
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold text-gray-800">
         <span class="nav-label-en">Recommended for You</span>
-        <span class="nav-label-ar hidden">مقترح لك</span>
+        <span class="nav-label-ar hidden">ظ…ظ‚طھط±ط­ ظ„ظƒ</span>
       </h2>
       <a href="/events/page/" class="text-sm text-brand hover:underline">
         <span class="nav-label-en">See all</span>
-        <span class="nav-label-ar hidden">عرض الكل</span>
+        <span class="nav-label-ar hidden">ط¹ط±ط¶ ط§ظ„ظƒظ„</span>
       </a>
     </div>
 
@@ -131,7 +79,7 @@
       <button id="recommendedLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
         <span class="nav-label-en">Load More</span>
-        <span class="nav-label-ar hidden">عرض المزيد</span>
+        <span class="nav-label-ar hidden">ط¹ط±ط¶ ط§ظ„ظ…ط²ظٹط¯</span>
       </button>
     </div>
   </section>
@@ -140,7 +88,7 @@
   <section class="space-y-4">
     <h2 class="text-lg font-semibold text-gray-800">
       <span class="nav-label-en">Popular Places</span>
-      <span class="nav-label-ar hidden">أماكن شهيرة</span>
+      <span class="nav-label-ar hidden">ط£ظ…ط§ظƒظ† ط´ظ‡ظٹط±ط©</span>
     </h2>
     <div id="offersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="h-32 bg-white border rounded-2xl animate-pulse"></div>
@@ -150,7 +98,7 @@
       <button id="offersLoadMoreBtn" type="button"
         class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
         <span class="nav-label-en">Load More</span>
-        <span class="nav-label-ar hidden">عرض المزيد</span>
+        <span class="nav-label-ar hidden">ط¹ط±ط¶ ط§ظ„ظ…ط²ظٹط¯</span>
       </button>
     </div>
   </section>
@@ -159,34 +107,34 @@
   <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
 
     <a href="/events/page/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
-      <span class="text-2xl">🎫</span>
+      <span class="text-2xl">ًںژ«</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
         <span class="nav-label-en">Events</span>
-        <span class="nav-label-ar hidden">الفعاليات</span>
+        <span class="nav-label-ar hidden">ط§ظ„ظپط¹ط§ظ„ظٹط§طھ</span>
       </p>
     </a>
 
     <a href="/map/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
-      <span class="text-2xl">🗺️</span>
+      <span class="text-2xl">ًں—؛ï¸ڈ</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
         <span class="nav-label-en">Explore Map</span>
-        <span class="nav-label-ar hidden">استكشاف الخريطة</span>
+        <span class="nav-label-ar hidden">ط§ط³طھظƒط´ط§ظپ ط§ظ„ط®ط±ظٹط·ط©</span>
       </p>
     </a>
 
     <a href="/daily-plan/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
-      <span class="text-2xl">📅</span>
+      <span class="text-2xl">ًں“…</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
         <span class="nav-label-en">Daily Plan</span>
-        <span class="nav-label-ar hidden">الخطة اليومية</span>
+        <span class="nav-label-ar hidden">ط§ظ„ط®ط·ط© ط§ظ„ظٹظˆظ…ظٹط©</span>
       </p>
     </a>
 
     <a href="/onboarding/" class="bg-white border border-gray-200 rounded-2xl p-4 text-center hover:shadow-md hover:border-brand/30 transition group">
-      <span class="text-2xl">⚙️</span>
+      <span class="text-2xl">âڑ™ï¸ڈ</span>
       <p class="text-sm font-medium text-gray-700 mt-2 group-hover:text-brand">
         <span class="nav-label-en">Preferences</span>
-        <span class="nav-label-ar hidden">التفضيلات</span>
+        <span class="nav-label-ar hidden">ط§ظ„طھظپط¶ظٹظ„ط§طھ</span>
       </p>
     </a>
 

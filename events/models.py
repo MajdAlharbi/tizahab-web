@@ -75,8 +75,13 @@ class Event(models.Model):
     def occurs_on(self, target_date):
         if not self.is_active:
             return False
+        if not self.start_date and not self.end_date and self.category != "events":
+            return True
         start, end = self.availability_window()
         return start <= target_date <= end
+
+    def is_available_on(self, target_date):
+        return self.occurs_on(target_date)
 
 
 class Favorite(models.Model):

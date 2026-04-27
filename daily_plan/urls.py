@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    DailyPlanAddAPIView,
     DailyPlanListCreateAPIView,
     DailyPlanRetrieveUpdateDestroyAPIView,
     DailyPlanEventRemoveAPIView,
@@ -13,6 +14,7 @@ app_name = "daily_plan"
 
 urlpatterns = [
     path("", DailyPlanListCreateAPIView.as_view(), name="daily-plan"),
+    path("add/", DailyPlanAddAPIView.as_view(), name="daily-plan-add"),
     path("generate/", GenerateDailyPlanAPIView.as_view(), name="daily-plan-generate"),
     path(
         "generate-multiday/",

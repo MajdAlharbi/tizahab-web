@@ -312,7 +312,7 @@ async function ensurePlanGenerationReady() {
     : [];
   if (!interests.length) {
     alert("Please set your preferences first");
-    window.location.href = "/preferences/";
+    window.location.href = "/onboarding/";
     return false;
   }
 

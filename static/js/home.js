@@ -58,13 +58,66 @@
     }, 1500);
   }
 
+  function notifyPlanUpdated(detail) {
+    window.dispatchEvent(
+      new CustomEvent("tizahab:plan-updated", {
+        detail: detail || {},
+      }),
+    );
+  }
+
+  function selectedPlanDate() {
+    return localStorage.getItem("tz_selected_plan_date") || todayISO();
+  }
+
+  function getHomeErrorMessage(error) {
+    const fromResponse =
+      typeof extractApiErrorMessage === "function"
+        ? extractApiErrorMessage(error?.responseData, "")
+        : "";
+    const fromError = typeof error?.message === "string" ? error.message.trim() : "";
+
+    if (fromResponse) return fromResponse;
+    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
+    return "Could not add this place to your plan.";
+  }
+
+  async function addEventToPlan(eventId, button) {
+    if (!getToken()) {
+      redirectToLogin();
+      return;
+    }
+
+    const original = button.textContent;
+    button.disabled = true;
+    button.textContent = "Adding...";
+
+    try {
+      await apiPost("/api/daily-plan/add/", {
+        event_id: Number(eventId),
+        date: selectedPlanDate(),
+      });
+      notifyPlanUpdated({
+        eventId: Number(eventId),
+        date: selectedPlanDate(),
+      });
+      showTemporaryFeedback(button, "Added to your plan");
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = original;
+      window.alert(getHomeErrorMessage(error));
+    }
+  }
+
   function bindAddToPlanButtons(root) {
     if (!root) return;
     root.querySelectorAll(".add-to-plan-btn").forEach((button) => {
       if (button.dataset.bound === "true") return;
       button.dataset.bound = "true";
       button.onclick = () => {
-        showTemporaryFeedback(button, "Added to your plan");
+        const eventId = Number(button.dataset.eventId);
+        if (!Number.isFinite(eventId)) return;
+        addEventToPlan(eventId, button).catch(console.error);
       };
     });
   }
@@ -228,7 +281,8 @@
           </div>
           <button
             type="button"
-            class="add-to-plan-btn mt-3 w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+            class="add-to-plan-btn mt-3 w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+            data-event-id="${ev.id}">
             Add to Plan
           </button>
         </div>
@@ -321,7 +375,8 @@
           </div>
           <button
             type="button"
-            class="add-to-plan-btn w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
+            class="add-to-plan-btn w-full h-10 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+            data-event-id="${ev.id}">
             Add to Plan
           </button>
         </div>

@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 DATE_RELEVANCE_WEIGHT = 0.25
 MIN_RECOMMENDATION_SCORE = 0.0
-MIN_DATASET_RATING = 0.0
+MIN_DATASET_RATING = 3.5
 TITLE_LENGTH_LIMIT = 60
 CATEGORY_MATCH_WEIGHT = 3.0
 RATING_WEIGHT = 0.5
@@ -163,7 +163,9 @@ def _passes_dataset_quality(event):
         return False
     if not title:
         return False
-    if event.rating is not None and float(event.rating) < MIN_DATASET_RATING:
+    if event.rating is None or float(event.rating) < MIN_DATASET_RATING:
+        return False
+    if _is_suspicious_name(event):
         return False
     return True
 
@@ -956,14 +958,11 @@ def generate_recommendations(
     preferences = UserPreferences.objects.filter(user=user).first()
     exclude_ids = set(exclude_ids or [])
 
-    if preferences is None:
-        return None
+    if not preferences or not preferences.interests:
+        return []
 
     interests = [normalize_category(i) for i in (preferences.interests or [])]
-    if not interests:
-        expanded_interests = set()
-    else:
-        expanded_interests = _expand_interest_categories(interests)
+    expanded_interests = _expand_interest_categories(interests)
 
     has_selected_date = _has_explicit_selected_date(
         date_str=date_str,
@@ -980,14 +979,11 @@ def generate_recommendations(
         selected_start_date,
         end_date=selected_end_date,
     )
-    print(f"DEBUG active_queryset count: {active_queryset.count()}")
     filtered_queryset = active_queryset
-    print(f"DEBUG filtered_queryset count: {filtered_queryset.count()}")
     if expanded_interests:
         base_queryset = filtered_queryset.filter(category__in=expanded_interests)
     else:
         base_queryset = filtered_queryset
-    print(f"DEBUG base_queryset count: {base_queryset.count()}")
     queryset = base_queryset
     used_fallback = False
 
@@ -1001,13 +997,10 @@ def generate_recommendations(
         )
 
     if preferences.min_rating is not None:
-        queryset = queryset.filter(
-            Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
-        )
+        queryset = queryset.filter(rating__gte=preferences.min_rating)
 
     if exclude_ids:
         queryset = queryset.exclude(id__in=exclude_ids)
-    print(f"DEBUG queryset count after budget/rating/exclude: {queryset.count()}")
 
     support_queryset = filtered_queryset
     if preferences.budget_max is not None:
@@ -1019,12 +1012,9 @@ def generate_recommendations(
             Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
         )
     if preferences.min_rating is not None:
-        support_queryset = support_queryset.filter(
-            Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
-        )
+        support_queryset = support_queryset.filter(rating__gte=preferences.min_rating)
     if exclude_ids:
         support_queryset = support_queryset.exclude(id__in=exclude_ids)
-    print(f"DEBUG support_queryset count: {support_queryset.count()}")
 
     if has_selected_date:
         dated_queryset = queryset.filter(
@@ -1061,7 +1051,6 @@ def generate_recommendations(
             list(queryset),
             "default_queryset",
         )
-    print(f"DEBUG candidates count after initial selection: {len(candidates)}")
 
     if has_selected_date:
         dated_support_queryset = support_queryset.filter(
@@ -1082,14 +1071,9 @@ def generate_recommendations(
             list(support_queryset),
             "support_queryset",
         )
-    print(f"DEBUG support_candidates count: {len(support_candidates)}")
 
     if not candidates:
-        fallback_results = active_queryset
-        if exclude_ids:
-            fallback_results = fallback_results.exclude(id__in=exclude_ids)
-        print(f"DEBUG fallback count after initial empty candidates: {fallback_results.count()}")
-        return list(fallback_results.order_by("-rating")[:20])
+        return []
 
     food_fallback_queryset = active_queryset.filter(category="food")
     if preferences.budget_max is not None:
@@ -1122,55 +1106,10 @@ def generate_recommendations(
         )
     )
     if not candidates and base_queryset.exists() and has_strict_filters:
-        fallback_queryset = Event.objects.all()
-        fallback_queryset = _available_for_date(
-            fallback_queryset.filter(is_active=True),
-            selected_start_date,
-            end_date=selected_end_date,
-        )
-        if preferences.budget_max is not None:
-            fallback_queryset = fallback_queryset.filter(
-                Q(price__lte=preferences.budget_max) | Q(price__isnull=True)
-            )
-        if preferences.budget_min is not None:
-            fallback_queryset = fallback_queryset.filter(
-                Q(price__gte=preferences.budget_min) | Q(price__isnull=True)
-            )
-        if preferences.min_rating is not None:
-            fallback_queryset = fallback_queryset.filter(
-                Q(rating__gte=preferences.min_rating) | Q(rating__isnull=True)
-            )
-        if exclude_ids:
-            fallback_queryset = fallback_queryset.exclude(id__in=exclude_ids)
-
-        if has_selected_date:
-            dated_fallback_queryset = fallback_queryset.filter(
-                _dated_event_q(selected_start_date, selected_end_date)
-            )
-            evergreen_fallback_queryset = fallback_queryset.filter(_evergreen_place_q())
-            candidates = _apply_quality_filters_with_logging(
-                list(dated_fallback_queryset),
-                "dated_fallback_queryset",
-            )
-            if not candidates:
-                candidates = _apply_quality_filters_with_logging(
-                    list(evergreen_fallback_queryset),
-                    "evergreen_fallback_queryset",
-                )
-        else:
-            candidates = _apply_quality_filters_with_logging(
-                list(fallback_queryset),
-                "fallback_queryset",
-            )
-        used_fallback = bool(candidates)
-        print(f"DEBUG candidates count after strict fallback branch: {len(candidates)}")
+        return []
 
     if not candidates:
-        fallback_results = active_queryset
-        if exclude_ids:
-            fallback_results = fallback_results.exclude(id__in=exclude_ids)
-        print(f"DEBUG fallback count before score stage: {fallback_results.count()}")
-        return list(fallback_results.order_by("-rating")[:20])
+        return []
 
     budget_midpoint = _budget_midpoint(preferences)
     recent_event_ids = _recent_event_ids(user, reference_date)
@@ -1209,13 +1148,8 @@ def generate_recommendations(
         for event in candidates
         if base_scores.get(event.id, float("-inf")) >= MIN_RECOMMENDATION_SCORE
     ]
-    print(f"DEBUG candidates count after scoring threshold: {len(candidates)}")
     if not candidates:
-        fallback_results = active_queryset
-        if exclude_ids:
-            fallback_results = fallback_results.exclude(id__in=exclude_ids)
-        print(f"DEBUG fallback count after scoring empty candidates: {fallback_results.count()}")
-        return list(fallback_results.order_by("-rating")[:20])
+        return []
     if has_selected_date:
         date_scores = {
             event.id: _date_match_score(
@@ -1330,11 +1264,11 @@ def generate_multiday_plan(user, start_date_str, trip_duration=None, end_date_st
     """Generate recommendations for N consecutive days based on trip_duration or end_date."""
     preferences = UserPreferences.objects.filter(user=user).first()
     if preferences is None:
-        return None
+        return []
 
     interests = [normalize_category(i) for i in (preferences.interests or [])]
     if not interests:
-        return None
+        return []
 
     start_date = date.fromisoformat(str(start_date_str))
     if end_date_str:
@@ -1377,7 +1311,7 @@ def generate_multiday_plan(user, start_date_str, trip_duration=None, end_date_st
             discouraged_categories=_derive_discouraged_categories(previous_day_events),
         )
         if events is None:
-            return None
+            return []
 
         events = events or []
         multiday_recommendations.append((date_str, events))

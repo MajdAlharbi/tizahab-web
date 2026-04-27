@@ -145,6 +145,8 @@ class FilteredEventsAPIView(ListAPIView):
             queryset = queryset.filter(
                 Q(price__gte=prefs.budget_min) | Q(price__isnull=True)
             )
+        if prefs and prefs.min_rating is not None:
+            queryset = queryset.filter(rating__gte=prefs.min_rating)
 
         return queryset
 

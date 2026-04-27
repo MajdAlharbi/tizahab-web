@@ -1,0 +1,93 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Booking | Tizahab{% endblock %}
+
+{% block content %}
+<main class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
+  <section class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
+    <div class="max-w-2xl space-y-3">
+      <h1 class="text-3xl font-semibold">Hotel Booking</h1>
+      <p class="text-sm text-white/80">
+        Compare trusted hotel booking platforms and reserve your stay in Riyadh directly from their official websites.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900">Booking.com</h2>
+        <p class="text-sm text-gray-600">Global hotel booking platform with a large selection of hotels and apartments</p>
+      </div>
+      <a
+        href="https://www.booking.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center px-4 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+      >
+        Book Now
+      </a>
+    </article>
+
+    <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900">Agoda</h2>
+        <p class="text-sm text-gray-600">Travel booking service known for deals and instant confirmations</p>
+      </div>
+      <a
+        href="https://www.agoda.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center px-4 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+      >
+        Book Now
+      </a>
+    </article>
+
+    <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900">Airbnb</h2>
+        <p class="text-sm text-gray-600">Marketplace offering homes, apartments, and unique stays</p>
+      </div>
+      <a
+        href="https://www.airbnb.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center px-4 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+      >
+        Book Now
+      </a>
+    </article>
+
+    <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900">Expedia</h2>
+        <p class="text-sm text-gray-600">Travel platform combining hotel bookings with packages</p>
+      </div>
+      <a
+        href="https://www.expedia.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center px-4 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+      >
+        Book Now
+      </a>
+    </article>
+
+    <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4 md:col-span-2">
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900">Almosafer</h2>
+        <p class="text-sm text-gray-600">Regional Saudi platform with local offers</p>
+      </div>
+      <a
+        href="https://www.almosafer.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center px-4 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition"
+      >
+        Book Now
+      </a>
+    </article>
+  </section>
+</main>
+{% endblock %}
