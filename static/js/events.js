@@ -818,39 +818,18 @@ function wireGetTickets(eventId) {
 
   btn.addEventListener("click", async () => {
     btn.disabled = true;
-    btn.textContent = "Adding…";
+    btn.textContent = "Adding";
     msg.textContent = "";
     msg.className = "text-sm text-center min-h-[20px]";
 
     try {
       const targetDate = getSelectedPlanDate();
+      await apiPost("/api/daily-plan/add/", {
+        date: targetDate,
+        event_id: eventId,
+      });
 
-      // Fetch existing plans for the selected trip date, falling back to today.
-      const data = await apiGet("/api/daily-plan/");
-      if (!data) return; // apiGet handles 401 → logout
-
-      const plans = Array.isArray(data) ? data : data.results || [];
-      const todayPlan = plans.find((p) => p.date === targetDate);
-
-      if (todayPlan) {
-        // Plan exists — merge this event in (deduplicate)
-        const existingIds = todayPlan.events.map((e) =>
-          typeof e === "object" ? e.id : Number(e),
-        );
-        const merged = [...new Set([...existingIds, Number(eventId)])];
-        await apiPut(`/api/daily-plan/${todayPlan.id}/`, {
-          date: targetDate,
-          events: merged,
-        });
-      } else {
-        // No plan for the selected date — create one with just this event
-        await apiPost("/api/daily-plan/", {
-          date: targetDate,
-          events: [Number(eventId)],
-        });
-      }
-
-      btn.textContent = "✓ Added to Plan";
+      btn.textContent = " Added to Plan";
       msg.textContent = "Added to your plan!";
       msg.classList.add("text-green-600");
     } catch (err) {

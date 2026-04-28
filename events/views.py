@@ -161,24 +161,23 @@ class EventListAPIView(ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Event.objects.filter(is_active=True)
+        queryset = Event.objects.all()
 
-        category = _validate_category(self.request.query_params.get("category"))
-        date_raw = self.request.query_params.get("date")
         search = self.request.query_params.get("search", "").strip()
-
-        if category:
-            queryset = queryset.filter(category=category)
-
-        if date_raw:
-            parsed_date = _parse_required_query_date(date_raw, "date")
-            queryset = _apply_date_range_filter(queryset, parsed_date, parsed_date)
 
         if search:
             queryset = queryset.filter(
                 Q(title__icontains=search)
                 | Q(description__icontains=search)
-                | Q(location__icontains=search)
+                | Q(category__icontains=search)
+            )
+
+        date = self.request.query_params.get("date")
+
+        if date:
+            queryset = queryset.filter(
+                Q(date__date=date) |
+                Q(start_date__date__lte=date, end_date__date__gte=date)
             )
 
         return queryset

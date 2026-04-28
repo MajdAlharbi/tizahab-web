@@ -1,10 +1,10 @@
-// home.js — populates the four dynamic sections on home.html
+// home.js  populates the four dynamic sections on home.html
 // Depends on api.js (apiGet, catLabel, catEmoji, catColor must be loaded first)
 
 (function () {
   "use strict";
 
-  // ── helpers ────────────────────────────────────────────────────────────────
+  //  helpers 
 
   function todayISO() {
     const d = new Date();
@@ -34,7 +34,7 @@
     return CATEGORY_IMAGES[category] || CATEGORY_IMAGES.events;
   }
 
-  // ── XSS guard ──────────────────────────────────────────────────────────────
+  //  XSS guard 
 
   function escHtml(str) {
     if (!str) return "";
@@ -122,7 +122,7 @@
     });
   }
 
-  // ── fetch helpers ──────────────────────────────────────────────────────────
+  //  fetch helpers 
 
   function toList(data) {
     if (!data) return [];
@@ -134,7 +134,7 @@
     return data.next || null;
   }
 
-  // ── #startingSoonList ──────────────────────────────────────────────────────
+  //  #startingSoonList 
 
   function renderStartingSoon(events) {
     const el = document.getElementById("startingSoonList");
@@ -169,7 +169,7 @@
       .join("");
   }
 
-  // ── #todayPlanContainer ────────────────────────────────────────────────────
+  //  #todayPlanContainer 
 
   function renderTodayPlan(plans) {
     const el = document.getElementById("todayPlanContainer");
@@ -223,7 +223,7 @@
     el.innerHTML = `<div class="bg-white rounded-2xl border border-gray-200 p-5">${items}</div>`;
   }
 
-  // ── #recommendedGrid (with pagination) ─────────────────────────────────────
+  //  #recommendedGrid (with pagination) 
 
   let _recommendedAll = [];
   let _recommendedTotal = 0;
@@ -277,7 +277,7 @@
           }
           <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
             ${ev.price != null ? `<span class="text-xs font-medium text-gray-600">${priceLabel(ev.price)}</span>` : "<span></span>"}
-            ${ev.rating ? `<span class="text-xs text-yellow-500">★ ${ev.rating}</span>` : ""}
+            ${ev.rating ? `<span class="text-xs text-yellow-500"> ${ev.rating}</span>` : ""}
           </div>
           <button
             type="button"
@@ -298,7 +298,7 @@
         <div class="col-span-full text-center text-sm text-gray-400 py-8">
           <p>No recommendations yet.</p>
           <a href="/onboarding/" class="text-brand font-medium hover:underline mt-1 inline-block">
-            Set your preferences →
+            Set your preferences 
           </a>
         </div>`;
       return;
@@ -347,7 +347,7 @@
     }
   }
 
-  // ── #offersGrid (with pagination) ──────────────────────────────────────────
+  //  #offersGrid (with pagination) 
 
   let _offersAll = [];
   let _offersTotal = 0;
@@ -438,7 +438,7 @@
     }
   }
 
-  // ── bootstrap ──────────────────────────────────────────────────────────────
+  //  bootstrap 
 
   async function init() {
     const [eventsData, filtered, plans] =
@@ -448,12 +448,12 @@
         apiGet("/api/daily-plan/"),
       ]);
 
-    // Starting Soon — just shows 2, no pagination needed
+    // Starting Soon  just shows 2, no pagination needed
     renderStartingSoon(
       eventsData.status === "fulfilled" ? toList(eventsData.value) : [],
     );
 
-    // Popular Places — paginated
+    // Popular Places  paginated
     if (eventsData.status === "fulfilled") {
       const d = eventsData.value;
       _offersAll = toList(d);
@@ -467,7 +467,7 @@
       renderOffersGrid([], false);
     }
 
-    // Recommended — paginated
+    // Recommended  paginated
     if (filtered.status === "fulfilled") {
       const f = filtered.value;
       _recommendedAll = curateTopPicks(toList(f));

@@ -1,4 +1,4 @@
-﻿let multiDayPlans = [];
+let multiDayPlans = [];
 let currentDayIndex = 0;
 let _currentPreferences = null;
 let _slotAssignmentsByDay = {};
@@ -122,11 +122,15 @@ function setSelectedPlanDate(dateStr) {
 }
 
 function getSelectedPlanDate() {
-  const indexedDate =
-    typeof multiDayDates !== "undefined"
-      ? multiDayDates?.[currentDayIndex]
-      : _localDateStr(getPlanDateForIndex(currentDayIndex));
-  return selectedDate || indexedDate || _localDateStr(new Date());
+  if (window.multiDayDates && window.currentDayIndex != null) {
+    return window.multiDayDates[window.currentDayIndex];
+  }
+  return (
+    document.querySelector("[data-selected-date]")?.dataset?.selectedDate ||
+    selectedDate ||
+    getStoredPlanStartDate() ||
+    null
+  );
 }
 
 function normalizePlanEvent(event, index = 0) {
@@ -1024,6 +1028,21 @@ function updatePlanPageState(hasPlan) {
   }
 }
 
+function updateSummary() {
+  const events = document.querySelectorAll("[data-event-id]");
+
+  const count = events.length;
+
+  const summaryCount = document.getElementById("summary-activities");
+  const summaryDuration = document.getElementById("summary-duration");
+
+  if (summaryCount) summaryCount.textContent = count;
+
+  if (summaryDuration) {
+    summaryDuration.textContent = `${count * 2}h`;
+  }
+}
+
 function createSlotCard(slotKey, event, itemIndex) {
   const card = document.createElement("div");
   card.className = event._placeholder
@@ -1110,12 +1129,13 @@ function createSlotCard(slotKey, event, itemIndex) {
       );
     } catch (error) {
       console.error("Plan update failed:", error);
-      replaceBtn.disabled = false;
-      replaceBtn.textContent = "Try Another";
       showPlanMessage(
         getDailyPlanErrorMessage(error, "No alternative available"),
         "error",
       );
+    } finally {
+      replaceBtn.disabled = false;
+      replaceBtn.textContent = "Try Another";
     }
   });
 
@@ -1126,20 +1146,21 @@ function createSlotCard(slotKey, event, itemIndex) {
   removeBtn.addEventListener("click", async () => {
     removeBtn.disabled = true;
     removeBtn.textContent = "Removing...";
-      try {
-        await removeEventFromPlan(event.id, slotKey, {
-          dayIndex: currentDayIndex,
-          itemIndex,
-          itemId: event.plan_item_id,
-        });
-      } catch (error) {
+    try {
+      await removeEventFromPlan(event.id, slotKey, {
+        dayIndex: currentDayIndex,
+        itemIndex,
+        itemId: event.plan_item_id,
+      });
+    } catch (error) {
       console.error("Plan update failed:", error);
-      removeBtn.disabled = false;
-      removeBtn.textContent = "Remove";
       showPlanMessage(
         getDailyPlanErrorMessage(error, "Unable to remove this activity."),
         "error",
       );
+    } finally {
+      removeBtn.disabled = false;
+      removeBtn.textContent = "Remove";
     }
   });
   if (event._placeholder) {
@@ -1320,7 +1341,6 @@ function renderDailyPlan(data) {
     try {
       const section = document.createElement("section");
       if (!section) {
-        console.warn("Missing section for slot", slot);
         return;
       }
       section.className = "mt-6 first:mt-0 space-y-3";
@@ -1354,7 +1374,7 @@ function renderDailyPlan(data) {
         previousMappedEvent = currentMappedEvent;
       }
     } catch (e) {
-      console.warn("Render failed", e);
+      console.error("Render failed", e);
     }
   });
 
@@ -1434,12 +1454,14 @@ async function loadCurrentPlan() {
     setSelectedPlanDate(_localDateStr(startDate));
     renderDaysBar();
     renderPlanForDay(0);
+    updateSummary();
   } catch (error) {
     _lastPlanRequestFailed = true;
     console.error("Failed to load current daily plan", error);
     // Even on error, still render an empty days bar so the UI is consistent.
     renderDaysBar();
     renderPlanForDay(0);
+    updateSummary();
   }
 }
 
@@ -1449,102 +1471,121 @@ async function loadCurrentPlan() {
 
 let _activityDebounce = null;
 
+function getActivityResultsContainer() {
+  return (
+    document.getElementById("activity-results") ||
+    document.getElementById("activitySearchResults")
+  );
+}
+
+function bindActivityResultCards(resultsContainer) {
+  resultsContainer.querySelectorAll("[data-event-id]").forEach((card) => {
+    card.addEventListener("click", async () => {
+      const eventId = Number(card.dataset.eventId);
+      if (!Number.isFinite(eventId)) return;
+      const selectedDate = getSelectedPlanDate();
+      if (!selectedDate) return;
+
+      card.classList.add("opacity-60");
+      try {
+        await apiPost("/api/daily-plan/add/", {
+          date: selectedDate,
+          event_id: eventId,
+        });
+
+        await loadCurrentPlan();
+
+        const modal =
+          document.getElementById("add-activity-modal") ||
+          document.getElementById("addActivityModal");
+        if (modal) modal.classList.add("hidden");
+      } catch (error) {
+        console.error("Add failed", error);
+        card.classList.remove("opacity-60");
+      }
+    });
+  });
+}
+
+function renderActivityResults(events) {
+  const resultsContainer = getActivityResultsContainer();
+  if (!resultsContainer) return;
+
+  if (!events.length) {
+    resultsContainer.innerHTML = `<div class="text-gray-500">No data available</div>`;
+    return;
+  }
+
+  resultsContainer.innerHTML = events.map((e) => `
+    <div class="p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+         data-event-id="${e.id}">
+      <div class="font-medium">${escapeHtml(e.title || "")}</div>
+      <div class="text-sm text-gray-500">${escapeHtml(e.category || "")}</div>
+    </div>
+  `).join("");
+
+  bindActivityResultCards(resultsContainer);
+}
+
 function openAddActivityModal() {
-  const modal = document.getElementById("addActivityModal");
+  const modal =
+    document.getElementById("add-activity-modal") ||
+    document.getElementById("addActivityModal");
   if (modal) modal.classList.remove("hidden");
+
+  const resultsContainer = getActivityResultsContainer();
+  if (resultsContainer) {
+    resultsContainer.innerHTML =
+      '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
+  }
 }
 
 function closeAddActivityModal() {
-  const modal = document.getElementById("addActivityModal");
+  const modal =
+    document.getElementById("add-activity-modal") ||
+    document.getElementById("addActivityModal");
   if (modal) modal.classList.add("hidden");
 }
 
 async function searchActivities(query) {
-  const results = document.getElementById("activitySearchResults");
-  if (!results) return;
+  const resultsContainer = getActivityResultsContainer();
+  if (!resultsContainer) return;
 
   if (!query.trim()) {
-    results.innerHTML =
+    resultsContainer.innerHTML =
       '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
     return;
   }
 
-  results.innerHTML =
-    '<p class="text-sm text-gray-400 text-center py-8">Searching...</p>';
+  resultsContainer.innerHTML = "Searching...";
 
   try {
-    const targetDate = getSelectedPlanDate();
-    const data = await apiGet(
-      `/api/events/?search=${encodeURIComponent(query)}&date=${encodeURIComponent(targetDate)}`,
-    );
-    if (!data) return;
-    const events = Array.isArray(data) ? data : data.results || [];
+    const selectedDate = getSelectedPlanDate();
+    const response = await apiGet(`/api/events/?search=${encodeURIComponent(query)}`);
+    const events = response?.results || [];
 
     if (!events.length) {
-      results.innerHTML =
-        '<p class="text-sm text-gray-400 text-center py-8">No places found</p>';
+      resultsContainer.innerHTML = `<div class="text-gray-500">No results found</div>`;
       return;
     }
-
-    // Get current plan event IDs to mark already-added
-    const planEventIds = new Set(
-      getActiveDayEvents().map((e) =>
-        String(typeof e === "object" ? e.id : e),
-      ),
-    );
-
-    results.innerHTML = "";
-    events.slice(0, 20).forEach((ev) => {
-      const alreadyAdded = planEventIds.has(String(ev.id));
-      const item = document.createElement("div");
-      item.className =
-        "flex items-center gap-3 p-3 rounded-xl border hover:bg-gray-50 transition";
-      item.innerHTML = `
-        <span class="text-xl shrink-0">${catEmoji(ev.category)}</span>
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold text-gray-800 truncate">${escapeHtml(ev.title)}</p>
-          <span class="text-xs text-gray-500">${ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free"}</span>
+    resultsContainer.innerHTML = events.map((event) => `
+      <div class="p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+           data-event-id="${event.id}">
+        <div class="font-medium">${escapeHtml(event.title || "")}</div>
+        <div class="text-sm text-gray-500">${escapeHtml(event.category || "")}</div>
+      </div>
+    `).join("");
+    if (events.length === 1) {
+      resultsContainer.innerHTML += `
+        <div class="text-xs text-gray-400 mt-2">
+          Try a broader search (e.g. cafe, restaurant)
         </div>
-        <button class="add-to-plan-btn px-3 py-1.5 rounded-lg text-xs font-medium transition ${
-          alreadyAdded
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-brand text-white hover:opacity-90"
-        }" data-event-id="${ev.id}" data-requires-auth="true" ${alreadyAdded ? "disabled" : ""}>
-          ${alreadyAdded ? "Added" : "Add"}
-        </button>
       `;
-
-      item
-        .querySelector(".add-to-plan-btn")
-        .addEventListener("click", async (e) => {
-          const btn = e.currentTarget;
-          const wasAdded = btn.textContent.trim() === "Added";
-          btn.disabled = true;
-          btn.textContent = wasAdded ? "Removing..." : "Adding...";
-
-          try {
-            await addEventToPlan(ev.id);
-            const isAdded = !wasAdded;
-            btn.disabled = false;
-            btn.textContent = isAdded ? "Added" : "Add";
-            btn.classList.toggle("bg-brand", !isAdded);
-            btn.classList.toggle("text-white", !isAdded);
-            btn.classList.toggle("hover:opacity-90", !isAdded);
-            btn.classList.toggle("bg-gray-100", isAdded);
-            btn.classList.toggle("text-gray-400", isAdded);
-            btn.classList.toggle("cursor-not-allowed", false);
-          } catch (error) {
-            console.error("Unable to update plan activity state", error);
-            btn.disabled = false;
-            btn.textContent = wasAdded ? "Added" : "Add";
-          }
-        });
-
-      results.appendChild(item);
-    });
+    }
+    bindActivityResultCards(resultsContainer);
   } catch (error) {
     console.error("Failed to search activities", error);
-    results.innerHTML =
+    resultsContainer.innerHTML =
       '<p class="text-sm text-red-400 text-center py-8">Failed to search</p>';
   }
 }
@@ -1556,77 +1597,12 @@ async function addEventToPlan(eventId, options = {}) {
   }
 
   const targetDate = getSelectedPlanDate();
-  const slotKey = options.slotKey || "activity";
-
-  let targetPlan = await findPlanForDate(targetDate);
-  const activeEvents = getActiveDayEvents();
-  const existingEvent = activeEvents.find(
-    (event) => Number(event?.id) === normalizedEventId,
-  );
-
-  if (existingEvent && targetPlan?.id && existingEvent.plan_item_id) {
-    const updated = normalizePlanPayload(
-      await apiDelete(`/api/daily-plan/${targetPlan.id}/items/${existingEvent.plan_item_id}/`),
-    );
-    if (updated) {
-      _currentPlan = updated;
-      const preferences = await loadCurrentPreferences();
-      applyMultiDayPlan(updated, preferences);
-    }
-    return;
-  }
-
-  if (!existingEvent && !targetPlan?.id) {
-    targetPlan = normalizePlanPayload(
-      await apiPost("/api/daily-plan/", {
-        date: targetDate,
-        events: [],
-      }),
-    );
-  }
-
-  if (!existingEvent && targetPlan?.id) {
-    const updated = normalizePlanPayload(
-      await apiPost(`/api/daily-plan/${targetPlan.id}/items/`, {
-        event_id: normalizedEventId,
-        slot_type: slotKey,
-      }),
-    );
-    if (updated) {
-      _currentPlan = updated;
-      const preferences = await loadCurrentPreferences();
-      applyMultiDayPlan(updated, preferences);
-    }
-    return;
-  }
-
-  if (targetPlan) {
-      const existingIds = activeEvents.map((e) =>
-        typeof e === "object" ? e.id : Number(e),
-      );
-    const updatedEvents = existingIds.includes(normalizedEventId)
-      ? existingIds.filter((id) => id !== normalizedEventId)
-      : [...new Set([...existingIds, normalizedEventId])];
-      const updated = normalizePlanPayload(await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
-        date: targetDate,
-        events: updatedEvents,
-      }));
-      if (updated) {
-        _currentPlan = updated;
-        const preferences = await loadCurrentPreferences();
-        applyMultiDayPlan(updated, preferences);
-      }
-    } else {
-      const created = normalizePlanPayload(await apiPost("/api/daily-plan/", {
-        date: targetDate,
-        events: [normalizedEventId],
-      }));
-      if (created) {
-        _currentPlan = created;
-        const preferences = await loadCurrentPreferences();
-        applyMultiDayPlan(created, preferences);
-      }
-  }
+  if (!targetDate) return;
+  await apiPost("/api/daily-plan/add/", {
+    date: targetDate,
+    event_id: normalizedEventId,
+  });
+  await loadCurrentPlan();
 }
 
 async function findPlanForDate(targetDate) {
@@ -1752,7 +1728,8 @@ async function replaceActivityForSlot(slotKey, currentEventId = null, options = 
   const candidates = await getReplacementCandidatesForDay(dayIndex);
   const replacement = pickReplacementCandidate(slotKey, candidates, excludedIds);
   if (!replacement) {
-    throw new Error("No alternative available");
+    alert("No more alternatives available for this slot");
+    return;
   }
 
   const currentEvent = currentEvents.find(
@@ -1766,6 +1743,7 @@ async function replaceActivityForSlot(slotKey, currentEventId = null, options = 
         event_id: Number(replacement.id),
       }),
     );
+    await loadCurrentPlan();
     updateCurrentDayEvents(updated?.events || [], updated || null, {
       preserveOrder: true,
       dayIndex,
@@ -1809,6 +1787,7 @@ async function replaceActivityForSlot(slotKey, currentEventId = null, options = 
   ];
 
   const updatedPlan = await persistCurrentDayEvents(nextEvents, dayIndex);
+  await loadCurrentPlan();
   updateCurrentDayEvents(
     updatedPlan?.events || nextEvents,
     updatedPlan || null,
@@ -1916,6 +1895,7 @@ async function removeEventFromPlan(eventId, slotKey = "evening", options = {}) {
       : normalizePlanPayload(
           await apiDelete(`/api/daily-plan/${targetPlan.id}/events/${normalizedEventId}/`),
         );
+    await loadCurrentPlan();
     if (updated) {
       updateCurrentDayEvents(updated.events || [], updated, {
         preserveOrder: true,
@@ -2073,9 +2053,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add Activity modal
-  document
-    .getElementById("add-activity-btn")
-    ?.addEventListener("click", openAddActivityModal);
+  const addBtn = document.getElementById("add-activity-btn");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      openAddActivityModal();
+    });
+  }
   document
     .getElementById("closeAddActivity")
     ?.addEventListener("click", closeAddActivityModal);
@@ -2104,35 +2087,49 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
 function initDailyPlanMap() {
-  if (typeof google === "undefined" || !google.maps) {
-    console.warn("Google Maps not available");
-    return;
-  }
-
-  try {
-    if (!window.TZMap) return;
-
-    window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
-    window.__TZ_DP_MARKERS = {};
-
-    if (
-      window.__TZ_DP_MAP &&
-      Array.isArray(window.__TZ_DP_PENDING_POINTS) &&
-      window.__TZ_DP_PENDING_POINTS.length
-    ) {
-      updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
-    }
-  } catch (e) {
-    console.warn("Map failed to load", e);
-
+  if (!window.GMAPS_ENABLED) {
     const mapContainer =
       document.getElementById("dailyPlanMap") || document.getElementById("map");
     if (mapContainer) {
-      mapContainer.innerHTML = `
+      mapContainer.innerHTML =
+        "<div class='text-gray-500 p-4'>Map unavailable</div>";
+    }
+    return;
+  }
+
+  if (typeof google === "undefined" || !google.maps) {
+    const mapContainer =
+      document.getElementById("dailyPlanMap") || document.getElementById("map");
+    if (mapContainer) {
+      mapContainer.innerHTML =
+        "<div class='text-gray-500 p-4'>Map unavailable</div>";
+    }
+  } else {
+    try {
+      if (!window.TZMap) return;
+
+      window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
+      window.__TZ_DP_MARKERS = {};
+
+      if (
+        window.__TZ_DP_MAP &&
+        Array.isArray(window.__TZ_DP_PENDING_POINTS) &&
+        window.__TZ_DP_PENDING_POINTS.length
+      ) {
+        updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
+      }
+    } catch (e) {
+      console.error("Map failed", e);
+
+      const mapContainer =
+        document.getElementById("dailyPlanMap") || document.getElementById("map");
+      if (mapContainer) {
+        mapContainer.innerHTML = `
       <div class="p-4 text-center text-gray-500">
         Map is currently unavailable
       </div>
     `;
+      }
     }
   }
 }

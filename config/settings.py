@@ -61,11 +61,9 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
     or GOOGLE_MAPS_API_KEY
 )
 
-# Read from env so production stays safe; development .env sets DJANGO_DEBUG=True
-DEBUG = env_bool("DJANGO_DEBUG", False)
+DEBUG = False
 
-# Always include localhost in dev; production overrides via DJANGO_ALLOWED_HOSTS
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = ["*"]
 
 # ========================
 # Applications
@@ -214,7 +212,7 @@ STATIC_URL = "/static/"
 
 # Where collectstatic writes files for production serving by WhiteNoise / CDN.
 # Must NOT overlap with any path inside STATICFILES_DIRS.
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

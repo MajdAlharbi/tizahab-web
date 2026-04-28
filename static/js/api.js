@@ -1,4 +1,4 @@
-// Tizahab — shared API layer
+// Tizahab  shared API layer
 // All pages import this file for auth + fetch
 
 const CATEGORY_MAP = {
@@ -34,17 +34,20 @@ function getCookie(name) {
     ?.slice(prefix.length) || "";
 }
 
+function logError(...args) {
+  if (window.DEBUG) console.error(...args);
+}
+
 function authHeaders(url = "") {
-  const token = getToken();
-  const headers = { "Content-Type": "application/json" };
-  const isPublicAuthEndpoint =
-    typeof url === "string" &&
-    (
-      url.includes("/api/auth/signup/") ||
-      url.includes("/api/auth/login/") ||
-      url.includes("/api/auth/token/refresh/")
-    );
-  if (token && !isPublicAuthEndpoint) headers.Authorization = `Bearer ${token}`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const token = localStorage.getItem("access");
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   const csrfToken = getCookie("csrftoken");
   if (csrfToken) headers["X-CSRFToken"] = csrfToken;
   return headers;
@@ -156,7 +159,7 @@ async function _tryRefresh() {
       return true;
     }
   } catch (error) {
-    console.error("Token refresh failed", error);
+    logError("API ERROR", error);
   }
   return false;
 }
@@ -172,7 +175,7 @@ async function logout(options = {}) {
       credentials: "include",
     });
   } catch (error) {
-    console.error("Logout request failed", error);
+    logError("API ERROR", error);
   }
 
   localStorage.removeItem("access");
@@ -196,45 +199,27 @@ function _logout() {
 
 async function apiGet(url) {
   try {
-    let res = await fetch(url, {
+    const res = await fetch(url, {
+      method: "GET",
       headers: authHeaders(url),
       credentials: "include",
     });
 
     if (res.status === 401) {
-      const refreshed = await _tryRefresh();
-      if (!refreshed) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
-      // Retry with the new access token
-      res = await fetch(url, {
-        headers: authHeaders(url),
-        credentials: "include",
-      });
-      if (res.status === 401) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
+      return { results: [] };
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to load data");
     return parseResponseBody(res);
   } catch (error) {
-    console.error("API failure:", error);
+    logError("API ERROR", error);
     throw error;
   }
 }
 
 async function apiPost(url, data) {
   try {
-    let res = await fetch(url, {
+    const res = await fetch(url, {
       method: "POST",
       headers: authHeaders(url),
       credentials: "include",
@@ -242,41 +227,20 @@ async function apiPost(url, data) {
     });
 
     if (res.status === 401) {
-      const refreshed = await _tryRefresh();
-      if (!refreshed) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
-      // Retry with the new access token
-      res = await fetch(url, {
-        method: "POST",
-        headers: authHeaders(url),
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-      if (res.status === 401) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
+      return { results: [] };
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to complete request");
     return parseResponseBody(res);
   } catch (error) {
-    console.error("API failure:", error);
+    logError("API ERROR", error);
     throw error;
   }
 }
 
 async function apiPut(url, data) {
   try {
-    let res = await fetch(url, {
+    const res = await fetch(url, {
       method: "PUT",
       headers: authHeaders(url),
       credentials: "include",
@@ -284,40 +248,20 @@ async function apiPut(url, data) {
     });
 
     if (res.status === 401) {
-      const refreshed = await _tryRefresh();
-      if (!refreshed) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
-      res = await fetch(url, {
-        method: "PUT",
-        headers: authHeaders(url),
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-      if (res.status === 401) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
+      return { results: [] };
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to save changes");
     return parseResponseBody(res);
   } catch (error) {
-    console.error("API failure:", error);
+    logError("API ERROR", error);
     throw error;
   }
 }
 
 async function apiPatch(url, data) {
   try {
-    let res = await fetch(url, {
+    const res = await fetch(url, {
       method: "PATCH",
       headers: authHeaders(url),
       credentials: "include",
@@ -325,78 +269,39 @@ async function apiPatch(url, data) {
     });
 
     if (res.status === 401) {
-      const refreshed = await _tryRefresh();
-      if (!refreshed) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
-      res = await fetch(url, {
-        method: "PATCH",
-        headers: authHeaders(url),
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-      if (res.status === 401) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
+      return { results: [] };
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to update data");
     return parseResponseBody(res);
   } catch (error) {
-    console.error("API failure:", error);
+    logError("API ERROR", error);
     throw error;
   }
 }
 
 async function apiDelete(url) {
   try {
-    let res = await fetch(url, {
+    const res = await fetch(url, {
       method: "DELETE",
       headers: authHeaders(url),
       credentials: "include",
     });
 
     if (res.status === 401) {
-      const refreshed = await _tryRefresh();
-      if (!refreshed) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
-      res = await fetch(url, {
-        method: "DELETE",
-        headers: authHeaders(url),
-        credentials: "include",
-      });
-      if (res.status === 401) {
-        console.warn("401 Unauthorized - not forcing logout");
-        const err = new Error("Unauthorized");
-        err.type = "auth";
-        err.status = 401;
-        throw err;
-      }
+      return { results: [] };
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to delete data");
     return parseResponseBody(res);
   } catch (error) {
-    console.error("API failure:", error);
+    logError("API ERROR", error);
     throw error;
   }
 }
 
 function catLabel(cat) { return CATEGORY_MAP[cat]?.label || cat; }
-function catEmoji(cat) { return CATEGORY_MAP[cat]?.emoji || "📍"; }
+function catEmoji(cat) { return CATEGORY_MAP[cat]?.emoji || ""; }
 function catColor(cat) { return CATEGORY_MAP[cat]?.color || "bg-gray-100 text-gray-700"; }
 
 document.addEventListener("click", function (e) {

@@ -20,6 +20,12 @@
     })();
   </script>
 
+  <script>
+    window.DEBUG = false;
+  </script>
+
+  <link rel="icon" href="/static/favicon.ico">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -153,7 +159,7 @@
     </div>
   </aside>
 
-  <!-- Main wrapper — offset by sidebar width on desktop -->
+  <!-- Main wrapper  offset by sidebar width on desktop -->
   <div class="flex-1 flex flex-col min-h-screen overflow-hidden lg:ml-64">
 
     <!-- Top header -->
@@ -222,14 +228,14 @@
   <script>
     lucide.createIcons();
 
-    // ── Theme ─────────────────────────────────────────────────────────────────
+    //  Theme 
     // (Already applied before paint via <head> inline script)
     function toggleTheme(mode) {
       document.documentElement.setAttribute("data-theme", mode);
       localStorage.setItem("tz_theme", mode);
     }
 
-    // ── Language ──────────────────────────────────────────────────────────────
+    //  Language 
     const langBtn   = document.getElementById("langBtn");
     const langLabel = document.getElementById("langLabel");
 
@@ -269,7 +275,7 @@
       applyLang(_lang);
     });
 
-    // ── Sidebar toggle ────────────────────────────────────────────────────────
+    //  Sidebar toggle 
     const menuBtn  = document.getElementById("mobileMenuBtn");
     const closeBtn = document.getElementById("closeSidebarBtn");
     const sidebar  = document.getElementById("sidebar");
@@ -287,7 +293,7 @@
     closeBtn?.addEventListener("click", closeSidebar);
     overlay?.addEventListener("click",  closeSidebar);
 
-    // ── Active nav highlight ──────────────────────────────────────────────────
+    //  Active nav highlight 
     document.addEventListener("DOMContentLoaded", () => {
       const btn = document.getElementById("themeToggleBtn");
       if (btn) {
