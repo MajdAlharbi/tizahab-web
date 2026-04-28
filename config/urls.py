@@ -46,6 +46,7 @@ urlpatterns = [
     # Dashboard Pages
     path("booking/", protected_template("booking.html"), name="booking"),
     path("map/", protected_template("map.html"), name="map"),
+    path("travel-guide/", protected_template("travel_guide.html"), name="travel_guide"),
     path("car-rental/", protected_template("car_rental.html"), name="car_rental"),
     path("profile/", protected_template("profile.html"), name="profile"),
     path("settings/", protected_template("settings.html"), name="settings"),

@@ -1038,6 +1038,29 @@ function createSlotCard(slotKey, event, itemIndex) {
   actionsWrap.appendChild(replaceBtn);
   actionsWrap.appendChild(removeBtn);
 
+  if (
+    !event._placeholder &&
+    event.latitude != null &&
+    event.longitude != null
+  ) {
+    const uberBtn = document.createElement("a");
+    uberBtn.href = `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${event.latitude}&dropoff[longitude]=${event.longitude}&dropoff[nickname]=${encodeURIComponent(event.title || "")}`;
+    uberBtn.target = "_blank";
+    uberBtn.rel = "noopener";
+    uberBtn.className = "inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-black text-white hover:opacity-80";
+    uberBtn.textContent = "🚗 Uber";
+
+    const careemBtn = document.createElement("a");
+    careemBtn.href = "https://careem.com";
+    careemBtn.target = "_blank";
+    careemBtn.rel = "noopener";
+    careemBtn.className = "inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-green-600 text-white hover:opacity-80";
+    careemBtn.textContent = "🚗 Careem";
+
+    actionsWrap.appendChild(uberBtn);
+    actionsWrap.appendChild(careemBtn);
+  }
+
   card.appendChild(content);
   card.appendChild(actionsWrap);
   card.appendChild(feedback);
