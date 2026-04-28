@@ -8,224 +8,549 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
 <style>
-  .hero-gradient {
-    background: linear-gradient(180deg, #d16cf5 0%, #7e1ca1 40%, #8034e0 100%);
-  }
+  /* Dark mode overrides */
+  [data-theme="dark"] body { background: #0f0520; color: #e8d5ff; }
+  [data-theme="dark"] .card-white { background: #1a0f2e; border-color: #3d1f6b; }
+  [data-theme="dark"] .card-white h3 { color: #f0e6ff; }
+  [data-theme="dark"] .card-white p { color: #b89fd4; }
+  [data-theme="dark"] .section-light { background: #150b28; }
+  [data-theme="dark"] .faq-item { border-color: #3d1f6b; background: #1a0f2e; }
+  [data-theme="dark"] .faq-question { color: #e8d5ff; }
+  [data-theme="dark"] .faq-answer { color: #b89fd4; }
+  [data-theme="dark"] .section-nav { background: rgba(26,15,46,0.97); border-color: #3d1f6b; }
+  [data-theme="dark"] .section-nav a { color: #b89fd4; }
+  [data-theme="dark"] .section-nav a.active { color: #c97ee8; border-color: #7e1ca1; }
+  [data-theme="dark"] .weather-card { background: #1a0f2e; border-color: #3d1f6b; }
+  [data-theme="dark"] .weather-card p,
+  [data-theme="dark"] .weather-card h3 { color: #e8d5ff; }
 
-  .wave-bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+  /* Sticky section nav */
+  .section-nav {
+    position: sticky;
+    top: 80px;
+    z-index: 40;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #f3e8ff;
+  }
+  .section-nav a {
+    display: inline-block;
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .section-nav a:hover { color: #7e1ca1; }
+  .section-nav a.active { color: #7e1ca1; border-color: #7e1ca1; }
+
+  /* Card white */
+  .card-white {
+    background: #fff;
+    border: 1px solid #f3e8ff;
+    border-radius: 16px;
     overflow: hidden;
-    line-height: 0;
+    transition: box-shadow 0.2s, transform 0.2s;
   }
+  .card-white:hover { box-shadow: 0 8px 32px rgba(126,28,161,0.12); transform: translateY(-2px); }
 
-  .wave-bottom svg {
-    display: block;
+  /* Section light */
+  .section-light { background: #faf5ff; }
+
+  /* Place card image */
+  .place-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+
+  /* FAQ accordion */
+  .faq-item {
+    border: 1px solid #f3e8ff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+  .faq-question {
     width: 100%;
-  }
-
-  .accent-dots {
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 18px 20px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1f2937;
+    cursor: pointer;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 4px;
-    justify-content: center;
+    gap: 12px;
+  }
+  .faq-question:hover { color: #7e1ca1; }
+  .faq-arrow { transition: transform 0.25s; flex-shrink: 0; }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 20px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 18px; }
+
+  /* Weather card */
+  .weather-card {
+    background: #fff;
+    border: 1px solid #f3e8ff;
+    border-radius: 16px;
+    padding: 24px;
   }
 
-  .accent-dots span {
-    display: block;
-    height: 2px;
+  /* Gold accent line */
+  .accent-line {
+    width: 48px;
+    height: 3px;
     background: #beaa56;
     border-radius: 2px;
+    margin: 12px auto 0;
   }
 </style>
 {% endblock %}
 
 {% block content %}
+
 <!-- ========== HEADER ========== -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur border-b border-[#e9d4ff]">
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-md border-b border-[#e9d4ff]">
   <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
 
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 shrink-0">
+    <a href="/" class="flex items-center gap-2.5 shrink-0">
       <div class="w-9 h-9 rounded-xl bg-brand flex items-center justify-center">
         <span class="text-white font-bold text-sm font-cantata">T</span>
       </div>
       <div class="leading-tight">
         <div class="font-cantata text-brand text-lg leading-tight">Tizahab</div>
-        <div class="font-bona text-brand text-sm leading-tight" dir="rtl">تزهب</div>
+        <div class="font-bona text-brand/80 text-sm leading-tight" dir="rtl">تزهب</div>
       </div>
     </a>
 
-    <!-- Nav links (desktop) -->
-    <nav class="hidden md:flex items-center gap-8 text-sm text-gray-700 font-medium">
+    <nav id="authNav" class="hidden items-center gap-7 text-sm text-gray-700 font-medium">
       <a href="/" class="hover:text-brand transition">Home</a>
-      <a href="/daily-plan/" class="hover:text-brand transition">Daily Plan</a>
       <a href="/events/page/" class="hover:text-brand transition">Events</a>
       <a href="/map/" class="hover:text-brand transition">Map</a>
-      <a href="/onboarding/" class="hover:text-brand transition">Preferences</a>
+      <a href="/travel-guide/" class="hover:text-brand transition">Travel Guide</a>
     </nav>
 
-    <!-- Actions -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
+      <button id="themeSwitchBtn"
+        class="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition text-base"
+        title="Toggle theme">🌙</button>
       <button id="langSwitchBtn"
-        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
-        🌐 <span id="landingLangLabel">العربية</span>
+        class="hidden sm:flex items-center gap-1 px-2.5 h-9 rounded-lg text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition">
+        🌐 <span id="landingLangLabel">AR</span>
       </button>
-      <a href="/login/"
-        class="px-5 py-2 rounded-full bg-brand text-white text-sm font-medium hover:bg-brand-dark transition">
-        Login / Sign Up
-      </a>
-      <!-- Mobile menu -->
+      <div id="guestButtons" class="flex items-center gap-2">
+        <a href="/login/"
+          class="px-4 py-2 rounded-lg text-sm text-brand border border-brand hover:bg-brand/5 transition font-medium">
+          Login
+        </a>
+        <a href="/signup/"
+          class="px-4 py-2 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand-dark transition">
+          Sign Up
+        </a>
+      </div>
+      <div id="userMenu" class="hidden items-center gap-3">
+        <a href="/home/"
+          class="px-4 py-2 rounded-full bg-brand text-white text-sm font-medium hover:bg-brand-dark transition">
+          Go to Dashboard →
+        </a>
+        <button onclick="localStorage.removeItem('access'); localStorage.removeItem('refresh'); window.location.href='/';"
+          class="px-4 py-2 rounded-full border border-brand text-brand text-sm font-medium hover:bg-purple-50 transition">
+          Logout
+        </button>
+      </div>
       <button id="mobileNavBtn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-50">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
     </div>
   </div>
 
-  <!-- Mobile nav dropdown -->
-  <div id="mobileNav" class="hidden md:hidden border-t border-gray-100 bg-white px-6 py-4 space-y-3">
-    <a href="/" class="block text-sm text-gray-700 py-1">Home</a>
-    <a href="/daily-plan/" class="block text-sm text-gray-700 py-1">Daily Plan</a>
-    <a href="/events/page/" class="block text-sm text-gray-700 py-1">Events</a>
-    <a href="/map/" class="block text-sm text-gray-700 py-1">Map</a>
-    <a href="/onboarding/" class="block text-sm text-gray-700 py-1">Preferences</a>
+  <div id="mobileNav" class="hidden md:hidden border-t border-gray-100 bg-white px-6 py-4 space-y-2">
+    <div id="authNavMobile" class="hidden space-y-2">
+      <a href="/" class="block text-sm text-gray-700 py-1.5">Home</a>
+      <a href="/events/page/" class="block text-sm text-gray-700 py-1.5">Events</a>
+      <a href="/map/" class="block text-sm text-gray-700 py-1.5">Map</a>
+      <a href="/travel-guide/" class="block text-sm text-gray-700 py-1.5">Travel Guide</a>
+    </div>
+    <div class="pt-2 flex gap-2">
+      <a href="/login/" class="flex-1 text-center py-2 border border-brand text-brand rounded-lg text-sm font-medium">Login</a>
+      <a href="/signup/" class="flex-1 text-center py-2 bg-brand text-white rounded-lg text-sm font-medium">Sign Up</a>
+    </div>
   </div>
 </header>
 
 <!-- ========== HERO ========== -->
-<section class="hero-gradient relative overflow-hidden min-h-screen flex flex-col items-center justify-center pt-20">
+<section class="relative min-h-screen flex items-center justify-center pt-20"
+  style="background-image: linear-gradient(rgba(30,0,60,0.55), rgba(30,0,60,0.55)), url('https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=1920&q=80'); background-size: cover; background-position: center;">
 
-  <!-- Background glow blobs -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#679af8] opacity-20 blur-3xl"></div>
-    <div class="absolute top-20 right-0 w-80 h-80 rounded-full bg-[#efd778] opacity-15 blur-3xl"></div>
-  </div>
-
-  <div class="relative z-10 text-center px-6 py-20 max-w-4xl mx-auto">
-
-    <!-- Brand name -->
-    <div class="mb-8">
-      <h1 class="font-cantata text-7xl sm:text-9xl text-white leading-none tracking-wider">Tizahab</h1>
-      <p class="font-bona text-3xl sm:text-5xl text-white/90 mt-2" dir="rtl">تــــــــزهب</p>
-    </div>
-
-    <!-- Subtitle -->
-    <p class="text-2xl sm:text-4xl text-white font-light tracking-widest mb-10">
-      FOR BETTER TOURISM IN RIYADH
-    </p>
-
-    <!-- CTA buttons -->
+  <div class="relative z-10 text-center px-6 py-24 max-w-4xl mx-auto">
+    <p class="text-[#beaa56] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Kingdom of Saudi Arabia</p>
+    <h1 class="font-cantata text-6xl sm:text-8xl text-white leading-none tracking-wide mb-3">Tizahab</h1>
+    <p class="font-bona text-3xl sm:text-4xl text-white/80 mb-6" dir="rtl">تـزهـب</p>
+    <p class="text-xl sm:text-2xl text-white/90 font-light tracking-wide mb-10">Your Tourism Guide to Riyadh</p>
     <div class="flex flex-wrap items-center justify-center gap-4">
       <a href="/events/page/"
-        class="px-8 py-3 bg-white text-brand rounded-lg text-lg font-medium hover:shadow-xl transition">
-        Explore Riyadh →
+        class="px-8 py-3 bg-white text-brand rounded-xl text-base font-semibold hover:shadow-xl hover:-translate-y-0.5 transition-all">
+        Explore Events
       </a>
       <a href="/signup/"
-        class="px-8 py-3 border-2 border-white/50 text-white rounded-lg text-lg hover:bg-white/10 transition">
-        Plan Your Trip
+        class="px-8 py-3 border-2 border-white/60 text-white rounded-xl text-base hover:bg-white/10 transition">
+        Create Account
       </a>
-    </div>
-
-    <!-- Accent dots -->
-    <div class="accent-dots mt-10">
-      <span class="w-3"></span>
-      <span class="w-3"></span>
-      <span class="w-3"></span>
-      <span class="w-8"></span>
     </div>
   </div>
 
-  <!-- Wave -->
-  <div class="wave-bottom">
-    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="white" />
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" class="block w-full">
+      <path d="M0,36 C360,72 1080,0 1440,36 L1440,72 L0,72 Z" fill="white"/>
     </svg>
   </div>
 </section>
 
-<!-- ========== WHY CHOOSE TIZAHAB ========== -->
-<section class="py-24 px-6 bg-white">
+<!-- ========== STICKY SECTION NAV ========== -->
+<div class="section-nav" id="sectionNav">
+  <div class="max-w-6xl mx-auto px-6 overflow-x-auto flex" style="scrollbar-width:none">
+    <a href="#about" data-section="about" class="active">About Riyadh</a>
+    <a href="#things-to-do" data-section="things-to-do">Things to Do</a>
+    <a href="#travel-tips" data-section="travel-tips">Travel Tips</a>
+    <a href="#faqs" data-section="faqs">FAQs</a>
+  </div>
+</div>
+
+<!-- ========== ABOUT RIYADH ========== -->
+<section id="about" class="py-20 px-6 bg-white scroll-mt-32">
   <div class="max-w-5xl mx-auto">
 
-    <div class="text-center mb-16">
-      <h2 class="font-cantata text-4xl sm:text-5xl text-brand">Why Choose Tizahab</h2>
-      <p class="text-gray-500 mt-4 text-lg">Experience Riyadh like never before with our comprehensive tourism services
+    <div class="text-center mb-12">
+      <h2 class="font-cantata text-4xl sm:text-5xl text-brand">About Riyadh</h2>
+      <div class="accent-line"></div>
+      <p class="text-gray-500 mt-5 text-lg max-w-2xl mx-auto">
+        The capital of Saudi Arabia — a city that blends ancient heritage with futuristic ambition.
+        Home to over 7 million people, Riyadh is the cultural and economic heart of the Kingdom.
       </p>
-      <div class="accent-dots mt-4">
-        <span class="w-3"></span><span class="w-3"></span><span class="w-3"></span><span class="w-8"></span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="card-white p-6 text-center">
+        <div class="text-4xl mb-3">🕌</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Rich Heritage</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          From Diriyah's UNESCO mud-brick palaces to Al Masmak Fortress, Riyadh's history stretches centuries deep.
+        </p>
       </div>
+      <div class="card-white p-6 text-center">
+        <div class="text-4xl mb-3">🏙️</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Modern Skyline</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Kingdom Centre Tower and Al Faisaliah define a skyline that rivals any global city, surrounded by world-class malls and entertainment.
+        </p>
+      </div>
+      <div class="card-white p-6 text-center">
+        <div class="text-4xl mb-3">🌅</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Desert Landscapes</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Beyond the city, the Edge of the World offers dramatic escarpment views just 90 minutes from the centre.
+        </p>
+      </div>
+    </div>
+
+    <!-- Weather widget -->
+    <div class="weather-card max-w-2xl mx-auto">
+      <h3 class="font-semibold text-gray-900 text-lg mb-4">🌤️ Riyadh Weather Guide</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-sm">
+        <div>
+          <div class="text-2xl mb-1">❄️</div>
+          <div class="font-semibold text-gray-700">Winter</div>
+          <div class="text-gray-400">Dec – Feb</div>
+          <div class="text-brand font-medium mt-1">8–22°C</div>
+          <div class="text-xs text-gray-400 mt-1">Best time to visit</div>
+        </div>
+        <div>
+          <div class="text-2xl mb-1">🌸</div>
+          <div class="font-semibold text-gray-700">Spring</div>
+          <div class="text-gray-400">Mar – May</div>
+          <div class="text-brand font-medium mt-1">18–35°C</div>
+          <div class="text-xs text-gray-400 mt-1">Mild mornings</div>
+        </div>
+        <div>
+          <div class="text-2xl mb-1">☀️</div>
+          <div class="font-semibold text-gray-700">Summer</div>
+          <div class="text-gray-400">Jun – Sep</div>
+          <div class="text-red-500 font-medium mt-1">32–48°C</div>
+          <div class="text-xs text-gray-400 mt-1">Indoor activities</div>
+        </div>
+        <div>
+          <div class="text-2xl mb-1">🍂</div>
+          <div class="font-semibold text-gray-700">Autumn</div>
+          <div class="text-gray-400">Oct – Nov</div>
+          <div class="text-brand font-medium mt-1">20–35°C</div>
+          <div class="text-xs text-gray-400 mt-1">Comfortable evenings</div>
+        </div>
+      </div>
+      <div id="weatherBanner" class="hidden mt-4 px-4 py-3 rounded-lg text-sm font-medium"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== THINGS TO DO ========== -->
+<section id="things-to-do" class="py-20 px-6 section-light scroll-mt-32">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-12">
+      <h2 class="font-cantata text-4xl sm:text-5xl text-brand">Things to Do</h2>
+      <div class="accent-line"></div>
+      <p class="text-gray-500 mt-5 text-lg">Six must-visit experiences in Riyadh</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% for feat in features %}{% empty %}
-      <!-- Feature cards -->
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          🤖</div>
-        <h3 class="text-xl font-semibold text-gray-900">AI Trip Planning</h3>
-        <p class="text-sm text-gray-500">Personalized itineraries powered by AI based on your preferences</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1617390706688-c8c93bc9b875?w=800&q=80"
+          alt="Diriyah" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-brand bg-brand/10 px-2 py-0.5 rounded-full">Heritage</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Diriyah</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            UNESCO-listed birthplace of the Saudi state. Explore At-Turaif's ancient mud-brick palaces at sunset.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          📡</div>
-        <h3 class="text-xl font-semibold text-gray-900">Real-Time Event Updates</h3>
-        <p class="text-sm text-gray-500">Stay informed about the latest happenings and trending events</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1559628376-f3fe4e4e9571?w=800&q=80"
+          alt="Boulevard City" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">Entertainment</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Boulevard City</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Riyadh's flagship entertainment destination with theatres, dining, and world-class events year-round.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          📅</div>
-        <h3 class="text-xl font-semibold text-gray-900">Smart Daily Schedules</h3>
-        <p class="text-sm text-gray-500">Optimized day plans with drag-and-drop timeline management</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"
+          alt="Al Faisaliah Tower" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">Dining</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Al Faisaliah Tower</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Dine in the globe at the top of Riyadh's first skyscraper and enjoy panoramic views of the city.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          🗺️</div>
-        <h3 class="text-xl font-semibold text-gray-900">Integrated Maps</h3>
-        <p class="text-sm text-gray-500">Interactive GPS navigation with activity markers and directions</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1519218168756-c2b8feea4d38?w=800&q=80"
+          alt="Edge of the World" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Nature</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Edge of the World</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Dramatic 300m escarpment 90km from Riyadh. Hike at sunrise for unmatched views of the Arabian plateau.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          🌍</div>
-        <h3 class="text-xl font-semibold text-gray-900">Bilingual Support</h3>
-        <p class="text-sm text-gray-500">Seamless Arabic and English experience with RTL support</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1564769662533-4f00a87b4056?w=800&q=80"
+          alt="Al Masmak Fortress" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-brand bg-brand/10 px-2 py-0.5 rounded-full">Heritage</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Al Masmak Fortress</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            The iconic 1902 fortress at the heart of old Riyadh. Free entry — a living museum of Saudi unification.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      <div class="bg-white border border-[#f3e8ff] rounded-2xl p-6 space-y-4 hover:shadow-md transition">
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-b from-brand to-[#679af8] flex items-center justify-center text-white text-xl">
-          🎁</div>
-        <h3 class="text-xl font-semibold text-gray-900">Special Offers</h3>
-        <p class="text-sm text-gray-500">Exclusive deals and discounts on events and experiences</p>
+
+      <div class="card-white">
+        <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?w=800&q=80"
+          alt="Kingdom Centre Tower" class="place-img" loading="lazy">
+        <div class="p-5">
+          <span class="text-xs font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">Landmark</span>
+          <h3 class="font-semibold text-gray-900 text-lg mt-2 mb-1">Kingdom Centre Tower</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            The skybridge at 99 floors offers Riyadh's most iconic view. Mall, hotel, and observation deck in one.
+          </p>
+          <a href="/events/page/" class="mt-3 inline-block text-sm text-brand font-medium hover:underline">Explore events →</a>
+        </div>
       </div>
-      {% endfor %}
+
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="/events/page/"
+        class="inline-block px-8 py-3 bg-brand text-white rounded-xl text-sm font-semibold hover:bg-brand-dark transition">
+        View All Events &amp; Places
+      </a>
     </div>
   </div>
 </section>
-<!-- ========== CTA SECTION ========== -->
-<section class="relative py-24 px-6 overflow-hidden"
-  style="background: linear-gradient(135deg, #7e1ca1 0%, #b58fe5 50%, #8034e0 100%)">
-  <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-    <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-white blur-3xl"></div>
-    <div class="absolute -left-20 bottom-0 w-96 h-96 rounded-full bg-[#efd778] blur-3xl"></div>
+
+<!-- ========== TRAVEL TIPS ========== -->
+<section id="travel-tips" class="py-20 px-6 bg-white scroll-mt-32">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-12">
+      <h2 class="font-cantata text-4xl sm:text-5xl text-brand">Travel Tips</h2>
+      <div class="accent-line"></div>
+      <p class="text-gray-500 mt-5 text-lg">Essential things to know before you visit Riyadh</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+      <div class="card-white p-6">
+        <div class="text-3xl mb-3">🕐</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Prayer Times</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Shops close for 15–30 minutes during each of the 5 daily prayer calls. Plan around this — most apps including
+          Google Maps show prayer times. Peak closures are at Dhuhr (midday) and Maghrib (sunset).
+        </p>
+      </div>
+
+      <div class="card-white p-6">
+        <div class="text-3xl mb-3">👗</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Dress Code</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Riyadh is relaxed compared to previous years. Dress modestly in public — covered shoulders and knees.
+          Abaya is no longer required for tourists but is appreciated at heritage sites.
+        </p>
+      </div>
+
+      <div class="card-white p-6">
+        <div class="text-3xl mb-3">🚕</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Getting Around</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Uber and Careem are widely available and reliable. The Riyadh Metro (3 lines, 85 stations) is fast and affordable.
+          Avoid walking outdoors in summer — temperatures can reach 48°C.
+        </p>
+      </div>
+
+      <div class="card-white p-6">
+        <div class="text-3xl mb-3">💳</div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-2">Money &amp; Payments</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Saudi Riyal (SAR) is the local currency. Card payments and Apple/Google Pay are accepted almost everywhere.
+          ATMs are abundant in malls and hotels. Alcohol is not available in Saudi Arabia.
+        </p>
+      </div>
+
+    </div>
   </div>
-  <div class="relative max-w-3xl mx-auto text-center">
+</section>
+
+<!-- ========== FAQs ========== -->
+<section id="faqs" class="py-20 px-6 section-light scroll-mt-32">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="text-center mb-12">
+      <h2 class="font-cantata text-4xl sm:text-5xl text-brand">FAQs</h2>
+      <div class="accent-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Do I need a visa to visit Saudi Arabia?</span>
+        <svg class="faq-arrow w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        Most nationalities can apply for an e-Visa online. Citizens of 49 countries are eligible for visa on arrival.
+        GCC nationals do not require a visa. Visas are typically approved within minutes and cost around $120 USD.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Is Riyadh safe for tourists?</span>
+        <svg class="faq-arrow w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        Yes. Riyadh consistently ranks as one of the safest cities in the world. Petty crime is very low.
+        Saudi Arabia has a zero-tolerance policy for drugs. The city is well-lit and actively patrolled.
+        Solo female travelers are welcome — abayas are no longer required.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>What is the best time of year to visit?</span>
+        <svg class="faq-arrow w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        November to February is ideal — temperatures range from 8°C to 22°C, perfect for outdoor activities.
+        The Riyadh Season festival (typically October–February) brings hundreds of events, concerts, and exhibitions.
+        Avoid June through September when temperatures regularly exceed 45°C.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Can I visit as a solo female traveler?</span>
+        <svg class="faq-arrow w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        Absolutely. Since Vision 2030, Saudi Arabia has welcomed solo female tourists. Women can drive, travel freely,
+        stay in hotels without a male guardian, and attend mixed-gender events and concerts.
+        A modest dress code applies — covered shoulders and knees in public spaces.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>How do I get from King Khalid Airport to the city?</span>
+        <svg class="faq-arrow w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        The Riyadh Metro Blue Line connects directly from the airport to the city centre — fastest option (35 min, 4 SAR).
+        Uber and Careem are also available from the arrivals hall. Most major hotels offer complimentary airport shuttles with advance booking.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="py-24 px-6 text-center"
+  style="background: linear-gradient(135deg, #4D1B76 0%, #7e1ca1 50%, #9d3cbf 100%);">
+  <div class="max-w-2xl mx-auto">
     <h2 class="font-cantata text-4xl sm:text-5xl text-white mb-4">Ready to Explore Riyadh?</h2>
-    <p class="text-white/90 text-lg mb-10">Start planning your perfect Riyadh adventure today with our expert team</p>
+    <p class="text-white/80 text-lg mb-10">Create your free account and start building your perfect Riyadh itinerary.</p>
     <div class="flex flex-wrap items-center justify-center gap-4">
       <a href="/signup/"
-        class="px-8 py-3 bg-white text-brand rounded-lg text-lg font-medium hover:shadow-xl transition">
-        Get Started
+        class="px-8 py-3 bg-white text-brand rounded-xl text-base font-semibold hover:shadow-xl hover:-translate-y-0.5 transition-all">
+        Get Started — It's Free
       </a>
       <a href="/login/"
-        class="px-8 py-3 border-2 border-white/50 text-white rounded-lg text-lg hover:bg-white/10 transition">
+        class="px-8 py-3 border-2 border-white/50 text-white rounded-xl text-base hover:bg-white/10 transition">
         Sign In
       </a>
     </div>
@@ -233,53 +558,50 @@
 </section>
 
 <!-- ========== FOOTER ========== -->
-<footer style="background: linear-gradient(180deg, #7e1ca1 0%, #8034e0 100%)" class="px-6 pt-16 pb-8">
+<footer class="px-6 pt-14 pb-8" style="background: #1a0f2e;">
   <div class="max-w-5xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 pb-10">
 
-      <!-- Brand -->
       <div>
-        <div class="flex items-center gap-2 mb-4">
-          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
             <span class="text-white font-cantata font-bold">T</span>
           </div>
           <div>
             <div class="font-cantata text-white text-base leading-tight">Tizahab</div>
-            <div class="font-bona text-white/80 text-sm leading-tight" dir="rtl">تزهب</div>
+            <div class="font-bona text-white/70 text-sm leading-tight" dir="rtl">تزهب</div>
           </div>
         </div>
-        <p class="text-white/70 text-sm leading-relaxed">
-          Discover the beauty and culture of Riyadh with Tizahab — your gateway to unforgettable experiences.
+        <p class="text-white/60 text-sm leading-relaxed">
+          Discover the beauty and culture of Riyadh — your guide to unforgettable experiences in the heart of Saudi Arabia.
         </p>
       </div>
 
-      <!-- Quick Links -->
       <div>
-        <h4 class="font-cantata text-white text-base mb-4">Quick Links</h4>
-        <ul class="space-y-2 text-sm text-white/70">
+        <h4 class="font-semibold text-white text-sm mb-4 tracking-wide uppercase">Quick Links</h4>
+        <ul class="space-y-2 text-sm text-white/60">
           <li><a href="/" class="hover:text-white transition">Home</a></li>
-          <li><a href="/onboarding/" class="hover:text-white transition">Preferences</a></li>
-          <li><a href="/daily-plan/" class="hover:text-white transition">Daily Plan</a></li>
           <li><a href="/events/page/" class="hover:text-white transition">Events</a></li>
           <li><a href="/map/" class="hover:text-white transition">Map</a></li>
+          <li><a href="/travel-guide/" class="hover:text-white transition">Travel Guide</a></li>
+          <li><a href="/signup/" class="hover:text-white transition">Sign Up</a></li>
         </ul>
       </div>
 
-      <!-- Contact -->
       <div>
-        <h4 class="font-cantata text-white text-base mb-4">Contact</h4>
-        <ul class="space-y-3 text-sm text-white/70">
-          <li class="flex items-center gap-2">📞 <span>+966 11 234 5678</span></li>
-          <li class="flex items-center gap-2">✉️ <span>info@tizahab.sa</span></li>
-          <li class="flex items-start gap-2">📍 <span>King Fahd Road, Riyadh, Saudi Arabia</span></li>
-        </ul>
+        <h4 class="font-semibold text-white text-sm mb-4 tracking-wide uppercase">Follow Us</h4>
+        <div class="flex gap-3">
+          <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/70 text-base select-none">📷</span>
+          <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/70 text-base select-none">🐦</span>
+          <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/70 text-base select-none">▶️</span>
+        </div>
+        <p class="text-white/40 text-xs mt-3">Instagram · Twitter · YouTube</p>
       </div>
+
     </div>
 
-
-    <div
-      class="border-t border-white/20 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/60">
-      <span>© 2025 Tizahab. All rights reserved.</span>
+    <div class="border-t border-white/10 pt-6 text-center text-sm text-white/40">
+      © 2025 Tizahab. Built for tourists in Riyadh.
     </div>
   </div>
 </footer>
@@ -288,28 +610,110 @@
 
 {% block scripts %}
 <script>
-  // Mobile nav
+  // Show nav links only when logged in
+  const _token = localStorage.getItem("access");
+  if (_token) {
+    const authNav = document.getElementById("authNav");
+    if (authNav) { authNav.classList.remove("hidden"); authNav.classList.add("flex"); }
+    const authNavMobile = document.getElementById("authNavMobile");
+    if (authNavMobile) authNavMobile.classList.remove("hidden");
+
+    // Hide guest buttons, show user menu
+    const guestButtons = document.getElementById("guestButtons");
+    if (guestButtons) guestButtons.classList.add("hidden");
+    const userMenu = document.getElementById("userMenu");
+    if (userMenu) { userMenu.classList.remove("hidden"); userMenu.classList.add("flex"); }
+  }
+
+  // Mobile nav toggle
   document.getElementById("mobileNavBtn")?.addEventListener("click", () => {
     document.getElementById("mobileNav")?.classList.toggle("hidden");
   });
 
-  // Language switcher
-  let lang = localStorage.getItem("lang") || "EN";
-  const htmlRoot = document.getElementById("htmlRoot");
-  const langLabel = document.getElementById("landingLangLabel");
-
-  function applyLang(l) {
-    lang = l;
-    if (langLabel) langLabel.textContent = l === "AR" ? "English" : "العربية";
-    htmlRoot.setAttribute("dir", l === "AR" ? "rtl" : "ltr");
-    htmlRoot.setAttribute("lang", l === "AR" ? "ar" : "en");
-    localStorage.setItem("lang", l);
-  }
-  applyLang(lang);
-
-  document.getElementById("langSwitchBtn")?.addEventListener("click", () => {
-    applyLang(lang === "EN" ? "AR" : "EN");
+  // Theme toggle
+  (function () {
+    const btn = document.getElementById("themeSwitchBtn");
+    const saved = localStorage.getItem("tz_theme") || "light";
+    document.documentElement.setAttribute("data-theme", saved);
+    if (btn) btn.textContent = saved === "dark" ? "☀️" : "🌙";
+  })();
+  document.getElementById("themeSwitchBtn")?.addEventListener("click", function () {
+    const next = (localStorage.getItem("tz_theme") || "light") === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("tz_theme", next);
+    this.textContent = next === "dark" ? "☀️" : "🌙";
   });
+
+  // Language switcher
+  let _lang = localStorage.getItem("tz_lang") || "en";
+  const _langLabel = document.getElementById("landingLangLabel");
+  function applyLang(l) {
+    _lang = l;
+    document.documentElement.setAttribute("dir", l === "ar" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("lang", l === "ar" ? "ar" : "en");
+    if (_langLabel) _langLabel.textContent = l === "ar" ? "EN" : "AR";
+    localStorage.setItem("tz_lang", l);
+  }
+  applyLang(_lang);
+  document.getElementById("langSwitchBtn")?.addEventListener("click", () => {
+    applyLang(_lang === "en" ? "ar" : "en");
+  });
+
+  // FAQ accordion
+  document.querySelectorAll(".faq-question").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".faq-item");
+      const isOpen = item.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("open"));
+      if (!isOpen) item.classList.add("open");
+    });
+  });
+
+  // Section nav active highlight
+  const _sections = document.querySelectorAll("section[id]");
+  const _navLinks = document.querySelectorAll(".section-nav a[data-section]");
+  const _obs = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          _navLinks.forEach(a => a.classList.remove("active"));
+          const active = document.querySelector(`.section-nav a[data-section="${entry.target.id}"]`);
+          if (active) active.classList.add("active");
+        }
+      });
+    },
+    { rootMargin: "-25% 0px -65% 0px", threshold: 0 }
+  );
+  _sections.forEach(s => _obs.observe(s));
+
+  // Smooth scroll for section nav
+  document.querySelectorAll('.section-nav a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute("href"));
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  // Seasonal weather banner
+  (function () {
+    const month = new Date().getMonth() + 1;
+    const banner = document.getElementById("weatherBanner");
+    if (!banner) return;
+    let msg, cls;
+    if (month >= 12 || month <= 2) {
+      msg = "✅ You're visiting during the best season — mild weather perfect for outdoor activities.";
+      cls = "bg-green-50 text-green-800 border border-green-200";
+    } else if (month >= 6 && month <= 9) {
+      msg = "⚠️ Summer visit: expect extreme heat (up to 48°C). Plan outdoor activities early morning or after 8pm.";
+      cls = "bg-amber-50 text-amber-800 border border-amber-200";
+    } else {
+      msg = "🌤️ Spring/Autumn visit — pleasant temperatures. Evenings can be cool; bring a light jacket.";
+      cls = "bg-blue-50 text-blue-800 border border-blue-200";
+    }
+    banner.textContent = msg;
+    banner.className = `mt-4 px-4 py-3 rounded-lg text-sm font-medium ${cls}`;
+    banner.classList.remove("hidden");
+  })();
 </script>
 {% endblock %}
-
