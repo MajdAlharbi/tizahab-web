@@ -98,9 +98,29 @@
         .replaceAll("'", "&#039;");
     }
 
-    function logout() {
+    function getCSRFToken() {
+      return document.cookie
+        .split("; ")
+        .find(row => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+    }
+
+    async function logout() {
+      try {
+        await fetch("/logout/", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "X-CSRFToken": getCSRFToken?.() || "",
+          },
+        });
+      } catch (e) {
+        console.warn("Logout request failed", e);
+      }
+
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
+
       window.location.href = "/login/";
     }
 

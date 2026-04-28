@@ -640,6 +640,18 @@ def _slot_fit_score(event, slot_key):
     return score
 
 
+def filter_events_by_slot(events, slot_name):
+    FOOD_CATEGORIES = {"food", "restaurant", "cafe"}
+
+    if str(slot_name or "").lower() in {"breakfast", "lunch", "dinner"}:
+        return [
+            event for event in (events or [])
+            if str(getattr(event, "category", "") or "").lower() in FOOD_CATEGORIES
+        ]
+
+    return list(events or [])
+
+
 def _pick_best_for_slot(
     available,
     slot_key,
@@ -652,11 +664,16 @@ def _pick_best_for_slot(
     if not available:
         return None
 
+    slot_filtered_events = filter_events_by_slot(available, slot_key)
+    if not slot_filtered_events:
+        slot_filtered_events = list(available)
+
     used_subcategories = used_subcategories or set()
     candidates = []
     fallback_candidates = []
 
-    for index, event in enumerate(available):
+    for event in slot_filtered_events:
+        index = available.index(event)
         rating = float(event.rating or 0)
         if minimum_rating is not None and rating < minimum_rating:
             continue
@@ -1105,8 +1122,10 @@ def generate_recommendations(
             preferences.min_rating,
         )
     )
-    if not candidates and base_queryset.exists() and has_strict_filters:
-        return []
+    if not candidates and base_queryset.exists():
+        # fallback to relaxed results
+        fallback = list(base_queryset.order_by("-rating")[:20])
+        return fallback
 
     if not candidates:
         return []

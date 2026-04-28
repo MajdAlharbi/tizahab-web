@@ -225,7 +225,7 @@ function getCurrentLanguage() {
 }
 
 function getGenerateButtonLabel(isLoading = false) {
-  const generateBtn = document.getElementById("generate-btn");
+  const generateBtn = document.getElementById("generate-plan-btn");
   const lang = getCurrentLanguage();
   if (isLoading) {
     return lang === "ar" ? "جارٍ التحميل..." : "Loading...";
@@ -239,7 +239,7 @@ function getGenerateButtonLabel(isLoading = false) {
 }
 
 function setGenerateButtonLabel(isLoading = false) {
-  const label = document.getElementById("generate-btn-label");
+  const label = document.getElementById("generate-plan-btn-label");
   if (!label) return;
   label.textContent = getGenerateButtonLabel(isLoading);
 }
@@ -680,6 +680,12 @@ function buildStructuredSlots(events, dayIndex = currentDayIndex) {
   });
 }
 
+function buildStructuredSlotEvents(events, dayIndex = currentDayIndex) {
+  return buildStructuredSlots(events, dayIndex);
+}
+
+window.buildStructuredSlotEvents = buildStructuredSlotEvents;
+
 async function loadCurrentPreferences() {
   // Always re-fetch so trip_duration / budget changes on the preferences page
   // are reflected on the daily plan page without a hard reload.
@@ -1001,7 +1007,7 @@ function updateMapPlaceholderLink(events) {
 function updatePlanPageState(hasPlan) {
   const readySection = document.getElementById("plan-status-ready");
   const emptySection = document.getElementById("plan-empty-state");
-  const generateBtn = document.getElementById("generate-btn");
+  const generateBtn = document.getElementById("generate-plan-btn");
   const addActivityBtn = document.getElementById("add-activity-btn");
 
   if (readySection) {
@@ -1311,36 +1317,44 @@ function renderDailyPlan(data) {
   let previousMappedEvent = null;
 
   slots.forEach((slot) => {
-    const section = document.createElement("section");
-    section.className = "mt-6 first:mt-0 space-y-3";
+    try {
+      const section = document.createElement("section");
+      if (!section) {
+        console.warn("Missing section for slot", slot);
+        return;
+      }
+      section.className = "mt-6 first:mt-0 space-y-3";
 
-    const header = document.createElement("div");
-    header.className = "flex items-end justify-between gap-3 pb-1";
+      const header = document.createElement("div");
+      header.className = "flex items-end justify-between gap-3 pb-1";
 
-    const title = document.createElement("h3");
-    title.className = "text-lg font-semibold text-gray-900";
-    title.textContent = slot.label;
+      const title = document.createElement("h3");
+      title.className = "text-lg font-semibold text-gray-900";
+      title.textContent = slot.label;
 
-    header.appendChild(title);
-    const currentMappedEvent = _firstMappedEvent(slot);
-    if (_areNearbyEvents(previousMappedEvent, currentMappedEvent)) {
-      const sameAreaLabel = document.createElement("span");
-      sameAreaLabel.className =
-        "inline-flex items-center rounded-full bg-brand/10 text-brand text-xs font-semibold px-2.5 py-1";
-      sameAreaLabel.textContent = "Same Area";
-      header.appendChild(sameAreaLabel);
-    }
-    section.appendChild(header);
+      header.appendChild(title);
+      const currentMappedEvent = _firstMappedEvent(slot);
+      if (_areNearbyEvents(previousMappedEvent, currentMappedEvent)) {
+        const sameAreaLabel = document.createElement("span");
+        sameAreaLabel.className =
+          "inline-flex items-center rounded-full bg-brand/10 text-brand text-xs font-semibold px-2.5 py-1";
+        sameAreaLabel.textContent = "Same Area";
+        header.appendChild(sameAreaLabel);
+      }
+      section.appendChild(header);
 
-    const body = document.createElement("div");
-    body.className = "space-y-3";
-    body.dataset.slotBody = slot.key;
-    section.appendChild(body);
+      const body = document.createElement("div");
+      body.className = "space-y-3";
+      body.dataset.slotBody = slot.key;
+      section.appendChild(body);
 
-    container.appendChild(section);
-    renderSlotSection(slot.key, currentDayIndex);
-    if (currentMappedEvent) {
-      previousMappedEvent = currentMappedEvent;
+      container.appendChild(section);
+      renderSlotSection(slot.key, currentDayIndex);
+      if (currentMappedEvent) {
+        previousMappedEvent = currentMappedEvent;
+      }
+    } catch (e) {
+      console.warn("Render failed", e);
     }
   });
 
@@ -1368,7 +1382,7 @@ function setLoading(isLoading) {
 
 function resetGenerateActionState() {
   setLoading(false);
-  const generateBtn = document.getElementById("generate-btn");
+  const generateBtn = document.getElementById("generate-plan-btn");
   if (generateBtn) generateBtn.disabled = false;
 }
 
@@ -1991,7 +2005,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Generate AI Plan (multi-day)
-  const generateBtn = document.getElementById("generate-btn");
+  const generateBtn = document.getElementById("generate-plan-btn");
   setGenerateButtonLabel(false);
   generateBtn?.addEventListener("click", async () => {
     try {
@@ -2090,17 +2104,36 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
 function initDailyPlanMap() {
-  if (!window.TZMap) return;
+  if (typeof google === "undefined" || !google.maps) {
+    console.warn("Google Maps not available");
+    return;
+  }
 
-  window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
-  window.__TZ_DP_MARKERS = {};
+  try {
+    if (!window.TZMap) return;
 
-  if (
-    window.__TZ_DP_MAP &&
-    Array.isArray(window.__TZ_DP_PENDING_POINTS) &&
-    window.__TZ_DP_PENDING_POINTS.length
-  ) {
-    updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
+    window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
+    window.__TZ_DP_MARKERS = {};
+
+    if (
+      window.__TZ_DP_MAP &&
+      Array.isArray(window.__TZ_DP_PENDING_POINTS) &&
+      window.__TZ_DP_PENDING_POINTS.length
+    ) {
+      updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
+    }
+  } catch (e) {
+    console.warn("Map failed to load", e);
+
+    const mapContainer =
+      document.getElementById("dailyPlanMap") || document.getElementById("map");
+    if (mapContainer) {
+      mapContainer.innerHTML = `
+      <div class="p-4 text-center text-gray-500">
+        Map is currently unavailable
+      </div>
+    `;
+    }
   }
 }
 

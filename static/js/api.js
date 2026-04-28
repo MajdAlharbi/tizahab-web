@@ -146,6 +146,7 @@ async function _tryRefresh() {
     const res = await fetch("/api/auth/token/refresh/", {
       method: "POST",
       headers: authHeaders("/api/auth/token/refresh/"),
+      credentials: "include",
       body: JSON.stringify({ refresh }),
     });
     if (!res.ok) return false;
@@ -168,6 +169,7 @@ async function logout(options = {}) {
     await fetch("/logout/", {
       method: "POST",
       headers: authHeaders("/logout/"),
+      credentials: "include",
     });
   } catch (error) {
     console.error("Logout request failed", error);
@@ -194,7 +196,10 @@ function _logout() {
 
 async function apiGet(url) {
   try {
-    let res = await fetch(url, { headers: authHeaders(url) });
+    let res = await fetch(url, {
+      headers: authHeaders(url),
+      credentials: "include",
+    });
 
     if (res.status === 401) {
       const refreshed = await _tryRefresh();
@@ -206,7 +211,10 @@ async function apiGet(url) {
         throw err;
       }
       // Retry with the new access token
-      res = await fetch(url, { headers: authHeaders(url) });
+      res = await fetch(url, {
+        headers: authHeaders(url),
+        credentials: "include",
+      });
       if (res.status === 401) {
         console.warn("401 Unauthorized - not forcing logout");
         const err = new Error("Unauthorized");
@@ -229,6 +237,7 @@ async function apiPost(url, data) {
     let res = await fetch(url, {
       method: "POST",
       headers: authHeaders(url),
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
@@ -245,6 +254,7 @@ async function apiPost(url, data) {
       res = await fetch(url, {
         method: "POST",
         headers: authHeaders(url),
+        credentials: "include",
         body: JSON.stringify(data),
       });
       if (res.status === 401) {
@@ -269,6 +279,7 @@ async function apiPut(url, data) {
     let res = await fetch(url, {
       method: "PUT",
       headers: authHeaders(url),
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
@@ -284,6 +295,7 @@ async function apiPut(url, data) {
       res = await fetch(url, {
         method: "PUT",
         headers: authHeaders(url),
+        credentials: "include",
         body: JSON.stringify(data),
       });
       if (res.status === 401) {
@@ -308,6 +320,7 @@ async function apiPatch(url, data) {
     let res = await fetch(url, {
       method: "PATCH",
       headers: authHeaders(url),
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
@@ -323,6 +336,7 @@ async function apiPatch(url, data) {
       res = await fetch(url, {
         method: "PATCH",
         headers: authHeaders(url),
+        credentials: "include",
         body: JSON.stringify(data),
       });
       if (res.status === 401) {
@@ -347,6 +361,7 @@ async function apiDelete(url) {
     let res = await fetch(url, {
       method: "DELETE",
       headers: authHeaders(url),
+      credentials: "include",
     });
 
     if (res.status === 401) {
@@ -361,6 +376,7 @@ async function apiDelete(url) {
       res = await fetch(url, {
         method: "DELETE",
         headers: authHeaders(url),
+        credentials: "include",
       });
       if (res.status === 401) {
         console.warn("401 Unauthorized - not forcing logout");
