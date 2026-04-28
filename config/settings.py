@@ -61,9 +61,9 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
     or GOOGLE_MAPS_API_KEY
 )
 
-DEBUG = False
+DEBUG = env_bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 
 # ========================
 # Applications
@@ -184,9 +184,6 @@ AUTHENTICATION_BACKENDS = [
 # ========================
 # Internationalization
 # ========================
-# ========================
-# Internationalization
-# ========================
 
 LANGUAGE_CODE = 'en'
 
@@ -220,7 +217,6 @@ STATICFILES_DIRS = [
 
 # WhiteNoise: compress files and append content-hash to filenames for
 # cache-busting. Requires `python manage.py collectstatic` before deployment.
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",

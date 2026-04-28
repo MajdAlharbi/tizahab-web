@@ -161,7 +161,7 @@ class EventListAPIView(ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Event.objects.all()
+        queryset = Event.objects.filter(is_active=True)
 
         search = self.request.query_params.get("search", "").strip()
 

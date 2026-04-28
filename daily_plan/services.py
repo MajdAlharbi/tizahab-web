@@ -34,6 +34,15 @@ KNOWN_LANDMARK_NAMES = {
     "kingdom centre tower",
     "al faisaliah tower",
     "kafd",
+    "diriyah",
+    "al masmak fortress",
+    "murabba palace",
+    "kingdom entertainment city",
+    "riyadh front",
+    "via riyadh",
+    "edge of the world",
+    "national museum of saudi arabia",
+    "king abdulaziz historical center",
 }
 GENERIC_NAME_TERMS = {
     "mall",
@@ -47,7 +56,7 @@ GENERIC_NAME_TERMS = {
     "city",
     "place",
 }
-TOURISM_BOOST_CATEGORIES = {"nature", "entertainment", "heritage", "events"}
+TOURISM_BOOST_CATEGORIES = {"nature", "entertainment", "heritage", "events", "shopping"}
 NOISY_SUBCATEGORIES = {"themed land", "lobby", "walkway", "plaza"}
 MACRO_ATTRACTION_SUBCATEGORIES = {
     "public park",
@@ -150,7 +159,7 @@ def _is_suspicious_name(event):
         return False
     if "tower" in title and title not in KNOWN_LANDMARK_NAMES:
         return True
-    if "city" in title and "boulevard city" not in title:
+    if title == "city":
         return True
     if title in GENERIC_NAME_TERMS:
         return True
@@ -608,7 +617,8 @@ def _slot_fit_score(event, slot_key):
     category = str(getattr(event, "category", "") or "").lower()
     text_blob = _event_text_blob(event)
     score = float(getattr(event, "rating", 0) or 0)
-    is_food = category == "food"
+    FOOD_CATEGORY_SET = {"food", "restaurant", "cafe"}
+    is_food = category in FOOD_CATEGORY_SET
 
     if slot_key in {"breakfast", "lunch"}:
         if not is_food:
@@ -626,15 +636,29 @@ def _slot_fit_score(event, slot_key):
         return score
 
     if slot_key == "activity":
-        if category not in {"culture", "nature"}:
+        ACTIVITY_CATEGORIES = {"culture", "nature", "heritage", "entertainment", "family", "events"}
+        if category not in ACTIVITY_CATEGORIES:
             return float("-inf")
-        score += 1.5
+        if category in {"heritage", "culture"}:
+            score += 2.0
+        elif category in {"nature", "entertainment"}:
+            score += 1.5
+        else:
+            score += 0.8
         return score
 
     if slot_key == "evening":
-        if category != "entertainment":
+        EVENING_CATEGORIES = {"entertainment", "heritage", "culture", "shopping"}
+        if category not in EVENING_CATEGORIES:
             return float("-inf")
-        score += 3.0
+        if category == "entertainment":
+            score += 3.0
+        elif category == "heritage":
+            score += 2.0
+        elif category == "shopping":
+            score += 1.5
+        else:
+            score += 1.0
         return score
 
     return score

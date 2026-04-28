@@ -197,7 +197,7 @@ function _logout() {
   return logout();
 }
 
-async function apiGet(url) {
+async function apiGet(url, retry = true) {
   try {
     const res = await fetch(url, {
       method: "GET",
@@ -206,7 +206,9 @@ async function apiGet(url) {
     });
 
     if (res.status === 401) {
-      return { results: [] };
+      if (retry && await _tryRefresh()) return apiGet(url, false);
+      redirectToLogin();
+      return;
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to load data");
@@ -217,7 +219,7 @@ async function apiGet(url) {
   }
 }
 
-async function apiPost(url, data) {
+async function apiPost(url, data, retry = true) {
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -227,7 +229,9 @@ async function apiPost(url, data) {
     });
 
     if (res.status === 401) {
-      return { results: [] };
+      if (retry && await _tryRefresh()) return apiPost(url, data, false);
+      redirectToLogin();
+      return;
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to complete request");
@@ -238,7 +242,7 @@ async function apiPost(url, data) {
   }
 }
 
-async function apiPut(url, data) {
+async function apiPut(url, data, retry = true) {
   try {
     const res = await fetch(url, {
       method: "PUT",
@@ -248,7 +252,9 @@ async function apiPut(url, data) {
     });
 
     if (res.status === 401) {
-      return { results: [] };
+      if (retry && await _tryRefresh()) return apiPut(url, data, false);
+      redirectToLogin();
+      return;
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to save changes");
@@ -259,7 +265,7 @@ async function apiPut(url, data) {
   }
 }
 
-async function apiPatch(url, data) {
+async function apiPatch(url, data, retry = true) {
   try {
     const res = await fetch(url, {
       method: "PATCH",
@@ -269,7 +275,9 @@ async function apiPatch(url, data) {
     });
 
     if (res.status === 401) {
-      return { results: [] };
+      if (retry && await _tryRefresh()) return apiPatch(url, data, false);
+      redirectToLogin();
+      return;
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to update data");
@@ -280,7 +288,7 @@ async function apiPatch(url, data) {
   }
 }
 
-async function apiDelete(url) {
+async function apiDelete(url, retry = true) {
   try {
     const res = await fetch(url, {
       method: "DELETE",
@@ -289,7 +297,9 @@ async function apiDelete(url) {
     });
 
     if (res.status === 401) {
-      return { results: [] };
+      if (retry && await _tryRefresh()) return apiDelete(url, false);
+      redirectToLogin();
+      return;
     }
 
     if (!res.ok) await _raiseApiError(res, "Unable to delete data");
@@ -327,7 +337,6 @@ window.catLabel = catLabel;
 window.catEmoji = catEmoji;
 window.toISODate = toISODate;
 window.catColor = catColor;
-window.toISODate = toISODate;
 window.getToken = getToken;
 window.isLoggedIn = isLoggedIn;
 window.redirectToLogin = redirectToLogin;

@@ -27,12 +27,6 @@ const CLEAN_SLOT_DEFINITIONS = [
   { key: "lunch", label: SLOT_LABELS.lunch },
   { key: "evening", label: SLOT_LABELS.evening },
 ];
-const SLOT_DEFINITIONS = [
-  { key: "breakfast", label: SLOT_LABELS.breakfast },
-  { key: "activity", label: SLOT_LABELS.activity },
-  { key: "lunch", label: SLOT_LABELS.lunch },
-  { key: "evening", label: SLOT_LABELS.evening },
-];
 const SLOT_LIMITS = {
   breakfast: 1,
   activity: 3,
@@ -235,11 +229,11 @@ function getGenerateButtonLabel(isLoading = false) {
     return lang === "ar" ? "جارٍ التحميل..." : "Loading...";
   }
   if (!generateBtn) {
-    return lang === "ar" ? "إنشاء خطة بالذكاء الاصطناعي" : "Generate AI Plan";
+    return lang === "ar" ? "إنشاء خطة" : "Generate Plan";
   }
   return lang === "ar"
-    ? (generateBtn.dataset.labelAr || "إنشاء خطة بالذكاء الاصطناعي")
-    : (generateBtn.dataset.labelEn || "Generate AI Plan");
+    ? (generateBtn.dataset.labelAr || "إنشاء خطة")
+    : (generateBtn.dataset.labelEn || "Generate Plan");
 }
 
 function setGenerateButtonLabel(isLoading = false) {
@@ -449,60 +443,6 @@ async function requestPlanForSelectedDate(generateBtn) {
       setGenerateButtonLabel(false);
     }
   }
-}
-
-function organizeEventsByTime(events) {
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  const available = [...normalizedEvents];
-
-  const foodCategories = new Set(["food"]);
-  const activityCategories = new Set(["culture", "heritage", "shopping", "entertainment", "events"]);
-  const relaxingCategories = new Set(["nature", "family"]);
-
-  function takeFirst(predicate) {
-    const index = available.findIndex(predicate);
-    if (index === -1) return null;
-    return available.splice(index, 1)[0];
-  }
-
-  function withLabel(event, label) {
-    return event ? { ...event, itineraryLabel: label } : null;
-  }
-
-  const breakfast =
-    takeFirst((event) =>
-      foodCategories.has(String(event.category || "").toLowerCase()),
-    ) || takeFirst(() => true);
-
-  const activity =
-    takeFirst(
-      (event) =>
-        activityCategories.has(String(event.category || "").toLowerCase()) ||
-        !foodCategories.has(String(event.category || "").toLowerCase()),
-    ) || takeFirst(() => true);
-
-  const lunch =
-    takeFirst((event) =>
-      foodCategories.has(String(event.category || "").toLowerCase()),
-    ) || takeFirst(() => true);
-
-  const evening =
-    takeFirst((event) =>
-      relaxingCategories.has(String(event.category || "").toLowerCase()),
-    ) || takeFirst(() => true);
-
-  const structured = [
-    withLabel(breakfast, "Breakfast"),
-    withLabel(activity, "Activity"),
-    withLabel(lunch, "Lunch"),
-    withLabel(evening, "Evening"),
-  ].filter(Boolean);
-
-  available.forEach((event) => {
-    structured.push({ ...event, itineraryLabel: "Evening" });
-  });
-
-  return structured;
 }
 
 function slotLabelForKey(slotKey) {
@@ -734,35 +674,6 @@ function _distanceBetween(a, b) {
   );
 }
 
-function getDistance(a, b) {
-  const latA = Number.parseFloat(a?.latitude);
-  const lngA = Number.parseFloat(a?.longitude);
-  const latB = Number.parseFloat(b?.latitude);
-  const lngB = Number.parseFloat(b?.longitude);
-
-  if (
-    !Number.isFinite(latA) ||
-    !Number.isFinite(lngA) ||
-    !Number.isFinite(latB) ||
-    !Number.isFinite(lngB)
-  ) {
-    return Number.POSITIVE_INFINITY;
-  }
-
-  const R = 6371;
-  const dLat = ((latB - latA) * Math.PI) / 180;
-  const dLng = ((lngB - lngA) * Math.PI) / 180;
-
-  const lat1 = (latA * Math.PI) / 180;
-  const lat2 = (latB * Math.PI) / 180;
-
-  const x =
-    Math.sin(dLat / 2) ** 2 +
-    Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
-
-  return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
-}
-
 function findBestCenter(events) {
   const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
   if (!normalizedEvents.length) return null;
@@ -773,7 +684,7 @@ function findBestCenter(events) {
   normalizedEvents.forEach((e1) => {
     let total = 0;
     normalizedEvents.forEach((e2) => {
-      total += getDistance(e1, e2);
+      total += _distanceBetween(e1, e2);
     });
 
     if (total < bestScore) {
@@ -783,54 +694,6 @@ function findBestCenter(events) {
   });
 
   return best;
-}
-
-function filterEventsByArea(events) {
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  if (!normalizedEvents.length) return normalizedEvents;
-
-  const center = findBestCenter(normalizedEvents);
-  const hasCenterCoords =
-    Number.isFinite(Number.parseFloat(center?.latitude)) &&
-    Number.isFinite(Number.parseFloat(center?.longitude));
-
-  if (!hasCenterCoords) return normalizedEvents;
-
-  const withinRadius = (radiusKm) =>
-    normalizedEvents.filter((event) => getDistance(center, event) <= radiusKm);
-
-  let filtered = withinRadius(5);
-  if (filtered.length < 3) {
-    filtered = withinRadius(10);
-  }
-
-  return filtered.length ? filtered : normalizedEvents;
-}
-
-function sortEventsByProximity(events) {
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  if (normalizedEvents.length <= 1) return normalizedEvents;
-
-  const remaining = [...normalizedEvents];
-  const ordered = [remaining.shift()];
-
-  while (remaining.length) {
-    const last = ordered[ordered.length - 1];
-    let nearestIndex = 0;
-    let nearestDistance = _distanceBetween(last, remaining[0]);
-
-    for (let index = 1; index < remaining.length; index += 1) {
-      const candidateDistance = _distanceBetween(last, remaining[index]);
-      if (candidateDistance < nearestDistance) {
-        nearestDistance = candidateDistance;
-        nearestIndex = index;
-      }
-    }
-
-    ordered.push(remaining.splice(nearestIndex, 1)[0]);
-  }
-
-  return ordered;
 }
 
 function renderDaysBar() {
@@ -1210,14 +1073,12 @@ function _distanceBetweenEvents(a, b) {
   ) {
     return null;
   }
-  const latDiff = lat1 - lat2;
-  const lngDiff = lng1 - lng2;
-  return Math.sqrt((latDiff * latDiff) + (lngDiff * lngDiff));
+  return _distanceBetween(a, b);
 }
 
 function _areNearbyEvents(a, b) {
   const distance = _distanceBetweenEvents(a, b);
-  return distance !== null && distance <= 0.05;
+  return distance !== null && distance <= 0.8;
 }
 
 function _firstMappedEvent(slot) {
@@ -1984,7 +1845,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCurrentPlan();
   });
 
-  // Generate AI Plan (multi-day)
+  // Generate Plan (multi-day)
   const generateBtn = document.getElementById("generate-plan-btn");
   setGenerateButtonLabel(false);
   generateBtn?.addEventListener("click", async () => {
@@ -2088,6 +1949,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initDailyPlanMap() {
   if (!window.GMAPS_ENABLED) {
+    console.warn("[DailyPlan] Google Maps not enabled on this page.");
     const mapContainer =
       document.getElementById("dailyPlanMap") || document.getElementById("map");
     if (mapContainer) {
