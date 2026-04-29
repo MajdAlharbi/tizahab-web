@@ -1,639 +1,125 @@
-let multiDayPlans = [];
-let currentDayIndex = 0;
-let _currentPreferences = null;
-let _slotAssignmentsByDay = {};
-let _slotFeedbackByDay = {};
-let _slotBlockedIdsByDay = {};
-let _replacementCandidatesCache = new Map();
-let _isPlanLoading = false;
-let _preferencesLoadFailed = false;
-let _lastPlanRequestFailed = false;
-const SELECTED_PLAN_DATE_STORAGE_KEY = "tz_selected_plan_date";
-const PLAN_START_DATE_STORAGE_KEY = "tz_plan_start_date";
-const PLAN_END_DATE_STORAGE_KEY = "tz_plan_end_date";
-const normalizeApiDate =
-  typeof window !== "undefined" && typeof window.toISODate === "function"
-    ? window.toISODate.bind(window)
-    : (dateStr) => dateStr || null;
-const SLOT_LABELS = {
-  breakfast: "Breakfast",
-  activity: "Activity",
-  lunch: "Lunch",
-  evening: "Evening",
-};
-const CLEAN_SLOT_DEFINITIONS = [
-  { key: "breakfast", label: SLOT_LABELS.breakfast },
-  { key: "activity", label: SLOT_LABELS.activity },
-  { key: "lunch", label: SLOT_LABELS.lunch },
-  { key: "evening", label: SLOT_LABELS.evening },
-];
-const SLOT_LIMITS = {
-  breakfast: 1,
-  activity: 3,
-  lunch: 1,
-  evening: 3,
+/* ═══════════════════════════════════════════════════════════
+   daily_plan_integration.js
+   Timeline-based daily plan for tourists.
+   Depends on api.js (apiGet, apiPost, apiPut, apiPatch, apiDelete)
+═══════════════════════════════════════════════════════════ */
+
+// ── Constants ─────────────────────────────────────────────
+const SLOT_LABELS    = { breakfast: "Breakfast", activity: "Activity", lunch: "Lunch", evening: "Evening" };
+const SLOT_LIMITS    = { breakfast: 1, activity: 3, lunch: 1, evening: 3 };
+const SLOT_ORDER     = ["breakfast", "activity", "lunch", "evening"];
+
+const SLOT_TIMES = {
+  breakfast: ["08:00 AM"],
+  activity:  ["10:00 AM", "12:00 PM", "02:00 PM"],
+  lunch:     ["01:00 PM"],
+  evening:   ["05:00 PM", "07:00 PM", "09:00 PM"],
 };
 
-/** Format a Date as YYYY-MM-DD in the local timezone (not UTC). */
+const SLOT_GRADIENTS = {
+  breakfast: "linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%)",
+  activity:  "linear-gradient(135deg, #ede9fe 0%, #c4b5fd 100%)",
+  lunch:     "linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)",
+  evening:   "linear-gradient(135deg, #eef2ff 0%, #c7d2fe 100%)",
+};
+
+const PLAN_START_KEY   = "tz_plan_start_date";
+const PLAN_END_KEY     = "tz_plan_end_date";
+const SELECTED_DATE_KEY = "tz_selected_plan_date";
+
+// ── Module State ──────────────────────────────────────────
+let multiDayPlans           = [];
+let currentDayIndex         = 0;
+let _currentPlan            = null;
+let _currentPreferences     = null;
+let _slotAssignmentsByDay   = {};
+let _slotFeedbackByDay      = {};
+let _slotBlockedIdsByDay    = {};
+let _replacementCache       = new Map();
+let _isPlanLoading          = false;
+let _activityDebounce       = null;
+let _userLocation           = null;
+// Tracks which day indices have ever had plan data — used to show
+// placeholder slots (not full empty-state) after all activities are removed.
+let _dayHasPlan             = {};
+
+// ── Utilities ─────────────────────────────────────────────
 function _localDateStr(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-let selectedDate =
-  localStorage.getItem(SELECTED_PLAN_DATE_STORAGE_KEY) ||
-  _localDateStr(new Date());
-
-function getStoredPlanStartDate() {
-  return (
-    localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) ||
-    _currentPreferences?.start_date ||
-    _localDateStr(new Date())
-  );
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function getStoredPlanEndDate() {
-  return localStorage.getItem(PLAN_END_DATE_STORAGE_KEY) || _currentPreferences?.end_date || "";
+function categoryEmoji(cat) {
+  const c = String(cat || "").toLowerCase();
+  if (c.includes("food") || c.includes("restaurant") || c.includes("cafe") || c.includes("beverage")) return "🍽️";
+  if (c.includes("culture") || c.includes("heritage") || c.includes("histor")) return "🏛️";
+  if (c.includes("nature") || c.includes("outdoor") || c.includes("park")) return "🌳";
+  if (c.includes("entertainment")) return "🎭";
+  if (c.includes("shopping")) return "🛍️";
+  if (c.includes("event")) return "🎫";
+  return "📍";
 }
 
-function setStoredPlanRange(startDateStr, endDateStr = "") {
-  const safeStart = startDateStr || _localDateStr(new Date());
-  localStorage.setItem(PLAN_START_DATE_STORAGE_KEY, safeStart);
-  if (endDateStr) {
-    localStorage.setItem(PLAN_END_DATE_STORAGE_KEY, endDateStr);
-  } else {
-    localStorage.removeItem(PLAN_END_DATE_STORAGE_KEY);
-  }
+function formatCategory(cat) {
+  return String(cat || "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) || "Place";
 }
 
-function configuredRangeDuration() {
-  const startDate = getStoredPlanStartDate();
-  const endDate = getStoredPlanEndDate();
-  if (!startDate || !endDate) return null;
-
-  const start = new Date(`${startDate}T00:00:00`);
-  const end = new Date(`${endDate}T00:00:00`);
-  const diffDays = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
-  return diffDays > 0 ? diffDays : null;
+function formatPrice(price) {
+  const p = parseFloat(price);
+  if (!isFinite(p) || p < 0) return "Free";
+  return p === 0 ? "Free" : `${p.toFixed(0)} SAR`;
 }
 
-function updateTripLengthLabel() {
-  const label = document.getElementById("trip-length-label");
-  if (!label) return;
-  const duration = getTripDuration();
-  label.textContent = duration === 1 ? "1 day" : `${duration} days`;
-}
-
-function syncPlanDateInputs() {
-  const startInput = document.getElementById("plan-start-date");
-  const endInput = document.getElementById("plan-end-date");
-  if (startInput) startInput.value = getStoredPlanStartDate();
-  if (endInput) endInput.value = getStoredPlanEndDate();
-  updateTripLengthLabel();
-}
-
-function savePlanRangeFromInputs() {
-  const startInput = document.getElementById("plan-start-date");
-  const endInput = document.getElementById("plan-end-date");
-  const startDate = startInput?.value || getStoredPlanStartDate();
-  const endDate = endInput?.value || "";
-
-  if (endDate && endDate < startDate) {
-    endInput.value = startDate;
-    setStoredPlanRange(startDate, startDate);
-  } else {
-    setStoredPlanRange(startDate, endDate);
-  }
-  updateTripLengthLabel();
-}
-
-function setSelectedPlanDate(dateStr) {
-  selectedDate = dateStr || _localDateStr(new Date());
-  localStorage.setItem(SELECTED_PLAN_DATE_STORAGE_KEY, selectedDate);
-  return selectedDate;
-}
-
-function getSelectedPlanDate() {
-  if (window.multiDayDates && window.currentDayIndex != null) {
-    return window.multiDayDates[window.currentDayIndex];
-  }
-  return (
-    document.querySelector("[data-selected-date]")?.dataset?.selectedDate ||
-    selectedDate ||
-    getStoredPlanStartDate() ||
-    null
-  );
-}
-
-function normalizePlanEvent(event, index = 0) {
-  if (!event || typeof event !== "object") return null;
-  return {
-    ...event,
-    plan_id: Number.isFinite(Number(event.plan_id)) ? Number(event.plan_id) : null,
-    plan_date: event.plan_date || null,
-    slot_type: event.slot_type || null,
-    item_order: Number.isFinite(Number(event.item_order)) ? Number(event.item_order) : index,
-    plan_item_id: Number.isFinite(Number(event.plan_item_id)) ? Number(event.plan_item_id) : null,
-    locked: Boolean(event.locked),
-    plan_item_source: event.plan_item_source || null,
-  };
-}
-
-function normalizePlanPayload(plan) {
-  const rawItems = Array.isArray(plan?.items) ? plan.items.filter(Boolean) : [];
-  const itemBackedEvents = rawItems
-    .map((item, index) => {
-      if (!item?.event || typeof item.event !== "object") return null;
-      return normalizePlanEvent(
-        {
-          ...item.event,
-          plan_id: plan?.id || null,
-          plan_date: plan?.date || null,
-          slot_type: item.slot_type || null,
-          item_order: item.order,
-          plan_item_id: item.id,
-          locked: item.locked,
-          plan_item_source: item.source,
-        },
-        index,
-      );
-    })
-    .filter(Boolean)
-    .sort((a, b) => {
-      const orderDiff = Number(a.item_order || 0) - Number(b.item_order || 0);
-      if (orderDiff !== 0) return orderDiff;
-      return Number(a.id || 0) - Number(b.id || 0);
-    });
-
-  const fallbackEvents = Array.isArray(plan?.events)
-    ? plan.events
-        .map((event, index) =>
-          normalizePlanEvent(
-            {
-              ...event,
-              plan_id: plan?.id || null,
-              plan_date: plan?.date || null,
-            },
-            index,
-          ),
-        )
-        .filter(Boolean)
-    : [];
-  const normalizedEvents = itemBackedEvents.length ? itemBackedEvents : fallbackEvents;
-
-  return {
-    ...(plan || {}),
-    items: rawItems,
-    events: normalizedEvents,
-    count: normalizedEvents.length,
-  };
-}
-
-function getDailyPlanErrorMessage(error, fallback = "Something went wrong. Please try again.") {
-  const fromResponse =
-    typeof extractApiErrorMessage === "function"
-      ? extractApiErrorMessage(error?.responseData, "")
-      : "";
-  const fromError = typeof error?.message === "string" ? error.message.trim() : "";
-
-  if (fromResponse) return fromResponse;
-  if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
-  return fallback;
-}
-
-function showPlanMessage(text, tone = "info") {
-  const message = document.getElementById("plan-message");
-  if (!message) return;
-
-  message.textContent = text || "";
-  message.classList.remove("text-red-500", "text-green-600", "text-gray-500");
-  if (tone === "error") {
-    message.classList.add("text-red-500");
-  } else if (tone === "success") {
-    message.classList.add("text-green-600");
-  } else {
-    message.classList.add("text-gray-500");
-  }
-}
-
-function getCurrentLanguage() {
-  return document.documentElement.lang === "ar" ? "ar" : "en";
-}
-
-function getGenerateButtonLabel(isLoading = false) {
-  const generateBtn = document.getElementById("generate-plan-btn");
-  const lang = getCurrentLanguage();
-  if (isLoading) {
-    return lang === "ar" ? "جارٍ التحميل..." : "Loading...";
-  }
-  if (!generateBtn) {
-    return lang === "ar" ? "إنشاء خطة" : "Generate Plan";
-  }
-  return lang === "ar"
-    ? (generateBtn.dataset.labelAr || "إنشاء خطة")
-    : (generateBtn.dataset.labelEn || "Generate Plan");
-}
-
-function setGenerateButtonLabel(isLoading = false) {
-  const label = document.getElementById("generate-plan-btn-label");
-  if (!label) return;
-  label.textContent = getGenerateButtonLabel(isLoading);
-}
-
-function getTripDuration() {
-  const rangeDuration = configuredRangeDuration();
-  if (rangeDuration) return rangeDuration;
-
-  const fromPrefs = _currentPreferences?.trip_duration;
-  const fromCache =
-    parseInt(localStorage.getItem("tz_trip_duration") || "1") || 1;
-  const raw =
-    Number.isFinite(Number(fromPrefs)) && Number(fromPrefs) > 0
-      ? Number(fromPrefs)
-      : fromCache;
-  return Math.max(1, Math.min(30, raw));
-}
-
-async function refreshPreferences() {
-  // Always fetch fresh preferences from the API so trip_duration is never stale.
-  try {
-    const data = await apiGet("/api/auth/me/");
-    _preferencesLoadFailed = false;
-    if (data) {
-      _currentPreferences = data;
-      if (data.trip_duration) {
-        localStorage.setItem("tz_trip_duration", String(data.trip_duration));
-      }
-      if (!localStorage.getItem(PLAN_START_DATE_STORAGE_KEY) && data.start_date) {
-        setStoredPlanRange(data.start_date, data.end_date || "");
-      }
-    }
-  } catch (error) {
-    _preferencesLoadFailed = true;
-    console.error("Failed to refresh preferences", error);
-    /* fall back to localStorage */
-  }
-  return _currentPreferences;
-}
-
-function _hasMeaningfulPreferences() {
-  const interests = Array.isArray(_currentPreferences?.interests)
-    ? _currentPreferences.interests.filter(Boolean)
-    : [];
-  const startDate =
-    _currentPreferences?.start_date || localStorage.getItem(PLAN_START_DATE_STORAGE_KEY);
-  const endDate =
-    _currentPreferences?.end_date || localStorage.getItem(PLAN_END_DATE_STORAGE_KEY);
-  const tripDuration = Number.parseInt(
-    _currentPreferences?.trip_duration || localStorage.getItem("tz_trip_duration") || "",
-    10,
-  );
-
-  return Boolean(
-    interests.length > 0 &&
-    startDate &&
-    (endDate || (Number.isFinite(tripDuration) && tripDuration > 0)),
-  );
-}
-
-async function ensurePlanGenerationReady() {
-  await refreshPreferences();
-
-  if (_preferencesLoadFailed) {
-    showPlanMessage("Could not refresh preferences. Trying plan generation anyway.", "error");
-  }
-
-  const interests = Array.isArray(_currentPreferences?.interests)
-    ? _currentPreferences.interests.filter(Boolean)
-    : [];
-  if (!interests.length) {
-    alert("Please set your preferences first");
-    window.location.href = "/onboarding/";
-    return false;
-  }
-
-  return true;
-}
-
-/* =========================
-  Generate Daily Plan (multi-day)
-========================= */
-
-async function generateAllDays(generateBtn) {
-  if (generateBtn) {
-    generateBtn.disabled = true;
-    setGenerateButtonLabel(true);
-  }
-  setLoading(true);
-
-  _currentPlan = null;
-  multiDayPlans = [];
-  _slotAssignmentsByDay = {};
-  _slotFeedbackByDay = {};
-  _slotBlockedIdsByDay = {};
-  _lastPlanRequestFailed = false;
-
-  // Always pull the latest trip_duration before generating so a just-updated
-  // value on the preferences page is picked up without a hard reload.
-  await refreshPreferences();
-
-  savePlanRangeFromInputs();
-  const startDate = normalizeApiDate(getStoredPlanStartDate());
-  const endDate = normalizeApiDate(getStoredPlanEndDate());
-
-  try {
-    const payload = {
-      start_date: startDate,
-    };
-    if (endDate) payload.end_date = endDate;
-
-    const data = await apiPost("/api/daily-plan/generate-multiday/", payload);
-
-    const plans = Array.isArray(data?.plans) ? data.plans : [];
-    plans.sort((a, b) =>
-      String(a.date || "").localeCompare(String(b.date || "")),
+// ── User geolocation (optional — for distance labels) ─────
+function getUserLocation() {
+  return new Promise(resolve => {
+    if (_userLocation) { resolve(_userLocation); return; }
+    if (!navigator.geolocation) { resolve(null); return; }
+    navigator.geolocation.getCurrentPosition(
+      pos => { _userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude }; resolve(_userLocation); },
+      () => resolve(null),
+      { timeout: 5000, maximumAge: 60000 }
     );
-
-    plans.forEach((plan, index) => {
-      const normalizedPlan = normalizePlanPayload(plan);
-      multiDayPlans[index] = normalizedPlan.events;
-    });
-
-    const tripDuration = getTripDuration();
-    for (let index = 0; index < tripDuration; index += 1) {
-      if (!Array.isArray(multiDayPlans[index])) {
-        multiDayPlans[index] = [];
-      }
-    }
-
-    const firstPlan = plans[0] ? normalizePlanPayload(plans[0]) : null;
-    _currentPlan = firstPlan;
-
-    currentDayIndex = 0;
-    setSelectedPlanDate(startDate);
-
-    renderDaysBar();
-    renderPlanForDay(0);
-    showPlanMessage("Plan generated successfully", "success");
-  } finally {
-    setLoading(false);
-    if (generateBtn) {
-      generateBtn.disabled = false;
-      setGenerateButtonLabel(false);
-    }
-  }
-}
-
-async function requestPlanForSelectedDate(generateBtn) {
-  if (generateBtn) {
-    generateBtn.disabled = true;
-    setGenerateButtonLabel(true);
-  }
-  setLoading(true);
-
-  try {
-    _lastPlanRequestFailed = false;
-    await refreshPreferences();
-    savePlanRangeFromInputs();
-
-    const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
-    const startDate = normalizeApiDate(getStoredPlanStartDate());
-    const endDate = normalizeApiDate(getStoredPlanEndDate());
-    const tripDuration = getTripDuration();
-    const excludePlanDates = [];
-
-    for (let index = 0; index < tripDuration; index += 1) {
-      if (index === currentDayIndex) continue;
-      excludePlanDates.push(_localDateStr(getPlanDateForIndex(index)));
-    }
-
-    const payload = {
-      date: targetDate,
-      start_date: startDate,
-      seed: Date.now(),
-      exclude_plan_dates: excludePlanDates,
-    };
-    if (endDate) payload.end_date = endDate;
-
-    const data = normalizePlanPayload(
-      await apiPost("/api/daily-plan/generate/", payload),
-    );
-
-    const events = Array.isArray(data?.events)
-      ? data.events.filter(Boolean)
-      : [];
-    delete _slotAssignmentsByDay[currentDayIndex];
-    delete _slotFeedbackByDay[currentDayIndex];
-    delete _slotBlockedIdsByDay[currentDayIndex];
-    multiDayPlans[currentDayIndex] = events;
-    _currentPlan = data || _currentPlan;
-    setSelectedPlanDate(targetDate);
-
-    renderDaysBar();
-    renderPlanForDay(currentDayIndex);
-    showPlanMessage("Plan generated successfully", "success");
-
-    return data;
-  } finally {
-    setLoading(false);
-    if (generateBtn) {
-      generateBtn.disabled = false;
-      setGenerateButtonLabel(false);
-    }
-  }
-}
-
-function slotLabelForKey(slotKey) {
-  return CLEAN_SLOT_DEFINITIONS.find((slot) => slot.key === slotKey)?.label || "Evening";
-}
-
-function getSlotLimit(slotKey) {
-  return SLOT_LIMITS[slotKey] || 1;
-}
-
-function cloneSlotAssignments(assignments = {}) {
-  return {
-    breakfast: Array.isArray(assignments.breakfast) ? [...assignments.breakfast] : [],
-    activity: Array.isArray(assignments.activity) ? [...assignments.activity] : [],
-    lunch: Array.isArray(assignments.lunch) ? [...assignments.lunch] : [],
-    evening: Array.isArray(assignments.evening) ? [...assignments.evening] : [],
-  };
-}
-
-function createSlotPlaceholder(slotKey, slotIndex = 0) {
-  return {
-    id: `placeholder-${slotKey}-${slotIndex}`,
-    _placeholder: true,
-    slotKey,
-    slotIndex,
-    itineraryLabel: slotLabelForKey(slotKey),
-    title: "No activity selected",
-    location: "",
-    price: null,
-  };
-}
-
-function getWhyThisPlaceHint(event) {
-  const category = String(event?.category || "").toLowerCase();
-  if (category === "food") return "Great food option based on your preferences";
-  if (category === "nature") return "Relaxing outdoor experience";
-  if (category === "entertainment") return "Popular activity for your trip";
-  if (category === "culture" || category === "heritage") {
-    return "Explore local culture and history";
-  }
-  return "Recommended for your trip";
-}
-
-function allowsCategoryForSlot(slotKey, event) {
-  const category = String(event?.category || "").toLowerCase();
-  if (slotKey === "breakfast" || slotKey === "lunch") return category === "food";
-  if (slotKey === "activity") return category !== "food";
-  if (slotKey === "evening") return category !== "food";
-  return true;
-}
-
-function getDaySlotAssignments(events, dayIndex = currentDayIndex) {
-  const existingAssignments = _slotAssignmentsByDay[dayIndex];
-  if (existingAssignments) return cloneSlotAssignments(existingAssignments);
-
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  const hasExplicitSlots = normalizedEvents.some((event) => typeof event?.slot_type === "string" && event.slot_type);
-  const orderedIds = normalizedEvents
-    .map((event) => Number(event?.id))
-    .filter((id) => Number.isFinite(id));
-  const assignments = {
-    breakfast: [],
-    activity: [],
-    lunch: [],
-    evening: [],
-  };
-
-  if (!orderedIds.length) {
-    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
-    return cloneSlotAssignments(assignments);
-  }
-
-  if (hasExplicitSlots) {
-    const orderedEvents = [...normalizedEvents].sort((a, b) => {
-      const orderDiff =
-        Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) -
-        Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
-      if (orderDiff !== 0) return orderDiff;
-      return Number(a?.id || 0) - Number(b?.id || 0);
-    });
-
-    orderedEvents.forEach((event) => {
-      const slotKey = String(event?.slot_type || "").toLowerCase();
-      const eventId = Number(event?.id);
-      if (!SLOT_LIMITS[slotKey] || !Number.isFinite(eventId)) return;
-      if (assignments[slotKey].length >= getSlotLimit(slotKey)) return;
-      assignments[slotKey].push(eventId);
-    });
-
-    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
-    return cloneSlotAssignments(assignments);
-  }
-
-  if (orderedIds.length === 1) {
-    assignments.breakfast = [orderedIds[0]];
-  } else if (orderedIds.length === 2) {
-    assignments.breakfast = [orderedIds[0]];
-    assignments.evening = [orderedIds[1]];
-  } else if (orderedIds.length === 3) {
-    assignments.breakfast = [orderedIds[0]];
-    assignments.activity = [orderedIds[1]];
-    assignments.evening = [orderedIds[2]];
-  } else {
-    const lastIndex = orderedIds.length - 1;
-    const lunchIndex = Math.min(3, lastIndex - 1);
-
-    assignments.breakfast = [orderedIds[0]];
-    assignments.lunch = [orderedIds[lunchIndex]];
-    assignments.evening = [orderedIds[lastIndex]];
-    assignments.activity = orderedIds
-      .filter((_, index) => index !== 0 && index !== lunchIndex && index !== lastIndex)
-      .slice(0, getSlotLimit("activity"));
-  }
-
-  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
-  return cloneSlotAssignments(assignments);
-}
-
-function buildStructuredSlots(events, dayIndex = currentDayIndex) {
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  const hasExplicitSlots = normalizedEvents.some((event) => typeof event?.slot_type === "string" && event.slot_type);
-
-  if (hasExplicitSlots) {
-    return CLEAN_SLOT_DEFINITIONS.map((slot) => {
-      const items = normalizedEvents
-        .filter((event) => String(event?.slot_type || "").toLowerCase() === slot.key)
-        .sort((a, b) => {
-          const orderDiff =
-            Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) -
-            Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
-          if (orderDiff !== 0) return orderDiff;
-          return Number(a?.id || 0) - Number(b?.id || 0);
-        })
-        .slice(0, getSlotLimit(slot.key))
-        .map((event, slotIndex) => ({
-          ...event,
-          slotKey: slot.key,
-          slotIndex,
-          itineraryLabel: slot.label,
-        }));
-
-      return {
-        key: slot.key,
-        label: slot.label,
-        items: items.length ? items : [createSlotPlaceholder(slot.key)],
-      };
-    });
-  }
-
-  const assignments = getDaySlotAssignments(normalizedEvents, dayIndex);
-  const eventById = new Map(
-    normalizedEvents
-      .filter((event) => Number.isFinite(Number(event?.id)))
-      .map((event) => [Number(event.id), event]),
-  );
-
-  return CLEAN_SLOT_DEFINITIONS.map((slot) => {
-    const assignedIds = Array.isArray(assignments[slot.key]) ? assignments[slot.key] : [];
-    const items = assignedIds
-      .map((assignedId, slotIndex) => {
-        const assignedEvent = Number.isFinite(Number(assignedId))
-          ? eventById.get(Number(assignedId))
-          : null;
-        if (!assignedEvent) return null;
-        return {
-          ...assignedEvent,
-          slotKey: slot.key,
-          slotIndex,
-          itineraryLabel: slot.label,
-        };
-      })
-      .filter(Boolean);
-
-    return {
-      key: slot.key,
-      label: slot.label,
-      items: items.length ? items : [createSlotPlaceholder(slot.key)],
-    };
   });
 }
 
-function buildStructuredSlotEvents(events, dayIndex = currentDayIndex) {
-  return buildStructuredSlots(events, dayIndex);
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371, toRad = v => v * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-window.buildStructuredSlotEvents = buildStructuredSlotEvents;
+// ── localStorage helpers ──────────────────────────────────
+function getStoredPlanStartDate() {
+  return localStorage.getItem(PLAN_START_KEY) || _currentPreferences?.start_date || _localDateStr(new Date());
+}
 
-async function loadCurrentPreferences() {
-  // Always re-fetch so trip_duration / budget changes on the preferences page
-  // are reflected on the daily plan page without a hard reload.
-  return refreshPreferences();
+function getStoredPlanEndDate() {
+  return localStorage.getItem(PLAN_END_KEY) || _currentPreferences?.end_date || "";
+}
+
+function setSelectedPlanDate(dateStr) {
+  localStorage.setItem(SELECTED_DATE_KEY, dateStr || _localDateStr(new Date()));
+}
+
+function getSelectedPlanDate() {
+  return localStorage.getItem(SELECTED_DATE_KEY) || getStoredPlanStartDate() || null;
+}
+
+function getTripDuration() {
+  const start = getStoredPlanStartDate(), end = getStoredPlanEndDate();
+  if (start && end) {
+    const d = Math.round((new Date(`${end}T00:00:00`) - new Date(`${start}T00:00:00`)) / 86400000) + 1;
+    if (d > 0) return d;
+  }
+  const raw = parseInt(_currentPreferences?.trip_duration || localStorage.getItem("tz_trip_duration") || "1");
+  return Math.max(1, Math.min(30, isFinite(raw) ? raw : 1));
 }
 
 function getPlanDateForIndex(index) {
@@ -642,1566 +128,882 @@ function getPlanDateForIndex(index) {
   return day;
 }
 
-function _distanceBetween(a, b) {
-  const lat1 = Number.parseFloat(a?.latitude);
-  const lng1 = Number.parseFloat(a?.longitude);
-  const lat2 = Number.parseFloat(b?.latitude);
-  const lng2 = Number.parseFloat(b?.longitude);
-
-  if (
-    !Number.isFinite(lat1) ||
-    !Number.isFinite(lng1) ||
-    !Number.isFinite(lat2) ||
-    !Number.isFinite(lng2)
-  ) {
-    return Number.POSITIVE_INFINITY;
-  }
-
-  const toRad = (value) => (value * Math.PI) / 180;
-  const earthRadiusKm = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const sinLat = Math.sin(dLat / 2);
-  const sinLng = Math.sin(dLng / 2);
-  const haversine =
-    sinLat * sinLat +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sinLng * sinLng;
-
-  return (
-    2 *
-    earthRadiusKm *
-    Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
-  );
-}
-
-function findBestCenter(events) {
-  const normalizedEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  if (!normalizedEvents.length) return null;
-
-  let best = normalizedEvents[0];
-  let bestScore = Infinity;
-
-  normalizedEvents.forEach((e1) => {
-    let total = 0;
-    normalizedEvents.forEach((e2) => {
-      total += _distanceBetween(e1, e2);
-    });
-
-    if (total < bestScore) {
-      bestScore = total;
-      best = e1;
-    }
-  });
-
-  return best;
-}
-
-function renderDaysBar() {
-  const weekLabel = document.getElementById("week-label");
-  const weekDays = document.getElementById("week-days");
-  if (!weekLabel || !weekDays) return;
-
-  const tripDuration = getTripDuration();
-  const start = getPlanDateForIndex(0);
-  const end = getPlanDateForIndex(tripDuration - 1);
-
-  if (tripDuration === 1) {
-    weekLabel.textContent = start.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  } else {
-    weekLabel.textContent = `${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} | ${tripDuration} days`;
-  }
-
-  weekDays.replaceChildren();
-
-  for (let index = 0; index < tripDuration; index += 1) {
-    const date = getPlanDateForIndex(index);
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className =
-      "min-w-[120px] rounded-2xl border px-4 py-3 text-left transition";
-
-    const isActive = index === currentDayIndex;
-    if (isActive) {
-      button.classList.add("border-brand", "bg-brand", "text-white");
-    } else {
-      button.classList.add(
-        "border-gray-200",
-        "bg-white",
-        "text-gray-700",
-        "hover:bg-gray-50",
-      );
-    }
-
-    const dayLabel = document.createElement("div");
-    dayLabel.className = "text-sm font-semibold";
-    dayLabel.textContent =
-      tripDuration === 1
-        ? date.toLocaleDateString("en-US", { weekday: "short" })
-        : `Day ${index + 1}`;
-
-    const dayDate = document.createElement("div");
-    dayDate.className = isActive
-      ? "text-xs text-white/80"
-      : "text-xs text-gray-500";
-    dayDate.textContent = date.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    });
-
-    // Show a small dot if this day already has a plan
-    const hasPlan =
-      Array.isArray(multiDayPlans[index]) && multiDayPlans[index].length > 0;
-    if (hasPlan && !isActive) {
-      const dot = document.createElement("div");
-      dot.className = "mt-1.5 w-1.5 h-1.5 rounded-full bg-brand";
-      button.appendChild(dayLabel);
-      button.appendChild(dayDate);
-      button.appendChild(dot);
-    } else {
-      button.appendChild(dayLabel);
-      button.appendChild(dayDate);
-    }
-
-    button.addEventListener("click", () => {
-      currentDayIndex = index;
-      setSelectedPlanDate(_localDateStr(date));
-      renderDaysBar();
-      renderPlanForDay(index);
-    });
-
-    weekDays.appendChild(button);
-  }
-}
-
-function renderPlanForDay(index) {
-  const activitiesDayLabel = document.getElementById("activities-day-label");
-  const tripDuration = getTripDuration();
-  const dayDate = getPlanDateForIndex(index);
-  const dayEvents = getActiveDayEvents(index);
-  const activeDate = _localDateStr(dayDate);
-
-  if (activitiesDayLabel) {
-    const dayLabel =
-      tripDuration > 1
-        ? `Day ${index + 1} - ${dayDate.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}`
-        : `${dayDate.toLocaleDateString("en-US", { weekday: "long" })}'s Activities`;
-    activitiesDayLabel.textContent = dayLabel;
-  }
-
-  _currentPlan = {
-    ...(_currentPlan || {}),
-    id: Number.isFinite(Number(dayEvents[0]?.plan_id)) ? Number(dayEvents[0].plan_id) : null,
-    date: activeDate,
-    events: dayEvents,
-    count: dayEvents.length,
+// ── Plan normalisation (preserves original logic) ─────────
+function normalizePlanEvent(event, index = 0) {
+  if (!event || typeof event !== "object") return null;
+  return {
+    ...event,
+    plan_id:          isFinite(Number(event.plan_id))         ? Number(event.plan_id)         : null,
+    plan_date:        event.plan_date || null,
+    slot_type:        event.slot_type || null,
+    item_order:       isFinite(Number(event.item_order))       ? Number(event.item_order)       : index,
+    plan_item_id:     isFinite(Number(event.plan_item_id))     ? Number(event.plan_item_id)     : null,
+    locked:           Boolean(event.locked),
+    plan_item_source: event.plan_item_source || null,
   };
+}
 
-  renderDailyPlan({
-    date: activeDate,
-    events: dayEvents,
+function normalizePlanPayload(plan) {
+  const rawItems = Array.isArray(plan?.items) ? plan.items.filter(Boolean) : [];
+  const itemBacked = rawItems.map((item, i) => {
+    if (!item?.event || typeof item.event !== "object") return null;
+    return normalizePlanEvent({
+      ...item.event,
+      plan_id:          plan?.id || null,
+      plan_date:        plan?.date || null,
+      slot_type:        item.slot_type || null,
+      item_order:       item.order,
+      plan_item_id:     item.id,
+      locked:           item.locked,
+      plan_item_source: item.source,
+    }, i);
+  }).filter(Boolean).sort((a, b) => {
+    const d = Number(a.item_order || 0) - Number(b.item_order || 0);
+    return d !== 0 ? d : Number(a.id || 0) - Number(b.id || 0);
+  });
+
+  const fallback = Array.isArray(plan?.events)
+    ? plan.events.map((e, i) => normalizePlanEvent({ ...e, plan_id: plan?.id || null, plan_date: plan?.date || null }, i)).filter(Boolean)
+    : [];
+
+  const events = itemBacked.length ? itemBacked : fallback;
+  return { ...(plan || {}), items: rawItems, events, count: events.length };
+}
+
+// ── Slot assignment (preserves original logic) ────────────
+function cloneSlotAssignments(a = {}) {
+  return {
+    breakfast: Array.isArray(a.breakfast) ? [...a.breakfast] : [],
+    activity:  Array.isArray(a.activity)  ? [...a.activity]  : [],
+    lunch:     Array.isArray(a.lunch)     ? [...a.lunch]     : [],
+    evening:   Array.isArray(a.evening)   ? [...a.evening]   : [],
+  };
+}
+
+function getSlotLimit(slotKey) { return SLOT_LIMITS[slotKey] || 1; }
+
+function createSlotPlaceholder(slotKey, slotIndex = 0) {
+  return { id: `placeholder-${slotKey}-${slotIndex}`, _placeholder: true, slotKey, slotIndex, title: "No activity selected" };
+}
+
+function getDaySlotAssignments(events, dayIndex = currentDayIndex) {
+  const existing = _slotAssignmentsByDay[dayIndex];
+  if (existing) return cloneSlotAssignments(existing);
+
+  const safe       = Array.isArray(events) ? events.filter(Boolean) : [];
+  const hasExplicit = safe.some(e => typeof e?.slot_type === "string" && e.slot_type);
+  const ids         = safe.map(e => Number(e?.id)).filter(id => isFinite(id));
+  const assignments = { breakfast: [], activity: [], lunch: [], evening: [] };
+
+  if (!ids.length) {
+    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
+    return cloneSlotAssignments(assignments);
+  }
+
+  if (hasExplicit) {
+    [...safe].sort((a, b) => {
+      const d = Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) - Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
+      return d !== 0 ? d : Number(a?.id || 0) - Number(b?.id || 0);
+    }).forEach(e => {
+      const key = String(e?.slot_type || "").toLowerCase();
+      const id  = Number(e?.id);
+      if (!SLOT_LIMITS[key] || !isFinite(id)) return;
+      if (assignments[key].length < getSlotLimit(key)) assignments[key].push(id);
+    });
+    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
+    return cloneSlotAssignments(assignments);
+  }
+
+  if      (ids.length === 1) { assignments.breakfast = [ids[0]]; }
+  else if (ids.length === 2) { assignments.breakfast = [ids[0]]; assignments.evening = [ids[1]]; }
+  else if (ids.length === 3) { assignments.breakfast = [ids[0]]; assignments.activity = [ids[1]]; assignments.evening = [ids[2]]; }
+  else {
+    const last = ids.length - 1, lunchIdx = Math.min(3, last - 1);
+    assignments.breakfast = [ids[0]];
+    assignments.lunch     = [ids[lunchIdx]];
+    assignments.evening   = [ids[last]];
+    assignments.activity  = ids.filter((_, i) => i !== 0 && i !== lunchIdx && i !== last).slice(0, getSlotLimit("activity"));
+  }
+
+  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
+  return cloneSlotAssignments(assignments);
+}
+
+function buildStructuredSlots(events, dayIndex = currentDayIndex) {
+  const safe        = Array.isArray(events) ? events.filter(Boolean) : [];
+  const hasExplicit = safe.some(e => typeof e?.slot_type === "string" && e.slot_type);
+
+  if (hasExplicit) {
+    return SLOT_ORDER.map(key => {
+      const items = safe
+        .filter(e => String(e?.slot_type || "").toLowerCase() === key)
+        .sort((a, b) => {
+          const d = Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) - Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
+          return d !== 0 ? d : Number(a?.id || 0) - Number(b?.id || 0);
+        })
+        .slice(0, getSlotLimit(key))
+        .map((e, i) => ({ ...e, slotKey: key, slotIndex: i, itineraryLabel: SLOT_LABELS[key] }));
+      return { key, label: SLOT_LABELS[key], items: items.length ? items : [createSlotPlaceholder(key)] };
+    });
+  }
+
+  const assignments = getDaySlotAssignments(safe, dayIndex);
+  const byId = new Map(safe.filter(e => isFinite(Number(e?.id))).map(e => [Number(e.id), e]));
+
+  return SLOT_ORDER.map(key => {
+    const items = (assignments[key] || [])
+      .map((id, i) => {
+        const e = isFinite(Number(id)) ? byId.get(Number(id)) : null;
+        return e ? { ...e, slotKey: key, slotIndex: i, itineraryLabel: SLOT_LABELS[key] } : null;
+      }).filter(Boolean);
+    return { key, label: SLOT_LABELS[key], items: items.length ? items : [createSlotPlaceholder(key)] };
   });
 }
 
-function applyMultiDayPlan(plan, preferences) {
-  const normalizedPlan = normalizePlanPayload(plan);
-  const events = Array.isArray(normalizedPlan?.events) ? normalizedPlan.events : [];
-  setSelectedPlanDate(normalizedPlan?.date || selectedDate);
-  const start = new Date(`${getStoredPlanStartDate()}T00:00:00`);
-  const selected = new Date(`${selectedDate}T00:00:00`);
-  const diffDays = Math.round((selected - start) / (1000 * 60 * 60 * 24));
+// Exported for any pages that depend on it
+window.buildStructuredSlotEvents = buildStructuredSlots;
 
-  _currentPreferences = preferences || _currentPreferences;
-
-  const targetIndex =
-    diffDays >= 0 && diffDays < getTripDuration() ? diffDays : 0;
-  currentDayIndex = targetIndex;
-  delete _slotAssignmentsByDay[targetIndex];
-  delete _slotFeedbackByDay[targetIndex];
-  delete _slotBlockedIdsByDay[targetIndex];
-  multiDayPlans[targetIndex] = events.filter(Boolean);
-  _currentPlan = normalizedPlan;
-
-  renderDaysBar();
-  renderPlanForDay(currentDayIndex);
-}
-
-function getRenderedDayEvents(dayIndex = currentDayIndex) {
-  const rawEvents = Array.isArray(multiDayPlans[dayIndex]) ? multiDayPlans[dayIndex] : [];
-  return rawEvents.filter(Boolean);
-}
-
+// ── Plan state helpers ────────────────────────────────────
 function getActiveDayEvents(dayIndex = currentDayIndex) {
-  return Array.isArray(multiDayPlans[dayIndex])
-    ? multiDayPlans[dayIndex].filter(Boolean)
-    : [];
+  return Array.isArray(multiDayPlans[dayIndex]) ? multiDayPlans[dayIndex].filter(Boolean) : [];
 }
 
-function collectAllRenderedPlanEvents() {
-  return multiDayPlans
-    .flatMap((_, dayIndex) => {
-      const slots = buildStructuredSlots(getRenderedDayEvents(dayIndex), dayIndex);
-      return slots.flatMap((slot) => slot.items);
-    })
-    .filter((event) => event && !event._placeholder);
-}
-
-function refreshPlanSummaryAndMap(dayIndex = currentDayIndex) {
-  const structuredSlots = buildStructuredSlots(getRenderedDayEvents(dayIndex), dayIndex);
-  const currentDayEvents = structuredSlots
-    .flatMap((slot) => slot.items)
-    .filter((event) => event && !event._placeholder);
-
-  renderTripSummary(currentDayEvents);
-  updateMapPlaceholderLink(currentDayEvents);
-}
-
-function updateMapPlaceholderLink(events) {
-  const mapLink = document.getElementById("daily-plan-map-link");
-  if (!mapLink) return;
-
-  const safeEvents = Array.isArray(events) ? events.filter(Boolean) : [];
-  const query = safeEvents.length
-    ? safeEvents.map((event) => event.title || "").filter(Boolean).join(" Riyadh ")
-    : "Riyadh";
-  mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-}
-
-function updatePlanPageState(hasPlan) {
-  const readySection = document.getElementById("plan-status-ready");
-  const emptySection = document.getElementById("plan-empty-state");
-  const generateBtn = document.getElementById("generate-plan-btn");
-  const addActivityBtn = document.getElementById("add-activity-btn");
-
-  if (readySection) {
-    readySection.classList.toggle("hidden", !hasPlan);
-  }
-  if (emptySection) {
-    emptySection.classList.toggle("hidden", hasPlan);
-  }
-  if (generateBtn) {
-    generateBtn.classList.toggle("hidden", hasPlan);
-  }
-  if (addActivityBtn) {
-    addActivityBtn.classList.toggle("hidden", !hasPlan);
-  }
-}
-
-function updateSummary() {
-  const events = document.querySelectorAll("[data-event-id]");
-
-  const count = events.length;
-
-  const summaryCount = document.getElementById("summary-activities");
-  const summaryDuration = document.getElementById("summary-duration");
-
-  if (summaryCount) summaryCount.textContent = count;
-
-  if (summaryDuration) {
-    summaryDuration.textContent = `${count * 2}h`;
-  }
-}
-
-function createSlotCard(slotKey, event, itemIndex) {
-  const card = document.createElement("div");
-  card.className = event._placeholder
-    ? "bg-white border rounded-2xl p-4 mb-4 shadow-sm flex flex-col items-center text-center gap-3"
-    : "bg-white border rounded-2xl p-5 mb-4 shadow-sm transition hover:shadow-md";
-
-  const content = document.createElement("div");
-  content.className = event._placeholder ? "space-y-1 text-center" : "space-y-2";
-
-  const slotBadge = document.createElement("div");
-  slotBadge.className =
-    "inline-flex items-center rounded-full bg-brand/10 text-brand text-xs font-semibold px-2.5 py-1";
-  slotBadge.textContent = event.itineraryLabel || slotLabelForKey(slotKey);
-
-  const title = document.createElement("div");
-  title.className = event._placeholder ? "text-base font-medium text-gray-500" : "text-lg font-semibold text-gray-900 truncate";
-  title.textContent = event._placeholder ? "No activity selected" : (event.title || "");
-
-  const categoryBadge = document.createElement("span");
-  categoryBadge.className =
-    "inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600";
-  categoryBadge.textContent = _formatCategoryLabel(event.category || "");
-
-  const whyHint = document.createElement("div");
-  whyHint.className = "text-xs text-gray-400";
-  whyHint.textContent = event._placeholder ? "" : getWhyThisPlaceHint(event);
-
-  const location = document.createElement("div");
-  location.className = "text-sm text-gray-500";
-  location.textContent = event.location || "";
-
-  const price = document.createElement("div");
-  price.className = "text-sm text-gray-500";
-  const parsedPrice = Number.parseFloat(event.price);
-  price.textContent = event._placeholder
-    ? ""
-    : Number.isFinite(parsedPrice)
-      ? `${parsedPrice.toFixed(0)} SAR`
-      : "Free";
-
-  content.appendChild(slotBadge);
-  content.appendChild(title);
-  if (!event._placeholder && event.category) {
-    content.appendChild(categoryBadge);
-  }
-  content.appendChild(whyHint);
-  if (!event._placeholder) {
-    content.appendChild(location);
-    content.appendChild(price);
-  }
-
-  const actionsWrap = document.createElement("div");
-  actionsWrap.className = "flex items-center gap-2 mt-3";
-
-  const actionBaseClass =
-    "flex-1 px-3 py-2 text-sm rounded-lg h-10 flex items-center justify-center";
-
-  const navigateBtn = document.createElement("a");
-  const navQuery = encodeURIComponent((event.title || "") + " Riyadh");
-  navigateBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${navQuery}`;
-  navigateBtn.target = "_blank";
-  navigateBtn.rel = "noopener";
-  navigateBtn.className = `${actionBaseClass} bg-purple-600 text-white`;
-  navigateBtn.textContent = "Navigate";
-  if (event._placeholder) {
-    navigateBtn.classList.add("hidden");
-  }
-
-  const replaceBtn = document.createElement("button");
-  replaceBtn.type = "button";
-  replaceBtn.className = `${actionBaseClass} border border-gray-300 text-gray-600`;
-  replaceBtn.textContent = "Try Another";
-  replaceBtn.addEventListener("click", async () => {
-    replaceBtn.disabled = true;
-    replaceBtn.textContent = "Loading...";
-    try {
-      await replaceActivityForSlot(
-        slotKey,
-        event._placeholder ? null : event.id,
-        {
-          dayIndex: currentDayIndex,
-          itemIndex,
-        },
-      );
-    } catch (error) {
-      console.error("Plan update failed:", error);
-      showPlanMessage(
-        getDailyPlanErrorMessage(error, "No alternative available"),
-        "error",
-      );
-    } finally {
-      replaceBtn.disabled = false;
-      replaceBtn.textContent = "Try Another";
+// ── Preferences ───────────────────────────────────────────
+async function refreshPreferences() {
+  try {
+    const data = await apiGet("/api/auth/me/");
+    if (!data) return _currentPreferences;
+    _currentPreferences = data;
+    if (data.trip_duration) localStorage.setItem("tz_trip_duration", String(data.trip_duration));
+    if (!localStorage.getItem(PLAN_START_KEY) && data.start_date) {
+      localStorage.setItem(PLAN_START_KEY, data.start_date);
+      if (data.end_date) localStorage.setItem(PLAN_END_KEY, data.end_date);
     }
-  });
+  } catch (e) { console.error("Preferences fetch failed:", e); }
+  return _currentPreferences;
+}
 
-  const removeBtn = document.createElement("button");
-  removeBtn.type = "button";
-  removeBtn.className = `${actionBaseClass} border border-red-300 text-red-500`;
-  removeBtn.textContent = "Remove";
-  removeBtn.addEventListener("click", async () => {
-    removeBtn.disabled = true;
-    removeBtn.textContent = "Removing...";
-    try {
-      await removeEventFromPlan(event.id, slotKey, {
-        dayIndex: currentDayIndex,
-        itemIndex,
-        itemId: event.plan_item_id,
-      });
-    } catch (error) {
-      console.error("Plan update failed:", error);
-      showPlanMessage(
-        getDailyPlanErrorMessage(error, "Unable to remove this activity."),
-        "error",
-      );
-    } finally {
-      removeBtn.disabled = false;
-      removeBtn.textContent = "Remove";
-    }
-  });
-  if (event._placeholder) {
-    removeBtn.classList.add("hidden");
+// ── UI helpers ────────────────────────────────────────────
+function showPlanMessage(text, tone = "info") {
+  const el = document.getElementById("plan-message");
+  if (!el) return;
+  if (!text) { el.classList.add("hidden"); el.textContent = ""; return; }
+  el.textContent = text;
+  el.className = `text-sm text-center rounded-xl py-2 ${
+    tone === "error"   ? "text-red-600 bg-red-50" :
+    tone === "success" ? "text-green-700 bg-green-50" :
+                         "text-gray-500 bg-gray-50"
+  }`;
+  el.classList.remove("hidden");
+}
+
+function setLoading(on) {
+  _isPlanLoading = on;
+  document.getElementById("skeleton")?.classList.toggle("hidden", !on);
+  if (on) {
+    document.getElementById("timeline")?.classList.add("hidden");
+    document.getElementById("emptyState")?.classList.add("hidden");
   }
-
-  const feedback = document.createElement("div");
-  feedback.className = "text-xs text-green-600 mt-2";
-  feedback.textContent = _slotFeedbackByDay[currentDayIndex]?.[slotKey] || "";
-
-  actionsWrap.appendChild(navigateBtn);
-  actionsWrap.appendChild(replaceBtn);
-  actionsWrap.appendChild(removeBtn);
-
-  if (
-    !event._placeholder &&
-    event.latitude != null &&
-    event.longitude != null
-  ) {
-    const uberBtn = document.createElement("a");
-    uberBtn.href = `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${event.latitude}&dropoff[longitude]=${event.longitude}&dropoff[nickname]=${encodeURIComponent(event.title || "")}`;
-    uberBtn.target = "_blank";
-    uberBtn.rel = "noopener";
-    uberBtn.className = "inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-black text-white hover:opacity-80";
-    uberBtn.textContent = "🚗 Uber";
-
-    const careemBtn = document.createElement("a");
-    careemBtn.href = "https://careem.com";
-    careemBtn.target = "_blank";
-    careemBtn.rel = "noopener";
-    careemBtn.className = "inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-green-600 text-white hover:opacity-80";
-    careemBtn.textContent = "🚗 Careem";
-
-    actionsWrap.appendChild(uberBtn);
-    actionsWrap.appendChild(careemBtn);
-  }
-
-  card.appendChild(content);
-  card.appendChild(actionsWrap);
-  card.appendChild(feedback);
-
-  return card;
 }
 
-function renderSlotSection(slotKey, dayIndex = currentDayIndex) {
-  const sectionBody = document.querySelector(`[data-slot-body="${slotKey}"]`);
-  if (!sectionBody) {
-    renderPlanForDay(dayIndex);
-    return;
-  }
+// ── Hero update ───────────────────────────────────────────
+function updateHero(dayIndex = currentDayIndex) {
+  try {
+    const date = getPlanDateForIndex(dayIndex);
 
-  const slot = buildStructuredSlots(getRenderedDayEvents(dayIndex), dayIndex)
-    .find((entry) => entry.key === slotKey);
-  if (!slot) return;
-
-  sectionBody.replaceChildren();
-  slot.items.forEach((event, itemIndex) => {
-    sectionBody.appendChild(createSlotCard(slotKey, event, itemIndex));
-  });
-}
-
-function _distanceBetweenEvents(a, b) {
-  const lat1 = Number.parseFloat(a?.latitude);
-  const lng1 = Number.parseFloat(a?.longitude);
-  const lat2 = Number.parseFloat(b?.latitude);
-  const lng2 = Number.parseFloat(b?.longitude);
-  if (
-    !Number.isFinite(lat1) || !Number.isFinite(lng1) ||
-    !Number.isFinite(lat2) || !Number.isFinite(lng2)
-  ) {
-    return null;
-  }
-  return _distanceBetween(a, b);
-}
-
-function _areNearbyEvents(a, b) {
-  const distance = _distanceBetweenEvents(a, b);
-  return distance !== null && distance <= 0.8;
-}
-
-function _firstMappedEvent(slot) {
-  return (slot?.items || []).find((event) => event && !event._placeholder) || null;
-}
-
-function _extractAreaLabel(event) {
-  const rawLocation = String(event?.location || "").trim();
-  if (!rawLocation) return "";
-  const firstPart = rawLocation.split(",")[0]?.trim();
-  return firstPart || rawLocation;
-}
-
-function _formatCategoryLabel(value) {
-  return String(value || "")
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function buildWhyThisPlanText() {
-  const interests = Array.isArray(_currentPreferences?.interests)
-    ? _currentPreferences.interests.filter(Boolean)
-    : [];
-  const topInterests = interests.slice(0, 2).map(_formatCategoryLabel);
-
-  if (!topInterests.length) {
-    return "This plan is optimized for a balanced Riyadh experience.";
-  }
-
-  if (topInterests.length === 1) {
-    return `This plan is based on your interest in ${topInterests[0]}, and optimized for nearby locations.`;
-  }
-
-  return `This plan is based on your interest in ${topInterests[0]} and ${topInterests[1]}, and optimized for nearby locations.`;
-}
-
-function renderTripSummary(events) {
-  const section = document.getElementById("trip-summary-section");
-  const totalEl = document.getElementById("trip-summary-total");
-  const categoryEl = document.getElementById("trip-summary-category");
-  const foodEl = document.getElementById("trip-summary-food");
-  const experiencesEl = document.getElementById("trip-summary-experiences");
-  const areaEl = document.getElementById("trip-summary-area");
-  const whyEl = document.getElementById("trip-summary-why");
-  if (!section || !totalEl || !categoryEl || !foodEl || !experiencesEl || !areaEl || !whyEl) return;
-
-  const safeEvents = Array.isArray(events) ? events.filter((event) => event && !event._placeholder) : [];
-  if (!safeEvents.length) {
-    section.classList.add("hidden");
-    const whyEl = document.getElementById("trip-summary-why");
-    if (whyEl) whyEl.textContent = "";
-    return;
-  }
-
-  const categoryCounts = {};
-  const areaCounts = {};
-  let foodCount = 0;
-
-  safeEvents.forEach((event) => {
-    const category = String(event.category || "").toLowerCase();
-    if (category) {
-      categoryCounts[category] = (categoryCounts[category] || 0) + 1;
-      if (category === "food") foodCount += 1;
+    const dateEl = document.getElementById("heroDate");
+    if (dateEl) {
+      dateEl.textContent = date.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
     }
 
-    const area = _extractAreaLabel(event);
-    if (area) {
-      areaCounts[area] = (areaCounts[area] || 0) + 1;
+    // Day X of Y badge — computed from trip start/end
+    const startRaw = localStorage.getItem(PLAN_START_KEY) || localStorage.getItem("tz_start_date");
+    const endRaw   = localStorage.getItem(PLAN_END_KEY)   || localStorage.getItem("tz_end_date");
+    if (startRaw && endRaw) {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const start = new Date(`${startRaw}T00:00:00`);
+      const end   = new Date(`${endRaw}T00:00:00`);
+      const dayX  = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+      const dayY  = Math.max(1, Math.round((end - start) / 86400000) + 1);
+      const badge = document.getElementById("dayBadge");
+      if (badge && dayX <= dayY) {
+        badge.textContent = `Day ${dayX} of ${dayY}`;
+        badge.classList.remove("hidden");
+        badge.classList.add("inline-flex");
+      }
     }
-  });
 
-  const topCategory = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "-";
-  const mainArea = Object.entries(areaCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "Across Riyadh";
-  const experiencesCount = safeEvents.length - foodCount;
-
-  totalEl.textContent = String(safeEvents.length);
-  categoryEl.textContent = _formatCategoryLabel(topCategory || "-");
-  foodEl.textContent = String(foodCount);
-  experiencesEl.textContent = String(experiencesCount);
-  areaEl.textContent = `Mostly in: ${mainArea}`;
-  whyEl.textContent = buildWhyThisPlanText();
-  section.classList.remove("hidden");
+    // Activity count
+    const count  = getActiveDayEvents(dayIndex).filter(e => !e._placeholder).length;
+    const countEl = document.getElementById("activityCount");
+    if (countEl) countEl.textContent = count > 0 ? `${count} ${count === 1 ? "activity" : "activities"} planned` : "";
+  } catch (e) { /* fail silently */ }
 }
 
-/* =========================
-   Render Daily Plan
-========================= */
-
-function renderDailyPlan(data) {
-  const container = document.getElementById("plan-container");
-  const message = document.getElementById("plan-message");
+// ── Day Tabs ──────────────────────────────────────────────
+function renderDayTabs() {
+  const container = document.getElementById("dayTabs");
   if (!container) return;
 
-  container.replaceChildren();
+  const duration = getTripDuration();
+  container.innerHTML = "";
 
-   if (_isPlanLoading) {
-    return;
-  }
+  for (let i = 0; i < duration; i++) {
+    const isActive = i === currentDayIndex;
+    const hasPlan  = Array.isArray(multiDayPlans[i]) && multiDayPlans[i].length > 0;
+    const date     = getPlanDateForIndex(i);
 
-  const rawEvents = Array.isArray(data?.events) ? data.events.filter(Boolean) : [];
-  if (!rawEvents.length && !_slotAssignmentsByDay[currentDayIndex]) {
-    updatePlanPageState(false);
-    renderTripSummary([]);
-    return;
-  }
-  updatePlanPageState(true);
-  const slots = buildStructuredSlots(rawEvents, currentDayIndex);
-  const dayTitle = document.getElementById("activities-day-label");
-  const dayTitleWrap = dayTitle?.closest("h2")?.parentElement;
-  if (dayTitleWrap && !dayTitleWrap.querySelector("[data-nearby-hint]")) {
-    const hint = document.createElement("p");
-    hint.className = "text-sm text-gray-500";
-    hint.dataset.nearbyHint = "true";
-    hint.textContent = "Optimized for nearby locations";
-    dayTitleWrap.appendChild(hint);
-  }
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "relative shrink-0 flex flex-col items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all";
 
-  let previousMappedEvent = null;
-
-  slots.forEach((slot) => {
-    try {
-      const section = document.createElement("section");
-      if (!section) {
-        return;
-      }
-      section.className = "mt-6 first:mt-0 space-y-3";
-
-      const header = document.createElement("div");
-      header.className = "flex items-end justify-between gap-3 pb-1";
-
-      const title = document.createElement("h3");
-      title.className = "text-lg font-semibold text-gray-900";
-      title.textContent = slot.label;
-
-      header.appendChild(title);
-      const currentMappedEvent = _firstMappedEvent(slot);
-      if (_areNearbyEvents(previousMappedEvent, currentMappedEvent)) {
-        const sameAreaLabel = document.createElement("span");
-        sameAreaLabel.className =
-          "inline-flex items-center rounded-full bg-brand/10 text-brand text-xs font-semibold px-2.5 py-1";
-        sameAreaLabel.textContent = "Same Area";
-        header.appendChild(sameAreaLabel);
-      }
-      section.appendChild(header);
-
-      const body = document.createElement("div");
-      body.className = "space-y-3";
-      body.dataset.slotBody = slot.key;
-      section.appendChild(body);
-
-      container.appendChild(section);
-      renderSlotSection(slot.key, currentDayIndex);
-      if (currentMappedEvent) {
-        previousMappedEvent = currentMappedEvent;
-      }
-    } catch (e) {
-      console.error("Render failed", e);
+    if (isActive) {
+      btn.style.cssText = "background-color:#7c3aed;color:white;";
+    } else {
+      btn.className += " bg-white border border-gray-200 text-gray-600 hover:border-violet-300";
     }
+
+    const label = document.createElement("span");
+    label.textContent = `Day ${i + 1}`;
+    btn.appendChild(label);
+
+    const sub = document.createElement("span");
+    sub.className = `text-xs font-normal ${isActive ? "text-white/70" : "text-gray-400"}`;
+    sub.textContent = date.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    btn.appendChild(sub);
+
+    if (hasPlan && !isActive) {
+      const dot = document.createElement("span");
+      dot.className = "absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-violet-400";
+      btn.appendChild(dot);
+    }
+
+    btn.addEventListener("click", () => {
+      currentDayIndex = i;
+      setSelectedPlanDate(_localDateStr(date));
+      renderDayTabs();
+      renderTimeline(i);
+    });
+
+    container.appendChild(btn);
+  }
+}
+
+// ── Timeline card builder ─────────────────────────────────
+function buildTimelineCard(slotKey, event, slotIndex) {
+  const gradient  = SLOT_GRADIENTS[slotKey] || SLOT_GRADIENTS.activity;
+  const times     = SLOT_TIMES[slotKey] || ["09:00 AM"];
+  const time      = times[Math.min(slotIndex, times.length - 1)];
+  const slotLabel = SLOT_LABELS[slotKey] || slotKey;
+
+  if (event._placeholder) {
+    return `
+      <div class="space-y-2">
+        <div class="flex items-center gap-2 px-1 text-sm text-gray-400">
+          <span class="font-semibold text-gray-500">${escapeHtml(time)}</span>
+          <span class="text-gray-300">•</span>
+          <span>${escapeHtml(slotLabel)}</span>
+        </div>
+        <div class="rounded-2xl border-2 border-dashed border-gray-200 py-8 text-center text-gray-400 text-sm">
+          No activity for this slot
+        </div>
+      </div>`;
+  }
+
+  const emoji     = categoryEmoji(event.category);
+  const price     = formatPrice(event.price);
+  const catLabel  = formatCategory(event.category);
+  const rating    = event.rating ? `★ ${parseFloat(event.rating).toFixed(1)}` : "";
+  const hasCoords = event.latitude != null && event.longitude != null && isFinite(parseFloat(event.latitude));
+
+  const navigateUrl = hasCoords
+    ? `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${event.latitude}&dropoff[longitude]=${event.longitude}&dropoff[nickname]=${encodeURIComponent(event.title || "")}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.title || "") + " Riyadh")}`;
+
+  const navigateBtn = `<button type="button"
+      class="navigate-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
+      style="background-color:#7c3aed"
+      data-navigate-url="${escapeHtml(navigateUrl)}">
+      🚗 Navigate →
+    </button>`;
+
+  return `
+    <div class="space-y-2">
+      <div class="flex items-center gap-2 px-1 text-sm text-gray-500">
+        <span class="font-semibold text-gray-700">${escapeHtml(time)}</span>
+        <span class="text-gray-300">•</span>
+        <span>${escapeHtml(slotLabel)}</span>
+      </div>
+      <div class="rounded-2xl p-5 shadow-sm" style="background:${gradient}">
+        <div class="flex items-start gap-4 mb-4">
+          <span class="text-6xl leading-none shrink-0 select-none" aria-hidden="true">${emoji}</span>
+          <div class="flex-1 min-w-0 pt-1">
+            <h3 class="text-xl font-bold text-gray-900 leading-snug">${escapeHtml(event.title || "")}</h3>
+            <div class="flex items-center flex-wrap gap-2 mt-1.5">
+              <span class="inline-flex text-xs px-2.5 py-0.5 rounded-full bg-white/70 text-gray-600 font-medium">
+                ${escapeHtml(catLabel)}
+              </span>
+              ${rating ? `<span class="text-xs text-amber-600 font-semibold">${escapeHtml(rating)}</span>` : ""}
+              <span class="text-xs text-gray-500">${escapeHtml(price)}</span>
+            </div>
+            <p class="distance-label text-xs text-gray-400 mt-1"
+               data-lat="${event.latitude || ""}" data-lng="${event.longitude || ""}"></p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          ${navigateBtn}
+          <button type="button"
+            class="try-another-btn px-3 py-2 rounded-xl text-sm text-gray-600 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
+            data-event-id="${event.id}"
+            data-slot-key="${escapeHtml(slotKey)}"
+            data-slot-index="${slotIndex}"
+            data-plan-item-id="${event.plan_item_id || ""}">
+            Try Another
+          </button>
+          <button type="button"
+            class="remove-btn px-3 py-2 rounded-xl text-sm text-red-500 bg-white/70 hover:bg-white border border-transparent hover:border-red-200 transition"
+            data-event-id="${event.id}"
+            data-slot-key="${escapeHtml(slotKey)}"
+            data-plan-item-id="${event.plan_item_id || ""}">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function bindTimelineActions(container, dayIndex) {
+  container.querySelectorAll(".navigate-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const url = btn.dataset.navigateUrl;
+      if (url) window.open(url, "_blank", "noopener,noreferrer");
+    });
   });
 
-  if (message && !message.textContent) message.innerText = "";
-  refreshPlanSummaryAndMap(currentDayIndex);
-}
-
-/* =========================
-   Loading State
-========================= */
-
-function setLoading(isLoading) {
-  _isPlanLoading = isLoading;
-  if (isLoading) {
-    showPlanMessage("Loading...");
-    return;
-  }
-
-  const message = document.getElementById("plan-message");
-  if (!message) return;
-  if (message.classList.contains("text-gray-500")) {
-    message.innerText = "";
-  }
-}
-
-function resetGenerateActionState() {
-  setLoading(false);
-  const generateBtn = document.getElementById("generate-plan-btn");
-  if (generateBtn) generateBtn.disabled = false;
-}
-
-/* =========================
-   Load Current Plan
-========================= */
-
-let _currentPlan = null;
-
-async function loadCurrentPlan() {
-  try {
-    // Always pull fresh preferences first so the days bar shows the correct span
-    // even before any plan exists.
-    _lastPlanRequestFailed = false;
-    await refreshPreferences();
-    syncPlanDateInputs();
-    const tripDuration = getTripDuration();
-    multiDayPlans = [];
-    _slotAssignmentsByDay = {};
-    _slotFeedbackByDay = {};
-    _slotBlockedIdsByDay = {};
-
-    const data = await apiGet("/api/daily-plan/");
-    const plans = data
-      ? (Array.isArray(data) ? data : data.results || []).map((plan) => normalizePlanPayload(plan))
-      : [];
-    const startDate = new Date(`${getStoredPlanStartDate()}T00:00:00`);
-
-    // Map any existing plan onto its day-offset within the current trip window.
-    for (let i = 0; i < tripDuration; i += 1) {
-      const day = new Date(startDate);
-      day.setDate(startDate.getDate() + i);
-      const dayStr = _localDateStr(day);
-      const match = plans.find((p) => p.date === dayStr);
-      if (match && Array.isArray(match.events) && match.events.length) {
-        multiDayPlans[i] = match.events.filter(Boolean);
-        if (i === 0) _currentPlan = match;
-      } else {
-        multiDayPlans[i] = [];
-      }
-    }
-
-    if (!_currentPlan) {
-      // Fall back to the first plan we found (may be in the past) for add-activity context.
-      _currentPlan = plans[0] || null;
-    }
-
-    currentDayIndex = 0;
-    setSelectedPlanDate(_localDateStr(startDate));
-    renderDaysBar();
-    renderPlanForDay(0);
-    updateSummary();
-  } catch (error) {
-    _lastPlanRequestFailed = true;
-    console.error("Failed to load current daily plan", error);
-    // Even on error, still render an empty days bar so the UI is consistent.
-    renderDaysBar();
-    renderPlanForDay(0);
-    updateSummary();
-  }
-}
-
-/* =========================
-   Add Activity
-========================= */
-
-let _activityDebounce = null;
-
-function getActivityResultsContainer() {
-  return (
-    document.getElementById("activity-results") ||
-    document.getElementById("activitySearchResults")
-  );
-}
-
-function bindActivityResultCards(resultsContainer) {
-  resultsContainer.querySelectorAll("[data-event-id]").forEach((card) => {
-    card.addEventListener("click", async () => {
-      const eventId = Number(card.dataset.eventId);
-      if (!Number.isFinite(eventId)) return;
-      const selectedDate = getSelectedPlanDate();
-      if (!selectedDate) return;
-
-      card.classList.add("opacity-60");
+  container.querySelectorAll(".try-another-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const eventId   = Number(btn.dataset.eventId);
+      const slotKey   = btn.dataset.slotKey;
+      const slotIndex = Number(btn.dataset.slotIndex);
+      btn.disabled = true; btn.textContent = "Loading…";
       try {
-        await apiPost("/api/daily-plan/add/", {
-          date: selectedDate,
-          event_id: eventId,
-        });
+        await replaceActivityForSlot(slotKey, isFinite(eventId) ? eventId : null, { dayIndex, itemIndex: slotIndex });
+      } catch (e) {
+        console.error("Replace failed:", e);
+        showPlanMessage("No alternative found for this slot.", "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "Try Another";
+      }
+    });
+  });
 
-        await loadCurrentPlan();
-
-        const modal =
-          document.getElementById("add-activity-modal") ||
-          document.getElementById("addActivityModal");
-        if (modal) modal.classList.add("hidden");
-      } catch (error) {
-        console.error("Add failed", error);
-        card.classList.remove("opacity-60");
+  container.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const eventId = Number(btn.dataset.eventId);
+      const slotKey = btn.dataset.slotKey;
+      const itemId  = btn.dataset.planItemId ? Number(btn.dataset.planItemId) : null;
+      btn.disabled = true; btn.textContent = "Removing…";
+      try {
+        await removeEventFromPlan(eventId, slotKey, { dayIndex, itemId });
+      } catch (e) {
+        console.error("Remove failed:", e);
+        showPlanMessage("Could not remove this activity.", "error");
+        btn.disabled = false; btn.textContent = "Remove";
       }
     });
   });
 }
 
-function renderActivityResults(events) {
-  const resultsContainer = getActivityResultsContainer();
-  if (!resultsContainer) return;
+async function populateDistanceLabels(container) {
+  const userLoc = await getUserLocation();
+  if (!userLoc) return;
+  container.querySelectorAll(".distance-label[data-lat]").forEach(el => {
+    const lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
+    if (!isFinite(lat) || !isFinite(lng)) return;
+    const km = haversineKm(userLoc.lat, userLoc.lng, lat, lng);
+    el.textContent = km < 1 ? `${(km * 1000).toFixed(0)} m from you` : `${km.toFixed(1)} km from you`;
+  });
+}
+
+function renderTimeline(dayIndex = currentDayIndex) {
+  const container  = document.getElementById("timeline");
+  const emptyEl    = document.getElementById("emptyState");
+  const skeletonEl = document.getElementById("skeleton");
+  const mapSection = document.getElementById("mapSection");
+  if (!container) return;
+
+  const events = getActiveDayEvents(dayIndex);
+  skeletonEl?.classList.add("hidden");
 
   if (!events.length) {
-    resultsContainer.innerHTML = `<div class="text-gray-500">No data available</div>`;
-    return;
-  }
-
-  resultsContainer.innerHTML = events.map((e) => `
-    <div class="p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
-         data-event-id="${e.id}">
-      <div class="font-medium">${escapeHtml(e.title || "")}</div>
-      <div class="text-sm text-gray-500">${escapeHtml(e.category || "")}</div>
-    </div>
-  `).join("");
-
-  bindActivityResultCards(resultsContainer);
-}
-
-function openAddActivityModal() {
-  const modal =
-    document.getElementById("add-activity-modal") ||
-    document.getElementById("addActivityModal");
-  if (modal) modal.classList.remove("hidden");
-
-  const resultsContainer = getActivityResultsContainer();
-  if (resultsContainer) {
-    resultsContainer.innerHTML =
-      '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
-  }
-}
-
-function closeAddActivityModal() {
-  const modal =
-    document.getElementById("add-activity-modal") ||
-    document.getElementById("addActivityModal");
-  if (modal) modal.classList.add("hidden");
-}
-
-async function searchActivities(query) {
-  const resultsContainer = getActivityResultsContainer();
-  if (!resultsContainer) return;
-
-  if (!query.trim()) {
-    resultsContainer.innerHTML =
-      '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
-    return;
-  }
-
-  resultsContainer.innerHTML = "Searching...";
-
-  try {
-    const selectedDate = getSelectedPlanDate();
-    const response = await apiGet(`/api/events/?search=${encodeURIComponent(query)}`);
-    const events = response?.results || [];
-
-    if (!events.length) {
-      resultsContainer.innerHTML = `<div class="text-gray-500">No results found</div>`;
+    if (_dayHasPlan[dayIndex]) {
+      emptyEl?.classList.add("hidden");
+      mapSection?.classList.add("hidden");
+      const slots = buildStructuredSlots([], dayIndex);
+      container.innerHTML = slots
+        .flatMap(slot => slot.items.map((event, idx) => buildTimelineCard(slot.key, event, idx)))
+        .join("");
+      container.classList.remove("hidden");
+      bindTimelineActions(container, dayIndex);
+      updateHero(dayIndex);
       return;
     }
-    resultsContainer.innerHTML = events.map((event) => `
-      <div class="p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
-           data-event-id="${event.id}">
-        <div class="font-medium">${escapeHtml(event.title || "")}</div>
-        <div class="text-sm text-gray-500">${escapeHtml(event.category || "")}</div>
-      </div>
-    `).join("");
-    if (events.length === 1) {
-      resultsContainer.innerHTML += `
-        <div class="text-xs text-gray-400 mt-2">
-          Try a broader search (e.g. cafe, restaurant)
-        </div>
-      `;
+    container.classList.add("hidden");
+    container.innerHTML = "";
+    emptyEl?.classList.remove("hidden");
+    mapSection?.classList.add("hidden");
+    updateHero(dayIndex);
+    return;
+  }
+
+  emptyEl?.classList.add("hidden");
+
+  const slots   = buildStructuredSlots(events, dayIndex);
+  const allReal = slots.flatMap(s => s.items).filter(e => e && !e._placeholder);
+
+  container.innerHTML = slots
+    .flatMap(slot => slot.items.map((event, idx) => buildTimelineCard(slot.key, event, idx)))
+    .join("");
+  container.classList.remove("hidden");
+
+  bindTimelineActions(container, dayIndex);
+  populateDistanceLabels(container).catch(() => {});
+
+  if (allReal.length) {
+    mapSection?.classList.remove("hidden");
+    setTimeout(() => updateMapMarkers(allReal), 80);
+  }
+
+  updateHero(dayIndex);
+}
+
+// ── Plan loading ──────────────────────────────────────────
+async function loadCurrentPlan() {
+  setLoading(true);
+  try {
+    await refreshPreferences();
+    const duration = getTripDuration();
+    multiDayPlans       = [];
+    _slotAssignmentsByDay = {};
+    _slotFeedbackByDay    = {};
+    _slotBlockedIdsByDay  = {};
+
+    const data  = await apiGet("/api/daily-plan/");
+    const plans = (Array.isArray(data) ? data : (data?.results || [])).map(p => normalizePlanPayload(p));
+    const start = new Date(`${getStoredPlanStartDate()}T00:00:00`);
+
+    for (let i = 0; i < duration; i++) {
+      const day   = new Date(start); day.setDate(start.getDate() + i);
+      const match = plans.find(p => p.date === _localDateStr(day));
+      multiDayPlans[i] = match?.events?.length ? match.events.filter(Boolean) : [];
+      if (match?.events?.length) _dayHasPlan[i] = true;
+      if (i === 0 && match) _currentPlan = match;
     }
-    bindActivityResultCards(resultsContainer);
-  } catch (error) {
-    console.error("Failed to search activities", error);
-    resultsContainer.innerHTML =
-      '<p class="text-sm text-red-400 text-center py-8">Failed to search</p>';
+    if (!_currentPlan) _currentPlan = plans[0] || null;
+
+    currentDayIndex = 0;
+    setSelectedPlanDate(_localDateStr(start));
+    renderDayTabs();
+    renderTimeline(0);
+  } catch (e) {
+    console.error("Failed to load plan:", e);
+    renderDayTabs();
+    renderTimeline(0);
+  } finally {
+    setLoading(false);
   }
 }
 
-async function addEventToPlan(eventId, options = {}) {
-  const normalizedEventId = Number(eventId);
-  if (!Number.isFinite(normalizedEventId) || normalizedEventId <= 0) {
-    throw new Error("Invalid event ID");
+// ── Plan generation ───────────────────────────────────────
+async function ensurePlanGenerationReady() {
+  await refreshPreferences();
+  const interests = Array.isArray(_currentPreferences?.interests)
+    ? _currentPreferences.interests.filter(Boolean) : [];
+  if (!interests.length) {
+    showPlanMessage(
+      "No preferences set — generating a default plan. <a href='/onboarding/' class='underline text-violet-600'>Set preferences →</a>",
+      "info"
+    );
   }
-
-  const targetDate = getSelectedPlanDate();
-  if (!targetDate) return;
-  await apiPost("/api/daily-plan/add/", {
-    date: targetDate,
-    event_id: normalizedEventId,
-  });
-  await loadCurrentPlan();
+  return true;
 }
 
+function _setBtnGenerating(btn, on) {
+  if (!btn) return;
+  btn.disabled = on;
+  const label = document.getElementById("generate-plan-btn-label");
+  if (label) label.textContent = on ? "Generating…" : "Generate New Plan";
+}
+
+async function generateAllDays(btn) {
+  _setBtnGenerating(btn, true);
+  setLoading(true);
+  const snapshotPlans = [...multiDayPlans];
+  const snapshotPlan  = _currentPlan;
+  _currentPlan = null; multiDayPlans = [];
+  _slotAssignmentsByDay = {}; _slotFeedbackByDay = {}; _slotBlockedIdsByDay = {};
+  try {
+    if (!await ensurePlanGenerationReady()) return;
+    const payload = { start_date: getStoredPlanStartDate() };
+    const end = getStoredPlanEndDate();
+    if (end) payload.end_date = end;
+
+    const resp  = await apiPost("/api/daily-plan/generate-multiday/", payload);
+    const plans = Array.isArray(resp?.plans) ? resp.plans : [];
+    plans.sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
+    plans.forEach((plan, i) => {
+      const events = normalizePlanPayload(plan).events;
+      multiDayPlans[i] = events;
+      if (events?.length) _dayHasPlan[i] = true;
+    });
+    const duration = getTripDuration();
+    for (let i = 0; i < duration; i++) { if (!Array.isArray(multiDayPlans[i])) multiDayPlans[i] = []; }
+
+    _currentPlan    = plans[0] ? normalizePlanPayload(plans[0]) : null;
+    currentDayIndex = 0;
+    setSelectedPlanDate(getStoredPlanStartDate());
+    renderDayTabs(); renderTimeline(0);
+    showPlanMessage("Plan generated!", "success");
+    setTimeout(() => showPlanMessage(""), 3000);
+  } catch (e) {
+    multiDayPlans = snapshotPlans;
+    _currentPlan  = snapshotPlan;
+    renderDayTabs();
+    renderTimeline(currentDayIndex);
+    handleGenerateError(e);
+  } finally { setLoading(false); _setBtnGenerating(btn, false); }
+}
+
+async function requestPlanForDay(btn) {
+  _setBtnGenerating(btn, true);
+  setLoading(true);
+  const snapshotEvents = multiDayPlans[currentDayIndex] ? [...multiDayPlans[currentDayIndex]] : [];
+  const snapshotPlan   = _currentPlan;
+  try {
+    if (!await ensurePlanGenerationReady()) return;
+    const targetDate = _localDateStr(getPlanDateForIndex(currentDayIndex));
+    const payload    = { date: targetDate, start_date: getStoredPlanStartDate(), seed: Date.now() };
+    const end = getStoredPlanEndDate();
+    if (end) payload.end_date = end;
+
+    const resp   = normalizePlanPayload(await apiPost("/api/daily-plan/generate/", payload));
+    const events = Array.isArray(resp?.events) ? resp.events.filter(Boolean) : [];
+    delete _slotAssignmentsByDay[currentDayIndex];
+    delete _slotFeedbackByDay[currentDayIndex];
+    delete _slotBlockedIdsByDay[currentDayIndex];
+    multiDayPlans[currentDayIndex] = events;
+    if (events.length) _dayHasPlan[currentDayIndex] = true;
+    _currentPlan = resp || _currentPlan;
+    setSelectedPlanDate(targetDate);
+    renderDayTabs(); renderTimeline(currentDayIndex);
+    showPlanMessage("Plan updated!", "success");
+    setTimeout(() => showPlanMessage(""), 3000);
+  } catch (e) {
+    multiDayPlans[currentDayIndex] = snapshotEvents;
+    _currentPlan = snapshotPlan;
+    renderDayTabs();
+    renderTimeline(currentDayIndex);
+    handleGenerateError(e);
+  } finally { setLoading(false); _setBtnGenerating(btn, false); }
+}
+
+function handleGenerateError(error) {
+  const msg = error?.status === 404
+    ? "No places match your current preferences. <a href='/onboarding/' class='underline text-violet-600'>Adjust preferences →</a>"
+    : "Could not generate plan. Please try again.";
+  const el = document.getElementById("plan-message");
+  if (el) {
+    el.innerHTML = msg;
+    el.className = "text-sm text-center rounded-xl py-2 text-red-600 bg-red-50";
+    el.classList.remove("hidden");
+  }
+}
+
+// ── Remove & Replace ──────────────────────────────────────
 async function findPlanForDate(targetDate) {
-  if (_currentPlan && _currentPlan.date === targetDate && _currentPlan.id) {
-    return _currentPlan;
-  }
-
-  const data = await apiGet("/api/daily-plan/");
-  const plans = data
-    ? (Array.isArray(data) ? data : data.results || []).map((plan) => normalizePlanPayload(plan))
-    : [];
-  return plans.find((plan) => plan.date === targetDate) || null;
-}
-
-function buildPlanEventPayload(events) {
-  return (Array.isArray(events) ? [...events] : [])
-    .sort((a, b) => {
-      const orderDiff =
-        Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) -
-        Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
-      if (orderDiff !== 0) return orderDiff;
-      return Number(a?.id || 0) - Number(b?.id || 0);
-    })
-    .filter((event) => event && !event._placeholder)
-    .map((event) => Number(event.id))
-    .filter((id) => Number.isFinite(id));
-}
-
-function setSlotFeedback(slotKey, message, options = {}) {
-  const dayIndex = Number.isInteger(options.dayIndex) ? options.dayIndex : currentDayIndex;
-  if (!_slotFeedbackByDay[dayIndex]) {
-    _slotFeedbackByDay[dayIndex] = {};
-  }
-  _slotFeedbackByDay[dayIndex][slotKey] = message;
-  window.setTimeout(() => {
-    if (_slotFeedbackByDay[dayIndex]) {
-      delete _slotFeedbackByDay[dayIndex][slotKey];
-      if (dayIndex === currentDayIndex) {
-        renderSlotSection(slotKey, dayIndex);
-      }
-    }
-  }, 2200);
-}
-
-async function getReplacementCandidatesForDay(dayIndex = currentDayIndex) {
-  const targetDate = _localDateStr(getPlanDateForIndex(dayIndex));
-  const cacheKey = targetDate;
-  if (_replacementCandidatesCache.has(cacheKey)) {
-    return _replacementCandidatesCache.get(cacheKey);
-  }
-
-  const dateFrom = encodeURIComponent(targetDate);
-  const data = await apiGet(`/api/events/filtered/?date_from=${dateFrom}&date_to=${dateFrom}`);
-  const candidates = Array.isArray(data) ? data : data?.results || [];
-  _replacementCandidatesCache.set(cacheKey, candidates);
-  return candidates;
-}
-
-function pickReplacementCandidate(slotKey, candidates, excludedIds) {
-  const normalizedExcludedIds = new Set(
-    [...excludedIds].map((value) => Number(value)).filter((value) => Number.isFinite(value)),
-  );
-  const pool = (Array.isArray(candidates) ? candidates : []).filter((candidate) => {
-    const candidateId = Number(candidate?.id);
-    if (!Number.isFinite(candidateId) || normalizedExcludedIds.has(candidateId)) {
-      return false;
-    }
-    return true;
-  });
-
-  if (slotKey === "breakfast" || slotKey === "lunch") {
-    return pool.find((candidate) => String(candidate.category || "").toLowerCase() === "food") || null;
-  }
-
-  const nonFoodCandidate = pool.find(
-    (candidate) => String(candidate.category || "").toLowerCase() !== "food",
-  );
-  if (nonFoodCandidate) return nonFoodCandidate;
-  return pool[0] || null;
+  if (_currentPlan?.date === targetDate && _currentPlan?.id) return _currentPlan;
+  const data  = await apiGet("/api/daily-plan/");
+  const plans = (Array.isArray(data) ? data : (data?.results || [])).map(p => normalizePlanPayload(p));
+  return plans.find(p => p.date === targetDate) || null;
 }
 
 async function persistCurrentDayEvents(rawEvents, dayIndex = currentDayIndex) {
   const targetDate = _localDateStr(getPlanDateForIndex(dayIndex));
-  const payloadEvents = buildPlanEventPayload(rawEvents);
-  const targetPlan = await findPlanForDate(targetDate);
-
-  if (targetPlan?.id) {
-    const updated = normalizePlanPayload(await apiPut(`/api/daily-plan/${targetPlan.id}/`, {
-      date: targetDate,
-      events: payloadEvents,
-    }));
-    return updated || null;
+  const ids        = rawEvents.filter(e => e && !e._placeholder).map(e => Number(e.id)).filter(id => isFinite(id));
+  const plan       = await findPlanForDate(targetDate);
+  if (plan?.id) {
+    return normalizePlanPayload(await apiPut(`/api/daily-plan/${plan.id}/`, { date: targetDate, events: ids }));
   }
-
-  if (!payloadEvents.length) {
-    return null;
-  }
-
-  const created = normalizePlanPayload(await apiPost("/api/daily-plan/", {
-    date: targetDate,
-    events: payloadEvents,
-  }));
-  return created || null;
+  if (!ids.length) return null;
+  return normalizePlanPayload(await apiPost("/api/daily-plan/", { date: targetDate, events: ids }));
 }
 
-async function replaceActivityForSlot(slotKey, currentEventId = null, options = {}) {
-  const dayIndex = Number.isInteger(options.dayIndex) ? options.dayIndex : currentDayIndex;
-  const itemIndex = Number.isInteger(options.itemIndex) ? options.itemIndex : 0;
-  const currentEvents = Array.isArray(multiDayPlans[dayIndex])
-    ? multiDayPlans[dayIndex].filter((event) => event && !event._placeholder)
-    : [];
-  const currentAssignments = cloneSlotAssignments(getDaySlotAssignments(currentEvents, dayIndex));
-  const currentIds = currentEvents
-    .map((event) => Number(event?.id))
-    .filter((id) => Number.isFinite(id));
-  const excludedIds = new Set(currentIds);
-  const blockedIds = _slotBlockedIdsByDay[dayIndex]?.[slotKey] || [];
-  blockedIds.forEach((id) => excludedIds.add(Number(id)));
-  if (currentEventId !== null && currentEventId !== undefined) {
-    excludedIds.add(Number(currentEventId));
-  }
-
-  const candidates = await getReplacementCandidatesForDay(dayIndex);
-  const replacement = pickReplacementCandidate(slotKey, candidates, excludedIds);
-  if (!replacement) {
-    alert("No more alternatives available for this slot");
-    return;
-  }
-
-  const currentEvent = currentEvents.find(
-    (event) => Number(event?.id) === Number(currentEventId),
-  );
+async function getReplacementCandidates(dayIndex = currentDayIndex) {
   const targetDate = _localDateStr(getPlanDateForIndex(dayIndex));
-  const targetPlan = await findPlanForDate(targetDate);
-  if (currentEvent?.plan_item_id && targetPlan?.id) {
-    const updated = normalizePlanPayload(
-      await apiPatch(`/api/daily-plan/${targetPlan.id}/items/${currentEvent.plan_item_id}/`, {
-        event_id: Number(replacement.id),
-      }),
-    );
-    await loadCurrentPlan();
-    updateCurrentDayEvents(updated?.events || [], updated || null, {
-      preserveOrder: true,
-      dayIndex,
-      rerenderSlotKey: slotKey,
-    });
-    setSlotFeedback(slotKey, "Updated based on your preferences", { dayIndex });
-    return;
+  if (_replacementCache.has(targetDate)) return _replacementCache.get(targetDate);
+  const data = await apiGet(`/api/events/filtered/?date_from=${encodeURIComponent(targetDate)}&date_to=${encodeURIComponent(targetDate)}`);
+  let candidates = Array.isArray(data) ? data : (data?.results || []);
+  if (!candidates.length) {
+    const fallback = await apiGet("/api/events/");
+    candidates = Array.isArray(fallback) ? fallback : (fallback?.results || []);
   }
+  _replacementCache.set(targetDate, candidates);
+  return candidates;
+}
 
-  const nextEvents = [...currentEvents];
-  const currentIndex = nextEvents.findIndex(
-    (event) => Number(event?.id) === Number(currentEventId),
-  );
-  if (currentIndex >= 0) {
-    nextEvents[currentIndex] = replacement;
-  } else {
-    nextEvents.push(replacement);
+function pickReplacement(slotKey, candidates, excludedIds) {
+  const excl = new Set([...excludedIds].map(Number).filter(isFinite));
+  const pool = candidates.filter(c => { const id = Number(c?.id); return isFinite(id) && !excl.has(id); });
+  if (slotKey === "breakfast" || slotKey === "lunch") {
+    return pool.find(c => String(c.category || "").toLowerCase() === "food") || null;
   }
-
-  const nextSlotIds = [...(currentAssignments[slotKey] || [])];
-  if (currentIndex >= 0 && itemIndex < nextSlotIds.length) {
-    nextSlotIds[itemIndex] = Number(replacement.id);
-  } else if (nextSlotIds.length < getSlotLimit(slotKey)) {
-    nextSlotIds.push(Number(replacement.id));
-  }
-  currentAssignments[slotKey] = nextSlotIds.slice(0, getSlotLimit(slotKey));
-  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(currentAssignments);
-  if (!_slotBlockedIdsByDay[dayIndex]) {
-    _slotBlockedIdsByDay[dayIndex] = {};
-  }
-  _slotBlockedIdsByDay[dayIndex][slotKey] = [
-    ...new Set(
-      [
-        ...(blockedIds || []),
-        currentEventId !== null && currentEventId !== undefined
-          ? Number(currentEventId)
-          : null,
-        Number(replacement.id),
-      ].filter((id) => Number.isFinite(id)),
-    ),
-  ];
-
-  const updatedPlan = await persistCurrentDayEvents(nextEvents, dayIndex);
-  await loadCurrentPlan();
-  updateCurrentDayEvents(
-    updatedPlan?.events || nextEvents,
-    updatedPlan || null,
-    { preserveOrder: true, dayIndex, rerenderSlotKey: slotKey },
-  );
-  setSlotFeedback(slotKey, "Updated based on your preferences", { dayIndex });
+  return pool.find(c => String(c.category || "").toLowerCase() !== "food") || pool[0] || null;
 }
 
 function updateCurrentDayEvents(events, planData = null, options = {}) {
-  const dayIndex = Number.isInteger(options.dayIndex) ? options.dayIndex : currentDayIndex;
-  const preserveOrder = options.preserveOrder === true;
-  const normalizedPlan = planData ? normalizePlanPayload(planData) : null;
-  const sourceEvents = normalizedPlan?.events || events;
-  const safeEvents = (Array.isArray(sourceEvents) ? sourceEvents : []).map((event, index) =>
-    normalizePlanEvent(event, index),
-  ).filter(Boolean);
-  multiDayPlans[dayIndex] = safeEvents;
-
+  const dayIndex = isFinite(options.dayIndex) ? options.dayIndex : currentDayIndex;
+  const plan     = planData ? normalizePlanPayload(planData) : null;
+  const source   = plan?.events || events;
+  const safe     = (Array.isArray(source) ? source : []).map((e, i) => normalizePlanEvent(e, i)).filter(Boolean);
+  multiDayPlans[dayIndex] = safe;
   const targetDate = _localDateStr(getPlanDateForIndex(dayIndex));
-  if (normalizedPlan) {
-    if (dayIndex === currentDayIndex) {
-      _currentPlan = {
-        ...normalizedPlan,
-        date: targetDate,
-        events: safeEvents,
-        count: safeEvents.length,
-      };
-    }
-  } else if (_currentPlan && _currentPlan.date === targetDate) {
-    _currentPlan = {
-      ..._currentPlan,
-      date: targetDate,
-      events: safeEvents,
-      count: safeEvents.length,
-    };
+  if (plan) {
+    _currentPlan = { ...plan, date: targetDate, events: safe, count: safe.length };
+  } else if (_currentPlan?.date === targetDate) {
+    _currentPlan = { ..._currentPlan, date: targetDate, events: safe, count: safe.length };
   }
+  if (dayIndex === currentDayIndex) { renderDayTabs(); renderTimeline(dayIndex); }
+}
 
-  if (safeEvents.length === 0) {
-    resetGenerateActionState();
-  }
+async function replaceActivityForSlot(slotKey, currentEventId = null, options = {}) {
+  const dayIndex  = isFinite(options.dayIndex)  ? options.dayIndex  : currentDayIndex;
+  const itemIndex = isFinite(options.itemIndex) ? options.itemIndex : 0;
+  const current   = getActiveDayEvents(dayIndex).filter(e => !e._placeholder);
+  const excl      = new Set(current.map(e => Number(e?.id)).filter(isFinite));
+  const blocked   = _slotBlockedIdsByDay[dayIndex]?.[slotKey] || [];
+  blocked.forEach(id => excl.add(Number(id)));
+  if (currentEventId !== null) excl.add(Number(currentEventId));
 
-  if (options.rerenderSlotKey && dayIndex === currentDayIndex) {
-    renderSlotSection(options.rerenderSlotKey, dayIndex);
-    refreshPlanSummaryAndMap(dayIndex);
+  const candidates  = await getReplacementCandidates(dayIndex);
+  const replacement = pickReplacement(slotKey, candidates, excl);
+  if (!replacement) { alert("No more alternatives available for this slot."); return; }
+
+  const targetDate    = _localDateStr(getPlanDateForIndex(dayIndex));
+  const plan          = await findPlanForDate(targetDate);
+  const currentEvent  = current.find(e => Number(e?.id) === Number(currentEventId));
+
+  if (currentEvent?.plan_item_id && plan?.id) {
+    const updated = normalizePlanPayload(
+      await apiPatch(`/api/daily-plan/${plan.id}/items/${currentEvent.plan_item_id}/`, { event_id: Number(replacement.id) })
+    );
+    await loadCurrentPlan();
     return;
   }
 
-  renderDaysBar();
-  renderPlanForDay(dayIndex);
+  const next = [...current];
+  const idx  = next.findIndex(e => Number(e?.id) === Number(currentEventId));
+  if (idx >= 0) next[idx] = replacement; else next.push(replacement);
+
+  const prevAssign    = cloneSlotAssignments(getDaySlotAssignments(current, dayIndex));
+  const nextAssign    = cloneSlotAssignments(prevAssign);
+  const nextSlotIds   = [...(nextAssign[slotKey] || [])];
+  if (idx >= 0 && itemIndex < nextSlotIds.length) nextSlotIds[itemIndex] = Number(replacement.id);
+  else if (nextSlotIds.length < getSlotLimit(slotKey)) nextSlotIds.push(Number(replacement.id));
+  nextAssign[slotKey] = nextSlotIds.slice(0, getSlotLimit(slotKey));
+  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(nextAssign);
+
+  if (!_slotBlockedIdsByDay[dayIndex]) _slotBlockedIdsByDay[dayIndex] = {};
+  _slotBlockedIdsByDay[dayIndex][slotKey] = [
+    ...new Set([...(blocked || []), Number(currentEventId) || null, Number(replacement.id)].filter(id => isFinite(id)))
+  ];
+
+  await persistCurrentDayEvents(next, dayIndex);
+  await loadCurrentPlan();
 }
 
 async function removeEventFromPlan(eventId, slotKey = "evening", options = {}) {
-  const dayIndex = Number.isInteger(options.dayIndex) ? options.dayIndex : currentDayIndex;
-  const normalizedEventId = Number(eventId);
-  const normalizedItemId = Number(options.itemId);
-  if (!Number.isFinite(normalizedEventId) || normalizedEventId <= 0) {
-    throw new Error("Invalid event ID");
-  }
+  const dayIndex     = isFinite(options.dayIndex) ? options.dayIndex : currentDayIndex;
+  const normalizedId = Number(eventId);
+  const itemId       = isFinite(Number(options.itemId)) ? Number(options.itemId) : null;
+  if (!isFinite(normalizedId) || normalizedId <= 0) throw new Error("Invalid event ID");
 
-  const currentEvents = Array.isArray(multiDayPlans[dayIndex])
-    ? multiDayPlans[dayIndex]
-    : [];
-  const nextEvents = currentEvents.filter(
-    (event) => Number(event?.id) !== normalizedEventId,
-  );
+  const current = getActiveDayEvents(dayIndex);
+  const next    = current.filter(e => Number(e?.id) !== normalizedId);
+  if (next.length === current.length) return;
 
-  if (nextEvents.length === currentEvents.length) {
-    return;
-  }
+  const prevAssign  = cloneSlotAssignments(getDaySlotAssignments(current, dayIndex));
+  const nextAssign  = cloneSlotAssignments(prevAssign);
+  nextAssign[slotKey] = (nextAssign[slotKey] || []).filter(id => Number(id) !== normalizedId);
+  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(nextAssign);
+  if (!_slotBlockedIdsByDay[dayIndex]) _slotBlockedIdsByDay[dayIndex] = {};
+  _slotBlockedIdsByDay[dayIndex][slotKey] = [...new Set([...(_slotBlockedIdsByDay[dayIndex][slotKey] || []), normalizedId])];
 
-  const previousAssignments = cloneSlotAssignments(getDaySlotAssignments(currentEvents, dayIndex));
-  const currentAssignments = cloneSlotAssignments(previousAssignments);
-  currentAssignments[slotKey] = (currentAssignments[slotKey] || [])
-    .filter((id) => Number(id) !== normalizedEventId);
-  _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(currentAssignments);
-  if (!_slotBlockedIdsByDay[dayIndex]) {
-    _slotBlockedIdsByDay[dayIndex] = {};
-  }
-  _slotBlockedIdsByDay[dayIndex][slotKey] = [
-    ...new Set([
-      ...(_slotBlockedIdsByDay[dayIndex][slotKey] || []),
-      normalizedEventId,
-    ]),
-  ];
-
-  const previousEvents = [...currentEvents];
-  updateCurrentDayEvents(nextEvents, null, {
-    preserveOrder: true,
-    dayIndex,
-    rerenderSlotKey: slotKey,
-  });
+  const prev = [...current];
+  updateCurrentDayEvents(next, null, { dayIndex });
 
   const targetDate = _localDateStr(getPlanDateForIndex(dayIndex));
   try {
-    const targetPlan = await findPlanForDate(targetDate);
-    if (!targetPlan?.id) {
-      setSlotFeedback(slotKey, "Activity removed", { dayIndex });
-      return;
-    }
-
-    const updated = normalizedItemId
-      ? normalizePlanPayload(
-          await apiDelete(`/api/daily-plan/${targetPlan.id}/items/${normalizedItemId}/`),
-        )
-      : normalizePlanPayload(
-          await apiDelete(`/api/daily-plan/${targetPlan.id}/events/${normalizedEventId}/`),
-        );
+    const plan = await findPlanForDate(targetDate);
+    if (!plan?.id) return;
+    const updated = normalizePlanPayload(
+      itemId
+        ? await apiDelete(`/api/daily-plan/${plan.id}/items/${itemId}/`)
+        : await apiDelete(`/api/daily-plan/${plan.id}/events/${normalizedId}/`)
+    );
+    _dayHasPlan[dayIndex] = true;
     await loadCurrentPlan();
-    if (updated) {
-      updateCurrentDayEvents(updated.events || [], updated, {
-        preserveOrder: true,
-        dayIndex,
-        rerenderSlotKey: slotKey,
-      });
-    }
-    setSlotFeedback(slotKey, "Activity removed", { dayIndex });
-  } catch (error) {
-    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(previousAssignments);
-    updateCurrentDayEvents(previousEvents, null, {
-      preserveOrder: true,
-      dayIndex,
-      rerenderSlotKey: slotKey,
-    });
-    throw error;
+  } catch (e) {
+    _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(prevAssign);
+    updateCurrentDayEvents(prev, null, { dayIndex });
+    throw e;
   }
 }
 
-/* =========================
-   Export Plan
-========================= */
+// ── Add Activity Modal ────────────────────────────────────
+function openAddActivityModal() {
+  document.getElementById("addActivityModal")?.classList.remove("hidden");
+  const results = document.getElementById("activitySearchResults");
+  if (results) results.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
+  setTimeout(() => document.getElementById("activitySearchInput")?.focus(), 50);
+}
 
-function exportPlan() {
-  const events = [...getActiveDayEvents()].sort((a, b) => {
-    const orderDiff =
-      Number(a?.item_order ?? Number.MAX_SAFE_INTEGER) -
-      Number(b?.item_order ?? Number.MAX_SAFE_INTEGER);
-    if (orderDiff !== 0) return orderDiff;
-    return Number(a?.id || 0) - Number(b?.id || 0);
-  });
-  const targetDate = getSelectedPlanDate();
+function closeAddActivityModal() {
+  document.getElementById("addActivityModal")?.classList.add("hidden");
+}
+
+function renderActivityResults(events) {
+  const container = document.getElementById("activitySearchResults");
+  if (!container) return;
   if (!events.length) {
-    alert("No plan to export. Generate or add activities first.");
+    container.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">No results found</p>';
     return;
   }
-
-  const startHour = 9;
-  const slotHours = 2;
-  const fmt = (h) => `${h % 12 === 0 ? 12 : h % 12}:00 ${h < 12 ? "AM" : "PM"}`;
-
-  let text = `Tizahab Daily Plan - ${targetDate}\n`;
-  text += "=".repeat(40) + "\n\n";
-
-  events.forEach((ev, i) => {
-    const hour = startHour + i * slotHours;
-    const title = typeof ev === "object" ? ev.title : `Event #${ev}`;
-    const price =
-      typeof ev === "object" && ev.price
-        ? `${parseFloat(ev.price).toFixed(0)} SAR`
-        : "Free";
-    const category = typeof ev === "object" ? ev.category || "" : "";
-    text += `${fmt(hour)} - ${fmt(hour + slotHours)}\n`;
-    text += `  ${title}\n`;
-    if (category) text += `  Category: ${category}\n`;
-    text += `  Price: ${price}\n\n`;
-  });
-
-  text += "-\nGenerated by Tizahab (tizahab.com)\n";
-
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `tizahab-plan-${targetDate}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-/* =========================
-   Page Init
-========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  syncPlanDateInputs();
-  loadCurrentPlan();
-
-  document.getElementById("plan-start-date")?.addEventListener("change", () => {
-    savePlanRangeFromInputs();
-    currentDayIndex = 0;
-    loadCurrentPlan();
-  });
-  document.getElementById("plan-end-date")?.addEventListener("change", () => {
-    savePlanRangeFromInputs();
-    currentDayIndex = 0;
-    loadCurrentPlan();
-  });
-
-  // Generate Plan (multi-day)
-  const generateBtn = document.getElementById("generate-plan-btn");
-  setGenerateButtonLabel(false);
-  generateBtn?.addEventListener("click", async () => {
-    try {
-      const ready = await ensurePlanGenerationReady();
-      if (!ready) return;
-
-      const currentDayEvents = Array.isArray(multiDayPlans[currentDayIndex])
-        ? multiDayPlans[currentDayIndex].filter(Boolean)
-        : [];
-      const hasCurrentDayPlan = currentDayEvents.length > 0;
-      const isSpecificDayRegeneration =
-        Array.isArray(multiDayPlans[currentDayIndex]) &&
-        (currentDayIndex > 0 || !hasCurrentDayPlan);
-
-      if (isSpecificDayRegeneration) {
-        await requestPlanForSelectedDate(generateBtn);
-      } else {
-        await generateAllDays(generateBtn);
-      }
-    } catch (error) {
-      _lastPlanRequestFailed = true;
-      const message = document.getElementById("plan-message");
-      console.error("Plan update failed:", error);
-      if (!message) return;
-      if (
-        error.status === 400 &&
-        error.message &&
-        error.message.toLowerCase().includes("interests")
-      ) {
-        message.classList.remove("text-green-600", "text-gray-500");
-        message.classList.add("text-red-500");
-        message.innerHTML =
-          `Please select your interests first.&nbsp;` +
-          `<a href="/onboarding/" ` +
-          `class="underline text-brand font-medium hover:opacity-80">` +
-          `Go to Preferences</a>`;
-      } else if (error.status === 400) {
-        showPlanMessage(
-          getDailyPlanErrorMessage(error, "Invalid request. Please try again."),
-          "error",
-        );
-      } else if (error.status === 404) {
-        message.classList.remove("text-green-600", "text-gray-500");
-        message.classList.add("text-red-500");
-        message.innerHTML =
-          `No places match your current preferences (interests, rating, or budget).&nbsp;` +
-          `<a href="/onboarding/" ` +
-          `class="underline text-brand font-medium hover:opacity-80">` +
-          `Adjust preferences -></a>`;
-      } else if (error.status === 500) {
-        showPlanMessage(
-          getDailyPlanErrorMessage(
-            error,
-            "Server error while generating your trip. Please try again.",
-          ),
-          "error",
-        );
-      } else {
-        showPlanMessage(
-          getDailyPlanErrorMessage(error, "Could not generate plan. Please try again."),
-          "error",
-        );
-      }
-    }
-  });
-
-  // Add Activity modal
-  const addBtn = document.getElementById("add-activity-btn");
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      openAddActivityModal();
-    });
-  }
-  document
-    .getElementById("closeAddActivity")
-    ?.addEventListener("click", closeAddActivityModal);
-  document
-    .getElementById("addActivityOverlay")
-    ?.addEventListener("click", closeAddActivityModal);
-
-  document
-    .getElementById("activitySearchInput")
-    ?.addEventListener("input", (e) => {
-      clearTimeout(_activityDebounce);
-      _activityDebounce = setTimeout(
-        () => searchActivities(e.target.value),
-        350,
-      );
-    });
-
-  // Export Plan
-  document
-    .getElementById("export-plan-btn")
-    ?.addEventListener("click", exportPlan);
-});
-
-/* =========================
-   Map Initialization
-========================= */
-
-function initDailyPlanMap() {
-  if (!window.GMAPS_ENABLED) {
-    console.warn("[DailyPlan] Google Maps not enabled on this page.");
-    const mapContainer =
-      document.getElementById("dailyPlanMap") || document.getElementById("map");
-    if (mapContainer) {
-      mapContainer.innerHTML =
-        "<div class='text-gray-500 p-4'>Map unavailable</div>";
-    }
-    return;
-  }
-
-  if (typeof google === "undefined" || !google.maps) {
-    const mapContainer =
-      document.getElementById("dailyPlanMap") || document.getElementById("map");
-    if (mapContainer) {
-      mapContainer.innerHTML =
-        "<div class='text-gray-500 p-4'>Map unavailable</div>";
-    }
-  } else {
-    try {
-      if (!window.TZMap) return;
-
-      window.__TZ_DP_MAP = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
-      window.__TZ_DP_MARKERS = {};
-
-      if (
-        window.__TZ_DP_MAP &&
-        Array.isArray(window.__TZ_DP_PENDING_POINTS) &&
-        window.__TZ_DP_PENDING_POINTS.length
-      ) {
-        updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
-      }
-    } catch (e) {
-      console.error("Map failed", e);
-
-      const mapContainer =
-        document.getElementById("dailyPlanMap") || document.getElementById("map");
-      if (mapContainer) {
-        mapContainer.innerHTML = `
-      <div class="p-4 text-center text-gray-500">
-        Map is currently unavailable
+  container.innerHTML = events.map(e => `
+    <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition"
+         data-event-id="${e.id}">
+      <span class="text-2xl shrink-0">${categoryEmoji(e.category)}</span>
+      <div class="min-w-0 flex-1">
+        <div class="text-sm font-medium text-gray-800 truncate">${escapeHtml(e.title || "")}</div>
+        <div class="text-xs text-gray-500">${escapeHtml(formatCategory(e.category))}</div>
       </div>
-    `;
+    </div>`).join("");
+
+  container.querySelectorAll("[data-event-id]").forEach(card => {
+    card.addEventListener("click", async () => {
+      const id   = Number(card.dataset.eventId);
+      const date = getSelectedPlanDate();
+      if (!isFinite(id) || !date) return;
+      card.classList.add("opacity-50");
+      try {
+        await apiPost("/api/daily-plan/add/", { date, event_id: id });
+        closeAddActivityModal();
+        await loadCurrentPlan();
+      } catch (e) {
+        console.error("Add activity failed:", e);
+        card.classList.remove("opacity-50");
       }
-    }
+    });
+  });
+}
+
+async function searchActivities(query) {
+  const container = document.getElementById("activitySearchResults");
+  if (!container) return;
+  if (!query.trim()) {
+    container.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
+    return;
+  }
+  container.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Searching…</p>';
+  try {
+    const data   = await apiGet(`/api/events/?search=${encodeURIComponent(query)}`);
+    const events = Array.isArray(data) ? data : (data?.results || []);
+    renderActivityResults(events);
+  } catch (e) {
+    container.innerHTML = '<p class="text-sm text-red-400 text-center py-8">Search failed. Please try again.</p>';
   }
 }
 
-/* =========================
-   Render Map Markers
-========================= */
+// ── Map ───────────────────────────────────────────────────
+function initDailyPlanMap() {
+  if (!window.GMAPS_ENABLED) return;
+  if (typeof google === "undefined" || !google.maps) {
+    const el = document.getElementById("dailyPlanMap");
+    if (el) el.innerHTML = '<div class="h-full flex items-center justify-center text-sm text-gray-400">Map unavailable</div>';
+    return;
+  }
+  try {
+    if (!window.TZMap) return;
+    window.__TZ_DP_MAP     = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
+    window.__TZ_DP_MARKERS = {};
+    if (window.__TZ_DP_MAP && Array.isArray(window.__TZ_DP_PENDING_POINTS) && window.__TZ_DP_PENDING_POINTS.length) {
+      updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
+    }
+  } catch (e) {
+    const el = document.getElementById("dailyPlanMap");
+    if (el) el.innerHTML = '<div class="h-full flex items-center justify-center text-sm text-gray-400">Map unavailable</div>';
+  }
+}
 
 function updateMapMarkers(allEvents) {
-  if (!window.google || !google.maps || !window.__TZ_DP_MAP) return;
-
-  Object.values(window.__TZ_DP_MARKERS || {}).forEach((m) => {
-    if (m?.setMap) m.setMap(null);
-  });
-
+  if (!window.google || !google.maps || !window.__TZ_DP_MAP) {
+    window.__TZ_DP_PENDING_POINTS = allEvents;
+    return;
+  }
+  Object.values(window.__TZ_DP_MARKERS || {}).forEach(m => m?.setMap?.(null));
   window.__TZ_DP_MARKERS = {};
 
-  const map = window.__TZ_DP_MAP;
-  const info = new google.maps.InfoWindow();
+  const map    = window.__TZ_DP_MAP;
+  const info   = new google.maps.InfoWindow();
   const bounds = new google.maps.LatLngBounds();
 
-  const markerEvents = (Array.isArray(allEvents) ? allEvents : [])
-    .map((event) => {
-      const latitude = Number.parseFloat(event?.latitude);
-      const longitude = Number.parseFloat(event?.longitude);
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-        return null;
-      }
-      return {
-        ...event,
-        latitude,
-        longitude,
-      };
-    })
-    .filter(Boolean);
-
-  window.__TZ_DP_PENDING_POINTS = markerEvents;
-
-  markerEvents.forEach((event) => {
-    const lat = Number.parseFloat(event.latitude);
-    const lng = Number.parseFloat(event.longitude);
-
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-      return;
-    }
-
-    const marker = new google.maps.Marker({
-      position: {
-        lat: lat,
-        lng: lng,
-      },
-      map: map,
-      title: event.title,
-    });
-
+  (Array.isArray(allEvents) ? allEvents : []).forEach(event => {
+    const lat = parseFloat(event?.latitude), lng = parseFloat(event?.longitude);
+    if (!isFinite(lat) || !isFinite(lng)) return;
+    const marker = new google.maps.Marker({ position: { lat, lng }, map, title: event.title });
     window.__TZ_DP_MARKERS[event.id] = marker;
-
     marker.addListener("click", () => {
       info.setContent(
-        `<div style="font-weight:600;margin-bottom:4px;">${escapeHtml(event.title)}</div>
-         <div style="font-size:12px;opacity:.85;">${escapeHtml(event.location)}</div>`,
+        `<div style="font-weight:600;margin-bottom:4px">${escapeHtml(event.title)}</div>` +
+        `<div style="font-size:12px;opacity:.8">${escapeHtml(event.location || "")}</div>`
       );
       info.open({ anchor: marker, map });
     });
-
-    bounds.extend({
-      lat: lat,
-      lng: lng,
-    });
+    bounds.extend({ lat, lng });
   });
 
   if (!bounds.isEmpty()) map.fitBounds(bounds);
 }
 
-/* =========================
-   Utility
-========================= */
-
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-/* =========================
-   Carousel helpers
-========================= */
-
-function buildMiniCard(ev, badgeLabel) {
-  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-  const emoji = catEmoji(ev.category);
-  const card = document.createElement("a");
-  card.href = `/events/page/${ev.id}/`;
-  card.className =
-    "min-w-[240px] bg-white border rounded-2xl shadow-sm p-4 hover:shadow-md transition flex-shrink-0 flex items-center gap-3";
-  card.innerHTML = `
-    <span class="text-2xl shrink-0">${emoji}</span>
-    <div class="min-w-0 flex-1">
-      <div class="font-semibold truncate text-gray-800">${escapeHtml(ev.title || "Untitled")}</div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-xs bg-brand/10 text-brand px-2 py-0.5 rounded-full">${escapeHtml(badgeLabel)}</span>
-        <span class="text-xs text-gray-500">${escapeHtml(price)}</span>
-      </div>
-    </div>
-  `;
-  return card;
-}
-
-async function loadCarousel(containerId, sectionId, category, badgeLabel) {
-  const container = document.getElementById(containerId);
-  const section = document.getElementById(sectionId);
-  if (!container) return;
-
-  try {
-    const qs = category ? `?category=${category}` : "";
-    const data = await apiGet(`/api/events/${qs}`);
-    if (!data) return;
-    const events = Array.isArray(data) ? data : data.results || [];
-
-    if (!events.length) return;
-
-    container.innerHTML = "";
-    events
-      .slice(0, 6)
-      .forEach((ev) => container.appendChild(buildMiniCard(ev, badgeLabel)));
-    if (section) section.classList.remove("hidden");
-  } catch (error) {
-    console.error(`Failed to load ${sectionId} carousel`, error);
-    // Silently fail - carousels are non-critical
-  }
-}
-
-function buildUpcomingCard(ev) {
-  const emoji = catEmoji(ev.category);
-  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
-  const card = document.createElement("a");
-  card.href = `/events/page/${ev.id}/`;
-  card.className =
-    "min-w-[260px] bg-white border rounded-2xl shadow-sm p-4 hover:shadow-md transition flex-shrink-0 flex items-center gap-3";
-  card.innerHTML = `
-    <span class="text-2xl shrink-0">${emoji}</span>
-    <div class="min-w-0 flex-1">
-      <div class="font-semibold truncate text-gray-800">${escapeHtml(ev.title || "Untitled")}</div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-xs bg-brand/10 text-brand px-2 py-0.5 rounded-full">${escapeHtml(ev.category || "Place")}</span>
-        <span class="text-xs text-gray-500">${escapeHtml(price)}</span>
-      </div>
-    </div>
-  `;
-  return card;
-}
-
-async function loadUpcomingCarousel() {
-  const container = document.getElementById("upcomingCarousel");
-  const section = document.getElementById("upcomingSection");
-  if (!container) return;
-
-  try {
-    const data = await apiGet("/api/events/");
-    if (!data) return;
-    const events = Array.isArray(data) ? data : data.results || [];
-
-    if (!events.length) return;
-
-    container.innerHTML = "";
-    events
-      .slice(0, 6)
-      .forEach((ev) => container.appendChild(buildUpcomingCard(ev)));
-    if (section) section.classList.remove("hidden");
-  } catch (error) {
-    console.error("Failed to load upcoming carousel", error);
-    // Silently fail
-  }
-}
-
-/* Load all three carousels on page load */
+// ── Page init ─────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  loadCarousel(
-    "restaurantsCarousel",
-    "restaurantsSection",
-    "food",
-    "Food",
-  );
-  loadCarousel("activitiesCarousel", "activitiesSection", "nature", "Nature");
-  loadUpcomingCarousel();
-});
+  // Show skeleton immediately while API loads
+  document.getElementById("skeleton")?.classList.remove("hidden");
 
+  loadCurrentPlan();
+
+  // Generate / Regenerate button
+  document.getElementById("generate-plan-btn")?.addEventListener("click", async () => {
+    const btn = document.getElementById("generate-plan-btn");
+    try {
+      const hasPlan    = multiDayPlans.some(day => Array.isArray(day) && day.length > 0);
+      const hasCurrent = Array.isArray(multiDayPlans[currentDayIndex]) && multiDayPlans[currentDayIndex].length > 0;
+      if (currentDayIndex > 0 || hasCurrent || hasPlan) {
+        await requestPlanForDay(btn);
+      } else {
+        await generateAllDays(btn);
+      }
+    } catch (e) {
+      handleGenerateError(e);
+      _setBtnGenerating(document.getElementById("generate-plan-btn"), false);
+    }
+  });
+
+  // Add Activity modal
+  document.getElementById("add-activity-btn")?.addEventListener("click", openAddActivityModal);
+  document.getElementById("closeAddActivity")?.addEventListener("click", closeAddActivityModal);
+  document.getElementById("addActivityOverlay")?.addEventListener("click", closeAddActivityModal);
+  document.getElementById("activitySearchInput")?.addEventListener("input", e => {
+    clearTimeout(_activityDebounce);
+    _activityDebounce = setTimeout(() => searchActivities(e.target.value), 350);
+  });
+});

@@ -544,7 +544,7 @@
   <div class="max-w-2xl mx-auto">
     <h2 class="font-cantata text-4xl sm:text-5xl text-white mb-4">Ready to Explore Riyadh?</h2>
     <p class="text-white/80 text-lg mb-10">Create your free account and start building your perfect Riyadh itinerary.</p>
-    <div class="flex flex-wrap items-center justify-center gap-4">
+    <div id="ctaGuestButtons" class="flex flex-wrap items-center justify-center gap-4">
       <a href="/signup/"
         class="px-8 py-3 bg-white text-brand rounded-xl text-base font-semibold hover:shadow-xl hover:-translate-y-0.5 transition-all">
         Get Started — It's Free
@@ -552,6 +552,16 @@
       <a href="/login/"
         class="px-8 py-3 border-2 border-white/50 text-white rounded-xl text-base hover:bg-white/10 transition">
         Sign In
+      </a>
+    </div>
+    <div id="ctaUserButtons" class="hidden flex-wrap items-center justify-center gap-4">
+      <a href="/daily-plan/"
+        class="px-8 py-3 bg-white text-brand rounded-lg text-lg font-medium hover:shadow-xl transition">
+        Go to My Plan →
+      </a>
+      <a href="/travel-guide/"
+        class="px-8 py-3 border-2 border-white/50 text-white rounded-lg text-lg hover:bg-white/10 transition">
+        Travel Guide
       </a>
     </div>
   </div>
@@ -623,6 +633,12 @@
     if (guestButtons) guestButtons.classList.add("hidden");
     const userMenu = document.getElementById("userMenu");
     if (userMenu) { userMenu.classList.remove("hidden"); userMenu.classList.add("flex"); }
+
+    // CTA section swap
+    const ctaGuest = document.getElementById("ctaGuestButtons");
+    if (ctaGuest) ctaGuest.classList.add("hidden");
+    const ctaUser = document.getElementById("ctaUserButtons");
+    if (ctaUser) { ctaUser.classList.remove("hidden"); ctaUser.classList.add("flex"); }
   }
 
   // Mobile nav toggle

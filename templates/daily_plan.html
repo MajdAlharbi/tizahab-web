@@ -1,230 +1,136 @@
-{% extends "dashboard_base.html" %} {% load static %} {% block content %}
+{% extends "dashboard_base.html" %}
+{% load static %}
 
-<main class="px-6 py-6 max-w-[1200px] mx-auto space-y-8">
-  <div class="flex items-start justify-between">
-    <div>
-      <h1 class="text-3xl font-semibold">Daily Plan</h1>
-      <p class="mt-2 text-sm text-gray-500">Choose a travel date or range before generating your itinerary.</p>
-    </div>
+{% block title %}Daily Plan | Tizahab{% endblock %}
 
-    <div id="plan-actions" class="flex flex-wrap gap-3">
-      <button
-        id="generate-plan-btn"
-        type="button"
-        class="px-5 h-11 rounded-xl bg-purple-600 text-white font-medium">
-        Generate Plan
-      </button>
+{% block content %}
 
-      <button
-        id="add-activity-btn"
-        type="button"
-        class="px-5 h-11 rounded-xl bg-purple-600 text-white font-medium">
-        Add Activity
-      </button>
-    </div>
-  </div>
+<div class="max-w-[780px] mx-auto px-4 py-8 pb-24 space-y-8">
 
-  <p id="plan-message" class="text-sm text-center text-red-500 mt-2"></p>
-
-  <section class="bg-white rounded-2xl border shadow-sm p-5">
-    <div class="grid gap-4 md:grid-cols-3">
-      <label class="space-y-1.5">
-        <span class="text-sm font-medium text-gray-700">Start Date</span>
-        <input id="plan-start-date" type="date" class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
-      </label>
-      <label class="space-y-1.5">
-        <span class="text-sm font-medium text-gray-700">End Date</span>
-        <input id="plan-end-date" type="date" class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
-      </label>
-      <div class="space-y-1.5">
-        <span class="text-sm font-medium text-gray-700">Trip Length</span>
-        <div id="trip-length-label" class="h-11 rounded-xl border border-gray-200 px-4 flex items-center text-sm text-gray-600 bg-gray-50">1 day</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="space-y-3">
-    <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold">
-        <span class="nav-label-en">Map</span>
-        <span class="nav-label-ar hidden">الخريطة</span>
-      </h2>
-      <span class="text-sm text-gray-500">
-        <span class="nav-label-en">View plan on map</span>
-        <span class="nav-label-ar hidden">عرض الخطة على الخريطة</span>
+  <!-- ── 1. Hero ── -->
+  <header class="text-center space-y-2">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900"
+        style="font-family:'Cantata One',serif">
+      Your Riyadh Journey
+    </h1>
+    <div class="flex items-center justify-center gap-3 flex-wrap text-sm">
+      <span id="heroDate" class="text-gray-500"></span>
+      <span id="dayBadge"
+        class="hidden items-center gap-1 bg-violet-50 text-violet-700 text-xs font-semibold px-3 py-1 rounded-full">
       </span>
     </div>
+    <p id="activityCount" class="text-sm text-gray-400 min-h-[1.25rem]"></p>
+  </header>
 
-    <div class="relative rounded-2xl overflow-hidden" style="height: 380px">
-      <div
-        id="dailyPlanMap"
-        class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50"
-        style="height: 380px"></div>
+  <!-- ── 2. Day Tabs ── -->
+  <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
+    <div id="dayTabs" class="flex gap-2 pb-1 w-max min-w-full"></div>
+  </div>
+
+  <!-- Plan message -->
+  <p id="plan-message" class="hidden text-sm text-center rounded-xl py-2"></p>
+
+  <!-- ── Skeleton — shown while loading ── -->
+  <div id="skeleton" class="space-y-6">
+    <div>
+      <div class="h-4 w-32 bg-gray-100 rounded mb-2 animate-pulse"></div>
+      <div class="h-40 rounded-2xl animate-pulse" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)"></div>
+    </div>
+    <div>
+      <div class="h-4 w-32 bg-gray-100 rounded mb-2 animate-pulse"></div>
+      <div class="h-40 rounded-2xl animate-pulse" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"></div>
+    </div>
+    <div>
+      <div class="h-4 w-32 bg-gray-100 rounded mb-2 animate-pulse"></div>
+      <div class="h-40 rounded-2xl animate-pulse" style="background:linear-gradient(135deg,#fef2f2,#fecaca)"></div>
+    </div>
+  </div>
+
+  <!-- ── 3. Timeline ── -->
+  <div id="timeline" class="hidden space-y-6"></div>
+
+  <!-- ── Empty state ── -->
+  <div id="emptyState" class="hidden text-center py-16 space-y-3">
+    <div class="text-6xl" aria-hidden="true">📅</div>
+    <h2 class="text-xl font-bold text-gray-900">No plan for this day yet</h2>
+    <p class="text-sm text-gray-500">Generate a personalized itinerary or add activities manually.</p>
+  </div>
+
+  <!-- ── 4. Map Section ── -->
+  <section id="mapSection" class="hidden space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-base font-semibold text-gray-800">Your Route on Map</h2>
+      <a href="/map/" class="text-sm text-violet-600 hover:underline transition">View Full Map →</a>
+    </div>
+    <div class="rounded-2xl overflow-hidden border border-gray-100 shadow-sm sm:h-72"
+         style="height:220px">
+      <div id="dailyPlanMap"
+           class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50"
+           style="height:100%"></div>
     </div>
   </section>
 
-  <div class="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
-    <div class="text-center">
-      <h3 id="week-label" class="font-medium text-gray-700"></h3>
-    </div>
+  <!-- ── 5. Bottom Actions ── -->
+  <div class="flex gap-3 pt-2">
 
-    <div
-      id="week-days"
-      class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"></div>
+    <button id="add-activity-btn" type="button"
+      class="flex-1 h-12 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2">
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      Add Activity
+    </button>
 
-    <section class="space-y-5">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <i data-lucide="calendar-check" class="w-6 h-6 text-brand"></i>
-          <h2 class="text-xl font-semibold">
-            <span id="activities-day-label" class="nav-label-en">Today's Activities</span>
-            <span class="nav-label-ar hidden">أنشطة اليوم</span>
-          </h2>
-        </div>
-      </div>
+    <button id="generate-plan-btn" type="button"
+      class="flex-1 h-12 rounded-xl text-sm font-semibold text-white transition flex items-center justify-center gap-2"
+      style="background-color:#7c3aed"
+      onmouseover="this.style.backgroundColor='#6d28d9'"
+      onmouseout="this.style.backgroundColor='#7c3aed'">
+      <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+      <span id="generate-plan-btn-label">Generate New Plan</span>
+    </button>
 
-      <div id="plan-container" class="space-y-4"></div>
-    </section>
-
-    <section id="restaurantsSection" class="space-y-5 hidden">
-      <div class="flex items-center gap-3">
-        <i data-lucide="utensils" class="w-6 h-6 text-brand"></i>
-        <h2 class="text-xl font-semibold">
-          <span class="nav-label-en">Recommended Food Spots</span>
-          <span class="nav-label-ar hidden">مطاعم مقترحة</span>
-        </h2>
-      </div>
-
-      <div
-        id="restaurantsCarousel"
-        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      </div>
-    </section>
-
-    <section id="activitiesSection" class="space-y-5 hidden">
-      <div class="flex items-center gap-3">
-        <i data-lucide="flame" class="w-6 h-6 text-brand"></i>
-        <h2 class="text-xl font-semibold">
-          <span class="nav-label-en">Tourism Highlights</span>
-          <span class="nav-label-ar hidden">أنشطة شائعة</span>
-        </h2>
-      </div>
-
-      <div
-        id="activitiesCarousel"
-        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      </div>
-    </section>
-
-    <section id="upcomingSection" class="space-y-5 hidden">
-      <div class="flex items-center gap-3">
-        <i data-lucide="ticket" class="w-6 h-6 text-brand"></i>
-        <h2 class="text-xl font-semibold">
-          <span class="nav-label-en">Upcoming Events</span>
-          <span class="nav-label-ar hidden">فعاليات قادمة</span>
-        </h2>
-      </div>
-
-      <div
-        id="upcomingCarousel"
-        class="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      </div>
-    </section>
-
-    <!-- Route Preview — hidden until implemented -->
-
-
-    <div class="bg-purple-50 rounded-2xl p-6 shadow-sm">
-      <h3 class="font-semibold mb-6">
-        <span class="nav-label-en">Today's Summary</span>
-        <span class="nav-label-ar hidden">ملخص اليوم</span>
-      </h3>
-
-      <div class="space-y-4 text-sm">
-        <div class="flex justify-between">
-          <span class="text-gray-600">
-            <span class="nav-label-en">Activities</span>
-            <span class="nav-label-ar hidden">الأنشطة</span>
-          </span>
-          <span id="summary-activities" class="font-semibold text-brand"
-            >0</span
-          >
-        </div>
-
-        <div class="flex justify-between">
-          <span class="text-gray-600">
-            <span class="nav-label-en">Duration</span>
-            <span class="nav-label-ar hidden">المدة</span>
-          </span>
-          <span id="summary-duration" class="font-semibold text-brand">0h</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
-      <h3 class="font-semibold">
-        <span class="nav-label-en">Quick Actions</span>
-        <span class="nav-label-ar hidden">إجراءات سريعة</span>
-      </h3>
-
-      <button
-        id="export-plan-btn"
-        type="button"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-        <i data-lucide="download" class="w-4 h-4 text-brand"></i>
-        <span class="nav-label-en">Export Plan</span>
-        <span class="nav-label-ar hidden">تصدير الخطة</span>
-      </button>
-
-      <!-- Share Route — hidden until implemented
-      <button
-        type="button"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border hover:bg-gray-50 transition text-sm">
-        <i data-lucide="share-2" class="w-4 h-4 text-brand"></i>
-        <span class="nav-label-en">Share Route</span>
-        <span class="nav-label-ar hidden">مشاركة المسار</span>
-      </button>
-      -->
-    </div>
   </div>
 
-  <!-- Add Activity Modal -->
-  <div id="addActivityModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/40" id="addActivityOverlay"></div>
-    <div class="absolute inset-0 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[80vh] flex flex-col">
-        <div class="flex items-center justify-between p-5 border-b">
-          <h3 class="text-lg font-semibold">Add Activity to Plan</h3>
-          <button id="closeAddActivity" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
-        </div>
-        <div class="p-4">
-          <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
-            <span class="text-gray-400">🔍</span>
-            <input id="activitySearchInput" class="w-full outline-none text-sm bg-transparent" placeholder="Search places...">
-          </div>
-        </div>
-        <div id="activitySearchResults" class="flex-1 overflow-y-auto px-4 pb-4 space-y-2 min-h-[200px]">
-          <p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>
+</div><!-- /max-w container -->
+
+<!-- ── Add Activity Modal ── -->
+<div id="addActivityModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/40" id="addActivityOverlay"></div>
+  <div class="absolute inset-x-0 bottom-0 sm:inset-0 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[80vh] flex flex-col">
+
+      <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900">Add Activity</h3>
+        <button id="closeAddActivity"
+          class="text-gray-400 hover:text-gray-600 transition rounded-lg p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="px-4 py-3">
+        <div class="flex items-center gap-2 h-10 rounded-xl border border-gray-200 px-3 bg-gray-50 focus-within:border-violet-400 transition">
+          <i data-lucide="search" class="w-4 h-4 text-gray-400 shrink-0"></i>
+          <input id="activitySearchInput"
+            class="flex-1 outline-none text-sm bg-transparent placeholder-gray-400"
+            placeholder="Search places…"
+            autocomplete="off">
         </div>
       </div>
+
+      <div id="activitySearchResults"
+        class="flex-1 overflow-y-auto px-4 pb-5 space-y-2 min-h-[200px]">
+        <p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>
+      </div>
+
     </div>
   </div>
+</div>
 
-    <script src="{% static 'js/map.js' %}"></script>
-  <script src="{% static 'js/daily_plan_integration.js' %}?v=99"></script>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("generate-plan-btn");
-    if (btn) {
-      btn.style.display = "flex";
-      btn.style.visibility = "visible";
-      btn.style.opacity = "1";
-    }
-  });
-  </script>
+<script src="{% static 'js/map.js' %}"></script>
+<script src="{% static 'js/daily_plan_integration.js' %}"></script>
 
-  <script>
+<script>
   window.GMAPS_ENABLED = true;
+
   function safeInitMap() {
     try {
       if (typeof google === "undefined" || !google.maps) return;
@@ -234,24 +140,19 @@
         window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP();
       }
     } catch (e) {
-      console.warn("Map disabled:", e);
+      console.warn("Map init failed:", e);
     }
   }
+
   if (typeof window.initDailyPlanMap === "function") {
     window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP = window.initDailyPlanMap;
   }
-  window.initMap = safeInitMap;
+  window.initMap          = safeInitMap;
   window.initDailyPlanMap = safeInitMap;
-  </script>
+</script>
 
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDailyPlanMap"
-    async
-    defer></script>
-</main>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDailyPlanMap"
+  async defer></script>
 
 {% endblock %}
-
-
-
-
