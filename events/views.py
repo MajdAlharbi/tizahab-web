@@ -163,6 +163,10 @@ class EventListAPIView(ListAPIView):
     def get_queryset(self):
         queryset = Event.objects.filter(is_active=True)
 
+        category = self.request.query_params.get("category", "").strip()
+        if category and category.lower() != "all":
+            queryset = queryset.filter(category__iexact=category)
+
         search = self.request.query_params.get("search", "").strip()
 
         if search:

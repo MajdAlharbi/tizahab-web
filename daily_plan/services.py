@@ -83,6 +83,7 @@ MACRO_ATTRACTION_SUBCATEGORIES = {
 BREAKFAST_KEYWORDS = {"breakfast", "brunch", "cafe", "coffee", "bakery"}
 LUNCH_KEYWORDS = {"restaurant", "bistro", "grill", "dining", "kitchen", "eatery"}
 EVENING_KEYWORDS = {"cinema", "show", "theatre", "theater", "concert", "performance", "festival"}
+FOOD_SLOT_CATEGORIES = {"food", "restaurant", "cafe"}
 MAIN_ATTRACTION_CATEGORIES = {"culture", "heritage", "nature", "entertainment", "events"}
 INTEREST_CATEGORY_EXPANSION = {
     "family": {"family", "entertainment", "nature"},
@@ -386,8 +387,12 @@ def _date_match_score(event, reference_date, end_date=None, has_selected_date=Fa
     return -1.5 + (_stable_date_affinity(event, reference_date, end_date) * 0.1)
 
 
-def _category_match_score(event, interests):
-    return CATEGORY_MATCH_WEIGHT if event.category in interests else 0.0
+def _category_match_score(event, interests, expanded_interests=None):
+    if event.category in interests:
+        return CATEGORY_MATCH_WEIGHT
+    if expanded_interests and event.category in expanded_interests:
+        return CATEGORY_MATCH_WEIGHT * 0.65
+    return 0.0
 
 
 def _expand_interest_categories(interests):
@@ -441,6 +446,7 @@ def _score_event(
     reference_date,
     has_selected_date=False,
     end_date=None,
+    expanded_interests=None,
 ):
     """Readable ranking score for tourism recommendations."""
     if event.latitude is None or event.longitude is None:
@@ -454,7 +460,7 @@ def _score_event(
         has_selected_date=has_selected_date,
     )
 
-    score += _category_match_score(event, interests)
+    score += _category_match_score(event, interests, expanded_interests)
     if date_match > 0:
         score += DATE_MATCH_WEIGHT
     score += _budget_fit_score(event, budget_midpoint)
@@ -617,8 +623,7 @@ def _slot_fit_score(event, slot_key):
     category = str(getattr(event, "category", "") or "").lower()
     text_blob = _event_text_blob(event)
     score = float(getattr(event, "rating", 0) or 0)
-    FOOD_CATEGORY_SET = {"food", "restaurant", "cafe"}
-    is_food = category in FOOD_CATEGORY_SET
+    is_food = category in FOOD_SLOT_CATEGORIES
 
     if slot_key in {"breakfast", "lunch"}:
         if not is_food:
@@ -665,12 +670,10 @@ def _slot_fit_score(event, slot_key):
 
 
 def filter_events_by_slot(events, slot_name):
-    FOOD_CATEGORIES = {"food", "restaurant", "cafe"}
-
     if str(slot_name or "").lower() in {"breakfast", "lunch", "dinner"}:
         return [
             event for event in (events or [])
-            if str(getattr(event, "category", "") or "").lower() in FOOD_CATEGORIES
+            if str(getattr(event, "category", "") or "").lower() in FOOD_SLOT_CATEGORIES
         ]
 
     return list(events or [])
@@ -727,6 +730,8 @@ def _pick_fallback_food(food_candidates, used_ids):
     for event in food_candidates:
         if event.id in used_ids:
             continue
+        if str(getattr(event, "category", "") or "").lower() not in FOOD_SLOT_CATEGORIES:
+            continue
         if float(event.rating or 0) >= 3.5:
             return event
     return None
@@ -780,10 +785,6 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
         plan["breakfast"] = _pick_fallback_food(food_fallback_candidates or [], used_ids)
         if plan["breakfast"] is not None:
             logger.warning("food slot fallback used")
-        else:
-            plan["breakfast"] = pick_next_available(available)
-        if plan["breakfast"] is not None:
-            logger.warning("food slot fallback used")
     register(plan["breakfast"])
 
     plan["activity"] = _pick_best_for_slot(
@@ -808,10 +809,6 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
     )
     if plan["lunch"] is None:
         plan["lunch"] = _pick_fallback_food(food_fallback_candidates or [], used_ids)
-        if plan["lunch"] is not None:
-            logger.warning("food slot fallback used")
-        else:
-            plan["lunch"] = pick_next_available(available)
         if plan["lunch"] is not None:
             logger.warning("food slot fallback used")
     register(plan["lunch"])
@@ -1061,32 +1058,26 @@ def generate_recommendations(
         dated_queryset = queryset.filter(
             _dated_event_q(selected_start_date, selected_end_date)
         )
-        evergreen_queryset = queryset.filter(_evergreen_place_q())
+        evergreen_queryset = queryset.filter(_evergreen_place_q()).exclude(category="events")
 
-        candidates = _apply_quality_filters_with_logging(
+        dated_candidates = _apply_quality_filters_with_logging(
             list(dated_queryset),
             "dated_queryset",
         )
-        if candidates:
-            logger.info(
-                "Using date-specific candidates for user=%s start=%s end=%s count=%s",
-                user.id,
-                selected_start_date,
-                selected_end_date or selected_start_date,
-                len(candidates),
-            )
-        else:
-            candidates = _apply_quality_filters_with_logging(
-                list(evergreen_queryset),
-                "evergreen_queryset",
-            )
-            logger.info(
-                "Falling back to evergreen candidates for user=%s start=%s end=%s count=%s",
-                user.id,
-                selected_start_date,
-                selected_end_date or selected_start_date,
-                len(candidates),
-            )
+        evergreen_candidates = _apply_quality_filters_with_logging(
+            list(evergreen_queryset),
+            "evergreen_queryset",
+        )
+        candidates = _dedupe_by_normalized_title(dated_candidates + evergreen_candidates)
+        logger.info(
+            "Using mixed dated and evergreen candidates for user=%s start=%s end=%s dated=%s evergreen=%s total=%s",
+            user.id,
+            selected_start_date,
+            selected_end_date or selected_start_date,
+            len(dated_candidates),
+            len(evergreen_candidates),
+            len(candidates),
+        )
     else:
         candidates = _apply_quality_filters_with_logging(
             list(queryset),
@@ -1097,16 +1088,18 @@ def generate_recommendations(
         dated_support_queryset = support_queryset.filter(
             _dated_event_q(selected_start_date, selected_end_date)
         )
-        evergreen_support_queryset = support_queryset.filter(_evergreen_place_q())
-        support_candidates = _apply_quality_filters_with_logging(
+        evergreen_support_queryset = support_queryset.filter(_evergreen_place_q()).exclude(category="events")
+        dated_support_candidates = _apply_quality_filters_with_logging(
             list(dated_support_queryset),
             "dated_support_queryset",
         )
-        if not support_candidates:
-            support_candidates = _apply_quality_filters_with_logging(
-                list(evergreen_support_queryset),
-                "evergreen_support_queryset",
-            )
+        evergreen_support_candidates = _apply_quality_filters_with_logging(
+            list(evergreen_support_queryset),
+            "evergreen_support_queryset",
+        )
+        support_candidates = _dedupe_by_normalized_title(
+            dated_support_candidates + evergreen_support_candidates
+        )
     else:
         support_candidates = _apply_quality_filters_with_logging(
             list(support_queryset),
@@ -1183,6 +1176,7 @@ def generate_recommendations(
             reference_date,
             has_selected_date=has_selected_date,
             end_date=selected_end_date,
+            expanded_interests=expanded_interests,
         )
         for event in candidates
     }

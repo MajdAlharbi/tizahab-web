@@ -71,6 +71,24 @@
   </section>
 
   <!-- ── 5. Bottom Actions ── -->
+  <section id="routeNavigationCard"
+    class="hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-5 sm:p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="space-y-1">
+        <h2 class="text-base font-semibold text-gray-900">Ready to navigate the route</h2>
+        <p class="text-sm text-gray-500">External Google Maps link. No embedded map required.</p>
+      </div>
+      <button id="openRouteBtn" type="button"
+        class="w-full sm:w-auto h-11 px-5 rounded-xl text-sm font-semibold text-white transition inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        style="background-color:#7c3aed"
+        onmouseover="if(!this.disabled)this.style.backgroundColor='#6d28d9'"
+        onmouseout="if(!this.disabled)this.style.backgroundColor='#7c3aed'">
+        <i data-lucide="navigation" class="w-4 h-4"></i>
+        Open Route in Google Maps
+      </button>
+    </div>
+  </section>
+
   <div class="flex gap-3 pt-2">
 
     <button id="add-activity-btn" type="button"
@@ -127,32 +145,5 @@
 
 <script src="{% static 'js/map.js' %}"></script>
 <script src="{% static 'js/daily_plan_integration.js' %}"></script>
-
-<script>
-  window.GMAPS_ENABLED = true;
-
-  function safeInitMap() {
-    try {
-      if (typeof google === "undefined" || !google.maps) return;
-      if (window.__TZ_DAILY_MAP_INITIALIZED) return;
-      window.__TZ_DAILY_MAP_INITIALIZED = true;
-      if (typeof window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP === "function") {
-        window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP();
-      }
-    } catch (e) {
-      console.warn("Map init failed:", e);
-    }
-  }
-
-  if (typeof window.initDailyPlanMap === "function") {
-    window.__TZ_ORIGINAL_INIT_DAILY_PLAN_MAP = window.initDailyPlanMap;
-  }
-  window.initMap          = safeInitMap;
-  window.initDailyPlanMap = safeInitMap;
-</script>
-
-<script
-  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDailyPlanMap"
-  async defer></script>
 
 {% endblock %}

@@ -268,6 +268,72 @@ function getActiveDayEvents(dayIndex = currentDayIndex) {
   return Array.isArray(multiDayPlans[dayIndex]) ? multiDayPlans[dayIndex].filter(Boolean) : [];
 }
 
+function getStopTitle(event) {
+  return event?.title || event?.title_en || event?.name || "";
+}
+
+function getStopCoordinates(event) {
+  const lat = parseFloat(event?.latitude ?? event?.lat);
+  const lng = parseFloat(event?.longitude ?? event?.lng);
+  if (!isFinite(lat) || !isFinite(lng)) return null;
+  return { lat, lng };
+}
+
+function coordinateQuery(point) {
+  return `${point.lat},${point.lng}`;
+}
+
+function buildDailyRouteUrl(stops) {
+  const realStops = (Array.isArray(stops) ? stops : []).filter(e => e && !e._placeholder);
+  const coordinateStops = realStops
+    .map(event => ({ event, point: getStopCoordinates(event) }))
+    .filter(row => row.point);
+
+  if (coordinateStops.length >= 2) {
+    const origin = coordinateQuery(coordinateStops[0].point);
+    const destination = coordinateQuery(coordinateStops[coordinateStops.length - 1].point);
+    const waypoints = coordinateStops.slice(1, -1).map(row => coordinateQuery(row.point));
+    const params = new URLSearchParams({
+      api: "1",
+      origin,
+      destination,
+      travelmode: "driving",
+    });
+    if (waypoints.length) params.set("waypoints", waypoints.join("|"));
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
+  }
+
+  if (coordinateStops.length === 1) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinateQuery(coordinateStops[0].point))}`;
+  }
+
+  const firstTitle = realStops.map(getStopTitle).find(Boolean);
+  if (firstTitle) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${firstTitle} Riyadh`)}`;
+  }
+
+  return "";
+}
+
+function updateRouteNavigationCard(stops) {
+  const card = document.getElementById("routeNavigationCard");
+  const btn = document.getElementById("openRouteBtn");
+  if (!card || !btn) return;
+
+  const url = buildDailyRouteUrl(stops);
+  if (!url) {
+    card.classList.add("hidden");
+    btn.disabled = true;
+    btn.dataset.routeUrl = "";
+    return;
+  }
+
+  btn.disabled = false;
+  btn.dataset.routeUrl = url;
+  card.classList.remove("hidden");
+  if (window.lucide) window.lucide.createIcons();
+}
+
 // ── Preferences ───────────────────────────────────────────
 async function refreshPreferences() {
   try {
@@ -303,6 +369,7 @@ function setLoading(on) {
   if (on) {
     document.getElementById("timeline")?.classList.add("hidden");
     document.getElementById("emptyState")?.classList.add("hidden");
+    document.getElementById("routeNavigationCard")?.classList.add("hidden");
   }
 }
 
@@ -539,6 +606,7 @@ function renderTimeline(dayIndex = currentDayIndex) {
     if (_dayHasPlan[dayIndex]) {
       emptyEl?.classList.add("hidden");
       mapSection?.classList.add("hidden");
+      updateRouteNavigationCard([]);
       const slots = buildStructuredSlots([], dayIndex);
       container.innerHTML = slots
         .flatMap(slot => slot.items.map((event, idx) => buildTimelineCard(slot.key, event, idx)))
@@ -552,6 +620,7 @@ function renderTimeline(dayIndex = currentDayIndex) {
     container.innerHTML = "";
     emptyEl?.classList.remove("hidden");
     mapSection?.classList.add("hidden");
+    updateRouteNavigationCard([]);
     updateHero(dayIndex);
     return;
   }
@@ -570,8 +639,10 @@ function renderTimeline(dayIndex = currentDayIndex) {
   populateDistanceLabels(container).catch(() => {});
 
   if (allReal.length) {
-    mapSection?.classList.remove("hidden");
-    setTimeout(() => updateMapMarkers(allReal), 80);
+    mapSection?.classList.add("hidden");
+    updateRouteNavigationCard(allReal);
+  } else {
+    updateRouteNavigationCard([]);
   }
 
   updateHero(dayIndex);
@@ -925,53 +996,14 @@ async function searchActivities(query) {
 
 // ── Map ───────────────────────────────────────────────────
 function initDailyPlanMap() {
-  if (!window.GMAPS_ENABLED) return;
-  if (typeof google === "undefined" || !google.maps) {
-    const el = document.getElementById("dailyPlanMap");
-    if (el) el.innerHTML = '<div class="h-full flex items-center justify-center text-sm text-gray-400">Map unavailable</div>';
-    return;
-  }
-  try {
-    if (!window.TZMap) return;
-    window.__TZ_DP_MAP     = window.TZMap.initMap("dailyPlanMap", { zoom: 11 });
-    window.__TZ_DP_MARKERS = {};
-    if (window.__TZ_DP_MAP && Array.isArray(window.__TZ_DP_PENDING_POINTS) && window.__TZ_DP_PENDING_POINTS.length) {
-      updateMapMarkers(window.__TZ_DP_PENDING_POINTS);
-    }
-  } catch (e) {
-    const el = document.getElementById("dailyPlanMap");
-    if (el) el.innerHTML = '<div class="h-full flex items-center justify-center text-sm text-gray-400">Map unavailable</div>';
+  const el = document.getElementById("dailyPlanMap");
+  if (el) {
+    el.innerHTML = '<div class="h-full flex items-center justify-center text-sm text-gray-400">Use the route navigation card below.</div>';
   }
 }
 
 function updateMapMarkers(allEvents) {
-  if (!window.google || !google.maps || !window.__TZ_DP_MAP) {
-    window.__TZ_DP_PENDING_POINTS = allEvents;
-    return;
-  }
-  Object.values(window.__TZ_DP_MARKERS || {}).forEach(m => m?.setMap?.(null));
-  window.__TZ_DP_MARKERS = {};
-
-  const map    = window.__TZ_DP_MAP;
-  const info   = new google.maps.InfoWindow();
-  const bounds = new google.maps.LatLngBounds();
-
-  (Array.isArray(allEvents) ? allEvents : []).forEach(event => {
-    const lat = parseFloat(event?.latitude), lng = parseFloat(event?.longitude);
-    if (!isFinite(lat) || !isFinite(lng)) return;
-    const marker = new google.maps.Marker({ position: { lat, lng }, map, title: event.title });
-    window.__TZ_DP_MARKERS[event.id] = marker;
-    marker.addListener("click", () => {
-      info.setContent(
-        `<div style="font-weight:600;margin-bottom:4px">${escapeHtml(event.title)}</div>` +
-        `<div style="font-size:12px;opacity:.8">${escapeHtml(event.location || "")}</div>`
-      );
-      info.open({ anchor: marker, map });
-    });
-    bounds.extend({ lat, lng });
-  });
-
-  if (!bounds.isEmpty()) map.fitBounds(bounds);
+  window.__TZ_DP_PENDING_POINTS = Array.isArray(allEvents) ? allEvents : [];
 }
 
 // ── Page init ─────────────────────────────────────────────
@@ -1005,5 +1037,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("activitySearchInput")?.addEventListener("input", e => {
     clearTimeout(_activityDebounce);
     _activityDebounce = setTimeout(() => searchActivities(e.target.value), 350);
+  });
+  document.getElementById("openRouteBtn")?.addEventListener("click", e => {
+    const url = e.currentTarget.dataset.routeUrl;
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
   });
 });

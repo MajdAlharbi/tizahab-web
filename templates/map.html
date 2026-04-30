@@ -1,138 +1,104 @@
 {% extends "dashboard_base.html" %}
 {% load static %}
 
-{% block title %}Map | Tizahab{% endblock %}
+{% block title %}Map & Navigation | Tizahab{% endblock %}
 
 {% block head %}
 <style>
-  #mapPageMap {
-    height: calc(100vh - 180px);
-    min-height: 420px;
+  .map-mode-btn.active {
+    background: #7c3aed;
+    color: #fff;
+    border-color: #7c3aed;
   }
-
-  .map-loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    height: calc(100vh - 180px);
-    min-height: 420px;
-    background: #ffffff;
-    color: #6b7280;
-    font-size: 14px;
-    font-weight: 500;
+  .map-cat-pill.active {
+    background: #7c3aed !important;
+    border-color: #7c3aed !important;
+    color: #fff !important;
   }
-
-  .map-spinner {
-    width: 22px;
-    height: 22px;
-    border: 3px solid #e5e7eb;
-    border-top-color: #7e1ca1;
-    border-radius: 9999px;
-    animation: spin 0.8s linear infinite;
+  .map-area-card.active {
+    border-color: #7c3aed;
+    box-shadow: 0 8px 22px rgba(124, 58, 237, 0.12);
   }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .gm-style .gm-style-iw-c {
-    padding: 0 !important;
-    border-radius: 16px !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
-  }
-
-  .gm-style .gm-style-iw-d {
-    overflow: hidden !important;
-    padding: 0 !important;
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col h-full px-4 lg:px-6 py-4 gap-4">
+<div id="mapPageRoot" class="max-w-[1100px] mx-auto px-4 lg:px-6 py-8 pb-16 space-y-8">
 
-  <div class="flex items-center justify-between shrink-0">
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900">
-        <span class="nav-label-en">Explore Map</span>
-        <span class="nav-label-ar hidden">استكشاف الخريطة</span>
-      </h1>
-      <p class="text-sm text-gray-500 mt-0.5">
-        <span class="nav-label-en">Discover places across Riyadh</span>
-        <span class="nav-label-ar hidden">اكتشف الأماكن في الرياض</span>
-      </p>
-    </div>
-    
+  <header class="space-y-2">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+      Map &amp; Navigation
+    </h1>
+    <p class="text-sm sm:text-base text-gray-500">
+      Explore Riyadh by area and open directions when you're ready.
+    </p>
+  </header>
+
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-1 flex gap-1 max-w-md">
+    <button id="mapExploreTab" type="button"
+      class="map-mode-btn active flex-1 h-10 rounded-xl border border-transparent text-sm font-semibold transition">
+      Explore Places
+    </button>
+    <button id="mapPlanTab" type="button"
+      class="map-mode-btn flex-1 h-10 rounded-xl border border-transparent text-sm font-semibold text-gray-600 transition">
+      My Plan
+    </button>
   </div>
-<div class="flex-1 rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative"
-    style="min-height: 420px;">
-<div id="mapPageMap" class="w-full h-full" style="min-height: 420px;"></div>
-</div>
+
+  <section id="mapExploreMode" class="space-y-7">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 space-y-4">
+      <div class="flex items-center gap-3 h-11 rounded-xl border border-gray-200 bg-gray-50 px-3 focus-within:border-violet-400 transition">
+        <i data-lucide="search" class="w-4 h-4 text-gray-400 shrink-0"></i>
+        <input id="mapSearchInput" type="text"
+          class="flex-1 min-w-0 bg-transparent outline-none text-sm text-gray-800 placeholder-gray-400"
+          placeholder="Search places or areas..."
+          autocomplete="off">
+        <button id="mapClearSearchBtn" type="button"
+          class="hidden text-gray-400 hover:text-gray-600 transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto no-scrollbar -mx-1 px-1">
+        <div id="mapCategoryPills" class="flex gap-2 w-max pb-1"></div>
+      </div>
+    </div>
+
+    <section class="space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+          Riyadh Areas
+        </h2>
+        <span id="mapAreaCount" class="text-sm text-gray-400"></span>
+      </div>
+      <div id="mapAreasGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <h2 id="mapPlacesTitle" class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+          Places
+        </h2>
+        <span id="mapPlacesCount" class="text-sm text-gray-400"></span>
+      </div>
+      <div id="mapPlacesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </section>
+  </section>
+
+  <section id="mapPlanMode" class="hidden space-y-6">
+    <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
+      <div id="mapPlanDayTabs" class="flex gap-2 w-max min-w-full pb-1"></div>
+    </div>
+
+    <div id="mapPlanRoute" class="space-y-4"></div>
+    <div id="mapPlanActions" class="hidden"></div>
+  </section>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'js/map.js' %}"></script>
-<script>
-  let mapPageMapInstance = null;
-
-  async function loadMapPageMarkers() {
-    if (!mapPageMapInstance || !window.google || !google.maps) return;
-
-    const events = [];
-    let nextUrl = "/api/events/";
-
-    while (nextUrl) {
-      const data = await apiGet(nextUrl);
-      const pageEvents = Array.isArray(data) ? data : data.results || [];
-      events.push(...pageEvents);
-      nextUrl = Array.isArray(data) ? null : data.next || null;
-    }
-
-    const info = new google.maps.InfoWindow();
-    const bounds = new google.maps.LatLngBounds();
-
-    events
-      .filter((event) => Number.isFinite(Number.parseFloat(event?.latitude)) && Number.isFinite(Number.parseFloat(event?.longitude)))
-      .forEach((event) => {
-        const position = {
-          lat: Number.parseFloat(event.latitude),
-          lng: Number.parseFloat(event.longitude),
-        };
-
-        const marker = new google.maps.Marker({
-          position,
-          map: mapPageMapInstance,
-          title: event.title,
-        });
-
-        marker.addListener("click", () => {
-          info.setContent(
-            `<div style="font-weight:600;margin-bottom:4px;">${String(event.title || "").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</div>` +
-            `<div style="font-size:12px;opacity:.85;">${String(event.location || "").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</div>`,
-          );
-          info.open({ anchor: marker, map: mapPageMapInstance });
-        });
-
-        bounds.extend(position);
-      });
-
-    if (!bounds.isEmpty()) {
-      mapPageMapInstance.fitBounds(bounds);
-    }
-  }
-
-  function initMapPage() {
-    if (!window.TZMap) return;
-    mapPageMapInstance = window.TZMap.initMap("mapPageMap", { zoom: 12 });
-    loadMapPageMarkers().catch((error) => console.error("Failed to load map markers", error));
-  }
-</script>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMapPage"
-  async
-  defer></script>
 {% endblock %}
-

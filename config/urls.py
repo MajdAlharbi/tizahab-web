@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import admin_panel_view, logout_view
 
@@ -45,7 +46,7 @@ urlpatterns = [
 
     # Dashboard Pages
     path("booking/", protected_template("booking.html"), name="booking"),
-    path("map/", protected_template("map.html"), name="map"),
+    path("map/", login_required(RedirectView.as_view(url="/events/page/", permanent=False), login_url="/login/"), name="map"),
     path("travel-guide/", protected_template("travel_guide.html"), name="travel_guide"),
     path("car-rental/", protected_template("car_rental.html"), name="car_rental"),
     path("profile/", protected_template("profile.html"), name="profile"),

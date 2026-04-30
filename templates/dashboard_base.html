@@ -101,15 +101,8 @@
       <a href="/events/page/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="ticket" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Events</span>
+        <span class="nav-label-en">Explore</span>
         <span class="nav-label-ar hidden">الأماكن</span>
-      </a>
-
-      <a href="/map/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <i data-lucide="map-pin" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Map</span>
-        <span class="nav-label-ar hidden">الخريطة</span>
       </a>
 
       <a href="/travel-guide/"
@@ -174,12 +167,14 @@
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
 
-        <!-- Search -->
-        <div class="relative w-full max-w-sm hidden sm:block">
-          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
-          <input type="text" placeholder="Search destinations, events..."
-            class="w-full bg-gray-50 border border-gray-200 rounded-xl h-10 pl-10 pr-4 text-sm focus:outline-none focus:border-brand transition-all">
-        </div>
+        {% if request.path|slice:":13" != "/events/page/" %}
+          <!-- Search -->
+          <div class="relative w-full max-w-sm hidden sm:block">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+            <input type="text" placeholder="Search destinations, events..."
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl h-10 pl-10 pr-4 text-sm focus:outline-none focus:border-brand transition-all">
+          </div>
+        {% endif %}
       </div>
 
       <!-- Right actions -->
