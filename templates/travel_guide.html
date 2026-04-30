@@ -1,461 +1,396 @@
 {% extends "dashboard_base.html" %}
 {% block title %}Travel Guide | Tizahab{% endblock %}
 
+{% block head %}
+<style>
+  .guide-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+  .guide-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+</style>
+{% endblock %}
+
 {% block content %}
+<div class="max-w-5xl mx-auto px-4 lg:px-6 py-10 pb-16 space-y-10">
 
-<!-- Sticky section nav -->
-<nav id="guide-nav" class="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm">
-  <div class="max-w-5xl mx-auto px-4 lg:px-6">
-    <ul class="flex items-center gap-0.5 h-12 text-sm font-medium overflow-x-auto" style="scrollbar-width:none;-ms-overflow-style:none">
-      <li>
-        <a href="#arrival" data-section="arrival"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          ✈ Arrival
-        </a>
-      </li>
-      <li>
-        <a href="#accommodation" data-section="accommodation"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          🏨 Stay
-        </a>
-      </li>
-      <li>
-        <a href="#plan" data-section="plan"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          📅 Plan
-        </a>
-      </li>
-      <li>
-        <a href="#transport" data-section="transport"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          🚗 Transport
-        </a>
-      </li>
-      <li>
-        <a href="#emergency" data-section="emergency"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          🚨 Emergency
-        </a>
-      </li>
-      <li>
-        <a href="#departure" data-section="departure"
-          class="guide-anchor flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-brand hover:bg-brand/5 transition-colors whitespace-nowrap">
-          🛫 Departure
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div class="max-w-5xl mx-auto px-4 lg:px-6 py-8 space-y-14">
-
-  <!-- ===== SECTION 1: ARRIVAL ===== -->
-  <section id="arrival" class="scroll-mt-16 space-y-6">
-    <div class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">✈</span>
-        <h2 class="text-2xl font-semibold">Airport &amp; Getting to the City</h2>
-      </div>
-      <p class="text-white/80 text-sm">King Khalid International Airport (RUH) · Terminals 1–5 · 30–45 min to city center</p>
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden rounded-2xl py-12 sm:py-16 text-center"
+    style="background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 55%,#a78bfa 100%)">
+    <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
+    <div class="absolute top-4 left-1/3 w-12 h-12 rounded-full bg-white/5 pointer-events-none"></div>
+    <div class="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-white/10 pointer-events-none"></div>
+    <div class="relative px-4 space-y-4">
+      <span class="inline-flex items-center gap-1.5 bg-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full">
+        Essential information
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold text-white" style="font-family:'Cantata One',serif">
+        Your Guide to Riyadh
+      </h1>
+      <p class="text-white/75 text-sm sm:text-base max-w-xl mx-auto">
+        Cultural insights and practical tips for a respectful, enjoyable visit
+      </p>
     </div>
+  </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <!-- ── 8 Cards Grid ── -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
-      <!-- Transport from Airport -->
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
-        <h3 class="text-lg font-semibold text-gray-900">Transport from Airport</h3>
-        <ul class="space-y-4 text-sm text-gray-700">
+    <!-- 1. Prayer Times & Etiquette -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">
+        <span class="text-4xl select-none">🕌</span>
+      </div>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Prayer Times &amp; Etiquette</h2>
+        <ul class="text-sm text-gray-600 space-y-2">
           <li class="flex items-start gap-2">
-            <span class="mt-0.5 shrink-0">🚕</span>
-            <div>
-              <span class="font-medium">Taxi</span> — SAR 80–120 to city center
-            </div>
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>5 daily prayers — Fajr, Dhuhr, Asr, Maghrib, Isha</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="mt-0.5 shrink-0">🚗</span>
-            <div>
-              <span class="font-medium">Uber / Careem</span> — SAR 50–90
-              <div class="flex flex-wrap gap-2 mt-2">
-                <a href="https://m.uber.com/ul/" target="_blank" rel="noopener"
-                  class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-black text-white hover:opacity-80 transition">
-                  🚗 Open Uber
-                </a>
-                <a href="https://careem.com" target="_blank" rel="noopener"
-                  class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-green-600 text-white hover:opacity-80 transition">
-                  🚗 Open Careem
-                </a>
-              </div>
-            </div>
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Prayer call (Adhan) heard citywide — a normal part of daily life</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="mt-0.5 shrink-0">🚇</span>
-            <div>
-              <span class="font-medium">Metro</span> — Line 1 (Blue) from airport station
-              <div class="mt-1">
-                <a href="https://www.riyadhmetro.gov.sa" target="_blank" rel="noopener"
-                  class="text-xs text-brand underline hover:opacity-80">riyadhmetro.gov.sa →</a>
-              </div>
-            </div>
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Short shop closures during prayer times are expected</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Mosque visits: remove shoes, dress modestly</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Non-Muslims welcome in most mosques outside prayer times</span>
           </li>
         </ul>
       </div>
+    </article>
 
-      <!-- SIM Cards & Currency -->
-      <div class="space-y-4">
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-          <h3 class="text-lg font-semibold text-gray-900">SIM Cards</h3>
-          <p class="text-xs text-gray-500">Available at airport arrivals hall</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="https://www.stc.com.sa" target="_blank" rel="noopener"
-              class="inline-flex items-center px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-700 hover:border-brand hover:text-brand transition">
-              STC
-            </a>
-            <a href="https://www.mobily.com.sa" target="_blank" rel="noopener"
-              class="inline-flex items-center px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-700 hover:border-brand hover:text-brand transition">
-              Mobily
-            </a>
-            <a href="https://www.zain.com/sa" target="_blank" rel="noopener"
-              class="inline-flex items-center px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-700 hover:border-brand hover:text-brand transition">
-              Zain
-            </a>
-          </div>
+    <!-- 2. Dress Code & Modesty -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">
+        <span class="text-4xl select-none">👔</span>
+      </div>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Dress Code &amp; Modesty</h2>
+        <div class="space-y-2.5">
+          <p class="text-xs font-semibold text-violet-700 uppercase tracking-wide">Men</p>
+          <ul class="text-sm text-gray-600 space-y-1.5">
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Casual Western clothing acceptable</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Shorts OK in malls and gyms</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Avoid tank tops in public spaces</span>
+            </li>
+          </ul>
+          <p class="text-xs font-semibold text-violet-700 uppercase tracking-wide pt-1">Women</p>
+          <ul class="text-sm text-gray-600 space-y-1.5">
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Abaya not required for tourists</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Cover shoulders and knees in public</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+              <span>Headscarf optional; required in some mosques</span>
+            </li>
+          </ul>
+          <p class="text-xs text-gray-400 pt-1">More conservative dress at all religious sites.</p>
         </div>
+      </div>
+    </article>
 
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-2">
-          <h3 class="text-lg font-semibold text-gray-900">Currency</h3>
-          <p class="text-sm text-gray-700">Saudi Riyal (SAR)</p>
-          <ul class="text-sm text-gray-600 space-y-1">
-            <li>💳 ATMs available throughout the airport</li>
-            <li>🏦 Exchange: Al Rajhi Bank, NCB</li>
+    <!-- 3. Cultural Do's & Don'ts -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">
+        <span class="text-4xl select-none">🤝</span>
+      </div>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Cultural Do's &amp; Don'ts</h2>
+        <div class="space-y-2.5">
+          <p class="text-xs font-semibold text-green-700 uppercase tracking-wide">Do</p>
+          <ul class="text-sm text-gray-600 space-y-1.5">
+            <li class="flex items-start gap-2">
+              <span class="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
+              <span>Greet with "As-salamu alaikum"</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
+              <span>Use right hand for eating, greeting, giving</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
+              <span>Ask permission before photographing people</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
+              <span>Respect prayer times</span>
+            </li>
+          </ul>
+          <p class="text-xs font-semibold text-red-600 uppercase tracking-wide pt-1">Don't</p>
+          <ul class="text-sm text-gray-600 space-y-1.5">
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 shrink-0 mt-0.5 font-bold">✕</span>
+              <span>Public displays of affection</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 shrink-0 mt-0.5 font-bold">✕</span>
+              <span>Photograph government buildings</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 shrink-0 mt-0.5 font-bold">✕</span>
+              <span>Eat or drink in public during Ramadan daylight</span>
+            </li>
           </ul>
         </div>
       </div>
+    </article>
 
-    </div>
-  </section>
-
-  <!-- ===== SECTION 2: ACCOMMODATION ===== -->
-  <section id="accommodation" class="scroll-mt-16 space-y-6">
-    <div class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">🏨</span>
-        <h2 class="text-2xl font-semibold">Where to Stay</h2>
+    <!-- 4. Essential Arabic Phrases -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#fff7ed,#fed7aa)">
+        <span class="text-4xl select-none">🗣️</span>
       </div>
-      <p class="text-white/80 text-sm">Hotels across all budgets — your tier is highlighted based on saved preferences</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-      <div id="tier-budget"
-        class="budget-tier bg-white rounded-2xl border-2 border-gray-200 shadow-sm p-5 space-y-3 transition-all">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <h3 class="text-lg font-semibold text-gray-900">Budget</h3>
-          <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap">SAR 150–350 / night</span>
-        </div>
-        <ul class="text-sm text-gray-600 space-y-1.5">
-          <li><span class="font-medium text-gray-800">Areas:</span> Al Malaz, Batha</li>
-          <li><span class="font-medium text-gray-800">Known for:</span> Central location, affordable rates</li>
-        </ul>
-      </div>
-
-      <div id="tier-midrange"
-        class="budget-tier bg-white rounded-2xl border-2 border-gray-200 shadow-sm p-5 space-y-3 transition-all">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <h3 class="text-lg font-semibold text-gray-900">Mid-Range</h3>
-          <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap">SAR 350–700 / night</span>
-        </div>
-        <ul class="text-sm text-gray-600 space-y-1.5">
-          <li><span class="font-medium text-gray-800">Areas:</span> Olaya, Al Sulaimaniyah</li>
-          <li><span class="font-medium text-gray-800">Known for:</span> Business district, restaurants nearby</li>
-        </ul>
-      </div>
-
-      <div id="tier-luxury"
-        class="budget-tier bg-white rounded-2xl border-2 border-gray-200 shadow-sm p-5 space-y-3 transition-all">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <h3 class="text-lg font-semibold text-gray-900">Luxury</h3>
-          <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap">SAR 700+ / night</span>
-        </div>
-        <ul class="text-sm text-gray-600 space-y-1.5">
-          <li><span class="font-medium text-gray-800">Areas:</span> Al Malqa, KAFD</li>
-          <li><span class="font-medium text-gray-800">Known for:</span> Premium hotels — Ritz Carlton, Four Seasons</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== SECTION 3: PLAN ===== -->
-  <section id="plan" class="scroll-mt-16">
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-10 text-center space-y-4">
-      <div class="text-4xl">📅</div>
-      <h2 class="text-2xl font-semibold text-gray-900">Your Daily Plan</h2>
-      <p class="text-gray-500 max-w-md mx-auto text-sm">
-        Your personalized Riyadh itinerary is ready — curated spots, restaurants, and activities tailored to your preferences.
-      </p>
-      <a href="/daily-plan/"
-        class="inline-flex items-center justify-center px-6 h-11 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90 transition">
-        View My Daily Plan →
-      </a>
-    </div>
-  </section>
-
-  <!-- ===== SECTION 4: TRANSPORT ===== -->
-  <section id="transport" class="scroll-mt-16 space-y-6">
-    <div class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">🚗</span>
-        <h2 class="text-2xl font-semibold">Getting Around Riyadh</h2>
-      </div>
-      <p class="text-white/80 text-sm">Rideshare apps, metro lines, and navigation tools</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-      <!-- Rideshare & Maps -->
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
-        <h3 class="text-lg font-semibold text-gray-900">Rideshare &amp; Navigation</h3>
-        <div class="space-y-3 divide-y divide-gray-100">
-          <div class="flex items-center justify-between pb-3">
-            <div>
-              <div class="font-medium text-gray-800 text-sm">Uber</div>
-              <div class="text-xs text-gray-500">Available 24/7 across Riyadh</div>
-            </div>
-            <a href="https://m.uber.com/ul/" target="_blank" rel="noopener"
-              class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-black text-white hover:opacity-80 transition shrink-0">
-              🚗 Open Uber
-            </a>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Essential Arabic Phrases</h2>
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Marhaba</span>
+            <span class="text-sm text-gray-500">Hello</span>
           </div>
-          <div class="flex items-center justify-between py-3">
-            <div>
-              <div class="font-medium text-gray-800 text-sm">Careem</div>
-              <div class="text-xs text-gray-500">Popular regional app</div>
-            </div>
-            <a href="https://careem.com" target="_blank" rel="noopener"
-              class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-green-600 text-white hover:opacity-80 transition shrink-0">
-              🚗 Open Careem
-            </a>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Shukran</span>
+            <span class="text-sm text-gray-500">Thank you</span>
           </div>
-          <div class="flex items-center justify-between pt-3">
-            <div>
-              <div class="font-medium text-gray-800 text-sm">Google Maps</div>
-              <div class="text-xs text-gray-500">Turn-by-turn navigation</div>
-            </div>
-            <a href="https://maps.google.com" target="_blank" rel="noopener"
-              class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:opacity-80 transition shrink-0">
-              🗺 Open Maps
-            </a>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Min fadlak</span>
+            <span class="text-sm text-gray-500">Please (m)</span>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Min fadlik</span>
+            <span class="text-sm text-gray-500">Please (f)</span>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Ayna...?</span>
+            <span class="text-sm text-gray-500">Where is...?</span>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Kam?</span>
+            <span class="text-sm text-gray-500">How much?</span>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Na'am / La</span>
+            <span class="text-sm text-gray-500">Yes / No</span>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-gray-50">
+            <span class="text-sm font-medium text-violet-700">Ma'a salama</span>
+            <span class="text-sm text-gray-500">Goodbye</span>
+          </div>
+          <div class="flex items-center justify-between py-1">
+            <span class="text-sm font-medium text-violet-700">Afwan</span>
+            <span class="text-sm text-gray-500">You're welcome</span>
           </div>
         </div>
       </div>
+    </article>
 
-      <!-- Metro -->
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-gray-900">Riyadh Metro</h3>
-          <a href="https://www.riyadhmetro.gov.sa" target="_blank" rel="noopener"
-            class="text-xs text-brand underline hover:opacity-80">Official site →</a>
-        </div>
-        <ul class="space-y-2.5 text-sm">
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-blue-600 shrink-0"></span>
-            <span><span class="font-medium">Line 1 Blue:</span> Airport ↔ Al Battha</span>
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-orange-500 shrink-0"></span>
-            <span><span class="font-medium">Line 2 Orange:</span> King Abdullah Road</span>
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-red-600 shrink-0"></span>
-            <span><span class="font-medium">Line 3 Red:</span> King Fahad Road</span>
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-yellow-500 shrink-0"></span>
-            <span><span class="font-medium">Line 4 Yellow:</span> Al Madinah Al Munawarah Road</span>
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-green-600 shrink-0"></span>
-            <span><span class="font-medium">Line 5 Green:</span> Western Ring Road</span>
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-purple-700 shrink-0"></span>
-            <span><span class="font-medium">Line 6 Purple:</span> Northern Ring Road</span>
-          </li>
-        </ul>
+    <!-- 5. Money & Tipping -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#eff6ff,#bfdbfe)">
+        <span class="text-4xl select-none">💵</span>
       </div>
-
-    </div>
-  </section>
-
-  <!-- ===== SECTION 5: EMERGENCY ===== -->
-  <section id="emergency" class="scroll-mt-16 space-y-6">
-    <div class="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl p-6 text-white">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">🚨</span>
-        <h2 class="text-2xl font-semibold">Emergency Numbers &amp; Hospitals</h2>
-      </div>
-      <p class="text-white/80 text-sm">Keep these numbers accessible at all times during your visit</p>
-    </div>
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center space-y-1">
-        <div class="text-3xl font-bold text-red-600">999</div>
-        <div class="text-xs font-medium text-gray-600">Police</div>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center space-y-1">
-        <div class="text-3xl font-bold text-red-600">911</div>
-        <div class="text-xs font-medium text-gray-600">Ambulance</div>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center space-y-1">
-        <div class="text-3xl font-bold text-red-600">998</div>
-        <div class="text-xs font-medium text-gray-600">Civil Defense (Fire)</div>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center space-y-1">
-        <div class="text-3xl font-bold text-red-600">993</div>
-        <div class="text-xs font-medium text-gray-600">Traffic Police</div>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center space-y-1 col-span-2 sm:col-span-1">
-        <div class="text-lg font-bold text-brand">920000814</div>
-        <div class="text-xs font-medium text-gray-600">Tourist Police</div>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-1 col-span-2 sm:col-span-1">
-        <div class="text-sm font-semibold text-gray-800">King Fahad Medical City</div>
-        <a href="tel:+966112889999" class="text-xs text-brand hover:underline">+966 11 288 9999</a>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-1 col-span-2 sm:col-span-1">
-        <div class="text-sm font-semibold text-gray-800">Saudi German Hospital</div>
-        <a href="tel:+966112650000" class="text-xs text-brand hover:underline">+966 11 265 0000</a>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-1 col-span-2 sm:col-span-1">
-        <div class="text-sm font-semibold text-gray-800">Al-Dawaa Pharmacies</div>
-        <div class="text-xs text-gray-500">24-hour pharmacy chain</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== SECTION 6: DEPARTURE ===== -->
-  <section id="departure" class="scroll-mt-16 space-y-6">
-    <div class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">🛫</span>
-        <h2 class="text-2xl font-semibold">Before You Leave</h2>
-      </div>
-      <p class="text-white/80 text-sm">King Khalid International Airport (RUH)</p>
-    </div>
-
-    <!-- Departure banner — injected by JS below -->
-    <div id="departure-banner"></div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-        <h3 class="text-lg font-semibold text-gray-900">Recommended Check-in Times</h3>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Money &amp; Tipping Culture</h2>
         <ul class="text-sm text-gray-600 space-y-2">
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-brand shrink-0"></span>
-            <span><span class="font-medium text-gray-800">International:</span> Arrive 3 hours before departure</span>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span><span class="font-medium text-gray-800">Currency:</span> Saudi Riyal (SAR)</span>
           </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-brand shrink-0"></span>
-            <span><span class="font-medium text-gray-800">Domestic:</span> Arrive 2 hours before departure</span>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span><span class="font-medium text-gray-800">Tipping:</span> 10–15% optional; service charge often included</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Small tips: round up or SAR 5–10 for good service</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Cash useful for small vendors and markets</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Cards widely accepted across malls and restaurants</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>ATMs abundant with English interface available</span>
           </li>
         </ul>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
-        <h3 class="text-lg font-semibold text-gray-900">Duty Free</h3>
-        <p class="text-sm text-gray-600">
-          King Khalid Airport has duty-free shops in all departure terminals.
-          Pick up local dates, oud, and Saudi souvenirs before your flight.
-        </p>
+    </article>
+
+    <!-- 6. Weather & Packing -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#fefce8,#fde047)">
+        <span class="text-4xl select-none">🌡️</span>
       </div>
-    </div>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Weather &amp; Packing Tips</h2>
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-semibold shrink-0">Best</span>
+            <span class="text-sm text-gray-600">Oct – Mar &nbsp;·&nbsp; 15–25°C</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-semibold shrink-0">Hot</span>
+            <span class="text-sm text-gray-600">Apr – Sep &nbsp;·&nbsp; 35–45°C</span>
+          </div>
+        </div>
+        <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Pack</p>
+        <ul class="text-sm text-gray-600 space-y-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Sunscreen SPF 50+</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Hat and sunglasses</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Light, breathable layers</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Modest clothing options</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Comfortable walking shoes</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Reusable water bottle</span>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 7. Health & Safety -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#fef2f2,#fecaca)">
+        <span class="text-4xl select-none">🏥</span>
+      </div>
+      <div class="p-5 space-y-3 flex-1">
+        <h2 class="text-base font-semibold text-gray-900">Health &amp; Safety</h2>
+        <ul class="text-sm text-gray-600 space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Pharmacies: green cross sign, widely available</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Tap water safe — bottled water preferred</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Sun protection essential in summer months</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Excellent medical care; English-speaking doctors available</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Travel insurance strongly recommended</span>
+          </li>
+        </ul>
+        <div class="flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl px-3 py-2 mt-1">
+          <span class="text-red-600 font-bold text-lg leading-none">997</span>
+          <span class="text-xs text-red-700 font-medium">Ambulance (emergency)</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8. Ramadan Considerations -->
+    <article class="guide-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="h-20 flex items-center justify-center shrink-0"
+        style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8)">
+        <span class="text-4xl select-none">📅</span>
+      </div>
+      <div class="p-5 space-y-3 flex-1">
+        <div class="flex items-start justify-between gap-2">
+          <h2 class="text-base font-semibold text-gray-900">Ramadan Considerations</h2>
+          <span class="inline-flex items-center text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-medium shrink-0 whitespace-nowrap">
+            Seasonal
+          </span>
+        </div>
+        <ul class="text-sm text-gray-600 space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Eating and drinking in public restricted during daylight hours</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Business hours are shorter across the city</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Iftar (sunset meal): vibrant dining experiences</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Night activities thrive — Ramadan tents and events</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-300 shrink-0 mt-0.5">•</span>
+            <span>Respect fasting locals in shared public spaces</span>
+          </li>
+        </ul>
+        <p class="text-xs text-gray-400 pt-1">Check Islamic calendar for current year dates.</p>
+      </div>
+    </article>
+
+  </div><!-- /cards grid -->
+
+  <!-- SIM Cards note -->
+  <aside class="bg-violet-50 rounded-2xl border border-violet-100 p-5">
+    <p class="text-sm text-violet-800 leading-relaxed">
+      <span class="font-semibold">SIM cards:</span> Available at the airport arrivals hall from STC, Mobily, and Zain. Purchase on arrival for instant connectivity.
+    </p>
+  </aside>
+
+  <!-- Bottom CTA -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-10 text-center space-y-4">
+    <div class="text-5xl" aria-hidden="true">📍</div>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+      Ready to explore?
+    </h2>
+    <p class="text-sm text-gray-500 max-w-sm mx-auto">
+      Your personalized daily plan is waiting — curated places, restaurants, and activities for your trip.
+    </p>
+    <a href="/daily-plan/"
+      class="inline-flex items-center justify-center px-6 h-11 rounded-xl text-white text-sm font-semibold transition hover:opacity-90"
+      style="background-color:#7c3aed">
+      View Daily Plan →
+    </a>
   </section>
 
-</div><!-- /max-w-5xl -->
-
-<script>
-(function () {
-  /* ---- Departure banner ---- */
-  var endDate = localStorage.getItem("tz_end_date") || "";
-  if (endDate) {
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    var end = new Date(endDate + "T00:00:00");
-    var diffDays = Math.round((end - today) / (1000 * 60 * 60 * 24));
-    var banner = document.getElementById("departure-banner");
-    if (banner) {
-      if (diffDays === 1) {
-        banner.innerHTML =
-          '<div class="flex items-center gap-3 bg-yellow-50 border border-yellow-200 rounded-xl px-5 py-4 text-yellow-800">' +
-          '<span class="text-xl shrink-0">⏰</span>' +
-          '<span class="text-sm font-medium">Your trip ends tomorrow — time to head to the airport!</span>' +
-          '</div>';
-      } else if (diffDays === 0) {
-        banner.innerHTML =
-          '<div class="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-5 py-4 text-red-800">' +
-          '<span class="text-xl shrink-0">✈</span>' +
-          '<span class="text-sm font-medium">Your trip ends today — safe travels!</span>' +
-          '</div>';
-      }
-    }
-  }
-
-  /* ---- Accommodation budget highlight ---- */
-  var budgetMin = parseInt(localStorage.getItem("tz_budget_min") || "0", 10) || 0;
-  var budgetMax = parseInt(localStorage.getItem("tz_budget_max") || "0", 10) || 0;
-  var tierId = null;
-
-  if (budgetMax > 0 && budgetMax <= 350) {
-    tierId = "tier-budget";
-  } else if (budgetMin >= 700) {
-    tierId = "tier-luxury";
-  } else if (budgetMin > 0 || budgetMax > 0) {
-    tierId = "tier-midrange";
-  }
-
-  if (tierId) {
-    var tierEl = document.getElementById(tierId);
-    if (tierEl) {
-      tierEl.classList.remove("border-gray-200");
-      tierEl.classList.add("border-brand");
-      var match = document.createElement("div");
-      match.className = "text-xs font-semibold text-brand pt-1";
-      match.textContent = "✓ Matches your budget";
-      tierEl.appendChild(match);
-    }
-  }
-
-  /* ---- Active section highlight via IntersectionObserver ---- */
-  var sections = Array.from(document.querySelectorAll("section[id]"));
-  var anchors = Array.from(document.querySelectorAll(".guide-anchor"));
-
-  function setActive(id) {
-    anchors.forEach(function (a) {
-      var active = a.getAttribute("data-section") === id;
-      if (active) {
-        a.classList.add("text-brand", "bg-brand/10");
-        a.classList.remove("text-gray-600");
-      } else {
-        a.classList.remove("text-brand", "bg-brand/10");
-        a.classList.add("text-gray-600");
-      }
-    });
-  }
-
-  var scrollRoot = document.querySelector("main");
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        setActive(entry.target.id);
-      }
-    });
-  }, {
-    root: scrollRoot,
-    rootMargin: "-30% 0px -60% 0px",
-    threshold: 0
-  });
-
-  sections.forEach(function (s) { observer.observe(s); });
-})();
-</script>
-
+</div><!-- /container -->
 {% endblock %}

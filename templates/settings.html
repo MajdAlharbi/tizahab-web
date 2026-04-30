@@ -1,648 +1,495 @@
-{% extends "dashboard_base.html" %} {% load static %} {% block title %}Settings
-| Tizahab{% endblock %} {% block content %}
-<div class="max-w-2xl mx-auto px-4 lg:px-6 py-6 space-y-5">
-  <div>
-    <h1 class="text-2xl font-bold text-gray-900">
-      <span class="nav-label-en">Settings</span>
-      <span class="nav-label-ar hidden">الإعدادات</span>
-    </h1>
-    <p class="text-sm text-gray-500 mt-1">
-      <span class="nav-label-en">Manage your account preferences</span>
-      <span class="nav-label-ar hidden">إدارة تفضيلات حسابك</span>
-    </p>
-  </div>
+{% extends "dashboard_base.html" %}
+{% load static %}
 
-  <!-- Language -->
-  <section
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">
-        <span class="nav-label-en">Language</span>
-        <span class="nav-label-ar hidden">اللغة</span>
-      </h2>
-      <p class="text-xs text-gray-500 mt-0.5">
-        <span class="nav-label-en">Choose your preferred display language</span>
-        <span class="nav-label-ar hidden">اختر لغة العرض المفضلة</span>
-      </p>
+{% block title %}Settings | Tizahab{% endblock %}
+
+{% block head %}
+<style>
+  .tog {
+    width: 48px; height: 24px;
+    background: #e5e7eb;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+  }
+  .tog.on { background: #7c3aed; }
+  .tog::after {
+    content: '';
+    width: 20px; height: 20px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px; left: 2px;
+    transition: left 0.25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .tog.on::after { left: 26px; }
+  .seg-btn { transition: all 0.18s ease; }
+  .seg-btn.active {
+    background: #7c3aed !important;
+    color: white !important;
+    border-color: #7c3aed !important;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 lg:px-6 py-10 pb-28 space-y-6">
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden rounded-2xl py-12 px-6 text-center"
+    style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%)">
+    <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
+    <div class="absolute top-4 left-1/3 w-12 h-12 rounded-full bg-white/5 pointer-events-none"></div>
+    <div class="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-white/10 pointer-events-none"></div>
+    <div class="relative space-y-3">
+      <span class="inline-flex items-center bg-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full">
+        App Configuration
+      </span>
+      <h1 class="text-3xl font-bold text-white" style="font-family:'Cantata One',serif">Settings</h1>
+      <p class="text-white/75 text-sm">Manage your app preferences</p>
     </div>
-    <div class="p-4 flex gap-3">
-      <label class="flex-1">
-        <input
-          type="radio"
-          name="appLang"
-          value="en"
-          class="hidden peer"
-          checked />
-        <div
-          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+  </section>
+
+  <!-- ── Language & Region ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900">🌐 Language &amp; Region</h2>
+    <div class="space-y-2.5">
+      <p class="text-sm font-medium text-gray-700">Display Language</p>
+      <div class="flex gap-3">
+        <button type="button" id="langEn"
+          class="seg-btn flex-1 h-12 rounded-xl border-2 border-violet-600 text-sm font-semibold hover:bg-violet-50 transition">
           🇬🇧 English
-        </div>
-      </label>
-      <label class="flex-1">
-        <input type="radio" name="appLang" value="ar" class="hidden peer" />
-        <div
-          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
+        </button>
+        <button type="button" id="langAr"
+          class="seg-btn flex-1 h-12 rounded-xl border-2 border-violet-600 text-sm font-semibold hover:bg-violet-50 transition">
           🇸🇦 العربية
-        </div>
-      </label>
-    </div>
-  </section>
-
-  <!-- Travel Preferences (Backend Synced) -->
-  <section
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">
-        <span class="nav-label-en">Travel Preferences</span>
-        <span class="nav-label-ar hidden">تفضيلات السفر</span>
-      </h2>
-      <p class="text-xs text-gray-500 mt-0.5">
-        <span class="nav-label-en">These preferences sync with your account and affect recommendations</span>
-        <span class="nav-label-ar hidden">تتم مزامنة هذه التفضيلات مع حسابك وتؤثر على التوصيات</span>
-      </p>
-    </div>
-    <div class="p-4 space-y-4">
-      <div>
-        <p class="text-sm font-medium text-gray-700 mb-2">
-          <span class="nav-label-en">Interests</span>
-          <span class="nav-label-ar hidden">الاهتمامات</span>
-        </p>
-        <div class="flex flex-wrap gap-2">
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="restaurant" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍽️ <span class="nav-label-en">Restaurants</span><span class="nav-label-ar hidden">مطاعم</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="cafe" class="pref-interest" style="accent-color: #7e1ca1" />
-            ☕ <span class="nav-label-en">Cafes & Coffee</span><span class="nav-label-ar hidden">مقاهي وقهوة</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="fast_food" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍔 <span class="nav-label-en">Fast Food</span><span class="nav-label-ar hidden">وجبات سريعة</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="dessert" class="pref-interest" style="accent-color: #7e1ca1" />
-            🍰 <span class="nav-label-en">Desserts & Sweets</span><span class="nav-label-ar hidden">حلويات</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="bakery" class="pref-interest" style="accent-color: #7e1ca1" />
-            🥐 <span class="nav-label-en">Bakery</span><span class="nav-label-ar hidden">مخبوزات</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="juice" class="pref-interest" style="accent-color: #7e1ca1" />
-            🧃 <span class="nav-label-en">Juice & Smoothies</span><span class="nav-label-ar hidden">عصائر</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="food_truck" class="pref-interest" style="accent-color: #7e1ca1" />
-            🚚 <span class="nav-label-en">Food Trucks</span><span class="nav-label-ar hidden">شاحنات الطعام</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="shopping" class="pref-interest" style="accent-color: #7e1ca1" />
-            🛍️ <span class="nav-label-en">Shopping</span><span class="nav-label-ar hidden">تسوق</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="culture" class="pref-interest" style="accent-color: #7e1ca1" />
-            🏛️ <span class="nav-label-en">Culture</span><span class="nav-label-ar hidden">ثقافة</span>
-          </label>
-          <label
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700">
-            <input type="checkbox" value="outdoor" class="pref-interest" style="accent-color: #7e1ca1" />
-            🌿 <span class="nav-label-en">Outdoor</span><span class="nav-label-ar hidden">خارجي</span>
-          </label>
-        </div>
+        </button>
       </div>
+      <p class="text-xs text-gray-400">App will reload to apply language change.</p>
+    </div>
+  </section>
 
-      <div class="grid sm:grid-cols-2 gap-3">
-        <label class="space-y-1">
-          <span class="text-sm font-medium text-gray-700">
-            <span class="nav-label-en">Budget Min (SAR)</span>
-            <span class="nav-label-ar hidden">الحد الأدنى للميزانية (ريال)</span>
-          </span>
-          <input
-            id="budgetMinInput"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="0"
-            class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-        </label>
-        <label class="space-y-1">
-          <span class="text-sm font-medium text-gray-700">
-            <span class="nav-label-en">Budget Max (SAR)</span>
-            <span class="nav-label-ar hidden">الحد الأقصى للميزانية (ريال)</span>
-          </span>
-          <input
-            id="budgetMaxInput"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="500"
-            class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-        </label>
+  <!-- ── Appearance ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900">🎨 Appearance</h2>
+    <div class="space-y-2.5">
+      <p class="text-sm font-medium text-gray-700">Theme</p>
+      <div class="flex gap-2.5">
+        <button type="button" id="themeLight"
+          class="seg-btn flex-1 h-11 rounded-xl border-2 border-violet-600 text-sm font-semibold hover:bg-violet-50 transition">
+          ☀️ Light
+        </button>
+        <button type="button" id="themeDark"
+          class="seg-btn flex-1 h-11 rounded-xl border-2 border-violet-600 text-sm font-semibold hover:bg-violet-50 transition">
+          🌙 Dark
+        </button>
+        <button type="button" id="themeAuto"
+          class="seg-btn flex-1 h-11 rounded-xl border-2 border-violet-600 text-sm font-semibold hover:bg-violet-50 transition">
+          🌗 Auto
+        </button>
       </div>
+      <p class="text-xs text-gray-400">Affects readability across all pages.</p>
     </div>
   </section>
 
-  <!-- Appearance -->
-  <section
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">
-        <span class="nav-label-en">Appearance</span>
-        <span class="nav-label-ar hidden">المظهر</span>
-      </h2>
-      <p class="text-xs text-gray-500 mt-0.5">
-        <span class="nav-label-en">Choose your display theme</span>
-        <span class="nav-label-ar hidden">اختر نمط العرض</span>
-      </p>
-    </div>
-    <div class="p-4 flex gap-3">
-      <label class="flex-1">
-        <input
-          type="radio"
-          name="appTheme"
-          value="light"
-          class="hidden peer"
-          checked />
-        <div
-          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-          ☀️ <span class="nav-label-en">Light Mode</span><span class="nav-label-ar hidden">الوضع الفاتح</span>
-        </div>
-      </label>
-      <label class="flex-1">
-        <input type="radio" name="appTheme" value="dark" class="hidden peer" />
-        <div
-          class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-          🌙 <span class="nav-label-en">Dark Mode</span><span class="nav-label-ar hidden">الوضع الداكن</span>
-        </div>
-      </label>
-    </div>
-  </section>
-
-  <!-- Notifications -->
-  <section
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">
-        <span class="nav-label-en">Notifications</span>
-        <span class="nav-label-ar hidden">الإشعارات</span>
-      </h2>
-      <p class="text-xs text-gray-500 mt-0.5">
-        <span class="nav-label-en">Control what notifications you receive</span>
-        <span class="nav-label-ar hidden">تحكم في الإشعارات التي تتلقاها</span>
-      </p>
+  <!-- ── Notifications ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-900">🔔 Notifications</h2>
+      <p class="text-sm text-gray-500 mt-0.5">Control what notifications you receive</p>
     </div>
     <div class="divide-y divide-gray-100">
-      <div class="px-5 py-4 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-800">
-            <span class="nav-label-en">Push Notifications</span>
-            <span class="nav-label-ar hidden">إشعارات فورية</span>
-          </p>
-          <p class="text-xs text-gray-500">
-            <span class="nav-label-en">Receive alerts on your device</span>
-            <span class="nav-label-ar hidden">تلقي التنبيهات على جهازك</span>
-          </p>
+
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">Push Notifications</p>
+          <p class="text-xs text-gray-500 mt-0.5">Receive alerts on your device</p>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="togglePush" checked />
-          <span class="toggle-track"></span>
-        </label>
+        <div class="tog on" id="togPush" data-key="notif_push" role="switch" aria-checked="true"></div>
       </div>
 
-      <div class="px-5 py-4 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-800">
-            <span class="nav-label-en">Plan Reminders</span>
-            <span class="nav-label-ar hidden">تذكيرات الخطة</span>
-          </p>
-          <p class="text-xs text-gray-500">
-            <span class="nav-label-en">Get reminded about upcoming plans</span>
-            <span class="nav-label-ar hidden">احصل على تذكير بالخطط القادمة</span>
-          </p>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">Plan Reminders</p>
+          <p class="text-xs text-gray-500 mt-0.5">Get reminded 1 day before your trip starts</p>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggleReminders" checked />
-          <span class="toggle-track"></span>
-        </label>
+        <div class="tog on" id="togReminders" data-key="notif_reminders" role="switch" aria-checked="true"></div>
       </div>
 
-      <div class="px-5 py-4 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-800">
-            <span class="nav-label-en">App Updates</span>
-            <span class="nav-label-ar hidden">تحديثات التطبيق</span>
-          </p>
-          <p class="text-xs text-gray-500">
-            <span class="nav-label-en">Be notified about new features</span>
-            <span class="nav-label-ar hidden">احصل على إشعار بالميزات الجديدة</span>
-          </p>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">New Places Alert</p>
+          <p class="text-xs text-gray-500 mt-0.5">Discover new places in your favorite areas</p>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggleUpdates" />
-          <span class="toggle-track"></span>
-        </label>
+        <div class="tog" id="togNewPlaces" data-key="notif_newplaces" role="switch" aria-checked="false"></div>
       </div>
 
-      <div class="px-5 py-4 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-800">
-            <span class="nav-label-en">Recommendations</span>
-            <span class="nav-label-ar hidden">التوصيات</span>
-          </p>
-          <p class="text-xs text-gray-500">
-            <span class="nav-label-en">Personalized place suggestions</span>
-            <span class="nav-label-ar hidden">اقتراحات أماكن شخصية</span>
-          </p>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">App Updates</p>
+          <p class="text-xs text-gray-500 mt-0.5">Be notified about new features</p>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggleRecs" checked />
-          <span class="toggle-track"></span>
-        </label>
+        <div class="tog" id="togUpdates" data-key="notif_updates" role="switch" aria-checked="false"></div>
       </div>
 
-      <div class="px-5 py-4 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-800">
-            <span class="nav-label-en">Newsletter</span>
-            <span class="nav-label-ar hidden">النشرة البريدية</span>
-          </p>
-          <p class="text-xs text-gray-500">
-            <span class="nav-label-en">Weekly highlights from Riyadh</span>
-            <span class="nav-label-ar hidden">أبرز ما في الرياض أسبوعياً</span>
-          </p>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">Newsletter</p>
+          <p class="text-xs text-gray-500 mt-0.5">Weekly highlights from Riyadh</p>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggleNewsletter" />
-          <span class="toggle-track"></span>
-        </label>
+        <div class="tog" id="togNewsletter" data-key="notif_newsletter" role="switch" aria-checked="false"></div>
       </div>
+
     </div>
   </section>
 
-  <!-- Account -->
-  <section
-    class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <h2 class="font-semibold text-gray-800">
-        <span class="nav-label-en">Account</span>
-        <span class="nav-label-ar hidden">الحساب</span>
-      </h2>
+  <!-- ── Privacy & Data ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-900">🔒 Privacy &amp; Data</h2>
     </div>
-    <div class="p-4 space-y-3">
-      <a
-        href="/onboarding/"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
-        <span class="text-lg">✏️</span>
-        <span class="nav-label-en">Edit Preferences</span>
-        <span class="nav-label-ar hidden">تعديل التفضيلات</span>
-      </a>
+    <div class="divide-y divide-gray-100">
 
-      <!-- Change Password — expandable inline form -->
-      <div>
-        <button
-          id="togglePwdForm"
-          type="button"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">
-          <span class="text-lg">🔒</span>
-          <span class="nav-label-en">Change Password</span>
-          <span class="nav-label-ar hidden">تغيير كلمة المرور</span>
-        </button>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">Share Usage Data</p>
+          <p class="text-xs text-gray-500 mt-0.5">Help us improve Tizahab by sharing anonymous usage data</p>
+        </div>
+        <div class="tog on" id="togUsage" data-key="privacy_usage" role="switch" aria-checked="true"></div>
+      </div>
 
-        <div id="pwdForm" class="hidden mt-3 space-y-3 px-1">
-          <input
-            id="currentPwd"
-            type="password"
-            data-placeholder-en="Current password"
-            data-placeholder-ar="كلمة المرور الحالية"
-            placeholder="Current password"
-            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <input
-            id="newPwd"
-            type="password"
-            data-placeholder-en="New password"
-            data-placeholder-ar="كلمة المرور الجديدة"
-            placeholder="New password"
-            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <input
-            id="confirmPwd"
-            type="password"
-            data-placeholder-en="Confirm new password"
-            data-placeholder-ar="تأكيد كلمة المرور الجديدة"
-            placeholder="Confirm new password"
-            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
-          <p id="pwdError" class="hidden text-xs text-red-600 font-medium"></p>
-          <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">
-            <span class="nav-label-en">Password updated successfully!</span>
-            <span class="nav-label-ar hidden">تم تحديث كلمة المرور بنجاح!</span>
-          </p>
-          <button
-            id="submitPwd"
-            type="button"
-            class="w-full h-10 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
-            <span class="nav-label-en">Update Password</span>
-            <span class="nav-label-ar hidden">تحديث كلمة المرور</span>
+      <div class="px-6 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-800">Location Services</p>
+          <p class="text-xs text-gray-500 mt-0.5">Allow location access for better recommendations</p>
+        </div>
+        <div class="tog" id="togLocation" data-key="privacy_location" role="switch" aria-checked="false"></div>
+      </div>
+
+      <div class="px-6 py-5">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-sm font-medium text-gray-800">Clear Cache</p>
+            <p class="text-xs text-gray-500 mt-0.5">Free up space by clearing temporary data</p>
+          </div>
+          <button type="button" id="clearCacheBtn"
+            class="h-9 px-4 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition shrink-0">
+            Clear Cache
           </button>
         </div>
       </div>
 
-      <button type="button"
-        onclick="logout();"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 text-sm text-red-600 hover:bg-red-50 transition">
-        <span class="text-lg">🚪</span>
-        <span class="nav-label-en">Logout</span>
-        <span class="nav-label-ar hidden">تسجيل الخروج</span>
-      </button>
     </div>
   </section>
 
-  <!-- Save button -->
-  <div class="flex justify-end pb-6">
-    <button
-      id="saveSettingsBtn"
-      type="button"
-      class="px-8 h-11 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
-      <span class="nav-label-en">Save Settings</span>
-      <span class="nav-label-ar hidden">حفظ الإعدادات</span>
+  <!-- ── Security ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-900">🔐 Security</h2>
+    </div>
+    <div class="p-6 space-y-4">
+      <button type="button" id="togglePwdForm"
+        class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        <span>Change Password</span>
+        <span id="pwdChevron" class="text-gray-400 transition-transform">▾</span>
+      </button>
+
+      <div id="pwdForm" class="hidden space-y-3">
+        <input id="currentPwd" type="password" placeholder="Current password"
+          class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-violet-400 transition bg-gray-50">
+        <input id="newPwd" type="password" placeholder="New password"
+          class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-violet-400 transition bg-gray-50">
+        <input id="confirmPwd" type="password" placeholder="Confirm new password"
+          class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-violet-400 transition bg-gray-50">
+        <p id="pwdError" class="hidden text-xs text-red-600 font-medium"></p>
+        <p id="pwdSuccess" class="hidden text-xs text-green-600 font-medium">Password updated successfully!</p>
+        <button type="button" id="submitPwd"
+          class="w-full h-11 rounded-xl text-white text-sm font-semibold transition hover:opacity-90"
+          style="background-color:#7c3aed">
+          Update Password
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About & Legal ── -->
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
+    <h2 class="text-xl font-semibold text-gray-900">ℹ️ About &amp; Legal</h2>
+
+    <div class="space-y-2 text-sm">
+      <div class="flex items-center justify-between py-2 border-b border-gray-50">
+        <span class="text-gray-500">App Version</span>
+        <span class="font-medium text-gray-800">1.0.0</span>
+      </div>
+      <div class="flex items-center justify-between py-2 border-b border-gray-50">
+        <span class="text-gray-500">Last Updated</span>
+        <span class="font-medium text-gray-800">January 2025</span>
+      </div>
+    </div>
+
+    <div class="space-y-1">
+      <a href="#" target="_blank" rel="noopener noreferrer"
+        class="flex items-center gap-2 py-2.5 text-sm text-violet-600 hover:text-violet-800 hover:underline transition">
+        <span>→</span> Terms of Service
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer"
+        class="flex items-center gap-2 py-2.5 text-sm text-violet-600 hover:text-violet-800 hover:underline transition">
+        <span>→</span> Privacy Policy
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer"
+        class="flex items-center gap-2 py-2.5 text-sm text-violet-600 hover:text-violet-800 hover:underline transition">
+        <span>→</span> Open Source Licenses
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer"
+        class="flex items-center gap-2 py-2.5 text-sm text-violet-600 hover:text-violet-800 hover:underline transition">
+        <span>→</span> Contact Support
+      </a>
+    </div>
+
+    <p class="text-xs text-gray-400 pt-1">© 2025 Tizahab. Built for tourists in Riyadh.</p>
+  </section>
+
+</div>
+
+<!-- ── Sticky Save Button ── -->
+<div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 px-4 py-4 z-30">
+  <div class="max-w-3xl mx-auto">
+    <button id="saveSettingsBtn" type="button" disabled
+      class="w-full h-12 rounded-xl text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition"
+      style="background-color:#7c3aed"
+      onmouseover="if(!this.disabled)this.style.backgroundColor='#6d28d9'"
+      onmouseout="this.style.backgroundColor='#7c3aed'">
+      Save Settings
     </button>
   </div>
-  <p
-    id="settingsSaved"
-    class="text-center text-sm text-green-600 hidden font-medium">
-    <span class="nav-label-en">Settings saved!</span>
-    <span class="nav-label-ar hidden">تم حفظ الإعدادات!</span>
-  </p>
-  <p
-    id="settingsError"
-    class="text-center text-sm text-red-600 hidden font-medium"></p>
 </div>
 
 <script>
-  // Notification toggles
-  const NOTIF_KEY = "tz_notifications";
-  const toggleIds = [
-    "togglePush",
-    "toggleReminders",
-    "toggleUpdates",
-    "toggleRecs",
-    "toggleNewsletter",
+  /* ── Toggle helpers ── */
+  const TOGGLE_KEYS = [
+    "notif_push", "notif_reminders", "notif_newplaces",
+    "notif_updates", "notif_newsletter",
+    "privacy_usage", "privacy_location",
   ];
 
+  const DEFAULTS = {
+    notif_push: true, notif_reminders: true, notif_newplaces: false,
+    notif_updates: false, notif_newsletter: false,
+    privacy_usage: true, privacy_location: false,
+  };
+
+  const LS_KEY = "tz_toggles";
+
+  function loadToggles() {
+    try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem(LS_KEY) || "{}")); }
+    catch { return Object.assign({}, DEFAULTS); }
+  }
+
+  function saveToggles(state) {
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+  }
+
+  function applyToggleUI(key, value) {
+    const el = document.querySelector(`[data-key="${key}"]`);
+    if (!el) return;
+    el.classList.toggle("on", value);
+    el.setAttribute("aria-checked", String(value));
+  }
+
+  /* ── Dirty-state tracking ── */
+  let _savedState = null;
+  let _currentState = null;
+
+  function serializeState() {
+    const lang = localStorage.getItem("tz_lang") || "en";
+    const theme = localStorage.getItem("tz_theme") || "light";
+    const toggs = loadToggles();
+    return JSON.stringify({ lang, theme, toggs });
+  }
+
+  function markDirty() {
+    _currentState = serializeState();
+    const btn = document.getElementById("saveSettingsBtn");
+    if (btn) {
+      const isDirty = _currentState !== _savedState;
+      btn.disabled = !isDirty;
+    }
+  }
+
+  /* ── Toast ── */
+  function showToast(msg, type) {
+    const t = document.createElement("div");
+    const bg = type === "error" ? "#ef4444" : "#22c55e";
+    t.style.cssText = `position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:${bg};color:white;padding:10px 20px;border-radius:12px;
+      font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:all .3s ease;
+      white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.15)`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity = "1"; t.style.transform = "translateX(-50%) translateY(0)"; });
+    setTimeout(() => {
+      t.style.opacity = "0"; t.style.transform = "translateX(-50%) translateY(10px)";
+      setTimeout(() => t.remove(), 300);
+    }, 2500);
+  }
+
+  /* ── Language ── */
+  function setLang(lang, reload) {
+    localStorage.setItem("tz_lang", lang);
+    if (typeof applyLang === "function") applyLang(lang);
+    document.querySelectorAll("#langEn, #langAr").forEach(b => b.classList.remove("active"));
+    document.getElementById(lang === "en" ? "langEn" : "langAr")?.classList.add("active");
+    if (reload) {
+      if (confirm("Reload page to apply language change?")) location.reload();
+    }
+    markDirty();
+  }
+
+  /* ── Theme ── */
+  function applyTheme(theme) {
+    let resolved = theme;
+    if (theme === "auto") {
+      resolved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", resolved);
+    localStorage.setItem("tz_theme", theme);
+    ["themeLight", "themeDark", "themeAuto"].forEach(id => {
+      document.getElementById(id)?.classList.remove("active");
+    });
+    const map = { light: "themeLight", dark: "themeDark", auto: "themeAuto" };
+    document.getElementById(map[theme])?.classList.add("active");
+    markDirty();
+  }
+
+  /* ── Change Password ── */
   function parseApiError(payload) {
-    if (!payload) return "Failed to save settings.";
+    if (!payload) return "Failed to update password.";
     if (typeof payload.detail === "string") return payload.detail;
-    const firstKey = Object.keys(payload)[0];
-    if (!firstKey) return "Failed to save settings.";
-    const value = payload[firstKey];
-    if (Array.isArray(value) && value.length) return String(value[0]);
-    if (typeof value === "string") return value;
-    return "Failed to save settings.";
+    const first = Object.keys(payload)[0];
+    if (!first) return "Failed to update password.";
+    const val = payload[first];
+    return Array.isArray(val) ? String(val[0]) : typeof val === "string" ? val : "Failed to update password.";
   }
 
-  function getSettingsErrorMessage(error, fallback = "Something went wrong. Please try again.") {
-    const fromResponse =
-      typeof extractApiErrorMessage === "function"
-        ? extractApiErrorMessage(error?.responseData, "")
-        : "";
-    const fromError =
-      typeof error?.message === "string" ? error.message.trim() : "";
-
-    if (fromResponse) return fromResponse;
-    if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
-    return fallback;
-  }
-
-  async function loadBackendPreferences() {
-    if (!isLoggedIn()) {
-      window.location.href = "/login/";
-      return;
-    }
-
-    try {
-      const data = await apiGet("/api/auth/preferences/");
-      if (!data) return;
-
-      const lang = data.preferred_language || "en";
-      const langRadio = document.querySelector(
-        `input[name="appLang"][value="${lang}"]`,
-      );
-      if (langRadio) langRadio.checked = true;
-
-      const interests = Array.isArray(data.interests) ? data.interests : [];
-      document.querySelectorAll(".pref-interest").forEach((el) => {
-        el.checked = interests.includes(el.value);
-      });
-
-      const minInput = document.getElementById("budgetMinInput");
-      const maxInput = document.getElementById("budgetMaxInput");
-      if (minInput) minInput.value = data.budget_min ?? "";
-      if (maxInput) maxInput.value = data.budget_max ?? "";
-    } catch {
-      // silent
-    }
-  }
-
-  async function saveBackendPreferences() {
-    if (!isLoggedIn()) {
-      window.location.href = "/login/";
-      return { ok: false, message: "Please log in again." };
-    }
-
-    const interests = [
-      ...document.querySelectorAll(".pref-interest:checked"),
-    ].map((el) => el.value);
-    const lang =
-      document.querySelector('input[name="appLang"]:checked')?.value || "en";
-    const minInput = document.getElementById("budgetMinInput");
-    const maxInput = document.getElementById("budgetMaxInput");
-    const budgetMin =
-      minInput && minInput.value !== ""
-        ? Number.parseInt(minInput.value, 10)
-        : null;
-    const budgetMax =
-      maxInput && maxInput.value !== ""
-        ? Number.parseInt(maxInput.value, 10)
-        : null;
-
-    if (
-      Number.isInteger(budgetMin) &&
-      Number.isInteger(budgetMax) &&
-      budgetMin > budgetMax
-    ) {
-      return {
-        ok: false,
-        message: "Budget minimum cannot be greater than budget maximum.",
-      };
-    }
-
-    const payload = {
-      interests,
-      budget_min: budgetMin,
-      budget_max: budgetMax,
-      preferred_language: lang,
-    };
-
-    try {
-      await apiPut("/api/auth/preferences/", payload);
-      return { ok: true };
-    } catch (error) {
-      return {
-        ok: false,
-        message: getSettingsErrorMessage(error, "Failed to save settings."),
-      };
-    }
-  }
-
-  function loadNotifSettings() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(NOTIF_KEY) || "{}");
-      toggleIds.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && id in saved) el.checked = saved[id];
-      });
-    } catch {}
-  }
-
-  function saveNotifSettings() {
-    const state = {};
-    toggleIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) state[id] = el.checked;
-    });
-    localStorage.setItem(NOTIF_KEY, JSON.stringify(state));
-  }
-
+  /* ── Init ── */
   document.addEventListener("DOMContentLoaded", () => {
-    loadNotifSettings();
-    loadBackendPreferences();
 
-    // ── Sync radio buttons to current stored values ──────────────────────
-    const savedTheme = localStorage.getItem("tz_theme") || "light";
+    /* Language buttons */
     const savedLang = localStorage.getItem("tz_lang") || "en";
+    document.getElementById(savedLang === "en" ? "langEn" : "langAr")?.classList.add("active");
+    document.getElementById("langEn")?.addEventListener("click", () => setLang("en", savedLang !== "en"));
+    document.getElementById("langAr")?.addEventListener("click", () => setLang("ar", savedLang !== "ar"));
 
-    const themeRadio = document.querySelector(
-      `input[name="appTheme"][value="${savedTheme}"]`,
-    );
-    if (themeRadio) themeRadio.checked = true;
+    /* Theme buttons */
+    const savedTheme = localStorage.getItem("tz_theme") || "light";
+    applyTheme(savedTheme);
+    document.getElementById("themeLight")?.addEventListener("click", () => applyTheme("light"));
+    document.getElementById("themeDark")?.addEventListener("click", () => applyTheme("dark"));
+    document.getElementById("themeAuto")?.addEventListener("click", () => applyTheme("auto"));
 
-    const langRadio = document.querySelector(
-      `input[name="appLang"][value="${savedLang}"]`,
-    );
-    if (langRadio) langRadio.checked = true;
-
-    // ── Theme: apply immediately when radio changes ───────────────────────
-    // toggleTheme() is defined in dashboard_base.html
-    document.querySelectorAll('input[name="appTheme"]').forEach((radio) => {
-      radio.addEventListener("change", () => {
-        if (radio.checked) toggleTheme(radio.value);
+    /* Notification + Privacy toggles */
+    const state = loadToggles();
+    TOGGLE_KEYS.forEach(key => {
+      applyToggleUI(key, state[key]);
+      const el = document.querySelector(`[data-key="${key}"]`);
+      if (!el) return;
+      el.addEventListener("click", () => {
+        const current = loadToggles();
+        current[key] = !current[key];
+        saveToggles(current);
+        applyToggleUI(key, current[key]);
+        markDirty();
       });
     });
 
-    // ── Language: apply immediately when radio changes ────────────────────
-    // applyLang() is defined in dashboard_base.html
-    document.querySelectorAll('input[name="appLang"]').forEach((radio) => {
-      radio.addEventListener("change", () => {
-        if (radio.checked) applyLang(radio.value);
+    /* Clear Cache */
+    document.getElementById("clearCacheBtn")?.addEventListener("click", () => {
+      if (!confirm("Clear temporary data? Your login and settings will be kept.")) return;
+      const keep = ["access", "refresh", "tz_lang", "tz_theme", LS_KEY];
+      Object.keys(localStorage).forEach(k => {
+        if (!keep.includes(k)) localStorage.removeItem(k);
       });
+      showToast("Cache cleared", "success");
     });
 
-    // ── Save button — persists notifications, shows confirmation ─────────
-    document
-      .getElementById("saveSettingsBtn")
-      .addEventListener("click", async () => {
-        const saveBtn = document.getElementById("saveSettingsBtn");
-        saveNotifSettings();
-
-        const okMsg = document.getElementById("settingsSaved");
-        const errMsg = document.getElementById("settingsError");
-        okMsg.classList.add("hidden");
-        errMsg.classList.add("hidden");
-
-        const isArabic = (localStorage.getItem("tz_lang") || "en") === "ar";
-        const savingLabel = isArabic ? "جار الحفظ..." : "Saving...";
-        const saveLabel = isArabic ? "حفظ الإعدادات" : "Save Settings";
-        const defaultHTML = saveBtn.innerHTML;
-
-        saveBtn.disabled = true;
-        saveBtn.textContent = savingLabel;
-
-        const result = await saveBackendPreferences();
-
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = defaultHTML;
-
-        if (!result.ok) {
-          errMsg.textContent = result.message;
-          errMsg.classList.remove("hidden");
-          return;
-        }
-
-        const msg = document.getElementById("settingsSaved");
-        msg.classList.remove("hidden");
-        setTimeout(() => msg.classList.add("hidden"), 2500);
-      });
-
-    // ── Change Password — toggle form visibility ──────────────────────────
-    document.getElementById("togglePwdForm").addEventListener("click", () => {
-      document.getElementById("pwdForm").classList.toggle("hidden");
+    /* Change Password toggle */
+    document.getElementById("togglePwdForm")?.addEventListener("click", () => {
+      const form = document.getElementById("pwdForm");
+      const chevron = document.getElementById("pwdChevron");
+      form?.classList.toggle("hidden");
+      if (chevron) chevron.style.transform = form?.classList.contains("hidden") ? "" : "rotate(180deg)";
     });
 
-    // ── Change Password — submit ──────────────────────────────────────────
-    document.getElementById("submitPwd").addEventListener("click", async () => {
-      const currentPwd = document.getElementById("currentPwd").value.trim();
-      const newPwd = document.getElementById("newPwd").value.trim();
-      const confirmPwd = document.getElementById("confirmPwd").value.trim();
-      const errEl = document.getElementById("pwdError");
-      const successEl = document.getElementById("pwdSuccess");
-
+    /* Change Password submit */
+    document.getElementById("submitPwd")?.addEventListener("click", async () => {
+      const current = document.getElementById("currentPwd").value.trim();
+      const next    = document.getElementById("newPwd").value.trim();
+      const confirm = document.getElementById("confirmPwd").value.trim();
+      const errEl   = document.getElementById("pwdError");
+      const okEl    = document.getElementById("pwdSuccess");
       errEl.classList.add("hidden");
-      successEl.classList.add("hidden");
+      okEl.classList.add("hidden");
 
-      if (!currentPwd || !newPwd || !confirmPwd) {
+      if (!current || !next || !confirm) {
         errEl.textContent = "Please fill in all password fields.";
         errEl.classList.remove("hidden");
         return;
       }
-      if (newPwd !== confirmPwd) {
+      if (next !== confirm) {
         errEl.textContent = "New passwords do not match.";
         errEl.classList.remove("hidden");
         return;
       }
+      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
 
-      if (!isLoggedIn()) {
-        window.location.href = "/login/";
-        return;
-      }
-
+      const btn = document.getElementById("submitPwd");
+      btn.disabled = true;
+      btn.textContent = "Updating…";
       try {
-        await apiPost("/api/auth/change-password/", {
-          current_password: currentPwd,
-          new_password: newPwd,
-        });
-        successEl.classList.remove("hidden");
+        await apiPost("/api/auth/change-password/", { current_password: current, new_password: next });
+        okEl.classList.remove("hidden");
         document.getElementById("currentPwd").value = "";
         document.getElementById("newPwd").value = "";
         document.getElementById("confirmPwd").value = "";
-        setTimeout(
-          () => document.getElementById("pwdForm").classList.add("hidden"),
-          2000,
-        );
-      } catch (error) {
-        errEl.textContent = getSettingsErrorMessage(error);
+        setTimeout(() => document.getElementById("pwdForm")?.classList.add("hidden"), 2000);
+      } catch (err) {
+        errEl.textContent = parseApiError(err?.responseData);
         errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Update Password";
       }
     });
+
+    /* Save button */
+    _savedState = serializeState();
+    _currentState = _savedState;
+
+    document.getElementById("saveSettingsBtn")?.addEventListener("click", async () => {
+      const btn = document.getElementById("saveSettingsBtn");
+      btn.disabled = true;
+      btn.textContent = "Saving…";
+
+      /* Persist notifications/privacy to localStorage (already saved on toggle) */
+      /* Try to sync language preference to backend */
+      if (isLoggedIn()) {
+        try {
+          const lang = localStorage.getItem("tz_lang") || "en";
+          await apiPut("/api/auth/preferences/", { preferred_language: lang });
+        } catch { /* silent — not critical */ }
+      }
+
+      _savedState = serializeState();
+      _currentState = _savedState;
+      btn.disabled = true;
+      btn.textContent = "Save Settings";
+      showToast("Settings saved!", "success");
+    });
+
   });
 </script>
+
 {% endblock %}
-
-

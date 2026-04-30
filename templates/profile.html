@@ -1,261 +1,238 @@
-{% extends "dashboard_base.html" %} {% load static %} {% block title %}Profile |
-Tizahab{% endblock %} {% block content %}
-<div class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
-  <!-- Profile Header Card -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-      <!-- Avatar -->
-      <div
-        id="profileAvatar"
-        class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4D1B76] to-[#7e1ca1] flex items-center justify-center text-white text-2xl font-bold shrink-0">
-        …
-      </div>
+{% extends "dashboard_base.html" %}
+{% load static %}
 
-      <!-- Info -->
-      <div class="flex-1 min-w-0">
-        <h1 id="profileName" class="text-xl font-bold text-gray-900">
-          <span class="nav-label-en">Loading…</span>
-          <span class="nav-label-ar hidden">جار التحميل…</span>
+{% block title %}Profile | Tizahab{% endblock %}
+
+{% block head %}
+<style>
+  .profile-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+  .profile-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 lg:px-6 py-10 pb-16 space-y-8">
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden rounded-2xl py-12 px-6 text-center"
+    style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%)">
+    <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
+    <div class="absolute top-4 left-1/3 w-12 h-12 rounded-full bg-white/5 pointer-events-none"></div>
+    <div class="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-white/10 pointer-events-none"></div>
+
+    <div class="relative space-y-4">
+      <div id="profileAvatar"
+        class="w-20 h-20 rounded-full bg-white/20 border-2 border-white/30 flex items-center justify-center text-white text-2xl font-bold mx-auto select-none">
+        TZ
+      </div>
+      <div>
+        <h1 id="profileName" class="text-2xl font-bold text-white" style="font-family:'Cantata One',serif">
+          Loading…
         </h1>
-        <p id="profileEmail" class="text-sm text-gray-500 mt-0.5">
-          <span class="nav-label-en">Loading profile…</span>
-          <span class="nav-label-ar hidden">📍 الرياض، المملكة العربية السعودية</span>
-        </p>
-
-        <!-- Stats -->
-        <div class="flex gap-8 mt-4">
-          <div>
-            <p id="statPlans" class="text-xl font-bold text-brand">—</p>
-            <p class="text-xs text-gray-500">
-              <span class="nav-label-en">Plans</span>
-              <span class="nav-label-ar hidden">الخطط السابقة</span>
-            </p>
-          </div>
-          <div>
-            <p id="statFavs" class="text-xl font-bold text-brand">0</p>
-            <p class="text-xs text-gray-500">
-              <span class="nav-label-en">Favorites</span>
-              <span class="nav-label-ar hidden">المفضلة</span>
-            </p>
-          </div>
-          <div>
-            <p id="statActivities" class="text-xl font-bold text-brand">—</p>
-            <p class="text-xs text-gray-500">
-              <span class="nav-label-en">Activities</span>
-              <span class="nav-label-ar hidden">الأنشطة</span>
-            </p>
-          </div>
-        </div>
+        <p id="profileEmail" class="text-white/70 text-sm mt-1">Loading profile…</p>
       </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+        <a href="/onboarding/"
+          class="h-10 px-6 rounded-xl border-2 border-white text-white text-sm font-semibold hover:bg-white/10 transition inline-flex items-center justify-center w-full sm:w-auto max-w-xs">
+          Edit Preferences
+        </a>
+        <button id="logoutBtn" type="button"
+          class="h-10 px-6 rounded-xl border-2 border-white text-white text-sm font-semibold hover:bg-white/10 transition inline-flex items-center justify-center w-full sm:w-auto max-w-xs">
+          Logout
+        </button>
+      </div>
+    </div>
+  </section>
 
-      <!-- Edit button -->
-      <a
-        href="/onboarding/"
-        class="shrink-0 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-[#faf5ff] transition">
-        <span class="nav-label-en">Edit Preferences</span>
-        <span class="nav-label-ar hidden">تعديل التفضيلات</span>
-      </a>
+  <!-- ── Stats ── -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center space-y-2">
+      <div class="text-3xl" aria-hidden="true">📅</div>
+      <p id="statPlans" class="text-3xl font-bold text-gray-900">—</p>
+      <p class="text-sm text-gray-500">Plans Created</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center space-y-2">
+      <div class="text-3xl" aria-hidden="true">❤️</div>
+      <p id="statFavs" class="text-3xl font-bold text-gray-900">0</p>
+      <p class="text-sm text-gray-500">Saved Places</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center space-y-2">
+      <div class="text-3xl" aria-hidden="true">🎯</div>
+      <p id="statCategories" class="text-3xl font-bold text-gray-900">—</p>
+      <p class="text-sm text-gray-500">Interests</p>
     </div>
   </div>
 
-  <!-- My Preferences -->
+  <!-- ── My Preferences ── -->
   <section class="space-y-4">
-    <h2 class="text-lg font-semibold text-gray-800">
-      <span class="nav-label-en">My Preferences</span>
-      <span class="nav-label-ar hidden">تفضيلاتي</span>
-    </h2>
+    <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">My Preferences</h2>
     <div id="prefChips" class="flex flex-wrap gap-2">
-      <span class="text-sm text-gray-400">
-        <span class="nav-label-en">Loading preferences…</span>
-        <span class="nav-label-ar hidden">جار تحميل التفضيلات…</span>
-      </span>
+      <span class="text-sm text-gray-400">Loading preferences…</span>
     </div>
   </section>
 
-  <!-- Your Plans -->
+  <!-- ── Plans ── -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-800">
-        <span class="nav-label-en">Plans</span>
-        <span class="nav-label-ar hidden">الخطط السابقة</span>
-      </h2>
-      <a href="/daily-plan/" class="text-sm text-brand hover:underline">
-        <span class="nav-label-en">View all</span>
-        <span class="nav-label-ar hidden">عرض الكل</span>
-      </a>
+      <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Plans</h2>
+      <a href="/daily-plan/" class="text-sm text-violet-600 font-medium hover:underline">View all →</a>
     </div>
-    <div
-      id="pastPlansGrid"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <!-- skeleton -->
-      <div class="h-36 bg-white border rounded-2xl animate-pulse"></div>
-      <div
-        class="h-36 bg-white border rounded-2xl animate-pulse hidden sm:block"></div>
-      <div
-        class="h-36 bg-white border rounded-2xl animate-pulse hidden lg:block"></div>
+    <div id="pastPlansGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="h-44 rounded-2xl bg-white border border-gray-100 animate-pulse"></div>
+      <div class="h-44 rounded-2xl bg-white border border-gray-100 animate-pulse hidden sm:block"></div>
+      <div class="h-44 rounded-2xl bg-white border border-gray-100 animate-pulse hidden lg:block"></div>
     </div>
-    <div id="plansLoadMoreWrap" class="hidden pt-1">
+    <div id="plansLoadMoreWrap" class="hidden pt-2 text-center">
       <button id="plansLoadMoreBtn" type="button"
-        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        <span class="nav-label-en">Load More Plans</span>
-        <span class="nav-label-ar hidden">عرض المزيد من الخطط</span>
+        class="h-11 px-8 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        Load More Plans
       </button>
     </div>
   </section>
 
-  <!-- My Favorites -->
+  <!-- ── My Favorites ── -->
   <section class="space-y-4">
-    <h2 class="text-lg font-semibold text-gray-800">
-      <span class="nav-label-en">My Favorites</span>
-      <span class="nav-label-ar hidden">المفضلة</span>
-    </h2>
-    <div id="favsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <p id="favsEmpty" class="text-sm text-gray-400 col-span-2">
-        <span class="nav-label-en">No favorites saved yet. Heart an event to save it here.</span>
-        <span class="nav-label-ar hidden">لا توجد مفضلة محفوظة بعد. اضغط على القلب لحفظ الفعاليات هنا.</span>
+    <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">My Favorites</h2>
+    <div id="favsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <p id="favsEmpty" class="text-sm text-gray-400 col-span-3">
+        No favorites yet.
+        <a href="/events/page/" class="text-violet-600 hover:underline">Explore places to save them →</a>
       </p>
     </div>
-    <div id="favsLoadMoreWrap" class="hidden pt-1">
+    <div id="favsLoadMoreWrap" class="hidden pt-2 text-center">
       <button id="favsLoadMoreBtn" type="button"
-        class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        <span class="nav-label-en">Load More Favorites</span>
-        <span class="nav-label-ar hidden">عرض المزيد من المفضلة</span>
+        class="h-11 px-8 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+        Load More Favorites
       </button>
     </div>
   </section>
+
 </div>
 
 <script>
-  const CATEGORY_LABELS = {
-    culture: "Culture",
-    heritage: "Heritage",
-    entertainment: "Entertainment",
-    food: "Food",
-    shopping: "Shopping",
-    nature: "Nature",
-    family: "Family",
-    events: "Events",
-  };
-  const CATEGORY_COLORS = {
-    culture: "bg-blue-100 text-blue-700",
-    heritage: "bg-amber-100 text-amber-700",
-    entertainment: "bg-rose-100 text-rose-700",
-    food: "bg-orange-100 text-orange-700",
-    shopping: "bg-purple-100 text-purple-700",
-    nature: "bg-green-100 text-green-700",
-    family: "bg-cyan-100 text-cyan-700",
-    events: "bg-indigo-100 text-indigo-700",
+  const CAT_META = {
+    culture:       { emoji: "🏛️", label: "Culture",       gradient: "linear-gradient(135deg,#ede9fe,#c4b5fd)" },
+    heritage:      { emoji: "🕌", label: "Heritage",      gradient: "linear-gradient(135deg,#fef3c7,#fcd34d)" },
+    food:          { emoji: "🍽️", label: "Food",           gradient: "linear-gradient(135deg,#fff7ed,#fed7aa)" },
+    nature:        { emoji: "🌳", label: "Nature",         gradient: "linear-gradient(135deg,#ecfdf5,#a7f3d0)" },
+    shopping:      { emoji: "🛍️", label: "Shopping",      gradient: "linear-gradient(135deg,#eff6ff,#bfdbfe)" },
+    events:        { emoji: "🎫", label: "Events",         gradient: "linear-gradient(135deg,#fef2f2,#fecaca)" },
+    family:        { emoji: "👨‍👩‍👧", label: "Family",       gradient: "linear-gradient(135deg,#fefce8,#fde047)" },
+    entertainment: { emoji: "🎭", label: "Entertainment", gradient: "linear-gradient(135deg,#fdf2f8,#fbcfe8)" },
   };
 
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-  function redirectToLogin() {
-    window.location.href = "/login/";
+  function escapeHtml(v) {
+    return String(v ?? "")
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
   }
 
-  /* ---- Load current user (name, email) ---- */
+  function redirectToLogin() { window.location.href = "/login/"; }
+
+  async function apiDelete(url) {
+    const token = localStorage.getItem("access");
+    return fetch(url, {
+      method: "DELETE",
+      headers: token ? { Authorization: "Bearer " + token } : {},
+    });
+  }
+
+  /* ── User ── */
   async function loadMe() {
-    if (!isLoggedIn()) {
-      redirectToLogin();
-      return;
-    }
+    if (!isLoggedIn()) { redirectToLogin(); return; }
     try {
       const data = await apiGet("/api/auth/me/");
       if (!data) return;
-
-      // Derive a display name from the email (part before @)
       const displayName =
         data.username && data.username !== data.email
           ? data.username
-          : data.email
-            ? data.email.split("@")[0]
-            : "User";
-
-      // Initials: first two characters of display name, uppercased
-      const initials =
-        displayName
-          .replace(/[^a-zA-Z0-9]/g, "")
-          .slice(0, 2)
-          .toUpperCase() || "TZ";
-
+          : data.email ? data.email.split("@")[0] : "User";
+      const initials = displayName.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "TZ";
       document.getElementById("profileName").textContent = displayName;
-      document.getElementById("profileEmail").textContent =
-        "📧 " + (data.email || "");
+      document.getElementById("profileEmail").textContent = "📧 " + (data.email || "");
       document.getElementById("profileAvatar").textContent = initials;
-    } catch {
-      /* silent */
-    }
+    } catch { /* silent */ }
   }
 
-  /* ---- Load Preferences ---- */
+  /* ── Preferences ── */
   async function loadPrefs() {
-    if (!isLoggedIn()) {
-      redirectToLogin();
-      return;
-    }
+    if (!isLoggedIn()) { redirectToLogin(); return; }
     try {
       const data = await apiGet("/api/auth/preferences/");
       if (!data) return;
-
       const chips = document.getElementById("prefChips");
+      const stat = document.getElementById("statCategories");
       const interests = Array.isArray(data.interests) ? data.interests : [];
+
+      if (stat) stat.textContent = interests.length;
+
       if (!interests.length) {
         chips.innerHTML =
-          '<span class="text-sm text-gray-400">No preferences set. <a href="/onboarding/" class="text-brand underline">Set them now →</a></span>';
+          '<span class="text-sm text-gray-400">No preferences set. <a href="/onboarding/" class="text-violet-600 hover:underline">Set them now →</a></span>';
         return;
       }
       chips.innerHTML = "";
       interests.forEach((cat) => {
-        const color = CATEGORY_COLORS[cat] || "bg-gray-100 text-gray-600";
-        const label = CATEGORY_LABELS[cat] || cat;
+        const m = CAT_META[cat] || { emoji: "🎯", label: cat, gradient: "linear-gradient(135deg,#f3f4f6,#e5e7eb)" };
         const chip = document.createElement("span");
-        chip.className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${color}`;
-        chip.textContent = label;
+        chip.className = "inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-gray-700";
+        chip.style.background = m.gradient;
+        chip.innerHTML = `<span class="select-none">${m.emoji}</span>${escapeHtml(m.label)}`;
         chips.appendChild(chip);
       });
-    } catch {
-      /* silent */
-    }
+    } catch { /* silent */ }
   }
 
-  /* ---- Load Past Plans ---- */
-  let _allPlans = [];
-  let _plansShown = 0;
-  const PLANS_PAGE_SIZE = 3;
+  /* ── Plans ── */
+  let _allPlans = [], _plansShown = 0;
+  const PLANS_PAGE_SIZE = 6;
+
+  function buildPlanCard(plan) {
+    const evCount = Array.isArray(plan.events) ? plan.events.length : 0;
+    const today = new Date().toISOString().slice(0, 10);
+    const isUpcoming = plan.date && plan.date >= today;
+    const headerGradient = isUpcoming
+      ? "linear-gradient(135deg,#ede9fe,#c4b5fd)"
+      : "linear-gradient(135deg,#f3f4f6,#e5e7eb)";
+    const badgeBg    = isUpcoming ? "#f5f3ff" : "#f9fafb";
+    const badgeColor = isUpcoming ? "#7c3aed"  : "#6b7280";
+    const statusLabel = isUpcoming ? "Upcoming" : "Past";
+    const statusClass = isUpcoming ? "text-green-600" : "text-gray-400";
+    const preview = evCount
+      ? plan.events.slice(0, 2).map(e => escapeHtml(e.title || "Activity")).join(" · ") + (evCount > 2 ? " …" : "")
+      : "No activities";
+
+    const card = document.createElement("a");
+    card.href = "/daily-plan/";
+    card.className = "bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition flex flex-col overflow-hidden profile-card";
+    card.innerHTML = `
+      <div class="h-2 shrink-0" style="background:${headerGradient}"></div>
+      <div class="p-5 flex flex-col gap-3 flex-1">
+        <div class="flex items-center justify-between gap-2">
+          <span class="inline-flex items-center h-7 px-3 rounded-full text-xs font-semibold shrink-0"
+            style="background:${badgeBg};color:${badgeColor}">
+            📅 ${escapeHtml(plan.date || "Plan")}
+          </span>
+          <span class="text-xs font-medium shrink-0 ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-800">${evCount} ${evCount === 1 ? "activity" : "activities"}</p>
+          <p class="text-xs text-gray-400 mt-0.5 truncate">${preview}</p>
+        </div>
+        <span class="h-9 w-full rounded-xl text-white text-sm font-semibold inline-flex items-center justify-center"
+          style="background-color:#7c3aed">
+          View Plan
+        </span>
+      </div>
+    `;
+    return card;
+  }
 
   function renderPlanCards(plans, append) {
     const grid = document.getElementById("pastPlansGrid");
     if (!grid) return;
     if (!append) grid.innerHTML = "";
-
-    plans.forEach((plan) => {
-      const evCount = Array.isArray(plan.events) ? plan.events.length : 0;
-      const card = document.createElement("a");
-      card.href = "/daily-plan/";
-      card.className =
-        "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition block space-y-2";
-      card.innerHTML = `
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-semibold text-gray-800">📅 ${escapeHtml(plan.date || "Plan")}</span>
-          <span class="text-xs text-brand font-medium">${evCount} activities</span>
-        </div>
-        <p class="text-xs text-gray-500">${
-          evCount
-            ? plan.events
-                .slice(0, 2)
-                .map((e) => escapeHtml(e.title || "Activity"))
-                .join(", ") + (evCount > 2 ? "…" : "")
-            : "No activities"
-        }</p>
-      `;
-      grid.appendChild(card);
-    });
+    plans.forEach(p => grid.appendChild(buildPlanCard(p)));
   }
 
   function updatePlansLoadMore() {
@@ -269,20 +246,14 @@ Tizahab{% endblock %} {% block content %}
       const data = await apiGet("/api/daily-plan/");
       if (!data) return;
       _allPlans = Array.isArray(data) ? data : data.results || [];
-
-      const stat = document.getElementById("statPlans");
-      stat.textContent = _allPlans.length;
+      const statEl = document.getElementById("statPlans");
+      if (statEl) statEl.textContent = _allPlans.length;
 
       if (!_allPlans.length) {
         document.getElementById("pastPlansGrid").innerHTML =
-          '<p class="text-sm text-gray-400 col-span-3">No plans yet. <a href="/daily-plan/" class="text-brand underline">Create your first plan →</a></p>';
+          '<p class="text-sm text-gray-400 col-span-3">No plans yet. <a href="/daily-plan/" class="text-violet-600 hover:underline">Create your first plan →</a></p>';
         return;
       }
-
-      const totalActivities = _allPlans.reduce((sum, p) =>
-        sum + (Array.isArray(p.events) ? p.events.length : 0), 0);
-      document.getElementById("statActivities").textContent = totalActivities;
-
       _plansShown = 0;
       const first = _allPlans.slice(0, PLANS_PAGE_SIZE);
       _plansShown = first.length;
@@ -298,31 +269,47 @@ Tizahab{% endblock %} {% block content %}
     updatePlansLoadMore();
   }
 
-  /* ---- Load Favorites ---- */
-  let _allFavs = [];
-  let _favsShown = 0;
-  const FAVS_PAGE_SIZE = 4;
+  /* ── Favorites ── */
+  let _allFavs = [], _favsShown = 0;
+  const FAVS_PAGE_SIZE = 6;
 
-  function gmapsUrl(ev) {
-    if (ev.latitude && ev.longitude) return `https://www.google.com/maps/search/?api=1&query=${ev.latitude},${ev.longitude}`;
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((ev.title || "") + " Riyadh")}`;
-  }
+  function buildFavCard(fav) {
+    const ev = fav.event || fav;
+    const cat = ev.category || "events";
+    const m = CAT_META[cat] || { emoji: "🎯", label: cat, gradient: "linear-gradient(135deg,#f3f4f6,#e9eaec)" };
+    const price  = ev.price  ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free";
+    const rating = ev.rating ? "★ " + parseFloat(ev.rating).toFixed(1) : "";
+    const favId  = fav.id ?? ev.id;
+    const evId   = ev.id ?? "";
 
-  function buildFavCard(ev) {
-    const emojiMap = {culture:"🏛️",heritage:"🕌",entertainment:"🎡",food:"🍽️",shopping:"🛍️",nature:"🌿",family:"👨‍👩‍👧",events:"🎫"};
     const card = document.createElement("div");
-    card.className =
-      "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-start gap-3";
+    card.className = "bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col profile-card";
     card.innerHTML = `
-      <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center shrink-0 text-lg">
-        ${emojiMap[ev.category] || "🎯"}
+      <div class="h-28 flex items-center justify-center shrink-0" style="background:${m.gradient}">
+        <span class="text-5xl select-none">${m.emoji}</span>
       </div>
-      <div class="flex-1 min-w-0">
-        <a href="/events/page/${ev.id}/" class="text-sm font-semibold text-gray-800 truncate block hover:text-brand">${escapeHtml(ev.title || "Untitled")}</a>
-        <p class="text-xs text-gray-500 mt-0.5">📍 ${escapeHtml(ev.location || "Riyadh")}</p>
-        <div class="flex items-center gap-3 mt-1">
-          <span class="text-xs text-brand font-medium">${escapeHtml(ev.price ? parseFloat(ev.price).toFixed(0) + " SAR" : "Free")}</span>
-          <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener" class="text-xs text-gray-400 hover:text-gray-600">🗺️ Maps</a>
+      <div class="p-4 flex flex-col gap-3 flex-1">
+        <div class="flex-1">
+          <a href="/events/page/${escapeHtml(String(evId))}/"
+            class="text-sm font-semibold text-gray-900 hover:text-violet-600 line-clamp-2 block leading-snug">
+            ${escapeHtml(ev.title || "Untitled")}
+          </a>
+          <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+            <span class="text-xs px-2 py-0.5 rounded-full font-medium text-gray-600"
+              style="background:${m.gradient}">${escapeHtml(m.label)}</span>
+            ${rating ? `<span class="text-xs text-amber-500 font-medium">${escapeHtml(rating)}</span>` : ""}
+            <span class="text-xs text-gray-400">${escapeHtml(price)}</span>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-auto">
+          <a href="/events/page/${escapeHtml(String(evId))}/"
+            class="flex-1 h-9 rounded-xl bg-violet-600 text-white text-xs font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center">
+            View Details
+          </a>
+          <button type="button" data-fav-remove="${escapeHtml(String(favId))}"
+            class="h-9 w-9 rounded-xl border border-red-100 text-red-400 text-sm hover:bg-red-50 hover:text-red-600 transition inline-flex items-center justify-center shrink-0">
+            ✕
+          </button>
         </div>
       </div>
     `;
@@ -333,7 +320,7 @@ Tizahab{% endblock %} {% block content %}
     const grid = document.getElementById("favsGrid");
     if (!grid) return;
     if (!append) grid.innerHTML = "";
-    favs.forEach((f) => { if (f.event) grid.appendChild(buildFavCard(f.event)); });
+    favs.forEach(f => grid.appendChild(buildFavCard(f)));
   }
 
   function updateFavsLoadMore() {
@@ -343,10 +330,7 @@ Tizahab{% endblock %} {% block content %}
 
   async function loadFavs() {
     if (!isLoggedIn()) { redirectToLogin(); return; }
-
     const stat = document.getElementById("statFavs");
-    const grid = document.getElementById("favsGrid");
-
     try {
       const rows = await apiGet("/api/events/favorites/");
       if (!rows) { if (stat) stat.textContent = "0"; return; }
@@ -354,11 +338,10 @@ Tizahab{% endblock %} {% block content %}
       if (stat) stat.textContent = _allFavs.length;
 
       if (!_allFavs.length) {
-        if (grid) grid.innerHTML =
-          '<p class="text-sm text-gray-400 col-span-2">No favorites saved yet. Heart an event to save it here.</p>';
+        document.getElementById("favsGrid").innerHTML =
+          '<p id="favsEmpty" class="text-sm text-gray-400 col-span-3">No favorites yet. <a href="/events/page/" class="text-violet-600 hover:underline">Explore places to save them →</a></p>';
         return;
       }
-
       _favsShown = 0;
       const first = _allFavs.slice(0, FAVS_PAGE_SIZE);
       _favsShown = first.length;
@@ -376,21 +359,49 @@ Tizahab{% endblock %} {% block content %}
     updateFavsLoadMore();
   }
 
+  /* ── Init ── */
   document.addEventListener("DOMContentLoaded", () => {
-    if (!isLoggedIn()) {
-      redirectToLogin();
-      return;
-    }
+    if (!isLoggedIn()) { redirectToLogin(); return; }
+
     loadMe();
     loadPrefs();
     loadPlans();
     loadFavs();
 
-    document.getElementById("plansLoadMoreBtn")
-      ?.addEventListener("click", loadMorePlans);
-    document.getElementById("favsLoadMoreBtn")
-      ?.addEventListener("click", loadMoreFavs);
+    document.getElementById("plansLoadMoreBtn")?.addEventListener("click", loadMorePlans);
+    document.getElementById("favsLoadMoreBtn")?.addEventListener("click", loadMoreFavs);
+
+    document.getElementById("logoutBtn")?.addEventListener("click", () => {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      window.location.href = "/";
+    });
+
+    document.getElementById("favsGrid")?.addEventListener("click", async e => {
+      const btn = e.target.closest("[data-fav-remove]");
+      if (!btn) return;
+      const favId = btn.dataset.favRemove;
+      if (!favId) return;
+      btn.disabled = true;
+      btn.textContent = "…";
+      try {
+        await apiDelete(`/api/events/favorites/${favId}/`);
+        _allFavs = _allFavs.filter(f => String(f.id) !== String(favId));
+        _favsShown = Math.max(0, _favsShown - 1);
+        btn.closest(".profile-card")?.remove();
+        const stat = document.getElementById("statFavs");
+        if (stat) stat.textContent = _allFavs.length;
+        if (!document.querySelectorAll("#favsGrid .profile-card").length) {
+          document.getElementById("favsGrid").innerHTML =
+            '<p id="favsEmpty" class="text-sm text-gray-400 col-span-3">No favorites yet. <a href="/events/page/" class="text-violet-600 hover:underline">Explore places to save them →</a></p>';
+        }
+        updateFavsLoadMore();
+      } catch {
+        btn.disabled = false;
+        btn.textContent = "✕";
+      }
+    });
   });
 </script>
-{% endblock %}
 
+{% endblock %}
