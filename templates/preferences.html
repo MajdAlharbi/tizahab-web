@@ -5,508 +5,402 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Preferences | Tizahab</title>
+  <meta name="robots" content="noindex, nofollow">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { brand: '#7e1ca1' } } } }
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#7e1ca1', 'brand-dark': '#4D1B76' },
+          fontFamily: { sans: ['Arimo', 'Cairo', 'sans-serif'] }
+        }
+      }
+    }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Cantata+One&family=Arimo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600;700&family=Cantata+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
-  <script src="{% static 'js/api.js' %}"></script>
+  <style>
+    input[type="range"] { accent-color: #7c3aed; cursor: pointer; }
+    .step-panel { transition: opacity 0.22s ease, transform 0.22s ease; }
+    .interest-card:focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }
+  </style>
 </head>
 
 <body class="min-h-screen bg-[#f6f7fb]" style="font-family:'Arimo',sans-serif">
 
-  <header class="bg-white border-b border-gray-100">
-    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shrink-0">
-        <span class="text-white font-bold text-sm">T</span>
-      </div>
-      <span class="font-semibold text-gray-800">Tizahab</span>
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-100 sticky top-0 z-10">
+    <div class="max-w-lg mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-[#7e1ca1] flex items-center justify-center shrink-0">
+          <span class="text-white font-bold text-sm">T</span>
+        </div>
+        <span class="font-semibold text-gray-800 text-sm">Tizahab</span>
+      </a>
+      <a href="/home/" class="text-sm text-gray-400 hover:text-gray-600 transition">Skip for now →</a>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-10 space-y-8">
-    <div class="text-center space-y-2">
-      <h1 class="text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
-        Customize Your Experience
-      </h1>
-      <p class="text-gray-500 text-sm">Pick the tourism themes you care about and we will personalize your Riyadh trip.</p>
+  <main class="max-w-lg mx-auto px-4 py-8 pb-16">
+
+    <!-- Progress -->
+    <div class="flex items-center justify-center gap-3 mb-7">
+      <span id="stepLabel" class="text-xs font-semibold text-gray-400 uppercase tracking-wider w-16 text-right">Step 1 of 5</span>
+      <div class="flex items-center gap-1.5" id="progressDots">
+        <span class="h-2 rounded-full transition-all duration-300" style="width:24px;background:#7c3aed"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-200 transition-all duration-300"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-200 transition-all duration-300"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-200 transition-all duration-300"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-200 transition-all duration-300"></span>
+      </div>
     </div>
 
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-lg font-semibold text-gray-800">Your Interests</h2>
-        <p class="text-sm text-gray-500 mt-0.5">Select all categories that match the kind of trip you want.</p>
-      </div>
+    <!-- Wizard Card -->
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <button type="button" data-cat="culture" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-end p-3"><span class="text-2xl">🏛️</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Culture</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="heritage" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-amber-400 to-orange-600 flex items-end p-3"><span class="text-2xl">🕌</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Heritage</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="entertainment" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-rose-400 to-pink-600 flex items-end p-3"><span class="text-2xl">🎡</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Entertainment</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="food" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-orange-400 to-red-600 flex items-end p-3"><span class="text-2xl">🍽️</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Food</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="shopping" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-purple-400 to-violet-600 flex items-end p-3"><span class="text-2xl">🛍️</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Shopping</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="nature" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-green-400 to-emerald-600 flex items-end p-3"><span class="text-2xl">🌿</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Nature</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="family" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-cyan-400 to-blue-500 flex items-end p-3"><span class="text-2xl">👨‍👩‍👧</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Family</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-
-        <button type="button" data-cat="events" class="interest-card rounded-2xl overflow-hidden border-2 border-transparent hover:border-brand transition-all text-left">
-          <div class="h-24 bg-gradient-to-br from-indigo-400 to-blue-600 flex items-end p-3"><span class="text-2xl">🎫</span></div>
-          <div class="bg-white px-3 py-2.5 flex items-center justify-between">
-            <span class="text-sm font-medium text-gray-800">Events</span>
-            <span class="interest-check hidden w-5 h-5 rounded-full bg-brand text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-          </div>
-        </button>
-      </div>
-    </section>
-
-    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 shadow-sm">
-      <h2 class="text-lg font-semibold text-gray-800">Trip Details</h2>
-      <p class="text-sm text-gray-500">Save your trip length and preferred travel dates here. The Daily Plan page can still override them when needed.</p>
-      <div class="grid sm:grid-cols-2 gap-5">
-        <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">Start Date</label>
-          <input id="tripStartDate" type="date"
-            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+      <!-- ── Step 1: Interests ── -->
+      <div id="step-1" class="step-panel p-6 sm:p-8">
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+            What brings you to Riyadh?
+          </h1>
+          <p class="text-sm text-gray-500 mt-1.5">Pick all that interest you</p>
         </div>
-        <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">End Date</label>
-          <input id="tripEndDate" type="date"
-            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+
+          <button type="button" data-cat="culture" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">
+              <span class="text-4xl select-none leading-none">🏛️</span>
+              <span class="text-xs font-semibold text-gray-700">Culture</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="heritage" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">
+              <span class="text-4xl select-none leading-none">🕌</span>
+              <span class="text-xs font-semibold text-gray-700">Heritage</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="food" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)">
+              <span class="text-4xl select-none leading-none">🍽️</span>
+              <span class="text-xs font-semibold text-gray-700">Food</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="nature" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">
+              <span class="text-4xl select-none leading-none">🌳</span>
+              <span class="text-xs font-semibold text-gray-700">Nature</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="shopping" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe)">
+              <span class="text-4xl select-none leading-none">🛍️</span>
+              <span class="text-xs font-semibold text-gray-700">Shopping</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="events" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#fef2f2,#fecaca)">
+              <span class="text-4xl select-none leading-none">🎫</span>
+              <span class="text-xs font-semibold text-gray-700">Events</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="family" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#fefce8,#fde047)">
+              <span class="text-4xl select-none leading-none">👨‍👩‍👧</span>
+              <span class="text-xs font-semibold text-gray-700">Family</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
+          <button type="button" data-cat="entertainment" class="interest-card relative rounded-2xl overflow-hidden border-2 border-transparent transition-all duration-200 focus:outline-none">
+            <div class="flex flex-col items-center justify-center py-6 px-2 gap-2" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8)">
+              <span class="text-4xl select-none leading-none">🎭</span>
+              <span class="text-xs font-semibold text-gray-700">Entertainment</span>
+            </div>
+            <div class="interest-check absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7c3aed] text-white text-xs font-bold items-center justify-center" style="display:none">✓</div>
+          </button>
+
         </div>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-5">
-        <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">Trip Duration (days)</label>
-          <input id="tripDuration" type="number" min="1" max="30" placeholder="e.g. 3"
-            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
-        </div>
-        <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">Number of Travelers</label>
-          <input id="tripTravelers" type="number" min="1" max="20" placeholder="e.g. 2"
-            class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-brand transition-all bg-gray-50">
+
+        <p id="step1-error" class="hidden text-sm text-red-500 mt-4 text-center"></p>
+
+        <div class="mt-6 pt-4 border-t border-gray-50">
+          <button type="button" id="next-1"
+            class="w-full h-12 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition"
+            style="background-color:#7c3aed"
+            onmouseover="this.style.backgroundColor='#6d28d9'"
+            onmouseout="this.style.backgroundColor='#7c3aed'">
+            Next →
+          </button>
         </div>
       </div>
-    </section>
 
-    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
-      <h2 class="text-lg font-semibold text-gray-800">Age Groups in Your Party</h2>
-      <div class="grid grid-cols-2 gap-3">
-        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
-          <input type="checkbox" value="kids" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">Kids (0-12)</span>
-        </label>
-        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
-          <input type="checkbox" value="teens" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">Teens (13-17)</span>
-        </label>
-        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
-          <input type="checkbox" value="adults" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1" checked>
-          <span class="text-sm text-gray-700">Adults (18-59)</span>
-        </label>
-        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
-          <input type="checkbox" value="seniors" class="age-check w-4 h-4 rounded" style="accent-color:#7e1ca1">
-          <span class="text-sm text-gray-700">Seniors (60+)</span>
-        </label>
-      </div>
-    </section>
-
-    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-800">Budget Range</h2>
-        <span class="text-sm text-brand font-semibold">
-          <span id="budgetMinLabel">0</span> - <span id="budgetMaxLabel">5,000</span> SAR
-        </span>
-      </div>
-      <div class="space-y-4">
-        <div class="space-y-1.5">
-          <label class="text-xs text-gray-500 font-medium">Minimum (SAR)</label>
-          <input id="budgetMin" type="range" min="0" max="5000" step="50" value="0"
-            class="w-full h-2 cursor-pointer rounded-full" style="accent-color:#7e1ca1">
-          <div class="flex justify-between text-xs text-gray-400"><span>0</span><span>5,000</span></div>
+      <!-- ── Step 2: Trip Details ── -->
+      <div id="step-2" class="step-panel hidden p-6 sm:p-8">
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+            When are you visiting?
+          </h1>
+          <p class="text-sm text-gray-500 mt-1.5">Set your travel dates</p>
         </div>
-        <div class="space-y-1.5">
-          <label class="text-xs text-gray-500 font-medium">Maximum (SAR)</label>
-          <input id="budgetMax" type="range" min="500" max="10000" step="100" value="5000"
-            class="w-full h-2 cursor-pointer rounded-full" style="accent-color:#7e1ca1">
-          <div class="flex justify-between text-xs text-gray-400"><span>500</span><span>10,000</span></div>
+
+        <div class="space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700" for="startDate">Start Date</label>
+              <input id="startDate" type="date"
+                class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-[#7c3aed] transition bg-gray-50">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700" for="endDate">End Date</label>
+              <input id="endDate" type="date"
+                class="w-full h-11 rounded-xl border border-gray-200 px-4 text-sm focus:outline-none focus:border-[#7c3aed] transition bg-gray-50">
+            </div>
+          </div>
+
+          <div id="durationBadge"
+            class="hidden text-center py-2.5 px-4 rounded-xl text-sm font-semibold text-[#7c3aed] bg-violet-50 border border-violet-100">
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium text-gray-700">Number of Travelers</label>
+            <div class="flex items-center gap-3">
+              <button type="button" id="travMinus"
+                class="w-11 h-11 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 text-xl font-medium hover:bg-gray-100 transition flex items-center justify-center shrink-0">−</button>
+              <input id="travelers" type="number" min="1" max="20" value="2" readonly
+                class="flex-1 h-11 rounded-xl border border-gray-200 bg-gray-50 text-center text-base font-semibold text-gray-800 focus:outline-none">
+              <button type="button" id="travPlus"
+                class="w-11 h-11 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 text-xl font-medium hover:bg-gray-100 transition flex items-center justify-center shrink-0">+</button>
+            </div>
+          </div>
+        </div>
+
+        <p id="step2-error" class="hidden text-sm text-red-500 mt-4 text-center"></p>
+
+        <div class="mt-6 pt-4 border-t border-gray-50 flex gap-3">
+          <button type="button" id="back-2"
+            class="flex-1 h-12 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+            ← Back
+          </button>
+          <button type="button" id="next-2"
+            class="flex-1 h-12 rounded-xl text-sm font-semibold text-white transition"
+            style="background-color:#7c3aed"
+            onmouseover="this.style.backgroundColor='#6d28d9'"
+            onmouseout="this.style.backgroundColor='#7c3aed'">
+            Next →
+          </button>
         </div>
       </div>
-    </section>
 
-    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-800">Minimum Rating</h2>
-        <span id="ratingLabel" class="text-sm text-brand font-semibold">Any</span>
-      </div>
-      <p class="text-sm text-gray-500">Only show places with at least this rating. Unrated places are still allowed.</p>
-      <div class="flex gap-3 flex-wrap">
-        <button type="button" data-rating="" class="rating-btn h-10 px-5 rounded-full border-2 border-brand bg-purple-100 text-brand text-sm font-medium transition">Any</button>
-        <button type="button" data-rating="3.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">3.0+ ★</button>
-        <button type="button" data-rating="3.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">3.5+ ★</button>
-        <button type="button" data-rating="4.0" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">4.0+ ★</button>
-        <button type="button" data-rating="4.5" class="rating-btn h-10 px-5 rounded-full border-2 border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition">4.5+ ★</button>
-      </div>
-    </section>
+      <!-- ── Step 3: Who's Traveling ── -->
+      <div id="step-3" class="step-panel hidden p-6 sm:p-8">
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+            Who's in your group?
+          </h1>
+          <p class="text-sm text-gray-500 mt-1.5">Helps us recommend age-appropriate activities</p>
+        </div>
 
-    <section class="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
-      <h2 class="text-lg font-semibold text-gray-800">Preferred Language</h2>
-      <div class="flex gap-3">
-        <label class="flex-1">
-          <input type="radio" name="prefLang" value="en" class="hidden peer" checked>
-          <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-            English
+        <div class="grid grid-cols-2 gap-3">
+
+          <label class="age-label flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all" data-age="kids" style="border-color:#e5e7eb">
+            <input type="checkbox" value="kids" class="age-check sr-only">
+            <span class="text-2xl select-none shrink-0">👦</span>
+            <div>
+              <div class="text-sm font-semibold text-gray-800">Kids</div>
+              <div class="text-xs text-gray-400">Ages 0–12</div>
+            </div>
+          </label>
+
+          <label class="age-label flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all" data-age="teens" style="border-color:#e5e7eb">
+            <input type="checkbox" value="teens" class="age-check sr-only">
+            <span class="text-2xl select-none shrink-0">🧑</span>
+            <div>
+              <div class="text-sm font-semibold text-gray-800">Teens</div>
+              <div class="text-xs text-gray-400">Ages 13–17</div>
+            </div>
+          </label>
+
+          <label class="age-label flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all" data-age="adults" style="border-color:#7c3aed;background:#f5f3ff">
+            <input type="checkbox" value="adults" class="age-check sr-only" checked>
+            <span class="text-2xl select-none shrink-0">🧑‍💼</span>
+            <div>
+              <div class="text-sm font-semibold text-gray-800">Adults</div>
+              <div class="text-xs text-gray-400">Ages 18–59</div>
+            </div>
+          </label>
+
+          <label class="age-label flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all" data-age="seniors" style="border-color:#e5e7eb">
+            <input type="checkbox" value="seniors" class="age-check sr-only">
+            <span class="text-2xl select-none shrink-0">👴</span>
+            <div>
+              <div class="text-sm font-semibold text-gray-800">Seniors</div>
+              <div class="text-xs text-gray-400">Ages 60+</div>
+            </div>
+          </label>
+
+        </div>
+
+        <p id="step3-error" class="hidden text-sm text-red-500 mt-4 text-center"></p>
+
+        <div class="mt-6 pt-4 border-t border-gray-50 flex gap-3">
+          <button type="button" id="back-3"
+            class="flex-1 h-12 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+            ← Back
+          </button>
+          <button type="button" id="next-3"
+            class="flex-1 h-12 rounded-xl text-sm font-semibold text-white transition"
+            style="background-color:#7c3aed"
+            onmouseover="this.style.backgroundColor='#6d28d9'"
+            onmouseout="this.style.backgroundColor='#7c3aed'">
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Step 4: Budget & Rating ── -->
+      <div id="step-4" class="step-panel hidden p-6 sm:p-8">
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+            Budget & Quality
+          </h1>
+          <p class="text-sm text-gray-500 mt-1.5">Your daily spend and place preferences</p>
+        </div>
+
+        <div class="space-y-8">
+
+          <!-- Budget sliders -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-gray-700">Budget per day</span>
+              <span id="budgetRangeLabel" class="text-sm font-bold text-[#7c3aed] bg-violet-50 px-3 py-1 rounded-full">
+                0 – 4,000 SAR
+              </span>
+            </div>
+            <div class="space-y-5 px-1">
+              <div class="space-y-2">
+                <div class="flex justify-between text-xs text-gray-400">
+                  <span>Minimum</span>
+                  <span><span id="budgetMinLabel" class="font-semibold text-gray-600">0</span> SAR</span>
+                </div>
+                <input id="budgetMin" type="range" min="0" max="10000" step="100" value="0"
+                  class="w-full h-2 rounded-full" style="accent-color:#7c3aed">
+                <div class="flex justify-between text-xs text-gray-300"><span>0</span><span>10,000</span></div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between text-xs text-gray-400">
+                  <span>Maximum</span>
+                  <span><span id="budgetMaxLabel" class="font-semibold text-gray-600">4,000</span> SAR</span>
+                </div>
+                <input id="budgetMax" type="range" min="0" max="10000" step="100" value="4000"
+                  class="w-full h-2 rounded-full" style="accent-color:#7c3aed">
+                <div class="flex justify-between text-xs text-gray-300"><span>0</span><span>10,000</span></div>
+              </div>
+            </div>
           </div>
-        </label>
-        <label class="flex-1">
-          <input type="radio" name="prefLang" value="ar" class="hidden peer">
-          <div class="peer-checked:border-brand peer-checked:bg-[#faf5ff] peer-checked:text-brand border-2 border-gray-200 rounded-xl p-3 text-center text-sm font-medium cursor-pointer transition-all hover:bg-gray-50">
-            العربية
+
+          <!-- Rating pills -->
+          <div class="space-y-3">
+            <span class="text-sm font-semibold text-gray-700">Minimum Rating</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="rating-pill h-9 px-4 rounded-full border-2 text-sm font-medium transition" data-rating=""
+                style="border-color:#7c3aed;background:#f5f3ff;color:#7c3aed">Any</button>
+              <button type="button" class="rating-pill h-9 px-4 rounded-full border-2 text-sm font-medium transition" data-rating="3.0"
+                style="border-color:#e5e7eb;background:white;color:#4b5563">3.0+ ★</button>
+              <button type="button" class="rating-pill h-9 px-4 rounded-full border-2 text-sm font-medium transition" data-rating="3.5"
+                style="border-color:#e5e7eb;background:white;color:#4b5563">3.5+ ★</button>
+              <button type="button" class="rating-pill h-9 px-4 rounded-full border-2 text-sm font-medium transition" data-rating="4.0"
+                style="border-color:#e5e7eb;background:white;color:#4b5563">4.0+ ★</button>
+              <button type="button" class="rating-pill h-9 px-4 rounded-full border-2 text-sm font-medium transition" data-rating="4.5"
+                style="border-color:#e5e7eb;background:white;color:#4b5563">4.5+ ★</button>
+            </div>
           </div>
-        </label>
+
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-gray-50 flex gap-3">
+          <button type="button" id="back-4"
+            class="flex-1 h-12 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+            ← Back
+          </button>
+          <button type="button" id="next-4"
+            class="flex-1 h-12 rounded-xl text-sm font-semibold text-white transition"
+            style="background-color:#7c3aed"
+            onmouseover="this.style.backgroundColor='#6d28d9'"
+            onmouseout="this.style.backgroundColor='#7c3aed'">
+            Next →
+          </button>
+        </div>
       </div>
-    </section>
 
-    <p id="prefMessage" class="text-center text-sm text-green-600 hidden font-medium"></p>
-    <p id="prefError" class="text-center text-sm text-red-500 hidden"></p>
+      <!-- ── Step 5: Language & Summary ── -->
+      <div id="step-5" class="step-panel hidden p-6 sm:p-8">
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+            Almost ready!
+          </h1>
+          <p class="text-sm text-gray-500 mt-1.5">Choose your language and confirm</p>
+        </div>
 
-    <div class="flex gap-4 pb-4">
-      <a href="/home/" class="flex-1 h-12 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center">
-        Back
-      </a>
-      <button id="savePrefsBtn" type="button" class="flex-1 h-12 rounded-xl bg-brand text-white text-sm font-semibold hover:opacity-90 transition">
-        Save Preferences
-      </button>
-    </div>
-    <div class="text-center pb-8">
-      <a href="/home/" class="text-sm text-gray-400 hover:text-gray-600 transition">Skip for now →</a>
-    </div>
+        <div class="space-y-6">
+
+          <!-- Language -->
+          <div class="space-y-3">
+            <span class="text-sm font-semibold text-gray-700">Preferred Language</span>
+            <div class="flex gap-3">
+              <button type="button" class="lang-btn flex-1 h-12 rounded-xl border-2 text-sm font-semibold transition" data-lang="en"
+                style="border-color:#7c3aed;background:#f5f3ff;color:#7c3aed">English</button>
+              <button type="button" class="lang-btn flex-1 h-12 rounded-xl border-2 text-sm font-semibold transition" data-lang="ar"
+                style="border-color:#e5e7eb;background:white;color:#374151">العربية</button>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100"></div>
+
+          <!-- Summary card -->
+          <div class="rounded-2xl bg-gray-50 border border-gray-100 p-5">
+            <p class="text-sm font-semibold text-gray-700 mb-4">Your Preferences Summary</p>
+            <div id="summaryContent" class="space-y-3 text-sm"></div>
+          </div>
+
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-gray-50 flex gap-3">
+          <button type="button" id="back-5"
+            class="h-12 px-5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition shrink-0">
+            ← Back
+          </button>
+          <button type="button" id="submit-btn"
+            class="flex-1 h-12 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition"
+            style="background-color:#7c3aed"
+            onmouseover="this.style.backgroundColor='#6d28d9'"
+            onmouseout="this.style.backgroundColor='#7c3aed'">
+            Generate My Plan →
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /wizard card -->
+
+    <p id="pref-message" class="hidden text-sm text-center mt-4 rounded-xl py-2.5 px-4"></p>
+
   </main>
 
-  <script>
-    const selectedCards = new Set();
-    const tripDurationInput = document.getElementById("tripDuration");
-    const tripStartDateInput = document.getElementById("tripStartDate");
-    const tripEndDateInput = document.getElementById("tripEndDate");
-    const prefErrorEl = document.getElementById("prefError");
-
-    if (tripDurationInput) {
-      tripDurationInput.readOnly = true;
-      tripDurationInput.setAttribute("aria-readonly", "true");
-    }
-
-    function syncTripDurationFromDates() {
-      if (!tripDurationInput || !tripStartDateInput || !tripEndDateInput) return;
-
-      const startDate = tripStartDateInput.value;
-      const endDate = tripEndDateInput.value;
-
-      if (!startDate || !endDate) {
-        tripDurationInput.value = "";
-        return;
-      }
-
-      if (endDate < startDate) {
-        tripDurationInput.value = "";
-        if (prefErrorEl) {
-          prefErrorEl.textContent = "End date must be on or after start date.";
-          prefErrorEl.classList.remove("hidden");
-        }
-        return;
-      }
-
-      const start = new Date(`${startDate}T00:00:00`);
-      const end = new Date(`${endDate}T00:00:00`);
-      const duration = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
-      tripDurationInput.value = String(duration);
-      if (prefErrorEl && prefErrorEl.textContent === "End date must be on or after start date.") {
-        prefErrorEl.classList.add("hidden");
-        prefErrorEl.textContent = "";
-      }
-    }
-
-    tripStartDateInput?.addEventListener("change", syncTripDurationFromDates);
-    tripEndDateInput?.addEventListener("change", syncTripDurationFromDates);
-
-    document.querySelectorAll(".interest-card").forEach(card => {
-      card.addEventListener("click", () => {
-        const check = card.querySelector(".interest-check");
-        if (selectedCards.has(card)) {
-          selectedCards.delete(card);
-          card.classList.remove("border-brand");
-          check.classList.add("hidden");
-        } else {
-          selectedCards.add(card);
-          card.classList.add("border-brand");
-          check.classList.remove("hidden");
-        }
-      });
-    });
-
-    let selectedRating = null;
-
-    document.querySelectorAll(".rating-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        selectedRating = btn.dataset.rating || null;
-        document.getElementById("ratingLabel").textContent = selectedRating ? `${selectedRating}+ ★` : "Any";
-        document.querySelectorAll(".rating-btn").forEach(b => {
-          const active = b.dataset.rating === (selectedRating || "");
-          b.classList.toggle("border-brand", active);
-          b.classList.toggle("bg-purple-100", active);
-          b.classList.toggle("text-brand", active);
-          b.classList.toggle("border-gray-200", !active);
-          b.classList.toggle("bg-white", !active);
-          b.classList.toggle("text-gray-700", !active);
-        });
-      });
-    });
-
-    const budgetMin = document.getElementById("budgetMin");
-    const budgetMax = document.getElementById("budgetMax");
-    const budgetMinLabel = document.getElementById("budgetMinLabel");
-    const budgetMaxLabel = document.getElementById("budgetMaxLabel");
-
-    budgetMin.addEventListener("input", () => {
-      budgetMinLabel.textContent = parseInt(budgetMin.value).toLocaleString();
-      if (+budgetMin.value > +budgetMax.value) {
-        budgetMax.value = budgetMin.value;
-        budgetMaxLabel.textContent = budgetMinLabel.textContent;
-      }
-    });
-    budgetMax.addEventListener("input", () => {
-      budgetMaxLabel.textContent = parseInt(budgetMax.value).toLocaleString();
-      if (+budgetMax.value < +budgetMin.value) {
-        budgetMin.value = budgetMax.value;
-        budgetMinLabel.textContent = budgetMaxLabel.textContent;
-      }
-    });
-
-    function getPreferencesErrorMessage(err) {
-      const fromResponse =
-        typeof extractApiErrorMessage === "function"
-          ? extractApiErrorMessage(err?.responseData, "")
-          : "";
-      const fromError = typeof err?.message === "string" ? err.message.trim() : "";
-
-      if (fromResponse) return fromResponse;
-      if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
-      return "Something went wrong. Please try again.";
-    }
-
-    function buildPreferencesPayload() {
-      const interests = [...new Set([...selectedCards].map(c => c.dataset.cat))];
-      const lang = document.querySelector('input[name="prefLang"]:checked')?.value || "en";
-      const rawDuration = parseInt(document.getElementById("tripDuration")?.value, 10) || 1;
-      const tripDuration = Math.max(1, Math.min(30, rawDuration));
-      const startDate = document.getElementById("tripStartDate")?.value || null;
-      const endDate = document.getElementById("tripEndDate")?.value || null;
-      const budgetMinValue = parseInt(budgetMin.value, 10);
-      const budgetMaxValue = parseInt(budgetMax.value, 10);
-      const apiStartDate = toISODate(startDate);
-      const apiEndDate = toISODate(endDate);
-
-      return {
-        payload: {
-          interests,
-          budget_min: budgetMinValue,
-          budget_max: budgetMaxValue,
-          preferred_language: lang,
-          min_rating: selectedRating ? parseFloat(selectedRating) : null,
-          trip_duration: tripDuration,
-          start_date: apiStartDate,
-          end_date: apiEndDate,
-        },
-        raw: {
-          tripDuration,
-          startDate,
-          endDate,
-          budgetMinValue,
-          budgetMaxValue,
-        },
-      };
-    }
-
-    function validatePreferencesPayload(payload, raw) {
-      if (!Array.isArray(payload.interests) || payload.interests.length === 0) {
-        return "Please select at least one interest before saving.";
-      }
-      if (!Number.isFinite(raw.budgetMinValue) || !Number.isFinite(raw.budgetMaxValue)) {
-        return "Budget values are invalid. Please adjust them and try again.";
-      }
-      if (raw.budgetMinValue > raw.budgetMaxValue) {
-        return "Minimum budget cannot be greater than maximum budget.";
-      }
-      if (raw.startDate && raw.endDate && raw.endDate < raw.startDate) {
-        return "End date must be on or after start date.";
-      }
-      return "";
-    }
-
-    async function loadPreferences() {
-      if (!isLoggedIn()) return;
-      try {
-        const data = await apiGet("/api/auth/preferences/");
-        if (!data) return;
-
-        const interests = Array.isArray(data.interests) ? data.interests : [];
-        document.querySelectorAll(".interest-card").forEach(card => {
-          if (interests.includes(card.dataset.cat)) {
-            selectedCards.add(card);
-            card.classList.add("border-brand");
-            card.querySelector(".interest-check").classList.remove("hidden");
-          }
-        });
-
-        if (data.budget_min != null) {
-          budgetMin.value = data.budget_min;
-          budgetMinLabel.textContent = parseInt(data.budget_min).toLocaleString();
-        }
-        if (data.budget_max != null) {
-          budgetMax.value = data.budget_max;
-          budgetMaxLabel.textContent = parseInt(data.budget_max).toLocaleString();
-        }
-        if (data.min_rating != null) {
-          selectedRating = String(data.min_rating);
-          document.getElementById("ratingLabel").textContent = `${selectedRating}+ ★`;
-          document.querySelectorAll(".rating-btn").forEach(b => {
-            const active = b.dataset.rating === selectedRating;
-            b.classList.toggle("border-brand", active);
-            b.classList.toggle("bg-purple-100", active);
-            b.classList.toggle("text-brand", active);
-            b.classList.toggle("border-gray-200", !active);
-            b.classList.toggle("bg-white", !active);
-            b.classList.toggle("text-gray-700", !active);
-          });
-        }
-        if (data.preferred_language) {
-          const radio = document.querySelector(`input[name="prefLang"][value="${data.preferred_language}"]`);
-          if (radio) radio.checked = true;
-        }
-        if (data.trip_duration) {
-          const durInput = document.getElementById("tripDuration");
-          if (durInput) durInput.value = data.trip_duration;
-          localStorage.setItem("tz_trip_duration", String(data.trip_duration));
-        }
-        const startDateInput = document.getElementById("tripStartDate");
-        const endDateInput = document.getElementById("tripEndDate");
-        if (startDateInput) startDateInput.value = data.start_date || "";
-        if (endDateInput) endDateInput.value = data.end_date || "";
-        syncTripDurationFromDates();
-      } catch (err) {
-        console.error("Preferences: failed to load existing preferences", err);
-      }
-    }
-    loadPreferences();
-
-    const storedDuration = parseInt(localStorage.getItem("tz_trip_duration") || "");
-    if (storedDuration > 0) {
-      const durInput = document.getElementById("tripDuration");
-      if (durInput && !durInput.value) durInput.value = storedDuration;
-    }
-
-    const savePrefsBtn = document.getElementById("savePrefsBtn");
-
-    async function handleSavePreferencesClick() {
-      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
-
-      const msgEl = document.getElementById("prefMessage");
-      const errEl = document.getElementById("prefError");
-      const btn = savePrefsBtn;
-      const { payload, raw } = buildPreferencesPayload();
-      const validationError = validatePreferencesPayload(payload, raw);
-
-      if (validationError) {
-        console.error("Preferences: validation failed", validationError, payload);
-        errEl.textContent = validationError;
-        errEl.classList.remove("hidden");
-        msgEl.classList.add("hidden");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = "Saving...";
-      msgEl.classList.add("hidden");
-      errEl.classList.add("hidden");
-
-      try {
-        await apiPost("/api/auth/preferences/", payload);
-        localStorage.setItem("tz_trip_duration", String(raw.tripDuration));
-        if (raw.startDate) {
-          localStorage.setItem("tz_plan_start_date", raw.startDate);
-          if (raw.endDate) {
-            localStorage.setItem("tz_plan_end_date", raw.endDate);
-          } else {
-            localStorage.removeItem("tz_plan_end_date");
-          }
-        } else {
-          localStorage.removeItem("tz_plan_start_date");
-          localStorage.removeItem("tz_plan_end_date");
-        }
-        msgEl.textContent = "Preferences saved! Redirecting...";
-        msgEl.classList.remove("hidden");
-        setTimeout(() => { window.location.href = "/home/"; }, 1200);
-      } catch (err) {
-        console.error("Preferences: save failed", err, payload);
-        errEl.textContent = getPreferencesErrorMessage(err);
-        errEl.classList.remove("hidden");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Save Preferences";
-      }
-    }
-
-    if (savePrefsBtn) {
-      savePrefsBtn.addEventListener("click", handleSavePreferencesClick);
-    } else {
-      console.error("Preferences: Save button not found");
-    }
-  </script>
+  <script src="{% static 'js/api.js' %}"></script>
+  <script src="{% static 'js/preferences.js' %}"></script>
 
 </body>
 </html>

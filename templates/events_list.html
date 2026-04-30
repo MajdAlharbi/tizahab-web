@@ -1,158 +1,190 @@
-{% extends "dashboard_base.html" %} {% load static %} {% block title %}Events |
-Tizahab{% endblock %} {% block head %}
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Discover Riyadh | Tizahab{% endblock %}
+
+{% block head %}
 <style>
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .cat-pill { transition: all 0.18s ease; cursor: pointer; }
+  .cat-pill:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .event-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+  .event-card:hover { transform: translateY(-2px); }
+  @keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
   }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+  .skeleton-pulse { animation: skeleton-pulse 1.5s ease-in-out infinite; }
 </style>
-{% endblock %} {% block content %}
-<div class="px-4 lg:px-6 py-6 max-w-[1100px] mx-auto space-y-8">
-  <div class="flex items-center justify-between gap-3 flex-wrap">
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900">
-        <span class="nav-label-en">Events &amp; Experiences</span>
-        <span class="nav-label-ar hidden">الفعاليات والتجارب</span>
-      </h1>
-      <p class="text-sm text-gray-500 mt-0.5">
-        <span class="nav-label-en">Discover tourism-ready places and events in Riyadh</span>
-        <span class="nav-label-ar hidden">اكتشف أماكن وفعاليات سياحية في الرياض</span>
-      </p>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ── -->
+<section class="relative overflow-hidden py-12 sm:py-16" style="background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 55%,#a78bfa 100%)">
+  <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/10 pointer-events-none"></div>
+  <div class="absolute top-6 left-1/3 w-16 h-16 rounded-full bg-white/5 pointer-events-none"></div>
+  <div class="absolute -bottom-8 -left-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"></div>
+
+  <div class="relative max-w-2xl mx-auto px-4 text-center space-y-5">
+    <div class="inline-flex items-center gap-1.5 bg-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full">
+      ✨ 300+ places &amp; experiences
     </div>
-    <div class="flex items-center gap-2">
-      <div class="hidden sm:flex items-center gap-2 h-10 w-[280px] rounded-xl border px-3 bg-white">
-        <span class="text-gray-400">🔍</span>
-        <input id="searchInput" class="w-full outline-none text-sm bg-transparent"
-          data-placeholder-en="Search places, events..."
-          data-placeholder-ar="ابحث عن أماكن وفعاليات..."
-          placeholder="Search places, events..." />
-      </div>
+    <h1 class="text-3xl sm:text-4xl font-bold text-white" style="font-family:'Cantata One',serif">
+      Discover Riyadh
+    </h1>
+    <p class="text-white/75 text-sm sm:text-base">Museums, restaurants, nature escapes and more</p>
+    <div class="flex items-center gap-2 h-13 bg-white rounded-2xl px-4 shadow-xl max-w-md mx-auto" style="height:52px">
+      <span class="text-gray-400 text-lg shrink-0">🔍</span>
+      <input id="searchInput" type="text" placeholder="Search places, events…"
+        class="flex-1 outline-none text-sm bg-transparent text-gray-800 placeholder-gray-400 min-w-0"
+        autocomplete="off">
+      <button id="clearSearchBtn" type="button"
+        class="hidden text-gray-300 hover:text-gray-500 transition text-xl leading-none shrink-0">×</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Page content ── -->
+<div class="max-w-[1200px] mx-auto px-4 py-8 space-y-10 pb-16">
+
+  <!-- Category pills -->
+  <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
+    <div class="flex gap-2.5 pb-1 w-max">
+
+      <button type="button" data-cat="" data-gradient="#7c3aed" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
+        ✦ All Places
+      </button>
+      <button type="button" data-cat="culture" data-gradient="linear-gradient(135deg,#ede9fe,#c4b5fd)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">
+        🏛️ Culture
+      </button>
+      <button type="button" data-cat="heritage" data-gradient="linear-gradient(135deg,#fef3c7,#fcd34d)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">
+        🕌 Heritage
+      </button>
+      <button type="button" data-cat="food" data-gradient="linear-gradient(135deg,#fff7ed,#fed7aa)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)">
+        🍽️ Food
+      </button>
+      <button type="button" data-cat="nature" data-gradient="linear-gradient(135deg,#ecfdf5,#a7f3d0)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">
+        🌳 Nature
+      </button>
+      <button type="button" data-cat="shopping" data-gradient="linear-gradient(135deg,#eff6ff,#bfdbfe)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe)">
+        🛍️ Shopping
+      </button>
+      <button type="button" data-cat="events" data-gradient="linear-gradient(135deg,#fef2f2,#fecaca)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fef2f2,#fecaca)">
+        🎫 Events
+      </button>
+      <button type="button" data-cat="family" data-gradient="linear-gradient(135deg,#fefce8,#fde047)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fefce8,#fde047)">
+        👨‍👩‍👧 Family
+      </button>
+      <button type="button" data-cat="entertainment" data-gradient="linear-gradient(135deg,#fdf2f8,#fbcfe8)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8)">
+        🎭 Entertainment
+      </button>
+
     </div>
   </div>
 
-  <div class="sm:hidden">
-    <div class="flex items-center gap-2 h-10 rounded-xl border px-3 bg-white">
-      <span class="text-gray-400">🔍</span>
-      <input id="searchInputMobile" class="w-full outline-none text-sm bg-transparent"
-        data-placeholder-en="Search places, events..."
-        data-placeholder-ar="ابحث عن أماكن وفعاليات..."
-        placeholder="Search places, events..." />
-    </div>
-  </div>
-
+  <!-- Trending Places -->
   <section class="space-y-4">
     <div class="flex items-center justify-between">
+      <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">🔥 Trending Places</h2>
       <div class="flex items-center gap-2">
-        <span>🔥</span>
-        <h2 class="text-lg font-semibold">
-          <span class="nav-label-en">Trending Places</span>
-          <span class="nav-label-ar hidden">الأماكن الرائجة</span>
-        </h2>
-      </div>
-      <div class="flex items-center gap-2">
-        <button id="trendPrev" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">‹</button>
-        <button id="trendNext" class="h-10 w-10 rounded-xl border bg-white hover:bg-gray-50">›</button>
+        <button id="trendPrev" type="button"
+          class="w-9 h-9 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-600 text-lg flex items-center justify-center">‹</button>
+        <button id="trendNext" type="button"
+          class="w-9 h-9 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-600 text-lg flex items-center justify-center">›</button>
       </div>
     </div>
     <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
-      <div class="min-w-[320px] h-52 bg-white border rounded-2xl animate-pulse flex-shrink-0"></div>
+      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"></div>
+      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"></div>
+      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)"></div>
+      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)"></div>
     </div>
   </section>
 
-  <section class="space-y-3">
-    <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold">
-        <span class="nav-label-en">Map</span>
-        <span class="nav-label-ar hidden">الخريطة</span>
-      </h2>
-      <span class="text-sm text-gray-500">
-        <span class="nav-label-en">Click a pin to see details</span>
-        <span class="nav-label-ar hidden">اضغط على العلامة لرؤية التفاصيل</span>
-      </span>
-    </div>
-    <div class="relative rounded-2xl overflow-hidden" style="height: 380px">
-      <div id="eventsMap" class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50" style="height: 380px"></div>
-    </div>
-  </section>
-
-  <section class="flex items-center justify-between gap-3 flex-wrap">
-    <div class="flex gap-2 flex-wrap">
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-purple-100 text-brand border-brand text-sm font-medium" data-cat="">
-        <span class="nav-label-en">All</span>
-        <span class="nav-label-ar hidden">الكل</span>
-      </button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="culture">🏛️ Culture</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="heritage">🕌 Heritage</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="entertainment">🎡 Entertainment</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="food">🍽️ Food</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="shopping">🛍️ Shopping</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="nature">🌿 Nature</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="family">👨‍👩‍👧 Family</button>
-      <button class="cat-filter-btn h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50" data-cat="events">🎫 Events</button>
-    </div>
-    <button id="prefBtn" type="button" class="h-9 px-4 rounded-full border bg-white text-gray-700 text-sm font-medium hover:bg-gray-50">
-      ♡ <span class="nav-label-en">Favorites</span><span class="nav-label-ar hidden">المفضلة</span>
-    </button>
-  </section>
-
-  <section id="favoritesSection" class="hidden space-y-4">
-    <div class="flex items-center justify-between border-b border-black/10 pb-3">
-      <h2 class="text-lg font-semibold">
-        <span class="nav-label-en">Favorites</span>
-        <span class="nav-label-ar hidden">المفضلة</span>
-      </h2>
-      <span id="favoritesCount" class="text-sm text-gray-500"></span>
-    </div>
-    <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
-  </section>
-
-  <section id="allEventsSection" class="space-y-4">
-    <div class="flex items-end justify-between gap-3">
-      <div>
-        <h2 class="text-lg font-semibold">
-          <span class="nav-label-en">All Places</span>
-          <span class="nav-label-ar hidden">كل الأماكن</span>
-        </h2>
-        <p id="countText" class="text-sm text-gray-500"></p>
+  <!-- All Places -->
+  <section id="allEventsSection" class="space-y-5">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-baseline gap-3">
+        <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">All Places</h2>
+        <span id="countText" class="text-sm text-gray-400"></span>
       </div>
-      <div class="text-sm text-gray-400" id="loadingText"></div>
+      <button id="prefBtn" type="button"
+        class="flex items-center gap-1.5 h-9 px-4 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+        ♡ Favorites
+      </button>
     </div>
-    <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
-      <div class="h-64 bg-white border rounded-2xl animate-pulse"></div>
+
+    <!-- Favorites panel -->
+    <section id="favoritesSection" class="hidden space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <span class="text-sm font-semibold text-gray-700">Your Favorites</span>
+        <span id="favoritesCount" class="text-xs text-gray-400"></span>
+      </div>
+      <div id="favoritesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Events grid -->
+    <div id="eventsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="rounded-2xl border border-gray-100 overflow-hidden skeleton-pulse">
+        <div class="h-24" style="background:linear-gradient(135deg,#f3f4f6,#e9eaec)"></div>
+        <div class="p-3.5 space-y-2"><div class="h-3 bg-gray-100 rounded-full w-4/5"></div><div class="h-3 bg-gray-100 rounded-full w-1/2 mt-1"></div><div class="h-7 bg-gray-100 rounded-xl mt-3"></div></div>
+      </div>
+      <div class="rounded-2xl border border-gray-100 overflow-hidden skeleton-pulse">
+        <div class="h-24" style="background:linear-gradient(135deg,#f3f4f6,#e9eaec)"></div>
+        <div class="p-3.5 space-y-2"><div class="h-3 bg-gray-100 rounded-full w-4/5"></div><div class="h-3 bg-gray-100 rounded-full w-1/2 mt-1"></div><div class="h-7 bg-gray-100 rounded-xl mt-3"></div></div>
+      </div>
+      <div class="rounded-2xl border border-gray-100 overflow-hidden skeleton-pulse hidden sm:block">
+        <div class="h-24" style="background:linear-gradient(135deg,#f3f4f6,#e9eaec)"></div>
+        <div class="p-3.5 space-y-2"><div class="h-3 bg-gray-100 rounded-full w-4/5"></div><div class="h-3 bg-gray-100 rounded-full w-1/2 mt-1"></div><div class="h-7 bg-gray-100 rounded-xl mt-3"></div></div>
+      </div>
+      <div class="rounded-2xl border border-gray-100 overflow-hidden skeleton-pulse hidden lg:block">
+        <div class="h-24" style="background:linear-gradient(135deg,#f3f4f6,#e9eaec)"></div>
+        <div class="p-3.5 space-y-2"><div class="h-3 bg-gray-100 rounded-full w-4/5"></div><div class="h-3 bg-gray-100 rounded-full w-1/2 mt-1"></div><div class="h-7 bg-gray-100 rounded-xl mt-3"></div></div>
+      </div>
     </div>
-    <div id="loadMoreWrap" class="hidden pt-1">
-      <button id="loadMoreBtn" type="button" class="w-full h-11 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-        <span class="nav-label-en">Load More</span>
-        <span class="nav-label-ar hidden">عرض المزيد</span>
+
+    <!-- Load More -->
+    <div id="loadMoreWrap" class="hidden pt-2 text-center">
+      <button id="loadMoreBtn" type="button"
+        class="h-11 px-8 rounded-xl text-sm font-semibold text-white inline-flex items-center gap-2 transition"
+        style="background-color:#7c3aed"
+        onmouseover="this.style.backgroundColor='#6d28d9'"
+        onmouseout="this.style.backgroundColor='#7c3aed'">
+        Load More
       </button>
     </div>
   </section>
-</div>
-{% endblock %} {% block scripts %}
-<script>
-  document.querySelector('[data-cat=""]')?.addEventListener("click", () => {
-    document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
-      const isAll = btn.dataset.cat === "";
-      btn.classList.toggle("bg-purple-100", isAll);
-      btn.classList.toggle("text-brand", isAll);
-      btn.classList.toggle("border-brand", isAll);
-      btn.classList.toggle("bg-white", !isAll);
-      btn.classList.toggle("text-gray-700", !isAll);
-    });
-  });
-</script>
+
+  <!-- Map Section (collapsible) -->
+  <section class="pb-2 space-y-3">
+    <button id="mapToggleBtn" type="button"
+      class="w-full flex items-center justify-between h-12 px-5 rounded-2xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+      <span class="flex items-center gap-2">📍 View All on Map →</span>
+      <span id="mapChevron" class="text-gray-400 transition-transform text-xs">▼</span>
+    </button>
+    <div id="mapContainer" class="hidden space-y-2">
+      <div class="rounded-2xl overflow-hidden border border-gray-100 shadow-sm" style="height:360px">
+        <div id="eventsMap"
+          class="w-full h-full bg-gradient-to-br from-purple-50 via-gray-100 to-blue-50"
+          style="height:360px"></div>
+      </div>
+      <button id="hideMapBtn" type="button"
+        class="text-xs text-gray-400 hover:text-gray-600 transition flex items-center gap-1 mx-auto py-1">
+        ▲ Hide Map
+      </button>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+{% endblock %}
+
+{% block scripts %}
 <script src="{% static 'js/map.js' %}"></script>
 <script src="{% static 'js/events.js' %}"></script>
 <script
   src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initEventsMap"
-  async
-  defer></script>
+  async defer></script>
 {% endblock %}
