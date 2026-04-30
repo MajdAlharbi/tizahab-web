@@ -16,6 +16,7 @@
     50%       { opacity: 0.5; }
   }
   .skeleton-pulse { animation: skeleton-pulse 1.5s ease-in-out infinite; }
+  .cat-pill.active { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; font-weight: 600; }
 </style>
 {% endblock %}
 
@@ -53,7 +54,7 @@
   <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
     <div class="flex gap-2.5 pb-1 w-max">
 
-      <button type="button" data-cat="" data-gradient="#7c3aed" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
+      <button type="button" data-cat="" data-gradient="#f5f3ff" class="cat-pill active flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
         ✦ All Places
       </button>
       <button type="button" data-cat="culture" data-gradient="linear-gradient(135deg,#ede9fe,#c4b5fd)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">

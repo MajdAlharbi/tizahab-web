@@ -1,8 +1,20 @@
-// ======================
-//  Utilities
-// ======================
-// Auth helpers (getToken, apiGet, catLabel, catEmoji, catColor) come from api.js
+// Auth helpers (getToken, apiGet, apiPost, apiDelete, catLabel, catEmoji, catColor) come from api.js
 const SELECTED_PLAN_DATE_STORAGE_KEY = "tz_selected_plan_date";
+
+const CAT_GRADIENTS = {
+  culture:       "linear-gradient(135deg,#ede9fe,#c4b5fd)",
+  heritage:      "linear-gradient(135deg,#fef3c7,#fcd34d)",
+  food:          "linear-gradient(135deg,#fff7ed,#fed7aa)",
+  nature:        "linear-gradient(135deg,#ecfdf5,#a7f3d0)",
+  shopping:      "linear-gradient(135deg,#eff6ff,#bfdbfe)",
+  events:        "linear-gradient(135deg,#fef2f2,#fecaca)",
+  family:        "linear-gradient(135deg,#fefce8,#fde047)",
+  entertainment: "linear-gradient(135deg,#fdf2f8,#fbcfe8)",
+};
+
+function catGradient(cat) {
+  return CAT_GRADIENTS[cat] || "linear-gradient(135deg,#f3f4f6,#e9eaec)";
+}
 
 function escapeHtml(str) {
   return String(str || "")
@@ -16,9 +28,61 @@ function escapeHtml(str) {
 function getSelectedPlanDate() {
   const selectedDate = localStorage.getItem(SELECTED_PLAN_DATE_STORAGE_KEY);
   if (selectedDate) return selectedDate;
-
   const today = new Date();
   return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+}
+
+// ======================
+//  Toast
+// ======================
+
+function showToast(msg, type = "success") {
+  const bg = type === "error" ? "#ef4444" : type === "info" ? "#7c3aed" : "#10b981";
+  const toast = document.createElement("div");
+  toast.style.cssText = [
+    "position:fixed", "bottom:24px", "left:50%",
+    "transform:translateX(-50%) translateY(80px)",
+    `background:${bg}`, "color:#fff",
+    "padding:10px 20px", "border-radius:12px",
+    "font-size:13px", "font-weight:600",
+    "box-shadow:0 4px 16px rgba(0,0,0,0.18)",
+    "z-index:9999",
+    "transition:transform 0.3s ease,opacity 0.3s ease",
+    "opacity:0", "white-space:nowrap",
+  ].join(";");
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.style.transform = "translateX(-50%) translateY(0)";
+    toast.style.opacity = "1";
+  });
+  setTimeout(() => {
+    toast.style.transform = "translateX(-50%) translateY(80px)";
+    toast.style.opacity = "0";
+    setTimeout(() => toast.remove(), 350);
+  }, 2500);
+}
+
+// ======================
+//  Category pill state
+// ======================
+
+function updatePillActiveState(activeCat) {
+  document.querySelectorAll(".cat-pill").forEach(btn => {
+    const isActive = btn.dataset.cat === activeCat;
+    btn.classList.toggle("active", isActive);
+    if (isActive) {
+      // CSS .cat-pill.active handles background/color via !important
+      btn.style.background = "";
+      btn.style.borderColor = "";
+      btn.style.color = "";
+    } else {
+      // Restore each pill's own gradient (overrides any leftover inline style)
+      btn.style.background = btn.dataset.gradient || "#f3f4f6";
+      btn.style.borderColor = "transparent";
+      btn.style.color = "#374151";
+    }
+  });
 }
 
 function clearFilter() {
@@ -26,17 +90,10 @@ function clearFilter() {
   _currentSearch = "";
   _nextPageUrl = null;
   const searchEl = document.getElementById("searchInput");
-  const searchMobile = document.getElementById("searchInputMobile");
   if (searchEl) searchEl.value = "";
-  if (searchMobile) searchMobile.value = "";
-  document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
-    const isAll = btn.dataset.cat === "";
-    btn.classList.toggle("bg-purple-100", isAll);
-    btn.classList.toggle("text-brand", isAll);
-    btn.classList.toggle("border-brand", isAll);
-    btn.classList.toggle("bg-white", !isAll);
-    btn.classList.toggle("text-gray-700", !isAll);
-  });
+  const clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) clearBtn.classList.add("hidden");
+  updatePillActiveState("");
   loadEvents().catch(console.error);
 }
 
@@ -44,7 +101,6 @@ function clearFilter() {
 //  Favorites
 // ======================
 
-// Legacy localStorage key used only for one-time migration.
 const FAV_KEY = "tizahab_favorites";
 let _favoriteIds = new Set();
 
@@ -58,84 +114,45 @@ function promptLoginForFavorites() {
 async function migrateLegacyFavorites() {
   const token = getToken();
   if (!token) return;
-
   let saved = [];
-  try {
-    saved = JSON.parse(localStorage.getItem(FAV_KEY) || "[]");
-  } catch {
-    saved = [];
-  }
-
+  try { saved = JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch { saved = []; }
   if (!Array.isArray(saved) || !saved.length) return;
-
-  const eventIds = [
-    ...new Set(
-      saved.map((v) => Number.parseInt(v, 10)).filter(Number.isInteger),
-    ),
-  ];
-  if (!eventIds.length) {
-    localStorage.removeItem(FAV_KEY);
-    return;
-  }
-
+  const eventIds = [...new Set(saved.map(v => Number.parseInt(v, 10)).filter(Number.isInteger))];
+  if (!eventIds.length) { localStorage.removeItem(FAV_KEY); return; }
   try {
     await apiPost("/api/events/favorites/bulk/", { event_ids: eventIds });
     localStorage.removeItem(FAV_KEY);
-  } catch {
-    // Keep legacy data for retry on next login if migration fails.
-  }
+  } catch { /* keep for retry on next login */ }
 }
 
 async function loadFavoriteIds() {
   const token = getToken();
-  if (!token) {
-    _favoriteIds = new Set();
-    return;
-  }
-
+  if (!token) { _favoriteIds = new Set(); return; }
   try {
     const data = await apiGet("/api/events/favorites/");
     const rows = Array.isArray(data) ? data : [];
     _favoriteIds = new Set(
-      rows
-        .map((row) => row?.event?.id)
-        .filter((id) => Number.isInteger(id))
-        .map((id) => String(id)),
+      rows.map(row => row?.event?.id).filter(id => Number.isInteger(id)).map(id => String(id))
     );
-  } catch {
-    _favoriteIds = new Set();
-  }
+  } catch { _favoriteIds = new Set(); }
 }
 
 async function removeFavorite(eventId) {
   const token = getToken();
-  if (!token) {
-    promptLoginForFavorites();
-    return false;
-  }
-
+  if (!token) { promptLoginForFavorites(); return false; }
   try {
     await apiDelete(`/api/events/favorites/${eventId}/`);
   } catch (error) {
-    if (error.status === 401) {
-      promptLoginForFavorites();
-      return false;
-    }
-    if (error.status !== 404) {
-      throw new Error("Could not remove favorite.");
-    }
+    if (error.status === 401) { promptLoginForFavorites(); return false; }
+    if (error.status !== 404) throw new Error("Could not remove favorite.");
   }
-
   return true;
 }
 
 function getEventsErrorMessage(err) {
-  const fromResponse =
-    typeof extractApiErrorMessage === "function"
-      ? extractApiErrorMessage(err?.responseData, "")
-      : "";
+  const fromResponse = typeof extractApiErrorMessage === "function"
+    ? extractApiErrorMessage(err?.responseData, "") : "";
   const fromError = typeof err?.message === "string" ? err.message.trim() : "";
-
   if (fromResponse) return fromResponse;
   if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
   return "Something went wrong. Please try again.";
@@ -143,30 +160,20 @@ function getEventsErrorMessage(err) {
 
 async function toggleFav(id) {
   const token = getToken();
-  if (!token) {
-    promptLoginForFavorites();
-    return null;
-  }
-
+  if (!token) { promptLoginForFavorites(); return null; }
   const key = String(id);
   const isFav = _favoriteIds.has(key);
-
   if (isFav) {
     await removeFavorite(id);
     _favoriteIds.delete(key);
     return false;
   }
-
   try {
     await apiPost("/api/events/favorites/", { event_id: Number(id) });
     _favoriteIds.add(key);
     return true;
   } catch (err) {
-    if (
-      String(err?.message || "")
-        .toLowerCase()
-        .includes("already")
-    ) {
+    if (String(err?.message || "").toLowerCase().includes("already")) {
       _favoriteIds.add(key);
       return true;
     }
@@ -175,7 +182,42 @@ async function toggleFav(id) {
 }
 
 // ======================
-//  Card builders
+//  Add to Plan
+// ======================
+
+function notifyPlanUpdated(detail) {
+  window.dispatchEvent(new CustomEvent("tizahab:plan-updated", { detail: detail || {} }));
+}
+
+async function addEventToPlan(eventId, button) {
+  const token = getToken();
+  if (!token) { promptLoginForFavorites(); return; }
+
+  const original = button.textContent;
+  button.disabled = true;
+  button.textContent = "Adding…";
+
+  try {
+    await apiPost("/api/daily-plan/add/", {
+      event_id: Number(eventId),
+      date: getSelectedPlanDate(),
+    });
+    notifyPlanUpdated({ eventId: Number(eventId), date: getSelectedPlanDate() });
+    button.textContent = "✓ Added";
+    showToast("Added to your plan!");
+    setTimeout(() => {
+      button.textContent = original;
+      button.disabled = false;
+    }, 1500);
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = original;
+    showToast(getEventsErrorMessage(error), "error");
+  }
+}
+
+// ======================
+//  Utilities
 // ======================
 
 function gmapsUrl(ev) {
@@ -189,115 +231,48 @@ function formatDateWindow(ev) {
   return ev.category === "events" ? "Check event date" : "Available daily";
 }
 
-function formatOpeningHours(ev) {
-  if (ev.start_time && ev.end_time) return `${ev.start_time} - ${ev.end_time}`;
-  if (ev.category === "food") return "8:00 AM - 11:00 PM";
-  if (ev.category === "shopping") return "10:00 AM - 10:00 PM";
-  if (ev.category === "events") return "Varies by event";
-  return "9:00 AM - 9:00 PM";
-}
-
-function showTemporaryFeedback(button, message) {
-  const original = button.textContent;
-  button.textContent = message;
-  button.disabled = true;
-  button.classList.add("bg-green-500", "text-white");
-
-  setTimeout(() => {
-    button.textContent = original;
-    button.disabled = false;
-    button.classList.remove("bg-green-500", "text-white");
-  }, 1500);
-}
-
-function notifyPlanUpdated(detail) {
-  window.dispatchEvent(
-    new CustomEvent("tizahab:plan-updated", {
-      detail: detail || {},
-    }),
-  );
-}
-
-async function addEventToPlan(eventId, button) {
-  const token = getToken();
-  if (!token) {
-    promptLoginForFavorites();
-    return;
-  }
-
-  const original = button.textContent;
-  button.disabled = true;
-  button.textContent = "Adding...";
-
-  try {
-    await apiPost("/api/daily-plan/add/", {
-      event_id: Number(eventId),
-      date: getSelectedPlanDate(),
-    });
-    notifyPlanUpdated({
-      eventId: Number(eventId),
-      date: getSelectedPlanDate(),
-    });
-    showTemporaryFeedback(button, "Added to your plan");
-  } catch (error) {
-    button.disabled = false;
-    button.textContent = original;
-    window.alert(getEventsErrorMessage(error));
-  }
-}
+// ======================
+//  Card builders
+// ======================
 
 function buildEventCard(ev) {
   const fav = getFavs().has(String(ev.id));
-  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
   const label = catLabel(ev.category);
   const emoji = catEmoji(ev.category);
-  const color = catColor(ev.category);
-  const rating = ev.rating ? `<span class="text-xs text-yellow-500">★ ${ev.rating}</span>` : "";
+  const grad = catGradient(ev.category);
+  const rating = ev.rating
+    ? `<span class="text-xs text-yellow-500 font-medium">★ ${ev.rating}</span>` : "";
 
-  const card = document.createElement("a");
-  card.href = `/events/page/${ev.id}/`;
+  const card = document.createElement("div");
   card.dataset.id = String(ev.id);
-  card.className =
-    "event-card group bg-white border rounded-2xl shadow-sm hover:shadow-md transition relative block";
+  card.className = "event-card rounded-2xl border border-gray-100 overflow-hidden bg-white hover:shadow-md transition cursor-pointer";
 
   card.innerHTML = `
-    <button type="button"
-      class="fav-btn absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 grid place-items-center border hover:bg-white z-10"
-      data-requires-auth="true"
-      data-id="${escapeHtml(ev.id)}">
-      <span class="fav-icon text-lg leading-none">${fav ? "♥" : "♡"}</span>
-    </button>
-    <div class="p-5 space-y-3">
-      <div class="flex items-center gap-3">
-        <span class="text-3xl">${emoji}</span>
-        <div class="flex-1 min-w-0">
-          <h3 class="font-semibold text-gray-800 truncate group-hover:text-brand">${escapeHtml(ev.title || "Untitled")}</h3>
-        </div>
+    <div class="h-28 relative flex items-center justify-center" style="background:${grad}">
+      <span class="text-5xl select-none">${emoji}</span>
+      <button type="button" class="fav-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 grid place-items-center border border-white/60 hover:bg-white transition z-10"
+        data-id="${escapeHtml(ev.id)}">
+        <span class="fav-icon text-base leading-none">${fav ? "♥" : "♡"}</span>
+      </button>
+    </div>
+    <div class="p-3.5 space-y-2">
+      <h3 class="font-semibold text-gray-800 text-sm leading-snug line-clamp-2">${escapeHtml(ev.title || "Untitled")}</h3>
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span class="text-xs px-2 py-0.5 rounded-full font-medium text-gray-600" style="background:${grad}">${escapeHtml(label)}</span>
+        ${rating}
       </div>
-      <div class="flex items-center justify-between">
-        <span class="text-xs font-medium px-2 py-1 rounded-full ${color}">${escapeHtml(label)}</span>
-        <div class="flex items-center gap-2">
-          ${rating}
-          <span class="font-semibold text-sm">${escapeHtml(price)}</span>
-        </div>
-      </div>
-      <div class="flex gap-2">
-        <button type="button"
-          class="add-to-plan-btn flex-1 h-10 rounded-xl border bg-white group-hover:bg-gray-50 grid place-items-center text-sm text-gray-700">
-          Add to Plan
-        </button>
-        <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener"
-          onclick="event.stopPropagation()"
-          class="gmaps-link h-10 px-3 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm text-gray-500 shrink-0"
-          title="Open in Google Maps">
-          🗺️
-        </a>
-      </div>
+      <button type="button" class="add-to-plan-btn w-full h-8 rounded-xl border border-gray-200 bg-gray-50 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-700 text-xs font-medium text-gray-600 transition">
+        + Add to Plan
+      </button>
     </div>
   `;
 
-  card.querySelector(".fav-btn").addEventListener("click", async (e) => {
-    e.preventDefault();
+  card.addEventListener("click", e => {
+    if (e.target.closest(".fav-btn") || e.target.closest(".add-to-plan-btn")) return;
+    window.location.href = `/events/page/${ev.id}/`;
+  });
+
+  card.querySelector(".fav-btn").addEventListener("click", async e => {
     e.stopPropagation();
     const nowFav = await toggleFav(ev.id);
     if (nowFav === null) return;
@@ -305,8 +280,7 @@ function buildEventCard(ev) {
     if (_favsOnly) renderFavoritesSection();
   });
 
-  card.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
-    e.preventDefault();
+  card.querySelector(".add-to-plan-btn").addEventListener("click", e => {
     e.stopPropagation();
     addEventToPlan(ev.id, e.currentTarget).catch(console.error);
   });
@@ -316,57 +290,45 @@ function buildEventCard(ev) {
 
 function buildTrendingCard(ev) {
   const fav = getFavs().has(String(ev.id));
-  const price = ev.price ? `${parseFloat(ev.price).toFixed(0)} SAR` : "Free";
   const label = catLabel(ev.category);
   const emoji = catEmoji(ev.category);
-  const color = catColor(ev.category);
-  const rating = ev.rating ? `<span class="text-xs text-yellow-500">★ ${ev.rating}</span>` : "";
+  const grad = catGradient(ev.category);
+  const rating = ev.rating
+    ? `<span class="text-xs text-gray-600 font-medium">★ ${ev.rating}</span>` : "";
 
   const article = document.createElement("article");
   article.dataset.id = String(ev.id);
-  article.className =
-    "relative min-w-[300px] sm:min-w-[360px] bg-white border rounded-2xl shadow-sm flex-shrink-0";
+  article.className = "relative min-w-[220px] w-56 h-60 rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer";
+  article.style.background = grad;
 
   article.innerHTML = `
-    <div class="p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <span class="bg-brand/10 text-brand rounded-full px-3 py-1 text-xs font-medium">🔥 Trending</span>
-        <button type="button"
-          class="fav-btn h-9 w-9 rounded-full bg-white grid place-items-center border hover:bg-gray-50 z-10"
-          data-requires-auth="true"
+    <div class="absolute inset-0 flex flex-col p-4">
+      <div class="flex items-start justify-between">
+        <span class="text-5xl select-none">${emoji}</span>
+        <button type="button" class="fav-btn w-8 h-8 rounded-full bg-white/80 grid place-items-center border border-white/60 hover:bg-white transition z-10 shrink-0"
           data-id="${escapeHtml(ev.id)}">
-          <span class="fav-icon text-lg leading-none">${fav ? "♥" : "♡"}</span>
+          <span class="fav-icon text-base leading-none">${fav ? "♥" : "♡"}</span>
         </button>
       </div>
-      <div class="flex items-center gap-3">
-        <span class="text-3xl">${emoji}</span>
-        <div class="flex-1 min-w-0">
-          <h3 class="font-semibold truncate">${escapeHtml(ev.title || "Untitled")}</h3>
-        </div>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-xs font-medium px-2 py-1 rounded-full ${color}">${escapeHtml(label)}</span>
+      <div class="mt-auto space-y-1.5">
+        <p class="font-bold text-gray-800 text-sm leading-snug line-clamp-2">${escapeHtml(ev.title || "Untitled")}</p>
         <div class="flex items-center gap-2">
+          <span class="text-xs px-2 py-0.5 rounded-full bg-white/60 text-gray-600 font-medium">${escapeHtml(label)}</span>
           ${rating}
-          <span class="font-semibold text-sm">${escapeHtml(price)}</span>
         </div>
-      </div>
-      <div class="flex gap-2">
-        <button type="button"
-          class="add-to-plan-btn flex-1 h-10 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm">
-          Add to Plan
+        <button type="button" class="add-to-plan-btn w-full h-8 rounded-xl bg-white/80 hover:bg-white text-xs font-medium text-gray-700 transition">
+          + Add to Plan
         </button>
-        <a href="${gmapsUrl(ev)}" target="_blank" rel="noopener"
-          class="h-10 px-3 rounded-xl border bg-white hover:bg-gray-50 grid place-items-center text-sm text-gray-500 shrink-0"
-          title="Open in Google Maps">
-          🗺️
-        </a>
       </div>
     </div>
   `;
 
-  article.querySelector(".fav-btn").addEventListener("click", async (e) => {
-    e.preventDefault();
+  article.addEventListener("click", e => {
+    if (e.target.closest(".fav-btn") || e.target.closest(".add-to-plan-btn")) return;
+    window.location.href = `/events/page/${ev.id}/`;
+  });
+
+  article.querySelector(".fav-btn").addEventListener("click", async e => {
     e.stopPropagation();
     const nowFav = await toggleFav(ev.id);
     if (nowFav === null) return;
@@ -374,13 +336,40 @@ function buildTrendingCard(ev) {
     if (_favsOnly) renderFavoritesSection();
   });
 
-  article.querySelector(".add-to-plan-btn").addEventListener("click", (e) => {
-    e.preventDefault();
+  article.querySelector(".add-to-plan-btn").addEventListener("click", e => {
     e.stopPropagation();
     addEventToPlan(ev.id, e.currentTarget).catch(console.error);
   });
 
   return article;
+}
+
+// ======================
+//  Skeleton loaders
+// ======================
+
+function buildSkeletonCard(extraClasses = "") {
+  const el = document.createElement("div");
+  el.className = `rounded-2xl border border-gray-100 overflow-hidden skeleton-pulse${extraClasses ? " " + extraClasses : ""}`;
+  el.innerHTML = `
+    <div class="h-28" style="background:linear-gradient(135deg,#f3f4f6,#e9eaec)"></div>
+    <div class="p-3.5 space-y-2">
+      <div class="h-3 bg-gray-100 rounded-full w-4/5"></div>
+      <div class="h-3 bg-gray-100 rounded-full w-1/2"></div>
+      <div class="h-7 bg-gray-100 rounded-xl mt-1"></div>
+    </div>
+  `;
+  return el;
+}
+
+function showGridSkeletons(count = 4) {
+  const grid = document.getElementById("eventsGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  const extraClasses = ["", "", "hidden sm:block", "hidden lg:block"];
+  for (let i = 0; i < count; i++) {
+    grid.appendChild(buildSkeletonCard(extraClasses[i] || ""));
+  }
 }
 
 // ======================
@@ -396,12 +385,11 @@ function updateLoadMoreState() {
   const wrap = document.getElementById("loadMoreWrap");
   const btn = document.getElementById("loadMoreBtn");
   if (!wrap || !btn) return;
-
   const shouldShow = Boolean(_nextPageUrl) && !_favsOnly;
   wrap.classList.toggle("hidden", !shouldShow);
   btn.disabled = !shouldShow || _isLoadingMore;
   if (_isLoadingMore) {
-    btn.textContent = "Loading...";
+    btn.textContent = "Loading…";
   } else {
     const remaining = _totalCount - _allEvents.length;
     btn.textContent = remaining > 0 ? `Load More (${remaining} remaining)` : "Load More";
@@ -419,36 +407,39 @@ function renderEventsGrid(events) {
     const hasFilter = _currentCategory || _currentSearch;
     grid.innerHTML = `
       <div class="col-span-2 py-16 text-center space-y-3">
-        <p class="text-gray-400">No places found matching your search.</p>
-        ${hasFilter ? `<button onclick="clearFilter()" class="px-5 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-brand/5 transition">Clear Filter</button>` : ""}
+        <p class="text-4xl">🔍</p>
+        <p class="text-gray-500 font-medium">No places found</p>
+        <p class="text-sm text-gray-400">Try a different search or category.</p>
+        ${hasFilter ? `<button onclick="clearFilter()" class="mt-2 px-5 py-2 rounded-xl border border-purple-200 text-sm font-medium text-purple-700 hover:bg-purple-50 transition">Clear Filter</button>` : ""}
       </div>`;
-    if (countText) countText.textContent = "0 places found";
+    if (countText) countText.textContent = "";
     return;
   }
 
-  events.forEach((ev) => grid.appendChild(buildEventCard(ev)));
-  if (countText) countText.textContent = `${events.length} places found`;
+  events.forEach(ev => grid.appendChild(buildEventCard(ev)));
+  if (countText) {
+    countText.textContent = _totalCount > _allEvents.length
+      ? `Showing ${_allEvents.length} of ${_totalCount} places`
+      : `${_allEvents.length} places found`;
+  }
 }
 
 function renderTrendingRow(events) {
   const row = document.getElementById("trendingRow");
   if (!row) return;
   row.innerHTML = "";
-  events.slice(0, 6).forEach((ev) => row.appendChild(buildTrendingCard(ev)));
+  events.slice(0, 6).forEach(ev => row.appendChild(buildTrendingCard(ev)));
 }
 
 // ======================
 //  Map
 // ======================
 
-// Called by Google Maps API as async callback
 function initEventsMap() {
   if (!window.TZMap) return;
   const map = window.TZMap.initMap("eventsMap", { zoom: 11 });
   if (!map) return;
   window.__TZ_EVENTS_MAP = map;
-
-  // If events were fetched before the map finished loading, render markers now
   if (_allEvents.length) resetEventsMap(_allEvents);
 }
 
@@ -458,40 +449,51 @@ let _mapInfo = null;
 function resetEventsMap(newVisibleEvents) {
   const map = window.__TZ_EVENTS_MAP;
   if (!map || !window.google || !google.maps) return;
-
-  // Clear previous markers
   _mapMarkers.forEach(m => m.setMap(null));
   _mapMarkers.length = 0;
-
-  if (!_mapInfo) {
-    _mapInfo = new google.maps.InfoWindow();
-  }
-
+  if (!_mapInfo) _mapInfo = new google.maps.InfoWindow();
   const bounds = new google.maps.LatLngBounds();
   let hasPoints = false;
-
   newVisibleEvents.forEach(ev => {
     const lat = Number.parseFloat(ev.latitude);
     const lng = Number.parseFloat(ev.longitude);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-
     const pos = { lat, lng };
     const marker = new google.maps.Marker({ position: pos, map });
     _mapMarkers.push(marker);
     bounds.extend(pos);
     hasPoints = true;
-
     marker.addListener("click", () => {
       _mapInfo.setContent(
         `<div style="font-weight:600;margin-bottom:4px">${escapeHtml(ev.title)}</div>` +
-          `<div style="font-size:12px;opacity:.8;margin-bottom:4px">${escapeHtml(ev.location || "Riyadh")}</div>` +
-          `<a href="/events/page/${ev.id}/" style="font-size:12px;color:#7E1CA1">View Details →</a>`,
+        `<a href="/events/page/${ev.id}/" style="font-size:12px;color:#7E1CA1">View Details →</a>`
       );
       _mapInfo.open({ anchor: marker, map });
     });
   });
-
   if (hasPoints) map.fitBounds(bounds);
+}
+
+function initMapToggle() {
+  const toggleBtn = document.getElementById("mapToggleBtn");
+  const container = document.getElementById("mapContainer");
+  const chevron = document.getElementById("mapChevron");
+  const hideBtn = document.getElementById("hideMapBtn");
+
+  toggleBtn?.addEventListener("click", () => {
+    const wasHidden = container?.classList.contains("hidden");
+    container?.classList.toggle("hidden", !wasHidden);
+    if (chevron) chevron.style.transform = wasHidden ? "rotate(180deg)" : "";
+    if (wasHidden && window.__TZ_EVENTS_MAP) {
+      google.maps.event.trigger(window.__TZ_EVENTS_MAP, "resize");
+      if (_allEvents.length) resetEventsMap(_allEvents);
+    }
+  });
+
+  hideBtn?.addEventListener("click", () => {
+    container?.classList.add("hidden");
+    if (chevron) chevron.style.transform = "";
+  });
 }
 
 // ======================
@@ -503,17 +505,20 @@ let _currentSearch = "";
 let _debounceTimer = null;
 
 async function loadEvents() {
-  const loadingText = document.getElementById("loadingText");
   const countText = document.getElementById("countText");
 
-  if (loadingText) loadingText.textContent = "Loading…";
-  if (countText && !_isLoadingMore) countText.textContent = "";
+  if (!_isLoadingMore) {
+    showGridSkeletons(4);
+    if (countText) countText.textContent = "";
+    _totalCount = 0;  // reset so counter reflects the fresh filtered result
+  }
 
   let requestUrl = _nextPageUrl;
   if (!_isLoadingMore || !requestUrl) {
     const params = new URLSearchParams();
     if (_currentCategory) params.set("category", _currentCategory);
     if (_currentSearch) params.set("search", _currentSearch);
+    params.set("page_size", "12");
     const qs = params.toString();
     requestUrl = `/api/events/${qs ? "?" + qs : ""}`;
   }
@@ -521,14 +526,17 @@ async function loadEvents() {
   const data = await apiGet(requestUrl);
   if (!data) return;
 
-  // Handle both paginated {count, results:[]} and plain array responses
   const events = Array.isArray(data) ? data : data.results || [];
   _nextPageUrl = Array.isArray(data) ? null : data.next || null;
-  if (!Array.isArray(data) && data.count != null) _totalCount = data.count;
+  if (!Array.isArray(data) && data.count != null) {
+    _totalCount = data.count;
+  } else if (!_isLoadingMore) {
+    _totalCount = events.length;  // plain array — total = what we got
+  }
 
   if (_isLoadingMore) {
-    const merged = new Map(_allEvents.map((ev) => [String(ev.id), ev]));
-    events.forEach((ev) => merged.set(String(ev.id), ev));
+    const merged = new Map(_allEvents.map(ev => [String(ev.id), ev]));
+    events.forEach(ev => merged.set(String(ev.id), ev));
     _allEvents = [...merged.values()];
   } else {
     _allEvents = events;
@@ -536,22 +544,18 @@ async function loadEvents() {
 
   renderEventsGrid(_allEvents);
 
-  // Populate trending only on the unfiltered initial load
   if (!_isLoadingMore && !_currentCategory && !_currentSearch) {
     renderTrendingRow(events);
   }
 
-  // Update map markers if the map is already initialised
   if (window.__TZ_EVENTS_MAP) resetEventsMap(_allEvents);
 
   if (countText) {
     countText.textContent = _totalCount > _allEvents.length
-      ? `${_allEvents.length} of ${_totalCount} places`
+      ? `Showing ${_allEvents.length} of ${_totalCount} places`
       : `${_allEvents.length} places found`;
   }
   updateLoadMoreState();
-
-  if (loadingText) loadingText.textContent = "";
 }
 
 async function loadMoreEvents() {
@@ -566,7 +570,6 @@ async function loadMoreEvents() {
   }
 }
 
-
 // ======================
 //  Search & filter
 // ======================
@@ -579,19 +582,9 @@ function onSearchChange(value) {
 }
 
 function onCategorySelect(cat) {
-  // Toggle: clicking active category clears the filter
-  _currentCategory = _currentCategory === cat ? "" : cat;
+  _currentCategory = cat;  // cat="" means All Places (no filter)
   _nextPageUrl = null;
-
-  document.querySelectorAll(".cat-filter-btn").forEach((btn) => {
-    const active = btn.dataset.cat === _currentCategory;
-    btn.classList.toggle("bg-purple-100", active);
-    btn.classList.toggle("text-brand", active);
-    btn.classList.toggle("border-brand", active);
-    btn.classList.toggle("bg-white", !active);
-    btn.classList.toggle("text-gray-700", !active);
-  });
-
+  updatePillActiveState(_currentCategory);
   loadEvents().catch(console.error);
 }
 
@@ -605,36 +598,35 @@ function renderFavoritesSection() {
   const grid = document.getElementById("favoritesGrid");
   const countEl = document.getElementById("favoritesCount");
   if (!grid) return;
-
   const favIds = getFavs();
-  const favEvents = _allEvents.filter((ev) => favIds.has(String(ev.id)));
+  const favEvents = _allEvents.filter(ev => favIds.has(String(ev.id)));
   grid.innerHTML = "";
-  favEvents.forEach((ev) => grid.appendChild(buildEventCard(ev)));
-
-  if (countEl)
-    countEl.textContent = _favoriteIds.size
-      ? `${_favoriteIds.size} favorites`
-      : "";
+  favEvents.forEach(ev => grid.appendChild(buildEventCard(ev)));
+  if (countEl) countEl.textContent = _favoriteIds.size ? `${_favoriteIds.size} favorites` : "";
 }
 
 function initFavoritesToggle() {
   const prefBtn = document.getElementById("prefBtn");
   const favSection = document.getElementById("favoritesSection");
-  const allSection = document.getElementById("allEventsSection");
+  const eventsGrid = document.getElementById("eventsGrid");
+  const loadMoreWrap = document.getElementById("loadMoreWrap");
 
   prefBtn?.addEventListener("click", () => {
     _favsOnly = !_favsOnly;
     if (_favsOnly) {
-      prefBtn.classList.add("bg-purple-100", "text-brand", "border-brand");
-      prefBtn.classList.remove("bg-white", "border-gray-200");
+      prefBtn.style.background = "#ede9fe";
+      prefBtn.style.color = "#7c3aed";
+      prefBtn.style.borderColor = "#c4b5fd";
       renderFavoritesSection();
       favSection?.classList.remove("hidden");
-      allSection?.classList.add("hidden");
+      eventsGrid?.classList.add("hidden");
+      loadMoreWrap?.classList.add("hidden");
     } else {
-      prefBtn.classList.remove("bg-purple-100", "text-brand", "border-brand");
-      prefBtn.classList.add("bg-white", "border-gray-200");
+      prefBtn.style.background = "";
+      prefBtn.style.color = "";
+      prefBtn.style.borderColor = "";
       favSection?.classList.add("hidden");
-      allSection?.classList.remove("hidden");
+      eventsGrid?.classList.remove("hidden");
       updateLoadMoreState();
     }
   });
@@ -646,16 +638,12 @@ function initFavoritesToggle() {
 
 function initTrendingNav() {
   const row = document.getElementById("trendingRow");
-  document
-    .getElementById("trendPrev")
-    ?.addEventListener("click", () =>
-      row?.scrollBy({ left: -440, behavior: "smooth" }),
-    );
-  document
-    .getElementById("trendNext")
-    ?.addEventListener("click", () =>
-      row?.scrollBy({ left: 440, behavior: "smooth" }),
-    );
+  document.getElementById("trendPrev")?.addEventListener("click", () =>
+    row?.scrollBy({ left: -260, behavior: "smooth" })
+  );
+  document.getElementById("trendNext")?.addEventListener("click", () =>
+    row?.scrollBy({ left: 260, behavior: "smooth" })
+  );
 }
 
 // ======================
@@ -673,7 +661,6 @@ function renderEventDetails(ev) {
   const mapsLink = gmapsUrl(ev);
 
   container.innerHTML = `
-    <!-- Header -->
     <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
       <div class="flex items-start gap-4">
         <span class="text-5xl">${emoji}</span>
@@ -685,13 +672,8 @@ function renderEventDetails(ev) {
       </div>
     </div>
 
-    <!-- Body: 2-col -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- Left column -->
       <div class="lg:col-span-2 space-y-5">
-
-        <!-- Metadata 2×2 grid -->
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
           <div class="grid grid-cols-2 gap-4">
             <div class="flex items-center gap-3">
@@ -705,7 +687,7 @@ function renderEventDetails(ev) {
               <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-lg shrink-0">🕐</div>
               <div>
                 <p class="text-xs text-gray-500">Opening Hours</p>
-                <p class="text-sm font-semibold text-gray-800">${["restaurant","cafe","fast_food","dessert","bakery","juice","food_truck"].includes(ev.category) ? "8:00 AM – 11:00 PM" : ev.category === "shopping" ? "10:00 AM – 10:00 PM" : "9:00 AM – 9:00 PM"}</p>
+                <p class="text-sm font-semibold text-gray-800">${ev.category === "food" ? "8:00 AM – 11:00 PM" : ev.category === "shopping" ? "10:00 AM – 10:00 PM" : "9:00 AM – 9:00 PM"}</p>
               </div>
             </div>
             <div class="flex items-center gap-3">
@@ -725,14 +707,12 @@ function renderEventDetails(ev) {
           </div>
         </div>
 
-        <!-- Tabs -->
         <div class="flex gap-1 bg-gray-100 rounded-xl p-1" id="detailTabs">
           <button class="tab-btn flex-1 h-9 rounded-lg bg-white text-sm font-medium text-brand shadow-sm" data-tab="overview">Overview</button>
           <button class="tab-btn flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition" data-tab="schedule">Schedule</button>
           <button class="tab-btn flex-1 h-9 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/60 transition" data-tab="reviews">Reviews</button>
         </div>
 
-        <!-- Tab panels -->
         <div id="tab-overview" class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
           <h3 class="font-semibold text-gray-800">About</h3>
           <p class="text-sm text-gray-600 leading-relaxed">${escapeHtml(ev.description || "Experience one of Riyadh's unique destinations. Enjoy the atmosphere, explore the surroundings, and create lasting memories.")}</p>
@@ -758,10 +738,8 @@ function renderEventDetails(ev) {
           <h3 class="font-semibold text-gray-800">Reviews</h3>
           <p class="text-sm text-gray-400">No reviews yet. Be the first to visit and share your experience!</p>
         </div>
-
       </div>
 
-      <!-- Right: Booking card -->
       <aside class="space-y-4">
         <div class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 sticky top-6">
           <div>
@@ -783,7 +761,6 @@ function renderEventDetails(ev) {
           </div>
         </div>
       </aside>
-
     </div>
   `;
 }
@@ -795,14 +772,13 @@ function wireDetailTabs() {
     schedule: document.getElementById("tab-schedule"),
     reviews: document.getElementById("tab-reviews"),
   };
-  tabs.forEach((btn) => {
+  tabs.forEach(btn => {
     btn.addEventListener("click", () => {
-      tabs.forEach((t) => {
+      tabs.forEach(t => {
         const active = t === btn;
-        t.classList.toggle("bg-white", active);
-        t.classList.toggle("text-brand", active);
-        t.classList.toggle("shadow-sm", active);
-        t.classList.toggle("text-gray-600", !active);
+        t.style.background = active ? "#fff" : "";
+        t.style.boxShadow = active ? "0 1px 3px rgba(0,0,0,0.1)" : "";
+        t.style.color = active ? "#7c3aed" : "";
       });
       Object.entries(panels).forEach(([key, el]) => {
         if (el) el.classList.toggle("hidden", key !== btn.dataset.tab);
@@ -818,18 +794,14 @@ function wireGetTickets(eventId) {
 
   btn.addEventListener("click", async () => {
     btn.disabled = true;
-    btn.textContent = "Adding";
+    btn.textContent = "Adding…";
     msg.textContent = "";
     msg.className = "text-sm text-center min-h-[20px]";
 
     try {
       const targetDate = getSelectedPlanDate();
-      await apiPost("/api/daily-plan/add/", {
-        date: targetDate,
-        event_id: eventId,
-      });
-
-      btn.textContent = " Added to Plan";
+      await apiPost("/api/daily-plan/add/", { date: targetDate, event_id: eventId });
+      btn.textContent = "✓ Added to Plan";
       msg.textContent = "Added to your plan!";
       msg.classList.add("text-green-600");
     } catch (err) {
@@ -855,35 +827,41 @@ async function loadEventDetails(eventId) {
 // ======================
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Events list page
   if (document.getElementById("eventsGrid")) {
     (async () => {
       await migrateLegacyFavorites();
       await loadFavoriteIds();
       await loadEvents();
     })().catch(console.error);
+
     initTrendingNav();
     initFavoritesToggle();
+    initMapToggle();
     updateLoadMoreState();
 
-    document
-      .getElementById("loadMoreBtn")
-      ?.addEventListener("click", () => loadMoreEvents().catch(console.error));
+    document.getElementById("loadMoreBtn")?.addEventListener("click", () =>
+      loadMoreEvents().catch(console.error)
+    );
 
-    ["searchInput", "searchInputMobile"].forEach((id) => {
-      document
-        .getElementById(id)
-        ?.addEventListener("input", (e) => onSearchChange(e.target.value));
+    const searchInput = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("clearSearchBtn");
+
+    searchInput?.addEventListener("input", e => {
+      onSearchChange(e.target.value);
+      if (clearBtn) clearBtn.classList.toggle("hidden", !e.target.value);
     });
 
-    document
-      .querySelectorAll(".cat-filter-btn")
-      .forEach((btn) =>
-        btn.addEventListener("click", () => onCategorySelect(btn.dataset.cat)),
-      );
+    clearBtn?.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      clearBtn.classList.add("hidden");
+      onSearchChange("");
+    });
+
+    document.querySelectorAll(".cat-pill").forEach(btn =>
+      btn.addEventListener("click", () => onCategorySelect(btn.dataset.cat))
+    );
   }
 
-  // Event details page
   if (window.EVENT_ID) {
     loadEventDetails(window.EVENT_ID).catch(console.error);
   }
