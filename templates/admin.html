@@ -4,259 +4,1091 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel | Tizahab</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Tizahab</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cantata+One&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <script src="{% static 'js/api.js' %}"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+
+    .font-cantata {
+      font-family: 'Cantata One', serif;
+    }
+
+    /* Stat cards */
+    .stat-card {
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, .13);
+    }
+
+    /* Tables */
+    .adm-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .adm-table th {
+      background: #f8fafc;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .adm-table td {
+      padding: 9px 14px;
+      font-size: 13px;
+      color: #374151;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+
+    .adm-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    /* Category badge */
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Action buttons */
+    .btn-edit {
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #eff6ff;
+      color: #2563eb;
+      border: none;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-edit:hover {
+      background: #dbeafe;
+    }
+
+    .btn-del {
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #fef2f2;
+      color: #dc2626;
+      border: none;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-del:hover {
+      background: #fee2e2;
+    }
+
+    /* Skeleton shimmer */
+    .shimmer {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background-size: 400% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: -100% 50%
+      }
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      min-width: 220px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+    }
+
+    #toast.success {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    #toast.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* Modals */
+    .modal-wrap {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-wrap.open {
+      display: flex;
+    }
+
+    /* Quick action buttons */
+    .quick-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: opacity .15s, transform .15s;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .quick-btn:hover {
+      opacity: .88;
+      transform: translateY(-1px);
+    }
+
+    /* Pagination */
+    .pg-btn {
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid #e2e8f0;
+      background: white;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .pg-btn:hover:not(:disabled) {
+      background: #f1f5f9;
+      border-color: #7c3aed;
+      color: #7c3aed;
+    }
+
+    .pg-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .pg-btn.active {
+      background: #7c3aed;
+      color: white;
+      border-color: #7c3aed;
+    }
+
+    /* Table scroll wrapper */
+    .tbl-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
 </head>
 
-<body class="bg-slate-100">
+<body>
 
-  <div class="mx-auto max-w-7xl px-4 py-6 lg:px-6">
-    <div class="space-y-6">
+  <!-- ═══════════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-50 shadow-md" style="background: linear-gradient(135deg,#4c1d95 0%,#7c3aed 100%);">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-4 flex items-center justify-between gap-4">
 
-      <section class="rounded-3xl bg-slate-900 text-white p-6 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center
+                  font-cantata text-white text-lg font-bold">T</div>
         <div>
-          <h1 class="text-2xl font-bold">Admin Dashboard</h1>
-          <p class="text-sm text-slate-300">Manage events and users</p>
+          <h1 class="font-cantata text-xl text-white leading-tight">Tizahab Admin</h1>
+          <p class="text-violet-200 text-xs">Manage your tourism platform</p>
         </div>
-        <button onclick="logout()" class="bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20">
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right hidden md:block">
+          <div id="hdr-time" class="text-white text-sm font-semibold tabular-nums"></div>
+          <div id="hdr-date" class="text-violet-300 text-xs"></div>
+        </div>
+        <a href="/home/" class="hidden sm:inline-flex items-center gap-1 text-violet-200 hover:text-white
+                text-sm font-medium transition px-3 py-1.5 rounded-lg hover:bg-white/10">
+          ← home
+        </a>
+        <button onclick="doLogout()" class="bg-white/15 hover:bg-white/25 text-white px-4 py-2 rounded-xl
+                     text-sm font-semibold transition border border-white/20">
           Logout
         </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+     MAIN
+═══════════════════════════════════════════════════════ -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
+
+    <!-- ── STATS ROW ─────────────────────────────────── -->
+    <section aria-label="Statistics">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Total Events -->
+        <div class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-violet-100 relative overflow-hidden">
+          <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-[.07]"
+            style="background:radial-gradient(circle,#7c3aed,transparent)"></div>
+          <div class="text-3xl mb-2">📊</div>
+          <div id="stat-events" class="text-4xl font-bold text-violet-700 tabular-nums">--</div>
+          <div class="text-sm font-semibold text-gray-400 mt-1 mb-3">Total Events</div>
+          <a href="#events-section" class="text-xs font-semibold text-violet-600 hover:text-violet-800 transition">
+            View All Events →
+          </a>
+        </div>
+
+        <!-- Total Users -->
+        <div class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-blue-100 relative overflow-hidden">
+          <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-[.07]"
+            style="background:radial-gradient(circle,#2563eb,transparent)"></div>
+          <div class="text-3xl mb-2">👥</div>
+          <div id="stat-users" class="text-4xl font-bold text-blue-700 tabular-nums">--</div>
+          <div class="text-sm font-semibold text-gray-400 mt-1 mb-3">Total Users</div>
+          <a href="#users-section" class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition">
+            Manage Users →
+          </a>
+        </div>
+
+        <!-- Plans Created -->
+        <div class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 relative overflow-hidden">
+          <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-[.07]"
+            style="background:radial-gradient(circle,#059669,transparent)"></div>
+          <div class="text-3xl mb-2">📅</div>
+          <div id="stat-plans" class="text-4xl font-bold text-emerald-700 tabular-nums">--</div>
+          <div class="text-sm font-semibold text-gray-400 mt-1 mb-3">Plans Created</div>
+          <span class="text-xs font-semibold text-emerald-600">All-time total</span>
+        </div>
+
+        <!-- Popular Category -->
+        <div class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-amber-100 relative overflow-hidden">
+          <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-[.07]"
+            style="background:radial-gradient(circle,#d97706,transparent)"></div>
+          <div id="pop-emoji" class="text-3xl mb-2">⭐</div>
+          <div id="pop-name" class="text-2xl font-bold text-amber-700">--</div>
+          <div class="text-sm font-semibold text-gray-400 mt-1 mb-1">Most Popular Category</div>
+          <div id="pop-pct" class="text-xs font-semibold text-amber-500">--% of events</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── QUICK ACTIONS ─────────────────────────────── -->
+    <section aria-label="Quick actions">
+      <div class="flex flex-wrap gap-3">
+        <a href="/admin/events/event/add/" class="quick-btn" style="background:#7c3aed;color:white;">
+          ＋ Add New Place
+        </a>
+        <button onclick="scrollTo('events-section')" class="quick-btn" style="background:#eff6ff;color:#2563eb;">
+          📊 View Events
+        </button>
+        <button onclick="scrollTo('users-section')" class="quick-btn" style="background:#f0fdf4;color:#065f46;">
+          👥 User Management
+        </button>
+        <button onclick="refreshAll()" id="refresh-btn" class="quick-btn"
+          style="background:#f8fafc;color:#475569;border:1px solid #e2e8f0;">
+          🔄 Refresh Data
+        </button>
+        <button onclick="exportCSV()" class="quick-btn"
+          style="background:#fefce8;color:#713f12;border:1px solid #fde68a;">
+          ⬇ Export CSV
+        </button>
+      </div>
+    </section>
+
+    <!-- ── CATEGORY BREAKDOWN + RECENT ACTIVITY ──────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Category Breakdown -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100" aria-label="Category breakdown">
+        <h2 class="font-cantata text-lg text-slate-800 mb-1">Category Breakdown</h2>
+        <p class="text-xs text-gray-400 mb-4">Events per category</p>
+        <div id="cat-pills" class="flex flex-wrap gap-2">
+          <div class="shimmer h-8 w-32 rounded-full"></div>
+          <div class="shimmer h-8 w-28 rounded-full"></div>
+          <div class="shimmer h-8 w-24 rounded-full"></div>
+          <div class="shimmer h-8 w-36 rounded-full"></div>
+        </div>
       </section>
 
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-xl">
-          <p>Events</p>
-          <h2 id="stat-events">--</h2>
+      <!-- Recent Activity -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100" aria-label="Recent activity">
+        <h2 class="font-cantata text-lg text-slate-800 mb-1">Recent Activity</h2>
+        <p class="text-xs text-gray-400 mb-4">Latest registrations &amp; plans</p>
+        <div id="activity-list" class="space-y-2">
+          <div class="shimmer h-12 rounded-xl"></div>
+          <div class="shimmer h-12 rounded-xl"></div>
+          <div class="shimmer h-12 rounded-xl"></div>
         </div>
-        <div class="bg-white p-4 rounded-xl">
-          <p>Users</p>
-          <h2 id="stat-users">--</h2>
-        </div>
-        <div class="bg-white p-4 rounded-xl">
-          <p>Free</p>
-          <h2 id="stat-free">--</h2>
-        </div>
-        <div class="bg-white p-4 rounded-xl">
-          <p>Categories</p>
-          <h2 id="stat-categories">--</h2>
-        </div>
-      </section>
-
-      <section class="bg-white rounded-xl p-4">
-        <div class="flex justify-between mb-3">
-          <input id="adminSearch" placeholder="Search..." class="border p-2 rounded w-1/2" />
-          <button id="refreshEvents" class="border px-3 rounded">Refresh</button>
-        </div>
-
-        <table class="w-full text-sm">
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Category</th>
-              <th>Location</th>
-              <th>Price</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody id="adminEventsTable"></tbody>
-        </table>
-      </section>
-
-      <section class="bg-white rounded-xl p-4">
-        <h2 class="font-bold mb-3">Users</h2>
-        <table class="w-full text-sm">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="adminUsersTable"></tbody>
-        </table>
       </section>
 
     </div>
+
+    <!-- ── TOP 5 PLACES ───────────────────────────────── -->
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100" aria-label="Top places by plan count">
+      <div class="p-6 pb-3 flex items-center justify-between">
+        <div>
+          <h2 class="font-cantata text-lg text-slate-800">Top 5 Places</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Most added to daily plans</p>
+        </div>
+      </div>
+      <div class="tbl-wrap px-4 pb-5">
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th class="w-12">Rank</th>
+              <th>Place Name</th>
+              <th>Category</th>
+              <th>Times Added</th>
+            </tr>
+          </thead>
+          <tbody id="top-places-body">
+            <tr>
+              <td colspan="4" class="text-center text-gray-400 py-6">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── USERS TABLE ────────────────────────────────── -->
+    <section id="users-section" class="bg-white rounded-2xl shadow-sm border border-gray-100"
+      aria-label="User management">
+      <div class="p-6 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="font-cantata text-lg text-slate-800">Users</h2>
+          <p id="users-meta" class="text-xs text-gray-400 mt-0.5">Loading…</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input id="user-search" type="search" placeholder="Search users…" aria-label="Search users" class="h-9 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none
+                      focus:border-violet-400 w-48">
+          <button onclick="toggleUsers()" id="users-toggle" class="text-sm font-semibold text-violet-600 hover:text-violet-800 transition
+                       whitespace-nowrap">
+            Collapse ↑
+          </button>
+        </div>
+      </div>
+      <div id="users-body">
+        <div class="tbl-wrap px-4">
+          <table class="adm-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Joined</th>
+                <th>Plans</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr>
+                <td colspan="6" class="text-center text-gray-400 py-6">Loading…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="users-pg" class="flex items-center justify-between px-6 py-3"></div>
+      </div>
+    </section>
+
+    <!-- ── EVENTS TABLE ───────────────────────────────── -->
+    <section id="events-section" class="bg-white rounded-2xl shadow-sm border border-gray-100"
+      aria-label="Events management">
+      <div class="p-6 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="font-cantata text-lg text-slate-800">Events</h2>
+            <p id="events-meta" class="text-xs text-gray-400 mt-0.5">Loading…</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="ev-search" type="search" placeholder="Search events…" aria-label="Search events" class="h-9 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none
+                        focus:border-violet-400 w-44">
+            <select id="ev-cat" aria-label="Filter by category" class="h-9 rounded-xl border border-gray-200 px-3 text-sm focus:outline-none
+                         focus:border-violet-400 bg-white">
+              <option value="">All Categories</option>
+              <option value="culture">🏛️ Culture</option>
+              <option value="heritage">🕌 Heritage</option>
+              <option value="food">🍽️ Food</option>
+              <option value="nature">🌿 Nature</option>
+              <option value="shopping">🛍️ Shopping</option>
+              <option value="events">🎫 Events</option>
+              <option value="family">👨‍👩‍👧 Family</option>
+              <option value="entertainment">🎡 Entertainment</option>
+            </select>
+            <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 cursor-pointer select-none">
+              <input type="checkbox" id="bulk-all" class="w-4 h-4 rounded accent-violet-600"
+                aria-label="Select all events">
+              All
+            </label>
+            <button onclick="bulkDelete()" class="btn-del text-xs px-2 py-1.5">
+              Delete Selected
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap px-4">
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th class="w-9"></th>
+              <th>Event Name</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Rating</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ev-tbody">
+            <tr>
+              <td colspan="7" class="text-center text-gray-400 py-6">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="ev-pg" class="flex items-center justify-between px-6 py-3"></div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════
+     DELETE CONFIRM MODAL
+═══════════════════════════════════════════════════════ -->
+  <div id="del-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="del-modal-title">
+    <div class="bg-white rounded-2xl shadow-xl p-7 mx-4 w-full max-w-sm">
+      <div class="text-5xl text-center mb-3">🗑️</div>
+      <h3 id="del-modal-title" class="font-cantata text-lg text-slate-800 text-center mb-1">
+        Confirm Delete
+      </h3>
+      <p id="del-modal-body" class="text-sm text-gray-500 text-center mb-6">
+        Are you sure? This cannot be undone.
+      </p>
+      <div class="flex gap-3">
+        <button onclick="closeDelModal()" class="flex-1 h-10 rounded-xl border border-gray-200 text-sm font-semibold
+                     text-gray-600 hover:bg-gray-50 transition">
+          Cancel
+        </button>
+        <button id="del-confirm-btn" class="flex-1 h-10 rounded-xl bg-red-600 text-white text-sm font-semibold
+                     hover:bg-red-700 transition">
+          Delete
+        </button>
+      </div>
+    </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════
+     EDIT EVENT MODAL
+═══════════════════════════════════════════════════════ -->
+  <div id="edit-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+    <div class="bg-white rounded-2xl shadow-xl p-7 mx-4 w-full max-w-md">
+      <h3 id="edit-modal-title" class="font-cantata text-lg text-slate-800 mb-5">Edit Event</h3>
+      <div class="space-y-4">
+        <div>
+          <label for="edit-title" class="block text-sm font-semibold text-gray-700 mb-1">
+            Title
+          </label>
+          <input id="edit-title" type="text" class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm
+                      focus:outline-none focus:border-violet-400">
+        </div>
+        <div>
+          <label for="edit-location" class="block text-sm font-semibold text-gray-700 mb-1">
+            Location
+          </label>
+          <input id="edit-location" type="text" class="w-full h-10 rounded-xl border border-gray-200 px-3 text-sm
+                      focus:outline-none focus:border-violet-400">
+        </div>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeEditModal()" class="flex-1 h-10 rounded-xl border border-gray-200 text-sm font-semibold
+                     text-gray-600 hover:bg-gray-50 transition">
+          Cancel
+        </button>
+        <button onclick="saveEdit()" class="flex-1 h-10 rounded-xl bg-violet-600 text-white text-sm font-semibold
+                     hover:bg-violet-700 transition">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+     TOAST
+═══════════════════════════════════════════════════════ -->
+  <div id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════ -->
   <script>
+    // ── Constants ────────────────────────────────────────────
+    const STATS_API = "/api/events/admin/stats/";
     const EVENTS_API = "/api/events/admin/events/";
     const USERS_API = "/api/auth/admin/users/";
+    const EV_PAGE_SZ = 20;
+    const USR_PAGE_SZ = 15;
 
-    let events = [];
-    let users = [];
+    const CAT_META = {
+      culture: { emoji: "🏛️", grad: "linear-gradient(135deg,#ede9fe,#c4b5fd)", text: "#5b21b6" },
+      heritage: { emoji: "🕌", grad: "linear-gradient(135deg,#fef3c7,#fcd34d)", text: "#92400e" },
+      food: { emoji: "🍽️", grad: "linear-gradient(135deg,#fff7ed,#fed7aa)", text: "#9a3412" },
+      nature: { emoji: "🌿", grad: "linear-gradient(135deg,#ecfdf5,#a7f3d0)", text: "#065f46" },
+      shopping: { emoji: "🛍️", grad: "linear-gradient(135deg,#eff6ff,#bfdbfe)", text: "#1e40af" },
+      events: { emoji: "🎫", grad: "linear-gradient(135deg,#fef2f2,#fecaca)", text: "#991b1b" },
+      family: { emoji: "👨‍👩‍👧", grad: "linear-gradient(135deg,#fefce8,#fde047)", text: "#713f12" },
+      entertainment: { emoji: "🎡", grad: "linear-gradient(135deg,#fdf2f8,#fbcfe8)", text: "#9d174d" },
+    };
 
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    // ── State ────────────────────────────────────────────────
+    let _allUsers = [];
+    let _evPage = 1;
+    let _evTotal = 0;
+    let _evSearch = "";
+    let _evCat = "";
+    let _usrPage = 1;
+    let _usrSearch = "";
+    let _pendingDel = null;   // { type, id }
+    let _pendingEdit = null;   // event id
+
+    // ── Utilities ────────────────────────────────────────────
+    function esc(v) {
+      return String(v ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
-    function getCSRFToken() {
-      return document.cookie
-        .split("; ")
-        .find(row => row.startsWith("csrftoken="))
-        ?.split("=")[1];
+    function fmtDate(iso) {
+      if (!iso) return "—";
+      return new Date(iso).toLocaleDateString("en-US",
+        { year: "numeric", month: "short", day: "numeric" });
     }
 
-    async function logout() {
+    function timeAgo(iso) {
+      if (!iso) return "";
+      const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+      if (m < 1) return "just now";
+      if (m < 60) return `${m}m ago`;
+      const h = Math.floor(m / 60);
+      if (h < 24) return `${h}h ago`;
+      return `${Math.floor(h / 24)}d ago`;
+    }
+
+    function catBadge(cat) {
+      const m = CAT_META[cat] || { emoji: "📍", grad: "linear-gradient(135deg,#f1f5f9,#e2e8f0)", text: "#475569" };
+      return `<span class="cat-badge" style="background:${m.grad};color:${m.text}">${m.emoji} ${esc(cat || "—")}</span>`;
+    }
+
+    function showToast(msg, type = "success") {
+      const el = document.getElementById("toast");
+      el.className = type;
+      el.textContent = msg;
+      el.style.display = "block";
+      clearTimeout(el._tid);
+      el._tid = setTimeout(() => { el.style.display = "none"; }, 3200);
+    }
+
+    function scrollTo(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function debounce(fn, ms) {
+      let t;
+      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+    }
+
+    function buildPages(cur, total) {
+      if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+      if (cur <= 4) return [1, 2, 3, 4, 5, "…", total];
+      if (cur >= total - 3) return [1, "…", total - 4, total - 3, total - 2, total - 1, total];
+      return [1, "…", cur - 1, cur, cur + 1, "…", total];
+    }
+
+    // ── Clock ────────────────────────────────────────────────
+    function tick() {
+      const n = new Date();
+      document.getElementById("hdr-time").textContent =
+        n.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      document.getElementById("hdr-date").textContent =
+        n.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+    }
+    tick();
+    setInterval(tick, 10000);
+
+    // ── Logout ───────────────────────────────────────────────
+    function getCSRF() {
+      return document.cookie.split("; ").find(r => r.startsWith("csrftoken="))?.split("=")[1] || "";
+    }
+    async function doLogout() {
       try {
         await fetch("/logout/", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "X-CSRFToken": getCSRFToken?.() || "",
-          },
+          method: "POST", credentials: "include",
+          headers: { "X-CSRFToken": getCSRF() },
         });
-      } catch (e) {
-        console.warn("Logout request failed", e);
-      }
-
+      } catch (_) { }
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
-
       window.location.href = "/login/";
     }
 
-    async function loadEvents() {
+    // ── Stats ────────────────────────────────────────────────
+    async function loadStats() {
       try {
-        const data = await apiGet(EVENTS_API);
-        if (!data) return;
-        events = Array.isArray(data) ? data : (data.results || []);
-        renderEvents();
-        updateStats();
-      } catch (error) {
-        console.error(`[Admin] GET ${EVENTS_API} -> ${error.message}`);
+        const d = await apiGet(STATS_API);
+        if (!d) return;
+
+        document.getElementById("stat-events").textContent = (d.total_events ?? 0).toLocaleString();
+        document.getElementById("stat-users").textContent = (d.total_users ?? 0).toLocaleString();
+        document.getElementById("stat-plans").textContent = (d.total_plans ?? 0).toLocaleString();
+
+        if (d.popular_category) {
+          const pc = d.popular_category;
+          const m = CAT_META[pc.name] || {};
+          document.getElementById("pop-emoji").textContent = m.emoji || "⭐";
+          document.getElementById("pop-name").textContent =
+            pc.name ? pc.name.charAt(0).toUpperCase() + pc.name.slice(1) : "--";
+          document.getElementById("pop-pct").textContent = `${pc.percentage}% of events`;
+        }
+
+        if (d.category_breakdown) {
+          const pills = document.getElementById("cat-pills");
+          const rows = Object.entries(d.category_breakdown).sort((a, b) => b[1] - a[1]);
+          pills.innerHTML = rows.map(([cat, cnt]) => {
+            const m = CAT_META[cat] || { emoji: "📍", grad: "linear-gradient(135deg,#f1f5f9,#e2e8f0)", text: "#475569" };
+            const label = cat.charAt(0).toUpperCase() + cat.slice(1);
+            return `<span class="cat-badge" style="background:${m.grad};color:${m.text};
+                font-size:13px;padding:6px 14px;gap:5px;">
+          ${m.emoji} ${esc(label)}: <strong>${cnt}</strong>
+        </span>`;
+          }).join("");
+        }
+
+        if (d.top_places !== undefined) renderTopPlaces(d.top_places);
+        if (d.recent_activity !== undefined) renderActivity(d.recent_activity);
+
+      } catch (e) {
+        console.error("[Admin] Stats:", e.message);
       }
     }
 
-    function renderEvents() {
-      const table = document.getElementById("adminEventsTable");
-
-      table.innerHTML = events.map(e => `
-    <tr class="border-b hover:bg-slate-50">
-      <td class="py-2">${escapeHtml(e.title)}</td>
-      <td>${escapeHtml(e.category)}</td>
-      <td>${escapeHtml(e.location)}</td>
-      <td>${escapeHtml(e.price || "Free")}</td>
-      <td class="space-x-2">
-        <button onclick="editEvent(${e.id})" class="text-blue-600 hover:underline">Edit</button>
-        <button onclick="deleteEvent(${e.id})" class="text-red-600 hover:underline">Delete</button>
+    function renderTopPlaces(places) {
+      const body = document.getElementById("top-places-body");
+      if (!places.length) {
+        body.innerHTML = `<tr><td colspan="4" class="text-center text-gray-400 py-6 text-sm">
+      No plan data yet — events will appear here once added to daily plans.
+    </td></tr>`;
+        return;
+      }
+      const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
+      body.innerHTML = places.map((p, i) => `
+    <tr>
+      <td class="text-center text-lg w-12">${medals[i] ?? (i + 1)}</td>
+      <td class="font-semibold">${esc(p.title)}</td>
+      <td>${catBadge(p.category)}</td>
+      <td>
+        <span class="font-bold text-violet-700">${p.plan_count}</span>
+        <span class="text-gray-400 text-xs ml-1">times</span>
       </td>
     </tr>
   `).join("");
     }
 
-    async function deleteEvent(id) {
-      if (!confirm("Delete this event?")) return;
+    function renderActivity(items) {
+      const el = document.getElementById("activity-list");
+      if (!items.length) {
+        el.innerHTML = `<p class="text-sm text-gray-400">No recent activity yet.</p>`;
+        return;
+      }
+      el.innerHTML = items.map(item => {
+        const isReg = item.type === "registration";
+        const icon = isReg ? "👤" : "📅";
+        const bg = isReg ? "#eff6ff" : "#f0fdf4";
+        const desc = isReg
+          ? `<span class="font-semibold">${esc(item.email || item.username)}</span> registered`
+          : `<span class="font-semibold">${esc(item.email)}</span> created a plan for <em>${esc(item.date)}</em>`;
+        return `
+      <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl" style="background:${bg}">
+        <span class="text-xl shrink-0">${icon}</span>
+        <p class="text-sm text-gray-700 flex-1 truncate">${desc}</p>
+        <span class="text-xs text-gray-400 shrink-0">${timeAgo(item.timestamp)}</span>
+      </div>
+    `;
+      }).join("");
+    }
+
+    // ── Events table ─────────────────────────────────────────
+    async function loadEvents(page = 1, search = "", cat = "") {
+      _evPage = page;
+      _evSearch = search;
+      _evCat = cat;
+
+      const tbody = document.getElementById("ev-tbody");
+      tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-gray-400 text-sm">Loading…</td></tr>`;
 
       try {
-        await apiDelete(`${EVENTS_API}${id}/`);
-        loadEvents();
-      } catch (error) {
-        console.error(`[Admin] DELETE ${EVENTS_API}${id}/ -> ${error.message}`);
+        let url = `${EVENTS_API}?page=${page}&page_size=${EV_PAGE_SZ}`;
+        if (search) url += `&search=${encodeURIComponent(search)}`;
+        if (cat) url += `&category=${encodeURIComponent(cat)}`;
+
+        const data = await apiGet(url);
+        if (!data) return;
+
+        const items = Array.isArray(data) ? data : (data.results || []);
+        _evTotal = data.count ?? items.length;
+        const from = (_evPage - 1) * EV_PAGE_SZ + 1;
+        const to = Math.min(_evPage * EV_PAGE_SZ, _evTotal);
+        document.getElementById("events-meta").textContent =
+          _evTotal ? `Showing ${from}–${to} of ${_evTotal} events` : "No events";
+
+        if (!items.length) {
+          tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-gray-400 text-sm">No events found</td></tr>`;
+          document.getElementById("ev-pg").innerHTML = "";
+          return;
+        }
+
+        tbody.innerHTML = items.map(e => `
+      <tr data-id="${e.id}"
+          data-title="${esc(e.title)}"
+          data-location="${esc(e.location || '')}">
+        <td>
+          <input type="checkbox" class="ev-cb w-4 h-4 rounded accent-violet-600"
+                 data-id="${e.id}" aria-label="Select ${esc(e.title)}">
+        </td>
+        <td class="font-medium max-w-[200px] truncate" title="${esc(e.title)}">
+          ${esc(e.title)}
+        </td>
+        <td>${catBadge(e.category)}</td>
+        <td class="text-gray-500 max-w-[160px] truncate" title="${esc(e.location)}">
+          ${esc(e.location || "—")}
+        </td>
+        <td>
+          ${e.rating != null
+            ? `<span class="font-semibold text-amber-500">★ ${parseFloat(e.rating).toFixed(1)}</span>`
+            : `<span class="text-gray-300 text-xs">—</span>`}
+        </td>
+        <td>
+          ${e.price != null
+            ? `<span class="font-medium">SAR ${parseFloat(e.price).toLocaleString()}</span>`
+            : `<span class="bg-green-50 text-green-700 text-xs font-semibold
+                            px-2 py-0.5 rounded-full">Free</span>`}
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <button class="btn-edit" onclick="openEditModal(${e.id})"
+                    aria-label="Edit ${esc(e.title)}">Edit</button>
+            <button class="btn-del" onclick="confirmDelete('event',${e.id},'${esc(e.title)}')"
+                    aria-label="Delete ${esc(e.title)}">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+
+        renderEvPagination();
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-red-500 text-sm">
+      Error loading events: ${esc(err.message)}
+    </td></tr>`;
+        console.error("[Admin] Events:", err.message);
       }
     }
 
-    async function editEvent(id) {
-      const event = events.find(e => e.id === id);
-      const title = prompt("New title", event?.title || "");
-      if (title === null) return;
-
-      try {
-        await apiPatch(`${EVENTS_API}${id}/`, { title });
-        loadEvents();
-      } catch (error) {
-        console.error(`[Admin] PATCH ${EVENTS_API}${id}/ -> ${error.message}`);
-      }
+    function renderEvPagination() {
+      const total = Math.ceil(_evTotal / EV_PAGE_SZ);
+      const el = document.getElementById("ev-pg");
+      if (total <= 1) { el.innerHTML = ""; return; }
+      const pages = buildPages(_evPage, total);
+      el.innerHTML = `
+    <span class="text-xs text-gray-400">Page ${_evPage} of ${total}</span>
+    <div class="flex gap-1 flex-wrap">
+      <button class="pg-btn" onclick="loadEvents(${_evPage - 1},_evSearch,_evCat)"
+              ${_evPage <= 1 ? "disabled" : ""}>← Prev</button>
+      ${pages.map(p => p === "…"
+        ? `<span class="pg-btn" style="cursor:default;pointer-events:none">…</span>`
+        : `<button class="pg-btn${p === _evPage ? " active" : ""}"
+                   onclick="loadEvents(${p},_evSearch,_evCat)">${p}</button>`
+      ).join("")}
+      <button class="pg-btn" onclick="loadEvents(${_evPage + 1},_evSearch,_evCat)"
+              ${_evPage >= total ? "disabled" : ""}>Next →</button>
+    </div>
+  `;
     }
 
+    // ── Users table ──────────────────────────────────────────
     async function loadUsers() {
       try {
         const data = await apiGet(USERS_API);
         if (!data) return;
-        users = Array.isArray(data) ? data : (data.results || []);
+        _allUsers = Array.isArray(data) ? data : (data.results || []);
         renderUsers();
-        updateStats();
-      } catch (error) {
-        console.error(`[Admin] GET ${USERS_API} -> ${error.message}`);
+      } catch (err) {
+        document.getElementById("users-tbody").innerHTML =
+          `<tr><td colspan="6" class="py-6 text-center text-red-500 text-sm">
+        Error loading users: ${esc(err.message)}
+      </td></tr>`;
+        console.error("[Admin] Users:", err.message);
       }
     }
 
     function renderUsers() {
-      const table = document.getElementById("adminUsersTable");
-
-      table.innerHTML = users.map(u => `
-    <tr class="border-b hover:bg-slate-50">
-      <td class="py-2">${escapeHtml(u.username)}</td>
-      <td>${escapeHtml(u.email)}</td>
-      <td class="space-x-2">
-        <button onclick="deleteUser(${u.id})" class="text-red-600 hover:underline">Delete</button>
-      </td>
-    </tr>
-  `).join("");
-    }
-
-    async function deleteUser(id) {
-      if (!confirm("Delete this user?")) return;
-
-      try {
-        await apiDelete(`${USERS_API}${id}/`);
-        loadUsers();
-      } catch (error) {
-        console.error(`[Admin] DELETE ${USERS_API}${id}/ -> ${error.message}`);
-      }
-    }
-
-    function updateStats() {
-      document.getElementById("stat-events").textContent = events.length;
-      document.getElementById("stat-users").textContent = users.length;
-
-      const free = events.filter(e => !e.price).length;
-      document.getElementById("stat-free").textContent = free;
-
-      const categories = new Set(events.map(e => e.category));
-      document.getElementById("stat-categories").textContent = categories.size;
-    }
-
-    document.getElementById("adminSearch").addEventListener("input", (e) => {
-      const value = e.target.value.toLowerCase();
-
-      const filtered = events.filter(ev =>
-        ev.title.toLowerCase().includes(value)
+      const q = _usrSearch.toLowerCase();
+      const filtered = _allUsers.filter(u =>
+        !q || (u.email || "").toLowerCase().includes(q) || (u.username || "").toLowerCase().includes(q)
       );
 
-      const table = document.getElementById("adminEventsTable");
+      document.getElementById("users-meta").textContent =
+        `${filtered.length} of ${_allUsers.length} users`;
 
-      table.innerHTML = filtered.map(e => `
-    <tr class="border-b">
-      <td>${escapeHtml(e.title)}</td>
-      <td>${escapeHtml(e.category)}</td>
-      <td>${escapeHtml(e.location)}</td>
-      <td>${escapeHtml(e.price || "Free")}</td>
+      const totalPg = Math.ceil(filtered.length / USR_PAGE_SZ);
+      if (_usrPage > totalPg) _usrPage = Math.max(1, totalPg);
+
+      const slice = filtered.slice((_usrPage - 1) * USR_PAGE_SZ, _usrPage * USR_PAGE_SZ);
+      const tbody = document.getElementById("users-tbody");
+
+      if (!slice.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-gray-400 text-sm">No users found</td></tr>`;
+        document.getElementById("users-pg").innerHTML = "";
+        return;
+      }
+
+      tbody.innerHTML = slice.map(u => `
+    <tr>
+      <td class="font-medium">${esc(u.email)}</td>
+      <td class="text-gray-500">${esc(u.username)}</td>
+      <td class="text-gray-400 text-xs whitespace-nowrap">${fmtDate(u.date_joined)}</td>
+      <td class="font-bold text-violet-700 text-center">${u.plan_count ?? "—"}</td>
       <td>
-        <button onclick="editEvent(${e.id})">Edit</button>
-        <button onclick="deleteEvent(${e.id})">Delete</button>
+        ${u.is_staff
+          ? `<span class="cat-badge" style="background:#ede9fe;color:#5b21b6;">Staff</span>`
+          : `<span class="cat-badge" style="background:#f1f5f9;color:#475569;">User</span>`}
+      </td>
+      <td>
+        <button class="btn-del" onclick="confirmDelete('user',${u.id},'${esc(u.email)}')"
+                aria-label="Delete user ${esc(u.email)}">Delete</button>
       </td>
     </tr>
   `).join("");
+
+      const pgEl = document.getElementById("users-pg");
+      if (totalPg <= 1) { pgEl.innerHTML = ""; return; }
+      pgEl.innerHTML = `
+    <span class="text-xs text-gray-400">Page ${_usrPage} of ${totalPg}</span>
+    <div class="flex gap-1">
+      <button class="pg-btn" onclick="setUsrPage(${_usrPage - 1})" ${_usrPage <= 1 ? "disabled" : ""}>← Prev</button>
+      <button class="pg-btn" onclick="setUsrPage(${_usrPage + 1})" ${_usrPage >= totalPg ? "disabled" : ""}>Next →</button>
+    </div>
+  `;
+    }
+
+    function setUsrPage(p) { _usrPage = p; renderUsers(); }
+
+    // ── Delete ───────────────────────────────────────────────
+    function confirmDelete(type, id, name) {
+      _pendingDel = { type, id };
+      document.getElementById("del-modal-body").textContent =
+        `Delete "${name}"? This action cannot be undone.`;
+      document.getElementById("del-modal").classList.add("open");
+      document.getElementById("del-confirm-btn").focus();
+    }
+    function closeDelModal() {
+      _pendingDel = null;
+      document.getElementById("del-modal").classList.remove("open");
+    }
+
+    document.getElementById("del-confirm-btn").addEventListener("click", async () => {
+      if (!_pendingDel) return;
+      const { type, id } = _pendingDel;
+      closeDelModal();
+      try {
+        const url = type === "event" ? `${EVENTS_API}${id}/` : `${USERS_API}${id}/`;
+        await apiDelete(url);
+        showToast(type === "event" ? "Event deleted" : "User deleted");
+        if (type === "event") {
+          await Promise.all([loadStats(), loadEvents(_evPage, _evSearch, _evCat)]);
+        } else {
+          await Promise.all([loadStats(), loadUsers()]);
+        }
+      } catch (err) {
+        showToast("Delete failed: " + err.message, "error");
+      }
     });
 
-    document.getElementById("refreshEvents").addEventListener("click", loadEvents);
-
-    document.addEventListener("DOMContentLoaded", () => {
-      if (!isLoggedIn()) {
-        window.location.href = "/login/";
-        return;
+    // ── Bulk delete ──────────────────────────────────────────
+    async function bulkDelete() {
+      const checked = [...document.querySelectorAll(".ev-cb:checked")];
+      if (!checked.length) { showToast("No events selected", "error"); return; }
+      if (!confirm(`Delete ${checked.length} event(s)? This cannot be undone.`)) return;
+      let ok = 0;
+      for (const cb of checked) {
+        try { await apiDelete(`${EVENTS_API}${cb.dataset.id}/`); ok++; }
+        catch (_) { }
       }
+      showToast(`Deleted ${ok} event(s)`);
+      await Promise.all([loadStats(), loadEvents(_evPage, _evSearch, _evCat)]);
+    }
+
+    document.getElementById("bulk-all").addEventListener("change", function () {
+      document.querySelectorAll(".ev-cb").forEach(cb => { cb.checked = this.checked; });
+    });
+
+    // ── Edit ─────────────────────────────────────────────────
+    function openEditModal(id) {
+      const row = document.querySelector(`#ev-tbody tr[data-id="${id}"]`);
+      if (!row) return;
+      _pendingEdit = id;
+      document.getElementById("edit-title").value = row.dataset.title || "";
+      document.getElementById("edit-location").value = row.dataset.location || "";
+      document.getElementById("edit-modal").classList.add("open");
+      document.getElementById("edit-title").focus();
+    }
+    function closeEditModal() {
+      _pendingEdit = null;
+      document.getElementById("edit-modal").classList.remove("open");
+    }
+    async function saveEdit() {
+      if (!_pendingEdit) return;
+      const title = document.getElementById("edit-title").value.trim();
+      const location = document.getElementById("edit-location").value.trim();
+      if (!title) { showToast("Title cannot be empty", "error"); return; }
+      try {
+        await apiPatch(`${EVENTS_API}${_pendingEdit}/`, { title, location });
+        showToast("Event updated");
+        closeEditModal();
+        await loadEvents(_evPage, _evSearch, _evCat);
+      } catch (err) {
+        showToast("Update failed: " + err.message, "error");
+      }
+    }
+
+    // ── Section toggle ───────────────────────────────────────
+    let _usersCollapsed = false;
+    function toggleUsers() {
+      const body = document.getElementById("users-body");
+      const btn = document.getElementById("users-toggle");
+      _usersCollapsed = !_usersCollapsed;
+      body.style.display = _usersCollapsed ? "none" : "";
+      btn.textContent = _usersCollapsed ? "Expand ↓" : "Collapse ↑";
+    }
+
+    // ── Refresh ──────────────────────────────────────────────
+    async function refreshAll() {
+      const btn = document.getElementById("refresh-btn");
+      btn.textContent = "🔄 Refreshing…";
+      btn.disabled = true;
+      await Promise.all([
+        loadStats(),
+        loadEvents(1, _evSearch, _evCat),
+        loadUsers(),
+      ]);
+      btn.textContent = "🔄 Refresh Data";
+      btn.disabled = false;
+      showToast("Data refreshed");
+    }
+
+    // ── Export CSV ───────────────────────────────────────────
+    async function exportCSV() {
+      try {
+        const data = await apiGet(`${EVENTS_API}?page_size=1000`);
+        const items = Array.isArray(data) ? data : (data.results || []);
+        const rows = [["ID", "Title", "Category", "Location", "Rating", "Price"]];
+        items.forEach(e => rows.push([
+          e.id,
+          `"${String(e.title || "").replace(/"/g, '""')}"`,
+          e.category || "",
+          `"${String(e.location || "").replace(/"/g, '""')}"`,
+          e.rating ?? "",
+          e.price ?? "",
+        ]));
+        const csv = rows.map(r => r.join(",")).join("\n");
+        const link = document.createElement("a");
+        link.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+        link.download = `tizahab-events-${new Date().toISOString().slice(0, 10)}.csv`;
+        link.click();
+        showToast("CSV exported (" + items.length + " events)");
+      } catch (err) {
+        showToast("Export failed", "error");
+      }
+    }
+
+    // ── Search & filter (debounced) ──────────────────────────
+    document.getElementById("ev-search").addEventListener("input", debounce(e => {
+      loadEvents(1, e.target.value, _evCat);
+    }, 380));
+
+    document.getElementById("ev-cat").addEventListener("change", e => {
+      loadEvents(1, _evSearch, e.target.value);
+    });
+
+    document.getElementById("user-search").addEventListener("input", debounce(e => {
+      _usrSearch = e.target.value;
+      _usrPage = 1;
+      renderUsers();
+    }, 280));
+
+    // ── Modal close on backdrop / Escape ────────────────────
+    document.getElementById("del-modal").addEventListener("click", e => {
+      if (e.target === e.currentTarget) closeDelModal();
+    });
+    document.getElementById("edit-modal").addEventListener("click", e => {
+      if (e.target === e.currentTarget) closeEditModal();
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") { closeDelModal(); closeEditModal(); }
+    });
+
+    // ── Bootstrap ────────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!isLoggedIn()) { window.location.href = "/login/"; return; }
+      loadStats();
       loadEvents();
       loadUsers();
+      setInterval(loadStats, 30000);   // refresh stats every 30 s
     });
   </script>
 

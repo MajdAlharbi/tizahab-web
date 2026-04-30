@@ -18,6 +18,7 @@ staff_required = user_passes_test(
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
+    path("auth/", include("social_django.urls", namespace="social")),
 
     # Public index page
     path("", TemplateView.as_view(template_name="index.html"), name="index"),

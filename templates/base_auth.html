@@ -11,7 +11,11 @@
       try {
         var t = localStorage.getItem("tz_theme") || "light";
         var l = localStorage.getItem("tz_lang") || "en";
-        document.documentElement.setAttribute("data-theme", t);
+        var resolved = t === "auto"
+          ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+          : t;
+        document.documentElement.setAttribute("data-theme", resolved);
+        document.documentElement.setAttribute("data-theme-mode", t);
         document.documentElement.setAttribute("dir", l === "ar" ? "rtl" : "ltr");
         document.documentElement.setAttribute("lang", l === "ar" ? "ar" : "en");
       } catch (e) {}
@@ -47,11 +51,105 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&family=Cairo:wght@400;600&family=Cantata+One&family=Bona+Nova+SC&display=swap" rel="stylesheet">
 
+  <style>
+    .auth-shell { background: #f7f8fc; color: #172033; }
+    .auth-glow-violet { background: rgba(124, 58, 237, 0.12); }
+    .auth-glow-warm { background: rgba(190, 170, 86, 0.10); }
+    .auth-card {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(255, 255, 255, 0.80);
+      box-shadow: 0 24px 70px rgba(88, 28, 135, 0.10);
+    }
+    .auth-muted { color: #64748b; }
+    .auth-label { color: #334155; }
+    .auth-input { background: #f8fafc; border-color: #e2e8f0; color: #172033; }
+    .auth-input::placeholder { color: #94a3b8; }
+    .auth-input:focus {
+      background: #ffffff;
+      border-color: #a78bfa;
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.20);
+    }
+    .auth-theme-btn[aria-pressed="true"] {
+      background: #7c3aed;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.18);
+    }
+    .auth-theme-btn[aria-pressed="false"] { color: #64748b; }
+    .auth-tab-active { background: #ffffff; color: #6d28d9; }
+    .auth-divider { background: #e2e8f0; }
+    [data-theme="dark"] .auth-shell { background: #111827; color: #f8fafc; }
+    [data-theme="dark"] .auth-glow-violet { background: rgba(139, 92, 246, 0.16); }
+    [data-theme="dark"] .auth-glow-warm { background: rgba(190, 170, 86, 0.08); }
+    [data-theme="dark"] .auth-card {
+      background: rgba(24, 31, 45, 0.94);
+      border-color: rgba(148, 163, 184, 0.16);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+    [data-theme="dark"] .auth-muted { color: #94a3b8; }
+    [data-theme="dark"] .auth-label { color: #dbe4f0; }
+    [data-theme="dark"] .auth-input {
+      background: #0f172a;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    [data-theme="dark"] .auth-input::placeholder { color: #64748b; }
+    [data-theme="dark"] .auth-input:focus {
+      background: #111827;
+      border-color: #a78bfa;
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18);
+    }
+    [data-theme="dark"] .auth-soft {
+      background: rgba(15, 23, 42, 0.72);
+      border-color: rgba(148, 163, 184, 0.18);
+    }
+    [data-theme="dark"] .auth-theme-btn[aria-pressed="false"] { color: #cbd5e1; }
+    [data-theme="dark"] .auth-tab-active { background: #273449; color: #ddd6fe; }
+    [data-theme="dark"] .auth-divider { background: #334155; }
+  </style>
+
   {% block head %}{% endblock %}
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
   {% block content %}{% endblock %}
+  <script>
+    (function () {
+      function resolveTheme(mode) {
+        if (mode === "auto") {
+          return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        return mode || "light";
+      }
+
+      function applyAuthTheme(mode) {
+        var resolved = resolveTheme(mode);
+        document.documentElement.setAttribute("data-theme", resolved);
+        document.documentElement.setAttribute("data-theme-mode", mode);
+        localStorage.setItem("tz_theme", mode);
+        document.querySelectorAll("[data-auth-theme]").forEach(function (btn) {
+          btn.setAttribute("aria-pressed", btn.getAttribute("data-auth-theme") === mode ? "true" : "false");
+        });
+      }
+
+      var saved = localStorage.getItem("tz_theme") || "light";
+      applyAuthTheme(saved);
+
+      document.querySelectorAll("[data-auth-theme]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          applyAuthTheme(btn.getAttribute("data-auth-theme"));
+        });
+      });
+
+      var media = window.matchMedia("(prefers-color-scheme: dark)");
+      if (media.addEventListener) {
+        media.addEventListener("change", function () {
+          if ((localStorage.getItem("tz_theme") || "light") === "auto") {
+            applyAuthTheme("auto");
+          }
+        });
+      }
+    })();
+  </script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

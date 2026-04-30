@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import Count
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
@@ -388,7 +389,9 @@ class AdminUserListAPIView(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
-        users = User.objects.all().order_by("-date_joined")
+        users = User.objects.annotate(
+            plan_count=Count("daily_plans", distinct=True)
+        ).order_by("-date_joined")
         data = [
             {
                 "id": u.id,
@@ -397,6 +400,7 @@ class AdminUserListAPIView(APIView):
                 "is_staff": u.is_staff,
                 "is_active": u.is_active,
                 "date_joined": u.date_joined.isoformat(),
+                "plan_count": u.plan_count,
             }
             for u in users
         ]

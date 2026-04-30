@@ -3,69 +3,68 @@
 
 {% block title %}Login | Tizahab{% endblock %}
 
-{% block body_class %}min-h-screen bg-slate-50 font-arimo text-slate-900 relative overflow-x-hidden{% endblock %}
+{% block body_class %}auth-shell min-h-screen font-arimo relative overflow-x-hidden{% endblock %}
 
 {% block content %}
 <div class="pointer-events-none fixed inset-0 overflow-hidden">
-  <div class="absolute -top-28 -right-20 h-72 w-72 rounded-full bg-violet-200/60 blur-3xl"></div>
-  <div class="absolute top-1/3 -left-24 h-80 w-80 rounded-full bg-fuchsia-100/80 blur-3xl"></div>
-  <div class="absolute bottom-0 right-1/4 h-56 w-56 rounded-full bg-amber-100/70 blur-3xl"></div>
+  <div class="auth-glow-violet absolute -top-32 -right-24 h-72 w-72 rounded-full blur-3xl"></div>
+  <div class="auth-glow-violet absolute top-1/3 -left-28 h-72 w-72 rounded-full blur-3xl"></div>
+  <div class="auth-glow-warm absolute bottom-0 right-1/4 h-56 w-56 rounded-full blur-3xl"></div>
 </div>
 
-<!-- Language Switch -->
-<button
-  onclick="document.documentElement.classList.toggle('lang-ar')"
-  class="absolute top-5 right-5 z-10 rounded-full border border-violet-200 bg-white/80 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm backdrop-blur transition hover:bg-white">
-  العربية
-</button>
+<div class="fixed top-4 right-4 z-10 flex items-center gap-3">
+  <div class="flex items-center bg-white rounded-full shadow-sm border border-gray-200 p-1">
+    <button type="button" data-theme="light" class="theme-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">☀️</button>
+    <button type="button" data-theme="dark" class="theme-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">🌙</button>
+  </div>
+  <div class="flex items-center bg-white rounded-full shadow-sm border border-gray-200 p-1">
+    <button type="button" data-lang="en" class="lang-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">EN</button>
+    <button type="button" data-lang="ar" class="lang-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">ع</button>
+  </div>
+</div>
 
-<main class="relative z-10 flex min-h-screen items-center justify-center px-4 py-12">
-  <div class="w-full max-w-[440px] rounded-3xl border border-white/70 bg-white/95 px-6 py-8 shadow-[0_24px_70px_rgba(88,28,135,0.14)] backdrop-blur sm:px-9 sm:py-10">
-    <!-- Logo -->
+<main class="relative z-10 flex min-h-screen items-center justify-center px-4 py-20 sm:py-16">
+  <div class="auth-card w-full max-w-[440px] rounded-3xl border px-6 py-8 backdrop-blur sm:px-9 sm:py-10">
     <div class="mb-8 text-center">
       <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-600 text-xl font-bold text-white shadow-lg shadow-violet-200">
         T
       </div>
       <h1 class="font-cantata text-3xl text-violet-800">Tizahab</h1>
-      <p class="mt-1 font-bona text-lg text-violet-500">تِزهب</p>
+      <p class="mt-1 font-bona text-lg text-violet-500">تِزْهَب</p>
     </div>
 
-    <!-- Tabs -->
-    <div class="mb-8 grid grid-cols-2 rounded-2xl bg-slate-100 p-1 text-sm font-semibold">
-      <button class="h-11 rounded-xl bg-white text-violet-700 shadow-sm">
+    <div class="auth-soft mb-8 grid grid-cols-2 rounded-2xl bg-slate-100 p-1 text-sm font-semibold">
+      <button class="auth-tab-active h-11 rounded-xl shadow-sm">
         Login
       </button>
       <a
         href="{% url 'signup-page' %}"
-        class="flex h-11 items-center justify-center rounded-xl text-slate-500 transition hover:text-violet-700">
+        class="auth-muted flex h-11 items-center justify-center rounded-xl transition hover:text-violet-700">
         Create Account
       </a>
     </div>
 
-    <!-- Form -->
     <form method="post" class="space-y-5">
       {% csrf_token %}
 
-      <!-- Email -->
       <div>
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Email Address</label>
+        <label class="auth-label mb-2 block text-sm font-semibold">Email Address</label>
         <input
           type="email"
           name="email"
           placeholder="your@email.com"
           required
-          class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-violet-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-violet-100" />
+          class="auth-input h-12 w-full rounded-xl border px-4 text-sm transition focus:outline-none" />
       </div>
 
-      <!-- Password -->
       <div>
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Password</label>
+        <label class="auth-label mb-2 block text-sm font-semibold">Password</label>
         <input
           type="password"
           name="password"
           placeholder="Enter your password"
           required
-          class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-violet-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-violet-100" />
+          class="auth-input h-12 w-full rounded-xl border px-4 text-sm transition focus:outline-none" />
         <div class="mt-2 text-right">
           <a href="/api/auth/ui/forgot-password/" class="text-sm font-semibold text-violet-700 hover:text-violet-900"
             >Forgot password?</a
@@ -73,38 +72,63 @@
         </div>
       </div>
 
-      <!-- Error -->
-      <p id="login-error" class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600"></p>
+      <p id="login-error" role="alert" aria-live="polite" class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600"></p>
 
-      <!-- Login -->
       <button
+        id="login-btn"
         type="submit"
-        class="h-12 w-full rounded-xl bg-gradient-to-r from-violet-700 to-violet-500 text-base font-bold text-white shadow-lg shadow-violet-200 transition hover:from-violet-800 hover:to-violet-600">
-        Login
+        class="h-12 w-full rounded-xl bg-gradient-to-r from-violet-700 to-violet-500 text-base font-bold text-white shadow-lg shadow-violet-200 transition hover:from-violet-800 hover:to-violet-600 disabled:opacity-60 disabled:cursor-not-allowed">
+        <span id="login-btn-text">Login</span>
+        <span id="login-btn-spinner" class="hidden inline-flex items-center gap-2">
+          <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          Loading…
+        </span>
       </button>
 
-      <!-- Guest -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="auth-divider h-px flex-1"></div>
+          <span class="auth-muted text-xs font-semibold uppercase tracking-wide">Or continue with</span>
+          <div class="auth-divider h-px flex-1"></div>
+        </div>
+        <a href="{% url 'social:begin' 'google-oauth2' %}"
+          class="auth-soft flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white font-bold text-slate-600 transition hover:bg-gray-50">
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm font-bold text-[#4285F4] shadow-sm">G</span>
+          Continue with Google
+        </a>
+        <a href="{% url 'social:begin' 'facebook' %}"
+          class="auth-soft flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white font-bold text-slate-600 transition hover:bg-gray-50">
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1877F2] text-sm font-bold text-white">f</span>
+          Continue with Facebook
+        </a>
+      </div>
+
       <button
         type="button"
         onclick="window.location.href='{% url 'index' %}'"
-        class="h-12 w-full rounded-xl border border-slate-200 bg-white font-bold text-slate-600 transition hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700">
+        class="auth-soft h-12 w-full rounded-xl border border-slate-200 bg-white font-bold text-slate-600 transition hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700">
         Continue as Guest
       </button>
     </form>
   </div>
 </main>
 
-<a href="/" class="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-sm font-semibold text-slate-500 transition hover:text-violet-700">← Back to Home</a>
+<a href="/" class="auth-muted absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-sm font-semibold transition hover:text-violet-700">← Back to Home</a>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'js/api.js' %}"></script>
 <script>
-  const form = document.querySelector("form");
-  const errorBox = document.getElementById("login-error");
+  const form      = document.querySelector("form");
+  const errorBox  = document.getElementById("login-error");
+  const btn       = document.getElementById("login-btn");
+  const btnText   = document.getElementById("login-btn-text");
+  const btnSpinner = document.getElementById("login-btn-spinner");
   const rawNextParam = new URLSearchParams(window.location.search).get("next");
-  const nextParam =
-    rawNextParam && rawNextParam.startsWith("/") ? rawNextParam : null;
+  const nextParam = rawNextParam && rawNextParam.startsWith("/") ? rawNextParam : null;
 
   function getLoginErrorMessage(err) {
     const fromResponse =
@@ -112,51 +136,100 @@
         ? extractApiErrorMessage(err?.responseData, "")
         : "";
     const fromError = typeof err?.message === "string" ? err.message.trim() : "";
-
     if (fromResponse) return fromResponse;
     if (fromError && !/^API error \d+$/i.test(fromError)) return fromError;
     return "Something went wrong. Please try again.";
   }
 
+  function setLoading(loading) {
+    if (btn) btn.disabled = loading;
+    if (btnText)    btnText.classList.toggle("hidden", loading);
+    if (btnSpinner) btnSpinner.classList.toggle("hidden", !loading);
+  }
+
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-
     if (!form.reportValidity()) return;
 
     errorBox.classList.add("hidden");
     errorBox.textContent = "";
+    setLoading(true);
 
-    const email = form.querySelector("input[name='email']").value;
+    const email    = form.querySelector("input[name='email']").value;
     const password = form.querySelector("input[name='password']").value;
 
     try {
-      const data = await apiPost("/api/auth/login/", {
-        email: email,
-        password: password,
-      });
-
+      const data = await apiPost("/api/auth/login/", { email, password });
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
 
       let isAdmin = false;
-      try {
-        await apiGet("/api/auth/admin/users/");
-        isAdmin = true;
-      } catch {
-        isAdmin = false;
-      }
+      try { await apiGet("/api/auth/admin/users/"); isAdmin = true; } catch { isAdmin = false; }
 
-      if (nextParam) {
-        window.location.href = nextParam;
-      } else if (isAdmin) {
-        window.location.href = "/admin-panel/";
-      } else {
-        window.location.href = "/home/";
-      }
+      if (nextParam)      window.location.href = nextParam;
+      else if (isAdmin)   window.location.href = "/admin-panel/";
+      else                window.location.href = "/home/";
     } catch (err) {
       errorBox.textContent = getLoginErrorMessage(err);
       errorBox.classList.remove("hidden");
+      setLoading(false);
     }
   });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  applyTheme(savedTheme);
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const theme = this.dataset.theme;
+      applyTheme(theme);
+      localStorage.setItem('theme', theme);
+    });
+  });
+  function applyTheme(theme) {
+    themeButtons.forEach(btn => {
+      if (btn.dataset.theme === theme) {
+        btn.classList.add('bg-violet-600', 'text-white');
+        btn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+      } else {
+        btn.classList.remove('bg-violet-600', 'text-white');
+        btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+      }
+    });
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.body.style.background = 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)';
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.style.background = 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)';
+    }
+  }
+  const langButtons = document.querySelectorAll('.lang-btn');
+  const savedLang = localStorage.getItem('language') || 'en';
+  applyLanguage(savedLang);
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const lang = this.dataset.lang;
+      applyLanguage(lang);
+      localStorage.setItem('language', lang);
+      if (lang === 'ar') {
+        alert('اللغة العربية ستكون متاحة قريباً');
+      }
+    });
+  });
+  function applyLanguage(lang) {
+    langButtons.forEach(btn => {
+      if (btn.dataset.lang === lang) {
+        btn.classList.add('bg-violet-600', 'text-white');
+        btn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+      } else {
+        btn.classList.remove('bg-violet-600', 'text-white');
+        btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+      }
+    });
+  }
+});
 </script>
 {% endblock %}

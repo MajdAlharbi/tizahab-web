@@ -15,6 +15,15 @@ if (signupForm) {
     return "Something went wrong. Please try again.";
   }
 
+  function setSignupLoading(loading) {
+    const btn      = document.getElementById("signup-btn");
+    const btnText  = document.getElementById("signup-btn-text");
+    const btnSpinner = document.getElementById("signup-btn-spinner");
+    if (btn) btn.disabled = loading;
+    if (btnText)    btnText.classList.toggle("hidden", loading);
+    if (btnSpinner) btnSpinner.classList.toggle("hidden", !loading);
+  }
+
   signupForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -29,12 +38,31 @@ if (signupForm) {
       return;
     }
 
-    const email = signupForm.querySelector("input[name='email']").value;
-    const password = signupForm.querySelector("input[name='password']").value;
-    const password2 = signupForm.querySelector("input[name='password2']").value;
+    const fullName = (
+      document.getElementById("signup-name") ??
+      signupForm.querySelector("input[name='full_name']")
+    )?.value ?? "";
+
+    const email = (
+      document.getElementById("signup-email") ??
+      signupForm.querySelector("input[name='email']")
+    )?.value ?? "";
+
+    const password = (
+      document.getElementById("signup-password") ??
+      signupForm.querySelector("input[name='password']")
+    )?.value ?? "";
+
+    const password2 = (
+      document.getElementById("signup-confirm") ??
+      signupForm.querySelector("input[name='password2']")
+    )?.value ?? "";
+
+    setSignupLoading(true);
 
     try {
       const data = await window.apiPost("/api/auth/signup/", {
+        full_name: fullName,
         email,
         password,
         password2,
@@ -48,6 +76,7 @@ if (signupForm) {
         errorBox.textContent = getSignupPageErrorMessage(err);
         errorBox.classList.remove("hidden");
       }
+      setSignupLoading(false);
     }
   });
 }

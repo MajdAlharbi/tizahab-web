@@ -326,14 +326,69 @@ class AdminDashboardStatsAPIView(APIView):
 
     def get(self, request):
         total_events = Event.objects.count()
-        total_users = User.objects.count()
-        total_plans = DailyPlan.objects.count()
+        total_users  = User.objects.count()
+        total_plans  = DailyPlan.objects.count()
+
+        # Category breakdown: count of events per category, sorted descending
+        category_rows = list(
+            Event.objects.values("category")
+            .annotate(count=Count("id"))
+            .order_by("-count")
+        )
+        category_breakdown = {row["category"]: row["count"] for row in category_rows}
+
+        # Most common category
+        popular_category = None
+        if category_rows:
+            top = category_rows[0]
+            popular_category = {
+                "name": top["category"],
+                "count": top["count"],
+                "percentage": round(top["count"] / total_events * 100) if total_events else 0,
+            }
+
+        # Top 5 events most frequently added to daily plans
+        top_places = list(
+            Event.objects.annotate(plan_count=Count("daily_plans", distinct=True))
+            .filter(plan_count__gt=0)
+            .order_by("-plan_count")
+            .values("id", "title", "category", "plan_count")[:5]
+        )
+
+        # Recent activity: last 10 registrations + plan creations merged by timestamp
+        recent_registrations = [
+            {
+                "type": "registration",
+                "email": u.email,
+                "username": u.username,
+                "timestamp": u.date_joined.isoformat(),
+            }
+            for u in User.objects.order_by("-date_joined")[:10]
+        ]
+        recent_plans = [
+            {
+                "type": "plan",
+                "email": p.user.email,
+                "date": str(p.date),
+                "timestamp": p.created_at.isoformat(),
+            }
+            for p in DailyPlan.objects.select_related("user").order_by("-created_at")[:10]
+        ]
+        recent_activity = sorted(
+            recent_registrations + recent_plans,
+            key=lambda x: x["timestamp"],
+            reverse=True,
+        )[:10]
 
         return Response(
             {
                 "total_events": total_events,
                 "total_users": total_users,
                 "total_plans": total_plans,
+                "category_breakdown": category_breakdown,
+                "popular_category": popular_category,
+                "top_places": top_places,
+                "recent_activity": recent_activity,
             },
             status=status.HTTP_200_OK,
         )
