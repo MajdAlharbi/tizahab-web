@@ -1,93 +1,189 @@
 {% extends "dashboard_base.html" %}
 
-{% block title %}Car Rental | Tizahab{% endblock %}
+{% block title %}Cars & Rides in Riyadh | Tizahab{% endblock %}
 
 {% block content %}
-<main class="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
-  <section class="bg-gradient-to-r from-[#4D1B76] to-[#7e1ca1] rounded-2xl p-6 text-white">
-    <div class="max-w-2xl space-y-3">
-      <h1 class="text-3xl font-semibold">Car Rental</h1>
-      <p class="text-sm text-white/80">
-        Browse trusted car rental companies in Riyadh and book directly from their official websites.
+<main class="max-w-5xl mx-auto px-4 lg:px-6 py-10 pb-16 space-y-12">
+  <header class="space-y-4 max-w-3xl">
+    <span class="inline-flex items-center h-7 px-3 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold border border-violet-100">
+      External provider links
+    </span>
+    <div class="space-y-2">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+        Cars &amp; Rides in Riyadh
+      </h1>
+      <p class="text-base text-gray-500 leading-relaxed">
+        Find car rental companies and ride-hailing services. Book directly through external providers.
       </p>
+    </div>
+  </header>
+
+  <section class="space-y-5">
+    <div class="space-y-1">
+      <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Car rental companies</h2>
+      <p class="text-sm text-gray-500">Open official providers and choose what fits your trip.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Theeb Rent a Car</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.theebonline.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Theeb%20Rent%20a%20Car%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Yelo</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.iyelo.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Yelo%20Rent%20a%20Car%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Lumi</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://lumirental.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Lumi%20Car%20Rental%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Budget Saudi</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.budgetsaudi.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Budget%20Saudi%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Avis Saudi Arabia</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.avis.com.sa/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Avis%20Saudi%20Arabia%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Key Car Rental</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.key.sa/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Key%20Car%20Rental%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Sixt Saudi Arabia</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.sixt.sa/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Sixt%20Car%20Rental%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Enterprise Saudi Arabia</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Car rental provider in Saudi Arabia.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.enterprise.com/en/car-rental/locations/saudi-arabia.html" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Enterprise%20Rent%20A%20Car%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Find Branches</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <article class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-lg transition cursor-pointer flex flex-col">
-      <h2 class="font-semibold text-gray-800">Budget</h2>
-      <p class="text-sm text-gray-500 mt-1 flex-1">
-        Global car rental provider with a wide fleet selection and convenient booking options for city and airport travel.
-      </p>
-      <a
-        href="https://www.budget.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Book Now
-      </a>
-    </article>
+  <section class="space-y-5">
+    <div class="space-y-1">
+      <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Ride-hailing &amp; taxi services</h2>
+      <p class="text-sm text-gray-500">Use external apps or websites for city rides.</p>
+    </div>
 
-    <article class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-lg transition cursor-pointer flex flex-col">
-      <h2 class="font-semibold text-gray-800">Avis</h2>
-      <p class="text-sm text-gray-500 mt-1 flex-1">
-        Established international rental brand known for reliable service, flexible pickup locations, and business travel options.
-      </p>
-      <a
-        href="https://www.avis.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Book Now
-      </a>
-    </article>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Uber</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Ride-hailing service.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.uber.com/sa/en/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Uber%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Open Maps</a>
+        </div>
+      </article>
 
-    <article class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-lg transition cursor-pointer flex flex-col">
-      <h2 class="font-semibold text-gray-800">Sixt</h2>
-      <p class="text-sm text-gray-500 mt-1 flex-1">
-        Premium and standard vehicle rental service offering flexible reservations and a modern fleet for Riyadh trips.
-      </p>
-      <a
-        href="https://www.sixt.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Book Now
-      </a>
-    </article>
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Careem</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Ride-hailing and mobility service.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.careem.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Careem%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Open Maps</a>
+        </div>
+      </article>
 
-    <article class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-lg transition cursor-pointer flex flex-col">
-      <h2 class="font-semibold text-gray-800">Yelo</h2>
-      <p class="text-sm text-gray-500 mt-1 flex-1">
-        Saudi car rental platform with local coverage, practical vehicle choices, and booking options tailored for regional travelers.
-      </p>
-      <a
-        href="https://www.yelo.sa"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Book Now
-      </a>
-    </article>
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Bolt</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Ride-hailing service.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://bolt.eu/en-sa/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Bolt%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Open Maps</a>
+        </div>
+      </article>
 
-    <article class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-lg transition cursor-pointer flex flex-col md:col-span-2">
-      <h2 class="font-semibold text-gray-800">Key</h2>
-      <p class="text-sm text-gray-500 mt-1 flex-1">
-        Regional rental company offering a broad selection of vehicles and straightforward booking for travelers across Saudi Arabia.
-      </p>
-      <a
-        href="https://www.key.sa"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Book Now
-      </a>
-    </article>
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Jeeny</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Ride-hailing service.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://jeeny.me/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Jeeny%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Open Maps</a>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 h-full flex flex-col">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold text-gray-900">Kaiian</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Ride-hailing service.</p>
+        </div>
+        <div class="mt-auto pt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://www.kaiian.com/" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Open Website</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Kaiian%20Riyadh" target="_blank" rel="noopener noreferrer" class="h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center px-4">Open Maps</a>
+        </div>
+      </article>
+    </div>
   </section>
+
+  <aside class="rounded-2xl border border-gray-200 bg-white p-5">
+    <h2 class="text-sm font-semibold text-gray-900">Booking note</h2>
+    <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+      Tizahab does not process car rental or ride bookings directly. You will be redirected to external providers.
+    </p>
+  </aside>
 </main>
 {% endblock %}
