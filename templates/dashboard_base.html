@@ -167,7 +167,7 @@
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
 
-        {% if request.path|slice:":13" != "/events/page/" %}
+        {% if request.resolver_match.url_name != "events-page" and request.resolver_match.url_name != "event-details-page" %}
           <!-- Search -->
           <div class="relative w-full max-w-sm hidden sm:block">
             <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>

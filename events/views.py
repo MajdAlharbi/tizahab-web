@@ -11,6 +11,7 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView
 )
+from rest_framework.pagination import PageNumberPagination
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Count
@@ -22,6 +23,13 @@ from .categories import TOURISM_CATEGORY_VALUES, normalize_category_input
 from daily_plan.models import DailyPlan
 
 VALID_EVENT_CATEGORIES = set(TOURISM_CATEGORY_VALUES)
+
+
+class EventListPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = "page_size"
+    max_page_size = 100
+
 
 def events_list_page(request):
     return render(request, "events_list.html")
@@ -159,6 +167,7 @@ class EventListAPIView(ListAPIView):
 
     serializer_class = EventSerializer
     permission_classes = [AllowAny]
+    pagination_class = EventListPagination
 
     def get_queryset(self):
         queryset = Event.objects.filter(is_active=True)

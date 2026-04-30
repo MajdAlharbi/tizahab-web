@@ -17,46 +17,14 @@ const CAT_GRADIENTS = {
 };
 
 const RIYADH_AREAS = [
-  {
-    key: "central",
-    name: "Central Riyadh",
-    terms: ["masmak", "national museum", "historical center", "murabba", "bathaa", "deira", "king abdulaziz"],
-  },
-  {
-    key: "diriyah",
-    name: "Diriyah",
-    terms: ["diriyah", "turaif", "at-turaif", "bujairi"],
-  },
-  {
-    key: "boulevard",
-    name: "Boulevard Area",
-    terms: ["boulevard", "hittin", "riyadh season"],
-  },
-  {
-    key: "kafd",
-    name: "KAFD",
-    terms: ["kafd", "financial district"],
-  },
-  {
-    key: "riyadh-front",
-    name: "Riyadh Front",
-    terms: ["riyadh front", "rosn front", "front"],
-  },
-  {
-    key: "dq",
-    name: "Diplomatic Quarter",
-    terms: ["diplomatic quarter", "dq", "tuwaiq palace"],
-  },
-  {
-    key: "tuwaiq",
-    name: "Tuwaiq / Edge Area",
-    terms: ["edge of the world", "tuwaiq", "heeth", "wadi hanifa", "desert"],
-  },
-  {
-    key: "other",
-    name: "Other Riyadh",
-    terms: [],
-  },
+  "Central Riyadh",
+  "Diriyah",
+  "Boulevard Area",
+  "KAFD",
+  "Riyadh Front",
+  "Diplomatic Quarter",
+  "Tuwaiq / Edge Area",
+  "Other Riyadh",
 ];
 
 function catGradient(cat) {
@@ -253,6 +221,22 @@ function getTitle(ev) {
   return ev.title || ev.title_en || ev.name || "Untitled";
 }
 
+function unwrapList(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.results)) return data.results;
+  if (Array.isArray(data?.events)) return data.events;
+  return [];
+}
+
+function normalizeEvent(ev) {
+  return {
+    ...ev,
+    title: getTitle(ev),
+    category: String(ev?.category || "events").toLowerCase(),
+    location: ev?.location || ev?.area || ev?.address || "",
+  };
+}
+
 function getLocationText(ev) {
   return ev.location || ev.address || ev.area || "";
 }
@@ -278,19 +262,33 @@ function formatDateWindow(ev) {
   return ev.category === "events" ? "Check event date" : "Available daily";
 }
 
-function inferAreaKey(ev) {
-  const text = `${getTitle(ev)} ${getLocationText(ev)} ${ev.category || ""}`.toLowerCase();
-  const area = RIYADH_AREAS.find(item => item.key !== "other" && item.terms.some(term => text.includes(term)));
-  return area ? area.key : "other";
+function inferArea(ev) {
+  const text = `${getTitle(ev)} ${getLocationText(ev)} ${ev.description || ""}`.toLowerCase();
+  if (/diriyah|turaif|bujairi|salwa/.test(text)) return "Diriyah";
+  if (/boulevard|winter wonderland|u walk/.test(text)) return "Boulevard Area";
+  if (/kafd|financial district/.test(text)) return "KAFD";
+  if (/riyadh front|front/.test(text)) return "Riyadh Front";
+  if (/diplomatic quarter|dq/.test(text)) return "Diplomatic Quarter";
+  if (/tuwaiq|edge of the world|hidden valley|red sand|desert|cliffs|heet cave|ammariyah/.test(text)) return "Tuwaiq / Edge Area";
+  if (/masmak|murabba|national museum|king abdulaziz historical|deera|dirah|zal|thumairi|olaya|kingdom|faisaliah|malaz|central/.test(text)) {
+    return "Central Riyadh";
+  }
+  return "Other Riyadh";
 }
 
-function getAreaName(areaKey) {
-  return RIYADH_AREAS.find(area => area.key === areaKey)?.name || "Other Riyadh";
+function eventMatchesExploreFilters(ev, includeArea = true) {
+  const search = _currentSearch.trim().toLowerCase();
+  if (_currentCategory && String(ev.category || "").toLowerCase() !== _currentCategory) return false;
+  if (includeArea && _currentArea && inferArea(ev) !== _currentArea) return false;
+  if (!search) return true;
+  const text = `${getTitle(ev)} ${ev.category || ""} ${getLocationText(ev)} ${inferArea(ev)}`.toLowerCase();
+  return text.includes(search);
 }
 
 function getVisibleEvents() {
   if (!_currentArea) return _allEvents;
-  return _allEvents.filter(ev => inferAreaKey(ev) === _currentArea);
+  const source = _areaEvents.length ? _areaEvents : _allEvents;
+  return source.filter(ev => eventMatchesExploreFilters(ev));
 }
 
 function buildEventCard(ev) {
@@ -430,13 +428,13 @@ function buildTrendingCard(ev) {
 
 function buildAreaCard(area, events) {
   const card = document.createElement("article");
-  const active = _currentArea === area.key;
+  const active = _currentArea === area;
   const names = events.slice(0, 3).map(ev => getTitle(ev));
   card.className = `area-card rounded-2xl border bg-white p-4 shadow-sm space-y-3 ${active ? "border-purple-300 ring-2 ring-purple-100" : "border-gray-100"}`;
   card.innerHTML = `
     <div class="flex items-start justify-between gap-3">
       <div>
-        <h3 class="font-semibold text-gray-900">${escapeHtml(area.name)}</h3>
+        <h3 class="font-semibold text-gray-900">${escapeHtml(area)}</h3>
         <p class="text-xs text-gray-500">${events.length} places</p>
       </div>
       <span class="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
@@ -453,10 +451,11 @@ function buildAreaCard(area, events) {
     </button>
   `;
   card.querySelector(".view-area-btn").addEventListener("click", () => {
-    _currentArea = active ? "" : area.key;
+    _currentArea = active ? "" : area;
     renderAreaCards();
     renderEventsGrid(getVisibleEvents());
     updateAreaControls();
+    document.getElementById("allEventsSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
   return card;
 }
@@ -486,6 +485,7 @@ function showGridSkeletons(count = 3) {
 }
 
 let _allEvents = [];
+let _areaEvents = [];
 let _totalCount = 0;
 let _nextPageUrl = null;
 let _isLoadingMore = false;
@@ -494,6 +494,21 @@ let _currentSearch = "";
 let _currentArea = "";
 let _debounceTimer = null;
 let _favsOnly = false;
+
+async function fetchAreaEvents() {
+  const events = [];
+  let nextUrl = "/api/events/?page_size=100";
+  let pageCount = 0;
+
+  while (nextUrl && pageCount < 10) {
+    const data = await apiGet(nextUrl);
+    events.push(...unwrapList(data));
+    nextUrl = Array.isArray(data) ? null : data?.next || null;
+    pageCount += 1;
+  }
+
+  return events.filter(Boolean).map(normalizeEvent);
+}
 
 function updateLoadMoreState() {
   const wrap = document.getElementById("loadMoreWrap");
@@ -514,7 +529,7 @@ function updateAreaControls() {
   const clearBtn = document.getElementById("clearAreaBtn");
   const heading = document.getElementById("placesHeading");
   clearBtn?.classList.toggle("hidden", !_currentArea);
-  if (heading) heading.textContent = _currentArea ? getAreaName(_currentArea) : "Places";
+  if (heading) heading.textContent = _currentArea || "Places";
   updateLoadMoreState();
 }
 
@@ -540,7 +555,7 @@ function renderEventsGrid(events) {
   events.forEach(ev => grid.appendChild(buildEventCard(ev)));
   if (countText) {
     if (_currentArea) {
-      countText.textContent = `${events.length} places in ${getAreaName(_currentArea)}`;
+      countText.textContent = `${events.length} places in ${_currentArea}`;
     } else {
       countText.textContent = _totalCount > _allEvents.length
         ? `Showing ${_allEvents.length} of ${_totalCount} places`
@@ -554,20 +569,40 @@ function renderTrendingRow(events) {
   const row = document.getElementById("trendingRow");
   if (!row) return;
   row.innerHTML = "";
-  events.slice(0, 6).forEach(ev => row.appendChild(buildTrendingCard(ev)));
+  events
+    .map((ev, index) => ({ ev, index }))
+    .sort((a, b) => {
+      const ratingDiff = (Number.parseFloat(b.ev?.rating) || 0) - (Number.parseFloat(a.ev?.rating) || 0);
+      if (ratingDiff) return ratingDiff;
+      const priorityDiff = (Number.parseFloat(b.ev?.tourism_priority) || 0) - (Number.parseFloat(a.ev?.tourism_priority) || 0);
+      if (priorityDiff) return priorityDiff;
+      return a.index - b.index;
+    })
+    .slice(0, 6)
+    .forEach(({ ev }) => row.appendChild(buildTrendingCard(ev)));
 }
 
 function renderAreaCards() {
   const grid = document.getElementById("eventsAreasGrid");
   if (!grid) return;
-  const grouped = new Map(RIYADH_AREAS.map(area => [area.key, []]));
-  _allEvents.forEach(ev => grouped.get(inferAreaKey(ev))?.push(ev));
+  const source = _areaEvents.length ? _areaEvents : _allEvents;
+  const baseEvents = source.filter(ev => eventMatchesExploreFilters(ev, false));
+  const grouped = new Map(RIYADH_AREAS.map(area => [area, []]));
+  baseEvents.forEach(ev => grouped.get(inferArea(ev))?.push(ev));
 
   const orderedAreas = RIYADH_AREAS
-    .map(area => ({ area, events: grouped.get(area.key) || [] }))
-    .filter(row => row.events.length || row.area.key === "other" || !_currentCategory);
+    .map(area => ({ area, events: grouped.get(area) || [] }))
+    .filter(row => row.events.length);
 
   grid.innerHTML = "";
+  if (!orderedAreas.length) {
+    grid.innerHTML = `
+      <div class="sm:col-span-2 lg:col-span-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center">
+        <p class="text-sm font-medium text-gray-600">No Riyadh areas match this filter.</p>
+        <p class="text-xs text-gray-400 mt-1">Try another category or search term.</p>
+      </div>`;
+    return;
+  }
   orderedAreas.forEach(row => grid.appendChild(buildAreaCard(row.area, row.events)));
   if (window.lucide) window.lucide.createIcons();
 }
@@ -586,7 +621,7 @@ async function loadEvents() {
     const params = new URLSearchParams();
     if (_currentCategory) params.set("category", _currentCategory);
     if (_currentSearch) params.set("search", _currentSearch);
-    params.set("page_size", "12");
+    params.set("page_size", "25");
     const qs = params.toString();
     requestUrl = `/api/events/${qs ? "?" + qs : ""}`;
   }
@@ -594,7 +629,7 @@ async function loadEvents() {
   const data = await apiGet(requestUrl);
   if (!data) return;
 
-  const events = Array.isArray(data) ? data : data.results || [];
+  const events = unwrapList(data).map(normalizeEvent);
   _nextPageUrl = Array.isArray(data) ? null : data.next || null;
   if (!Array.isArray(data) && data.count != null) {
     _totalCount = data.count;
@@ -872,6 +907,12 @@ document.addEventListener("DOMContentLoaded", () => {
     (async () => {
       await migrateLegacyFavorites();
       await loadFavoriteIds();
+      try {
+        _areaEvents = await fetchAreaEvents();
+      } catch (error) {
+        console.warn("Area grouping dataset failed to load:", error);
+        _areaEvents = [];
+      }
       await loadEvents();
     })().catch(console.error);
 
