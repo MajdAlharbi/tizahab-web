@@ -63,7 +63,11 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
 
 DEBUG = env_bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = [
+    "tizahab-web.up.railway.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 # ========================
 # Applications
@@ -297,17 +301,13 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = "DENY"
-    CSRF_TRUSTED_ORIGINS = env_list(
-    "CSRF_TRUSTED_ORIGINS",
-    default="http://localhost,https://tizahab-web.up.railway.app"
-)
+    CSRF_TRUSTED_ORIGINS = [
+        "https://tizahab-web.up.railway.app",
+    ]
     SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", False)
-    secure_cookies = env_bool("DJANGO_SECURE_COOKIES", SECURE_SSL_REDIRECT)
-    SESSION_COOKIE_SECURE = secure_cookies
-    CSRF_COOKIE_SECURE = secure_cookies
-
-    if env_bool("DJANGO_USE_PROXY_SSL_HEADER", False):
-        SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
     if env_bool("DJANGO_ENABLE_HSTS", SECURE_SSL_REDIRECT):
         SECURE_HSTS_SECONDS = 31536000
