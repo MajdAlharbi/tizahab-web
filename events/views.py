@@ -19,10 +19,16 @@ from django.contrib.auth import get_user_model
 
 from .models import Event, Favorite
 from .serializers import EventSerializer, FavoriteSerializer
-from .categories import TOURISM_CATEGORY_VALUES, normalize_category_input
+from .categories import TOURISM_CATEGORY_VALUES, normalize_category_input, LEGACY_CATEGORY_ALIASES
 from daily_plan.models import DailyPlan
 
 VALID_EVENT_CATEGORIES = set(TOURISM_CATEGORY_VALUES)
+
+# All raw category values (legacy sub-types + canonical) that map to "food".
+# Covers un-normalized DB rows produced before load_data normalization ran.
+FOOD_SUBCATEGORIES = frozenset(
+    k for k, v in LEGACY_CATEGORY_ALIASES.items() if v == "food"
+) | {"food"}
 
 
 class EventListPagination(PageNumberPagination):
@@ -173,11 +179,15 @@ class EventListAPIView(ListAPIView):
         queryset = Event.objects.filter(is_active=True)
 
         category = self.request.query_params.get("category", "").strip()
-        if category and category.lower() != "all":
-            queryset = queryset.filter(category__iexact=category)
+        if category:
+            cat_lower = category.lower()
+            if cat_lower != "all":
+                if cat_lower == "food":
+                    queryset = queryset.filter(category__in=FOOD_SUBCATEGORIES)
+                else:
+                    queryset = queryset.filter(category__iexact=cat_lower)
 
         search = self.request.query_params.get("search", "").strip()
-
         if search:
             queryset = queryset.filter(
                 Q(title__icontains=search)
@@ -186,7 +196,6 @@ class EventListAPIView(ListAPIView):
             )
 
         date = self.request.query_params.get("date")
-
         if date:
             queryset = queryset.filter(
                 Q(date__date=date) |
