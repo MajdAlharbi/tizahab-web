@@ -304,10 +304,24 @@ if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "https://tizahab-web.up.railway.app",
     ]
-    SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", False)
+
+    ALLOWED_HOSTS = [
+        "tizahab-web.up.railway.app",
+        "localhost",
+        "127.0.0.1",
+    ]
+
+    # Required for Railway (reverse proxy)
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    # Ensure Django treats request as HTTPS
+    USE_X_FORWARDED_HOST = True
+
+    # Cookies (keep secure ON)
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+
+    SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", False)
 
     if env_bool("DJANGO_ENABLE_HSTS", SECURE_SSL_REDIRECT):
         SECURE_HSTS_SECONDS = 31536000

@@ -907,12 +907,15 @@ document.addEventListener("DOMContentLoaded", () => {
     (async () => {
       await migrateLegacyFavorites();
       await loadFavoriteIds();
-      try {
-        _areaEvents = await fetchAreaEvents();
-      } catch (error) {
-        console.warn("Area grouping dataset failed to load:", error);
-        _areaEvents = [];
-      }
+      // Fire area-grouping fetch in the background so the main grid renders
+      // immediately instead of waiting for up to 10 paginated requests first.
+      fetchAreaEvents()
+        .then(events => {
+          _areaEvents = events;
+          renderAreaCards();
+          if (window.lucide) window.lucide.createIcons();
+        })
+        .catch(err => console.warn("Area grouping dataset failed to load:", err));
       await loadEvents();
     })().catch(console.error);
 
