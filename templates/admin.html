@@ -1,6 +1,7 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as CURRENT_LANG %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ CURRENT_LANG }}" dir="{% if CURRENT_LANG == 'ar' %}rtl{% else %}ltr{% endif %}">
 
 <head>
   <meta charset="UTF-8">
