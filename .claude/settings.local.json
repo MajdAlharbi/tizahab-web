@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(mkdir -p C:/dev/tizahab_project1/tizahab-web/tests)",
+      "Bash(touch C:/dev/tizahab_project1/tizahab-web/tests/__init__.py)",
+      "Bash(curl -s --max-time 10 \"https://tizahab-web.up.railway.app/api/events/?page_size=1\")",
+      "Bash(curl -s --max-time 8 \"https://tizahab-web.up.railway.app/events/page/\" -o /dev/null -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(git add *)"
     ]
   }
 }
