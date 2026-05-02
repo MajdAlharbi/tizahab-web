@@ -183,7 +183,15 @@ class EventListAPIView(ListAPIView):
             cat_lower = category.lower()
             if cat_lower != "all":
                 if cat_lower == "food":
-                    queryset = queryset.filter(category__in=FOOD_SUBCATEGORIES)
+                    queryset = queryset.filter(
+                        category__in=[
+                            "fast_food",
+                            "restaurant",
+                            "dessert",
+                            "juice",
+                            "bakery",
+                        ]
+                    )
                 else:
                     queryset = queryset.filter(category__iexact=cat_lower)
 

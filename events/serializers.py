@@ -4,6 +4,11 @@ from .categories import TOURISM_CATEGORY_VALUES, normalize_category, normalize_c
 
 
 class EventSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["category"] = Event.CATEGORY_MAP.get(instance.category, instance.category)
+        return data
+
     def validate_category(self, value):
         normalized = normalize_category_input(value)
         if normalized not in TOURISM_CATEGORY_VALUES:

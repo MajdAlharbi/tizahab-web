@@ -12,6 +12,15 @@ User = get_user_model()
 class Event(models.Model):
     CATEGORY_CHOICES = TOURISM_CATEGORY_CHOICES
     CATEGORY_VALUES = TOURISM_CATEGORY_VALUES
+    CATEGORY_MAP = {
+        "fast_food": "food",
+        "restaurant": "food",
+        "dessert": "food",
+        "juice": "food",
+        "bakery": "food",
+        "shopping": "shopping",
+        "other": "other",
+    }
 
     title = models.CharField(max_length=255, db_index=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, db_index=True)
