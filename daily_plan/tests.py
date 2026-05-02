@@ -12,7 +12,12 @@ from rest_framework import status
 from events.models import Event
 from daily_plan.models import DailyPlan, DailyPlanItem
 from daily_plan.serializers import DailyPlanSerializer
-from daily_plan.services import generate_multiday_plan, generate_recommendations
+from daily_plan.services import (
+    generate_daily_plan,
+    generate_multiday_plan,
+    generate_recommendations,
+    get_event_type,
+)
 from accounts.models import UserPreferences
 
 
@@ -48,6 +53,59 @@ def auth_client(user, password="StrongPass1!"):
 
 TOMORROW = (date.today() + timedelta(days=1)).isoformat()
 YESTERDAY = (date.today() - timedelta(days=1)).isoformat()
+
+
+class DailyPlanLogicTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Event.objects.create(
+            title="Test Cafe",
+            category="food",
+            description="Test cafe",
+            date="2025-05-01",
+            location="Riyadh",
+        )
+        Event.objects.create(
+            title="Test Restaurant",
+            category="food",
+            description="Test restaurant",
+            date="2025-05-01",
+            location="Riyadh",
+        )
+        Event.objects.create(
+            title="Test Museum",
+            category="culture",
+            description="Test museum",
+            date="2025-05-01",
+            location="Riyadh",
+        )
+        Event.objects.create(
+            title="Test Mall",
+            category="shopping",
+            description="Test mall",
+            date="2025-05-01",
+            location="Riyadh",
+        )
+        Event.objects.create(
+            title="Test Park",
+            category="entertainment",
+            description="Test park",
+            date="2025-05-01",
+            location="Riyadh",
+        )
+
+    def test_plan_slots_are_correct(self):
+        plan = generate_daily_plan(date.today())
+
+        breakfast = plan.get("breakfast")
+        lunch = plan.get("lunch")
+        activity = plan.get("activity")
+        evening = plan.get("evening")
+
+        self.assertIn(get_event_type(breakfast), ["cafe", "restaurant"])
+        self.assertEqual(get_event_type(lunch), "restaurant")
+        self.assertIn(get_event_type(activity), ["attraction", "event"])
+        self.assertIn(get_event_type(evening), ["shopping", "entertainment"])
 
 
 # ---------------------------------------------------------------------------

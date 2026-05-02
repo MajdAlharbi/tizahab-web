@@ -135,6 +135,30 @@ def _normalized_subcategory(subcategory):
     return " ".join(str(subcategory or "").strip().lower().split())
 
 
+def get_event_type(event):
+    title = event.title.lower()
+    category = event.category
+
+    if category == "food":
+        if any(word in title for word in ["cafe", "coffee", "bakery"]):
+            return "cafe"
+        return "restaurant"
+
+    if category in ["culture", "heritage", "nature"]:
+        return "attraction"
+
+    if category == "shopping":
+        return "shopping"
+
+    if category == "events":
+        return "event"
+
+    if category in ["entertainment", "family"]:
+        return "entertainment"
+
+    return "attraction"
+
+
 def _event_subcategory_text(event):
     raw_subcategory = getattr(event, "subcategory", None)
     if raw_subcategory:
@@ -620,47 +644,46 @@ def _event_text_blob(event):
 
 
 def _slot_fit_score(event, slot_key):
-    category = str(getattr(event, "category", "") or "").lower()
+    event_type = get_event_type(event)
     text_blob = _event_text_blob(event)
     score = float(getattr(event, "rating", 0) or 0)
-    is_food = category in FOOD_SLOT_CATEGORIES
 
-    if slot_key in {"breakfast", "lunch"}:
-        if not is_food:
+    if slot_key == "breakfast":
+        if event_type not in ["cafe", "restaurant"]:
             return float("-inf")
-        if slot_key == "breakfast":
-            if any(keyword in text_blob for keyword in BREAKFAST_KEYWORDS):
-                score += 3.0
-            elif "restaurant" in text_blob:
-                score += 0.8
-        if slot_key == "lunch":
-            if any(keyword in text_blob for keyword in LUNCH_KEYWORDS):
-                score += 3.0
-            elif any(keyword in text_blob for keyword in BREAKFAST_KEYWORDS):
-                score += 0.2
+        if any(keyword in text_blob for keyword in BREAKFAST_KEYWORDS):
+            score += 3.0
+        elif event_type == "restaurant":
+            score += 0.8
+        return score
+
+    if slot_key == "lunch":
+        if event_type != "restaurant":
+            return float("-inf")
+        if any(keyword in text_blob for keyword in LUNCH_KEYWORDS):
+            score += 3.0
+        elif any(keyword in text_blob for keyword in BREAKFAST_KEYWORDS):
+            score += 0.2
         return score
 
     if slot_key == "activity":
-        ACTIVITY_CATEGORIES = {"culture", "nature", "heritage", "entertainment", "family", "events"}
-        if category not in ACTIVITY_CATEGORIES:
+        if event_type not in ["attraction", "event"]:
             return float("-inf")
+        category = str(getattr(event, "category", "") or "").lower()
         if category in {"heritage", "culture"}:
             score += 2.0
-        elif category in {"nature", "entertainment"}:
+        elif category == "nature":
             score += 1.5
         else:
             score += 0.8
         return score
 
     if slot_key == "evening":
-        EVENING_CATEGORIES = {"entertainment", "heritage", "culture", "shopping"}
-        if category not in EVENING_CATEGORIES:
+        if event_type not in ["shopping", "entertainment"]:
             return float("-inf")
-        if category == "entertainment":
+        if event_type == "entertainment":
             score += 3.0
-        elif category == "heritage":
-            score += 2.0
-        elif category == "shopping":
+        elif event_type == "shopping":
             score += 1.5
         else:
             score += 1.0
@@ -670,13 +693,18 @@ def _slot_fit_score(event, slot_key):
 
 
 def filter_events_by_slot(events, slot_name):
-    if str(slot_name or "").lower() in {"breakfast", "lunch", "dinner"}:
-        return [
-            event for event in (events or [])
-            if str(getattr(event, "category", "") or "").lower() in FOOD_SLOT_CATEGORIES
-        ]
+    slot_name = str(slot_name or "").lower()
+    allowed_types_by_slot = {
+        "breakfast": ["cafe", "restaurant"],
+        "lunch": ["restaurant"],
+        "activity": ["attraction", "event"],
+        "evening": ["shopping", "entertainment"],
+    }
+    allowed_types = allowed_types_by_slot.get(slot_name)
+    if allowed_types is None:
+        return list(events or [])
 
-    return list(events or [])
+    return [event for event in (events or []) if get_event_type(event) in allowed_types]
 
 
 def _pick_best_for_slot(
@@ -685,6 +713,7 @@ def _pick_best_for_slot(
     *,
     prefer_non_duplicate_subcategory=False,
     used_subcategories=None,
+    used_ids=None,
     minimum_rating=None,
     allow_non_food_fallback=False,
 ):
@@ -692,14 +721,16 @@ def _pick_best_for_slot(
         return None
 
     slot_filtered_events = filter_events_by_slot(available, slot_key)
-    if not slot_filtered_events:
-        slot_filtered_events = list(available)
 
     used_subcategories = used_subcategories or set()
+    used_ids = used_ids or set()
     candidates = []
     fallback_candidates = []
 
     for event in slot_filtered_events:
+        event_type = get_event_type(event)
+        if event.id in used_ids:
+            continue
         index = available.index(event)
         rating = float(event.rating or 0)
         if minimum_rating is not None and rating < minimum_rating:
@@ -707,7 +738,11 @@ def _pick_best_for_slot(
 
         fit_score = _slot_fit_score(event, slot_key)
         if fit_score == float("-inf"):
-            if allow_non_food_fallback and slot_key in {"breakfast", "lunch"}:
+            if (
+                allow_non_food_fallback
+                and slot_key == "breakfast"
+                and event_type in ["cafe", "restaurant"]
+            ):
                 fallback_candidates.append((fit_score, rating, index, event))
             continue
 
@@ -726,11 +761,12 @@ def _pick_best_for_slot(
     return chosen_event
 
 
-def _pick_fallback_food(food_candidates, used_ids):
+def _pick_fallback_food(food_candidates, used_ids, allowed_types=None):
+    allowed_types = allowed_types or ["cafe", "restaurant"]
     for event in food_candidates:
         if event.id in used_ids:
             continue
-        if str(getattr(event, "category", "") or "").lower() not in FOOD_SLOT_CATEGORIES:
+        if get_event_type(event) not in allowed_types:
             continue
         if float(event.rating or 0) >= 3.5:
             return event
@@ -767,6 +803,11 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
     used_ids = set()
     used_subcategories = set()
 
+    breakfast_candidates = [e for e in events if get_event_type(e) in ["cafe", "restaurant"]]
+    activity_candidates = [e for e in events if get_event_type(e) in ["attraction", "event"]]
+    lunch_candidates = [e for e in events if get_event_type(e) == "restaurant"]
+    evening_candidates = [e for e in events if get_event_type(e) in ["shopping", "entertainment"]]
+
     def register(event):
         if event is None:
             return
@@ -776,55 +817,64 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
             used_subcategories.add(subcategory)
 
     plan["breakfast"] = _pick_best_for_slot(
-        available,
+        breakfast_candidates,
         "breakfast",
         prefer_non_duplicate_subcategory=True,
         used_subcategories=used_subcategories,
+        used_ids=used_ids,
     )
     if plan["breakfast"] is None:
-        plan["breakfast"] = _pick_fallback_food(food_fallback_candidates or [], used_ids)
+        plan["breakfast"] = _pick_fallback_food(
+            food_fallback_candidates or [],
+            used_ids,
+            allowed_types=["cafe", "restaurant"],
+        )
         if plan["breakfast"] is not None:
             logger.warning("food slot fallback used")
+    if plan["breakfast"] is not None:
+        available = [event for event in available if event.id != plan["breakfast"].id]
     register(plan["breakfast"])
 
     plan["activity"] = _pick_best_for_slot(
-        available,
+        activity_candidates,
         "activity",
         prefer_non_duplicate_subcategory=True,
         used_subcategories=used_subcategories,
+        used_ids=used_ids,
     )
-    if plan["activity"] is None:
-        plan["activity"] = pick_next_available(available)
-        if plan["activity"] is not None:
-            logger.info(
-                "Daily plan activity fallback used because no non-food item was available."
-            )
+    if plan["activity"] is not None:
+        available = [event for event in available if event.id != plan["activity"].id]
     register(plan["activity"])
 
     plan["lunch"] = _pick_best_for_slot(
-        available,
+        lunch_candidates,
         "lunch",
         prefer_non_duplicate_subcategory=True,
         used_subcategories=used_subcategories,
+        used_ids=used_ids,
     )
     if plan["lunch"] is None:
-        plan["lunch"] = _pick_fallback_food(food_fallback_candidates or [], used_ids)
+        plan["lunch"] = _pick_fallback_food(
+            food_fallback_candidates or [],
+            used_ids,
+            allowed_types=["restaurant"],
+        )
         if plan["lunch"] is not None:
             logger.warning("food slot fallback used")
+    if plan["lunch"] is not None:
+        available = [event for event in available if event.id != plan["lunch"].id]
     register(plan["lunch"])
 
     plan["evening"] = _pick_best_for_slot(
-        available,
+        evening_candidates,
         "evening",
         prefer_non_duplicate_subcategory=True,
         used_subcategories=used_subcategories,
+        used_ids=used_ids,
     )
-    if plan["evening"] is None:
-        plan["evening"] = pick_next_available(available)
-        if plan["evening"] is not None:
-            logger.info(
-                "Daily plan evening fallback used because no non-food item was available."
-            )
+    if plan["evening"] is not None:
+        available = [event for event in available if event.id != plan["evening"].id]
+    register(plan["evening"])
 
     final_list = [
         plan["breakfast"],
@@ -833,7 +883,7 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
         plan["evening"],
     ]
     final_list = [event for event in final_list if event is not None]
-    final_list.extend(available)
+    final_list.extend(event for event in available if event.id not in used_ids)
     return final_list
 
 
@@ -1295,6 +1345,20 @@ def generate_recommendations(
         )
 
     return selected
+
+
+def generate_daily_plan(plan_date):
+    events = [
+        event
+        for event in Event.objects.filter(is_active=True)
+        if is_event_available_for_selection(event, plan_date)
+    ]
+    ordered_events = _build_structured_daily_slots(events)
+    slot_names = ["breakfast", "activity", "lunch", "evening"]
+    return {
+        slot_name: ordered_events[index] if index < len(ordered_events) else None
+        for index, slot_name in enumerate(slot_names)
+    }
 
 
 def generate_multiday_plan(user, start_date_str, trip_duration=None, end_date_str=None):
