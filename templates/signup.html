@@ -19,7 +19,7 @@
   </div>
   <div class="flex items-center bg-white rounded-full shadow-sm border border-gray-200 p-1">
     <button type="button" data-lang="en" class="lang-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">EN</button>
-    <button type="button" data-lang="ar" class="lang-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium">ع</button>
+    <button type="button" data-lang="ar" class="lang-btn px-3 py-1.5 rounded-full transition-all text-sm font-medium" title="اللغة العربية ستكون متاحة قريباً">ع</button>
   </div>
 </div>
 
@@ -200,9 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const lang = this.dataset.lang;
       applyLanguage(lang);
       localStorage.setItem('language', lang);
-      if (lang === 'ar') {
-        alert('اللغة العربية ستكون متاحة قريباً');
-      }
     });
   });
   function applyLanguage(lang) {
