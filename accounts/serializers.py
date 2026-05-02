@@ -119,10 +119,11 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True)
+    full_name = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = User
-        fields = ("email", "password", "password2")
+        fields = ("email", "password", "password2", "full_name")
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
@@ -136,6 +137,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("password2")
+        full_name = validated_data.pop("full_name", "").strip()
         email = validated_data["email"]
 
         user = User.objects.create_user(
@@ -143,6 +145,11 @@ class SignupSerializer(serializers.ModelSerializer):
             email=email,
             password=validated_data["password"],
         )
+        if full_name:
+            parts = full_name.split(" ", 1)
+            user.first_name = parts[0]
+            user.last_name = parts[1] if len(parts) > 1 else ""
+            user.save(update_fields=["first_name", "last_name"])
         return user
 
 
