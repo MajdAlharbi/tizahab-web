@@ -22,7 +22,6 @@ urlpatterns = [
 
     # Public index page
     path("", TemplateView.as_view(template_name="index.html"), name="index"),
-    path("", TemplateView.as_view(template_name="index.html"), name="root"),
     path("home/", protected_template("home.html"), name="home"),
     path("dashboard/", protected_template("home.html"), name="dashboard"),
 
