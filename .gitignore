@@ -48,6 +48,7 @@ bandit-report.json
 .vscode/
 .idea/
 .tmp-node/
+.claude/
 logs/
 
 # ========================
