@@ -1,7 +1,7 @@
 {% extends "dashboard_base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Home | Tizahab{% endblock %}
+{% block title %}{% trans "Home" %} | {% trans "Tizahab" %}{% endblock %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
     <h1 id="heroGreeting"
       class="text-3xl sm:text-4xl font-bold text-gray-900"
       style="font-family:'Cantata One',serif">
-      Welcome to Riyadh
+      {% trans "Welcome to Riyadh" %}
     </h1>
 
     <div class="flex flex-wrap items-center justify-center gap-2 text-sm text-gray-500">
@@ -28,13 +28,13 @@
   <!-- ── 2. Daily Plan Card ── -->
   <div id="planCard">
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
-      <p class="text-sm text-gray-300">Loading your journey…</p>
+      <p class="text-sm text-gray-300">{% trans "Loading your journey..." %}</p>
     </div>
   </div>
 
   <!-- ── 3. Quick Navigation ── -->
   <section>
-    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-5">Explore</p>
+    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-5">{% trans "Explore" %}</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
 
       <a href="/events/page/"
@@ -42,7 +42,7 @@
         <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition">
           <i data-lucide="search" class="w-5 h-5 text-blue-600"></i>
         </div>
-        <span class="text-sm font-medium text-gray-700">Explore</span>
+        <span class="text-sm font-medium text-gray-700">{% trans "Explore" %}</span>
       </a>
 
       <a href="/travel-guide/"
@@ -50,7 +50,7 @@
         <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition">
           <i data-lucide="compass" class="w-5 h-5 text-emerald-600"></i>
         </div>
-        <span class="text-sm font-medium text-gray-700">Travel Guide</span>
+        <span class="text-sm font-medium text-gray-700">{% trans "Travel Guide" %}</span>
       </a>
 
       <a href="/booking/"
@@ -58,7 +58,7 @@
         <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition">
           <i data-lucide="bed" class="w-5 h-5 text-amber-600"></i>
         </div>
-        <span class="text-sm font-medium text-gray-700">Hotel Booking</span>
+        <span class="text-sm font-medium text-gray-700">{% trans "Hotel Booking" %}</span>
       </a>
 
       <a href="{% url 'car_rental' %}"
@@ -66,7 +66,7 @@
         <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition">
           <i data-lucide="car" class="w-5 h-5 text-rose-500"></i>
         </div>
-        <span class="text-sm font-medium text-gray-700">Car Rental</span>
+        <span class="text-sm font-medium text-gray-700">{% trans "Car Rental" %}</span>
       </a>
 
       <a href="/profile/"
@@ -74,7 +74,7 @@
         <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition">
           <i data-lucide="user" class="w-5 h-5 text-gray-500"></i>
         </div>
-        <span class="text-sm font-medium text-gray-700">Profile</span>
+        <span class="text-sm font-medium text-gray-700">{% trans "Profile" %}</span>
       </a>
 
     </div>
@@ -93,7 +93,7 @@
 
       if (userName) {
         var el = document.getElementById("heroGreeting");
-        if (el) el.textContent = "Welcome to Riyadh, " + userName;
+        if (el) el.textContent = "{% trans 'Welcome to Riyadh' %}, " + userName;
       }
 
       var fmt = function (iso) {
@@ -119,7 +119,7 @@
           var badge = document.getElementById("dayCounterBadge");
           var text  = document.getElementById("dayCounterText");
           if (badge && text) {
-            text.textContent = "Day " + dayX + " of " + dayY;
+            text.textContent = "{% trans 'Day' %} " + dayX + " {% trans 'of' %} " + dayY;
             badge.classList.remove("hidden");
             if (sepEl) sepEl.classList.remove("hidden");
           }

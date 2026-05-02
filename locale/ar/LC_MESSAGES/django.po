@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tizahab-web\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-02 00:00+0300\n"
+"PO-Revision-Date: 2026-05-02 00:00+0300\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgid "Tizahab"
+msgstr "تذهب"
+
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "Daily Plan"
+msgstr "الخطة اليومية"
+
+msgid "Explore"
+msgstr "استكشف"
+
+msgid "Travel Guide"
+msgstr "دليل السفر"
+
+msgid "Booking"
+msgstr "الحجوزات"
+
+msgid "Hotel Booking"
+msgstr "حجز الفنادق"
+
+msgid "Car Rental"
+msgstr "تأجير السيارات"
+
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Search destinations, events..."
+msgstr "ابحث عن الوجهات والفعاليات..."
+
+msgid "Toggle theme"
+msgstr "تبديل المظهر"
+
+msgid "Welcome to Riyadh"
+msgstr "مرحباً بك في الرياض"
+
+msgid "Loading your journey..."
+msgstr "جارٍ تحميل رحلتك..."
+
+msgid "Day"
+msgstr "اليوم"
+
+msgid "of"
+msgstr "من"

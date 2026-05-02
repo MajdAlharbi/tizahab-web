@@ -1,11 +1,12 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot" dir="ltr">
+<html lang="{{ LANGUAGE_CODE }}" id="htmlRoot" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Tizahab | تزهب{% endblock %}</title>
+  <title>{% block title %}{% trans "Tizahab" %}{% endblock %}</title>
   <!-- Prevent search engines from indexing authenticated dashboard pages -->
   <meta name="robots" content="noindex, nofollow">
 
@@ -72,7 +73,7 @@
           <span class="text-white font-bold text-sm">T</span>
         </div>
         <div class="leading-tight">
-          <div class="font-semibold text-gray-800 text-sm">Tizahab</div>
+          <div class="font-semibold text-gray-800 text-sm">{% trans "Tizahab" %}</div>
           <div class="text-[11px] text-gray-400" style="font-family:'Cairo',sans-serif">تزهب</div>
         </div>
       </a>
@@ -87,43 +88,37 @@
       <a href="/home/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="home" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Home</span>
-        <span class="nav-label-ar hidden">الرئيسية</span>
+        <span>{% trans "Home" %}</span>
       </a>
 
       <a href="/daily-plan/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Daily Plan</span>
-        <span class="nav-label-ar hidden">خطة اليوم</span>
+        <span>{% trans "Daily Plan" %}</span>
       </a>
 
       <a href="/events/page/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="ticket" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Explore</span>
-        <span class="nav-label-ar hidden">الأماكن</span>
+        <span>{% trans "Explore" %}</span>
       </a>
 
       <a href="/travel-guide/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="compass" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Travel Guide</span>
-        <span class="nav-label-ar hidden">دليل السفر</span>
+        <span>{% trans "Travel Guide" %}</span>
       </a>
 
       <a href="/booking/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="hotel" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Booking</span>
-        <span class="nav-label-ar hidden">الحجوزات</span>
+        <span>{% trans "Booking" %}</span>
       </a>
 
       <a href="{% url 'car_rental' %}"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="car" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Car Rental</span>
-        <span class="nav-label-ar hidden">تأجير السيارات</span>
+        <span>{% trans "Car Rental" %}</span>
       </a>
 
       <div class="my-2 border-t border-gray-100"></div>
@@ -131,15 +126,13 @@
       <a href="/profile/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="user" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Profile</span>
-        <span class="nav-label-ar hidden">ملفي</span>
+        <span>{% trans "Profile" %}</span>
       </a>
 
       <a href="/settings/"
         class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <i data-lucide="settings" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Settings</span>
-        <span class="nav-label-ar hidden">الإعدادات</span>
+        <span>{% trans "Settings" %}</span>
       </a>
 
     </nav>
@@ -149,8 +142,7 @@
       <button type="button" onclick="logout();"
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors w-full">
         <i data-lucide="log-out" class="w-[18px] h-[18px] shrink-0"></i>
-        <span class="nav-label-en">Logout</span>
-        <span class="nav-label-ar hidden">تسجيل الخروج</span>
+        <span>{% trans "Logout" %}</span>
       </button>
     </div>
   </aside>
@@ -171,7 +163,7 @@
           <!-- Search -->
           <div class="relative w-full max-w-sm hidden sm:block">
             <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
-            <input type="text" placeholder="Search destinations, events..."
+            <input type="text" placeholder="{% trans 'Search destinations, events...' %}"
               class="w-full bg-gray-50 border border-gray-200 rounded-xl h-10 pl-10 pr-4 text-sm focus:outline-none focus:border-brand transition-all">
           </div>
         {% endif %}
@@ -189,16 +181,19 @@
             this.textContent = next === 'dark' ? '☀️' : '🌙';
           "
           class="h-9 w-9 rounded-lg border border-gray-200 hover:bg-gray-50 transition flex items-center justify-center text-base"
-          title="Toggle theme">
+          title="{% trans 'Toggle theme' %}">
           🌙
         </button>
 
-        <!-- Language toggle -->
-        <button id="langBtn"
-          class="flex items-center gap-1.5 px-2.5 h-9 rounded-xl hover:bg-gray-50 transition text-sm font-medium text-gray-600">
-          <i data-lucide="globe" class="w-4 h-4"></i>
-          <span id="langLabel">EN</span>
-        </button>
+        <!-- Language switcher -->
+        <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+          {% csrf_token %}
+          <select name="language" onchange="this.form.submit()"
+            class="h-9 rounded-xl border border-gray-200 bg-white px-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+            <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+          </select>
+        </form>
 
         <!-- Notifications -->
         <button class="relative p-2 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
@@ -231,46 +226,6 @@
       document.documentElement.setAttribute("data-theme", mode);
       localStorage.setItem("tz_theme", mode);
     }
-
-    //  Language 
-    const langBtn   = document.getElementById("langBtn");
-    const langLabel = document.getElementById("langLabel");
-
-    function applyLang(lang) {
-      const html = document.documentElement;
-      if (lang === "ar") {
-        html.setAttribute("dir",  "rtl");
-        html.setAttribute("lang", "ar");
-        document.body.style.fontFamily = "'Cairo', sans-serif";
-        if (langLabel) langLabel.innerText = "AR";
-      } else {
-        html.setAttribute("dir",  "ltr");
-        html.setAttribute("lang", "en");
-        document.body.style.fontFamily = "'Arimo', sans-serif";
-        if (langLabel) langLabel.innerText = "EN";
-      }
-      // Toggle bilingual nav labels
-      document.querySelectorAll(".nav-label-en").forEach(el =>
-        el.classList.toggle("hidden", lang === "ar"));
-      document.querySelectorAll(".nav-label-ar").forEach(el =>
-        el.classList.toggle("hidden", lang !== "ar"));
-      // Swap bilingual placeholders on inputs
-      document.querySelectorAll("[data-placeholder-en]").forEach(el => {
-        const next = lang === "ar"
-          ? el.getAttribute("data-placeholder-ar")
-          : el.getAttribute("data-placeholder-en");
-        if (next != null) el.setAttribute("placeholder", next);
-      });
-      localStorage.setItem("tz_lang", lang);
-    }
-
-    let _lang = localStorage.getItem("tz_lang") || "en";
-    applyLang(_lang);
-
-    langBtn?.addEventListener("click", () => {
-      _lang = _lang === "en" ? "ar" : "en";
-      applyLang(_lang);
-    });
 
     //  Sidebar toggle 
     const menuBtn  = document.getElementById("mobileMenuBtn");

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -19,7 +20,9 @@ staff_required = user_passes_test(
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("auth/", include("social_django.urls", namespace="social")),
+]
 
+urlpatterns += i18n_patterns(
     # Public index page
     path("", TemplateView.as_view(template_name="index.html"), name="index"),
     path("home/", protected_template("home.html"), name="home"),
@@ -53,4 +56,5 @@ urlpatterns = [
     path("settings/", protected_template("settings.html"), name="settings"),
     path("admin-panel/", staff_required(admin_panel_view), name="admin_panel"),
     path("onboarding/", protected_template("preferences.html"), name="onboarding"),
-]
+    prefix_default_language=False,
+)
