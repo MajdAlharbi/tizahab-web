@@ -262,7 +262,7 @@ STORAGES = {
 
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend",
+    "django.core.mail.backends.smtp.EmailBackend",
 )
 EMAIL_HOST          = os.environ.get("EMAIL_HOST",          "smtp.gmail.com")
 EMAIL_PORT          = int(os.environ.get("EMAIL_PORT",      "587"))
