@@ -96,7 +96,7 @@
           </div>
           <h2 class="text-xl font-bold text-gray-900">Create Your Personalized Journey</h2>
           <p class="mt-2 text-sm text-gray-500">Tell us your interests and we'll build your Riyadh itinerary.</p>
-          <a href="/preferences/"
+          <a href="/onboarding/"
             class="mt-6 inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-semibold text-white transition shadow-sm"
             style="background-color:#7c3aed"
             onmouseover="this.style.backgroundColor='#6d28d9'"

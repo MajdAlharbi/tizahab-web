@@ -88,24 +88,50 @@ def _apply_date_range_filter(queryset, date_from, date_to):
     if not date_from and not date_to:
         return queryset
 
-    date_query = Q()
+    evergreen_places = (
+        Q(start_date__isnull=True)
+        & Q(end_date__isnull=True)
+        & ~Q(category="events")
+    )
 
     if date_from and date_to:
         date_query = (
-            Q(start_date__date__lte=date_to) & Q(end_date__date__gte=date_from)
+            evergreen_places
         ) | (
             Q(start_date__isnull=True)
             & Q(end_date__isnull=True)
+            & Q(category="events")
             & Q(date__date__gte=date_from)
             & Q(date__date__lte=date_to)
+        ) | (
+            Q(start_date__date__lte=date_to)
+            & (
+                Q(end_date__date__gte=date_from)
+                | Q(end_date__isnull=True, start_date__date__gte=date_from)
+            )
         )
     elif date_from:
-        date_query = (Q(end_date__date__gte=date_from)) | (
-            Q(end_date__isnull=True) & Q(date__date__gte=date_from)
+        date_query = (
+            evergreen_places
+        ) | (
+            Q(start_date__isnull=True)
+            & Q(end_date__isnull=True)
+            & Q(category="events")
+            & Q(date__date__gte=date_from)
+        ) | (
+            Q(end_date__date__gte=date_from)
+            | Q(end_date__isnull=True, start_date__date__gte=date_from)
         )
     elif date_to:
-        date_query = (Q(start_date__date__lte=date_to)) | (
-            Q(start_date__isnull=True) & Q(date__date__lte=date_to)
+        date_query = (
+            evergreen_places
+        ) | (
+            Q(start_date__isnull=True)
+            & Q(end_date__isnull=True)
+            & Q(category="events")
+            & Q(date__date__lte=date_to)
+        ) | (
+            Q(start_date__date__lte=date_to)
         )
 
     return queryset.filter(date_query)
@@ -178,22 +204,11 @@ class EventListAPIView(ListAPIView):
     def get_queryset(self):
         queryset = Event.objects.filter(is_active=True)
 
-        category = self.request.query_params.get("category", "").strip()
-        if category:
-            cat_lower = category.lower()
-            if cat_lower != "all":
-                if cat_lower == "food":
-                    queryset = queryset.filter(
-                        category__in=[
-                            "fast_food",
-                            "restaurant",
-                            "dessert",
-                            "juice",
-                            "bakery",
-                        ]
-                    )
-                else:
-                    queryset = queryset.filter(category__iexact=cat_lower)
+        category_raw = self.request.query_params.get("category", "").strip()
+        if category_raw and category_raw.lower() != "all":
+            category = _validate_category(category_raw)
+            if category:
+                queryset = queryset.filter(category=category)
 
         search = self.request.query_params.get("search", "").strip()
         if search:
@@ -203,12 +218,10 @@ class EventListAPIView(ListAPIView):
                 | Q(category__icontains=search)
             )
 
-        date = self.request.query_params.get("date")
-        if date:
-            queryset = queryset.filter(
-                Q(date__date=date) |
-                Q(start_date__date__lte=date, end_date__date__gte=date)
-            )
+        date_raw = self.request.query_params.get("date")
+        if date_raw:
+            target_date = _parse_required_query_date(date_raw, "date")
+            queryset = _apply_date_range_filter(queryset, target_date, target_date)
 
         return queryset
 

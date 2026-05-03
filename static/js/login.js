@@ -14,11 +14,11 @@ if (document.getElementById("login-form")) {
   document.getElementById("login-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    const username = e.target.username.value;
+    const email = e.target.email.value;
     const password = e.target.password.value;
 
     try {
-      const data = await apiPost("/api/auth/login/", { username, password });
+      const data = await apiPost("/api/auth/login/", { email, password });
       alert("Login successful!");
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);

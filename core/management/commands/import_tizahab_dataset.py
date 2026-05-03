@@ -3,6 +3,7 @@ import os
 from datetime import time
 
 from django.conf import settings
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -11,6 +12,12 @@ from events.models import Event
 
 DATASET_DIR = os.path.join(settings.BASE_DIR, "data", "dataset-Tizahab")
 DATASET_PATH = os.path.join(DATASET_DIR, "cleaned_dataset.json")
+FALLBACK_FIXTURE_PATH = os.path.join(
+    settings.BASE_DIR,
+    "events",
+    "fixtures",
+    "riyadh_places.json",
+)
 
 
 def _to_float(value):
@@ -33,7 +40,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Using cleaned_dataset.json as the single source of truth
         if not os.path.exists(DATASET_PATH):
-            self.stderr.write(self.style.ERROR(f"Dataset not found: {DATASET_PATH}"))
+            self.stdout.write(
+                self.style.WARNING(
+                    f"Dataset not found: {DATASET_PATH}. Loading bundled fixture."
+                )
+            )
+            call_command("loaddata", FALLBACK_FIXTURE_PATH)
             return
 
         if options["clear"]:
