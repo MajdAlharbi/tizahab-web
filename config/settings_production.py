@@ -16,7 +16,11 @@ from .settings import *  # noqa
 
 DEBUG = False
 
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "")
+ALLOWED_HOSTS = [
+    "tizahab-web.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 if not ALLOWED_HOSTS:
     raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS environment variable must be set")
 
