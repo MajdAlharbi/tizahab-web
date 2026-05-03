@@ -184,6 +184,8 @@ def _is_suspicious_name(event):
         return False
     if "tower" in title and title not in KNOWN_LANDMARK_NAMES:
         return True
+    if event.category == "shopping" and "mall" in title and title not in SHOPPING_WHITELIST:
+        return True
     if title == "city":
         return True
     if title in GENERIC_NAME_TERMS:
@@ -829,7 +831,7 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
             used_ids,
             allowed_types=["cafe", "restaurant"],
         )
-        if plan["breakfast"] is not None:
+        if plan["breakfast"] is not None or available:
             logger.warning("food slot fallback used")
     if plan["breakfast"] is not None:
         available = [event for event in available if event.id != plan["breakfast"].id]
@@ -859,7 +861,7 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
             used_ids,
             allowed_types=["restaurant"],
         )
-        if plan["lunch"] is not None:
+        if plan["lunch"] is not None or available:
             logger.warning("food slot fallback used")
     if plan["lunch"] is not None:
         available = [event for event in available if event.id != plan["lunch"].id]
@@ -1156,6 +1158,23 @@ def generate_recommendations(
             "support_queryset",
         )
 
+    has_strict_filters = any(
+        value is not None
+        for value in (
+            preferences.budget_min,
+            preferences.budget_max,
+            preferences.min_rating,
+        )
+    )
+    if not candidates and has_strict_filters and base_queryset.exists():
+        relaxed_queryset = base_queryset
+        if exclude_ids:
+            relaxed_queryset = relaxed_queryset.exclude(id__in=exclude_ids)
+        candidates = _apply_relaxed_quality_filters_with_logging(
+            list(relaxed_queryset),
+            "relaxed_base_queryset",
+        )
+
     if not candidates:
         return []
 
@@ -1180,22 +1199,6 @@ def generate_recommendations(
     food_fallback_support = _dedupe_by_normalized_title(
         _filter_food_fallback_quality(list(food_fallback_queryset))
     )
-
-    has_strict_filters = any(
-        value is not None
-        for value in (
-            preferences.budget_min,
-            preferences.budget_max,
-            preferences.min_rating,
-        )
-    )
-    if not candidates and base_queryset.exists():
-        # fallback to relaxed results
-        fallback = list(base_queryset.order_by("-rating")[:20])
-        return fallback
-
-    if not candidates:
-        return []
 
     budget_midpoint = _budget_midpoint(preferences)
     recent_event_ids = _recent_event_ids(user, reference_date)
