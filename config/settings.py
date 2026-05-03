@@ -303,11 +303,11 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = "DENY"
     CSRF_TRUSTED_ORIGINS = [
-        "https://tizahab-web.up.railway.app",
+        "https://tizahab-web.onrender.com",
     ]
 
     ALLOWED_HOSTS = [
-        "tizahab-web.up.railway.app",
+        "tizahab-web.onrender.com",
         "localhost",
         "127.0.0.1",
     ]
