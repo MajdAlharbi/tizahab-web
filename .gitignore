@@ -30,6 +30,7 @@ media/
 staticfiles/
 *.sqlite3
 *.journal
+*.sqlite3-journal
 
 # ========================
 # Testing & coverage
