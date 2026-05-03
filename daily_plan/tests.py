@@ -122,14 +122,14 @@ class RecommendationServiceTests(TestCase):
 
     def test_returns_none_without_preferences(self):
         result = generate_recommendations(self.user)
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
     def test_returns_none_with_empty_interests(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
         pref.interests = []
         pref.save()
         result = generate_recommendations(self.user)
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
     def test_returns_list_with_valid_preferences(self):
         pref, _ = UserPreferences.objects.get_or_create(user=self.user)
@@ -673,7 +673,7 @@ class MultiDayRecommendationServiceTests(TestCase):
 
     def test_multiday_service_returns_none_without_preferences(self):
         result = generate_multiday_plan(self.user, TOMORROW)
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
     def test_multiday_service_distributes_when_events_are_limited(self):
         Event.objects.all().delete()
