@@ -260,8 +260,10 @@ function buildStructuredSlots(events, dayIndex = currentDayIndex) {
   });
 }
 
-// Exported for any pages that depend on it
-window.buildStructuredSlotEvents = buildStructuredSlots;
+function buildStructuredSlotEvents(...args) {
+  return buildStructuredSlots(...args);
+}
+window.buildStructuredSlotEvents = buildStructuredSlotEvents;
 
 // ── Plan state helpers ────────────────────────────────────
 function getActiveDayEvents(dayIndex = currentDayIndex) {
@@ -648,6 +650,24 @@ function renderTimeline(dayIndex = currentDayIndex) {
   updateHero(dayIndex);
 }
 
+function renderDailyPlan(planOrDayIndex = currentDayIndex) {
+  if (planOrDayIndex && typeof planOrDayIndex === "object" && !Array.isArray(planOrDayIndex)) {
+    const normalized = normalizePlanPayload(planOrDayIndex);
+    multiDayPlans[currentDayIndex] = Array.isArray(normalized.events) ? normalized.events : [];
+    if (Array.isArray(planOrDayIndex.events) || Array.isArray(planOrDayIndex.items) || normalized.id) {
+      _dayHasPlan[currentDayIndex] = true;
+    }
+    if (normalized.date) {
+      _currentPlan = normalized;
+      setSelectedPlanDate(normalized.date);
+    }
+    return renderTimeline(currentDayIndex);
+  }
+  return renderTimeline(planOrDayIndex);
+}
+
+window.renderDailyPlan = renderDailyPlan;
+
 // ── Plan loading ──────────────────────────────────────────
 async function loadCurrentPlan() {
   setLoading(true);
@@ -692,9 +712,10 @@ async function ensurePlanGenerationReady() {
     ? _currentPreferences.interests.filter(Boolean) : [];
   if (!interests.length) {
     showPlanMessage(
-      "No preferences set — generating a default plan. <a href='/onboarding/' class='underline text-violet-600'>Set preferences →</a>",
+      "Set your preferences before generating a plan.",
       "info"
     );
+    return false;
   }
   return true;
 }
@@ -714,7 +735,13 @@ async function generateAllDays(btn) {
   _currentPlan = null; multiDayPlans = [];
   _slotAssignmentsByDay = {}; _slotFeedbackByDay = {}; _slotBlockedIdsByDay = {};
   try {
-    if (!await ensurePlanGenerationReady()) return;
+    if (!await ensurePlanGenerationReady()) {
+      multiDayPlans = snapshotPlans;
+      _currentPlan = snapshotPlan;
+      renderDayTabs();
+      renderTimeline(currentDayIndex);
+      return;
+    }
     const payload = { start_date: getStoredPlanStartDate() };
     const end = getStoredPlanEndDate();
     if (end) payload.end_date = end;
@@ -777,6 +804,11 @@ async function requestPlanForDay(btn) {
     handleGenerateError(e);
   } finally { setLoading(false); _setBtnGenerating(btn, false); }
 }
+
+function requestPlanForSelectedDate(...args) {
+  return requestPlanForDay(...args);
+}
+window.requestPlanForSelectedDate = requestPlanForSelectedDate;
 
 function handleGenerateError(error) {
   const msg = error?.status === 404

@@ -1440,7 +1440,12 @@ class DailyPlanCRUDTests(TestCase):
                 capturedPayload = payload;
                 return { events: [] };
               },
-              apiGet: async () => ({ trip_duration: 3 }),
+              apiGet: async () => ({
+                interests: ["culture"],
+                trip_duration: 3,
+                start_date: "2099-04-10",
+                end_date: "2099-04-12",
+              }),
               setLoading() {},
               renderDaysBar() {},
               renderPlanForDay() {},
@@ -1491,22 +1496,29 @@ class DailyPlanCRUDTests(TestCase):
                 className: "",
                 textContent: "",
                 innerHTML: "",
+                dataset: {},
                 appendChild(child) { this.children.push(child); return child; },
                 append(...children) { this.children.push(...children); },
                 replaceChildren(...children) { this.children = children; },
                 setAttribute() {},
                 addEventListener() {},
+                querySelectorAll() { return []; },
                 classList: { add() {}, remove() {}, contains() { return false; } },
               };
             }
 
-            const planContainer = createElement("div");
+            const timeline = createElement("div");
             const planMessage = createElement("div");
             const elements = {
-              "plan-container": planContainer,
+              "timeline": timeline,
               "plan-message": planMessage,
-              "summary-activities": createElement("div"),
-              "summary-duration": createElement("div"),
+              "emptyState": createElement("div"),
+              "skeleton": createElement("div"),
+              "routeNavigationCard": createElement("section"),
+              "openRouteBtn": createElement("button"),
+              "heroDate": createElement("span"),
+              "dayBadge": createElement("span"),
+              "activityCount": createElement("p"),
             };
 
             const context = {
@@ -1531,7 +1543,7 @@ class DailyPlanCRUDTests(TestCase):
             vm.runInContext('_currentPreferences = { interests: [\"food\"], start_date: \"2099-04-10\", end_date: \"2099-04-12\", trip_duration: 3 }; currentDayIndex = 0; _slotAssignmentsByDay = { 0: { breakfast: null, activity: null, lunch: null, evening: null } };', context);
             context.__test__.renderDailyPlan({ events: [] });
 
-            const output = JSON.stringify(planContainer);
+            const output = JSON.stringify(timeline);
             process.stdout.write(output);
             """
         )
@@ -1545,7 +1557,7 @@ class DailyPlanCRUDTests(TestCase):
         )
 
         self.assertEqual(result.returncode, 0, msg=result.stderr)
-        self.assertIn("No activity selected", result.stdout)
+        self.assertIn("No activity for this slot", result.stdout)
         self.assertNotIn("Add something here without regenerating the full plan", result.stdout)
         self.assertNotIn("Choose a replacement for this slot", result.stdout)
 
