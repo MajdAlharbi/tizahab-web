@@ -16,8 +16,15 @@ function getToken() {
   return localStorage.getItem("access") || "";
 }
 
+function storeAuthTokens(data) {
+  if (!data) return false;
+  if (data.access) localStorage.setItem("access", data.access);
+  if (data.refresh) localStorage.setItem("refresh", data.refresh);
+  return Boolean(data.access);
+}
+
 function isLoggedIn() {
-  return localStorage.getItem("access") !== null;
+  return localStorage.getItem("access") !== null || window.TZ_SESSION_AUTHENTICATED === true;
 }
 
 function redirectToLogin() {
@@ -154,10 +161,23 @@ async function _tryRefresh() {
     });
     if (!res.ok) return false;
     const data = await parseResponseBody(res);
-    if (data.access) {
-      localStorage.setItem("access", data.access);
-      return true;
-    }
+    return storeAuthTokens(data);
+  } catch (error) {
+    logError("API ERROR", error);
+  }
+  return false;
+}
+
+async function _trySessionToken() {
+  try {
+    const res = await fetch("/api/auth/session-token/", {
+      method: "GET",
+      headers: authHeaders("/api/auth/session-token/"),
+      credentials: "include",
+    });
+    if (!res.ok) return false;
+    const data = await parseResponseBody(res);
+    return storeAuthTokens(data);
   } catch (error) {
     logError("API ERROR", error);
   }
@@ -207,6 +227,7 @@ async function apiGet(url, retry = true) {
 
     if (res.status === 401) {
       if (retry && await _tryRefresh()) return apiGet(url, false);
+      if (retry && await _trySessionToken()) return apiGet(url, false);
       redirectToLogin();
       return;
     }
@@ -230,6 +251,7 @@ async function apiPost(url, data, retry = true) {
 
     if (res.status === 401) {
       if (retry && await _tryRefresh()) return apiPost(url, data, false);
+      if (retry && await _trySessionToken()) return apiPost(url, data, false);
       redirectToLogin();
       return;
     }
@@ -253,6 +275,7 @@ async function apiPut(url, data, retry = true) {
 
     if (res.status === 401) {
       if (retry && await _tryRefresh()) return apiPut(url, data, false);
+      if (retry && await _trySessionToken()) return apiPut(url, data, false);
       redirectToLogin();
       return;
     }
@@ -276,6 +299,7 @@ async function apiPatch(url, data, retry = true) {
 
     if (res.status === 401) {
       if (retry && await _tryRefresh()) return apiPatch(url, data, false);
+      if (retry && await _trySessionToken()) return apiPatch(url, data, false);
       redirectToLogin();
       return;
     }
@@ -298,6 +322,7 @@ async function apiDelete(url, retry = true) {
 
     if (res.status === 401) {
       if (retry && await _tryRefresh()) return apiDelete(url, false);
+      if (retry && await _trySessionToken()) return apiDelete(url, false);
       redirectToLogin();
       return;
     }
@@ -341,3 +366,4 @@ window.getToken = getToken;
 window.isLoggedIn = isLoggedIn;
 window.redirectToLogin = redirectToLogin;
 window.logout = logout;
+window.storeAuthTokens = storeAuthTokens;

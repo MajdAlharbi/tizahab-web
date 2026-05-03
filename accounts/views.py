@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect, get_object_or_404
@@ -278,6 +279,21 @@ class LoginAPIView(APIView):
             django_login(request, user, backend="django.contrib.auth.backends.ModelBackend")
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+class SessionTokenAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        refresh = RefreshToken.for_user(request.user)
+        return Response(
+            {
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class UserPreferencesView(APIView):

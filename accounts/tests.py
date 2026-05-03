@@ -116,6 +116,28 @@ class LoginTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+class SessionTokenTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = make_user()
+
+    def test_session_token_rejects_anonymous_user(self):
+        response = self.client.get("/api/auth/session-token/")
+        self.assertIn(
+            response.status_code,
+            [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN],
+        )
+
+    def test_session_token_returns_tokens_for_session_user(self):
+        self.client.login(username=self.user.username, password="StrongPass1!")
+
+        response = self.client.get("/api/auth/session-token/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+
+
 class UserPreferencesTests(TestCase):
     def setUp(self):
         self.user = make_user()

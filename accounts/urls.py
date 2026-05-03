@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     SignupAPIView,
     LoginAPIView,
+    SessionTokenAPIView,
     UserPreferencesView,
     CurrentUserView,
     ChangePasswordView,
@@ -18,6 +19,7 @@ urlpatterns = [
     # API endpoints
     path("signup/", SignupAPIView.as_view(), name="signup"),
     path("login/", LoginAPIView.as_view(), name="login"),
+    path("session-token/", SessionTokenAPIView.as_view(), name="session-token"),
     path("preferences/", UserPreferencesView.as_view(), name="user-preferences"),
     path("me/", CurrentUserView.as_view(), name="current-user"),
     path("change-password/", ChangePasswordView.as_view(), name="change-password"),

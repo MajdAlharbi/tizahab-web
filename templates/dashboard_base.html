@@ -23,6 +23,7 @@
 
   <script>
     window.DEBUG = false;
+    window.TZ_SESSION_AUTHENTICATED = {{ request.user.is_authenticated|yesno:"true,false" }};
   </script>
 
   <link rel="icon" href="/static/favicon.ico">
