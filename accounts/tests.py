@@ -116,6 +116,22 @@ class LoginTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+class AuthTemplateNavigationTests(TestCase):
+    def test_signup_login_tab_points_to_ui_login(self):
+        response = self.client.get("/signup/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, 'href="/login/"')
+        self.assertNotContains(response, 'href="/api/auth/login/"')
+
+    def test_login_signup_tab_points_to_ui_signup(self):
+        response = self.client.get("/login/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, 'href="/signup/"')
+        self.assertNotContains(response, 'href="/api/auth/signup/"')
+
+
 class SessionTokenTests(TestCase):
     def setUp(self):
         self.client = APIClient()

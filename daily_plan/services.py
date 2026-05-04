@@ -617,17 +617,26 @@ def slot_type_for_ordered_event(index, total):
     return "activity"
 
 
+def _annotate_recommended_slot(event, slot_type, order):
+    if event is not None:
+        setattr(event, "_recommended_slot_type", slot_type)
+        setattr(event, "_recommended_order", order)
+    return event
+
+
 def build_plan_items_from_ordered_events(events, source="generated", locked=False):
     ordered_events = list(events or [])
     total = len(ordered_events)
     items = []
     for index, event in enumerate(ordered_events):
+        slot_type = getattr(event, "_recommended_slot_type", None)
+        order = getattr(event, "_recommended_order", None)
         items.append(
             {
                 "event": event,
                 "event_id": getattr(event, "id", None),
-                "slot_type": slot_type_for_ordered_event(index, total),
-                "order": index,
+                "slot_type": slot_type or slot_type_for_ordered_event(index, total),
+                "order": index if order is None else order,
                 "source": source,
                 "locked": locked,
             }
@@ -878,14 +887,21 @@ def _build_structured_daily_slots(events, food_fallback_candidates=None):
         available = [event for event in available if event.id != plan["evening"].id]
     register(plan["evening"])
 
-    final_list = [
-        plan["breakfast"],
-        plan["activity"],
-        plan["lunch"],
-        plan["evening"],
+    slotted_events = [
+        _annotate_recommended_slot(plan["breakfast"], "breakfast", 0),
+        _annotate_recommended_slot(plan["activity"], "activity", 1),
+        _annotate_recommended_slot(plan["lunch"], "lunch", 2),
+        _annotate_recommended_slot(plan["evening"], "evening", 3),
     ]
+    final_list = list(slotted_events)
     final_list = [event for event in final_list if event is not None]
-    final_list.extend(event for event in available if event.id not in used_ids)
+    next_order = 4
+    for event in available:
+        if event.id in used_ids:
+            continue
+        _annotate_recommended_slot(event, "activity", next_order)
+        next_order += 1
+        final_list.append(event)
     return final_list
 
 

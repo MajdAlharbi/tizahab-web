@@ -13,6 +13,7 @@ from events.models import Event
 from daily_plan.models import DailyPlan, DailyPlanItem
 from daily_plan.serializers import DailyPlanSerializer
 from daily_plan.services import (
+    build_plan_items_from_ordered_events,
     generate_daily_plan,
     generate_multiday_plan,
     generate_recommendations,
@@ -324,6 +325,55 @@ class RecommendationServiceTests(TestCase):
         result = generate_recommendations(self.user, date_str=TOMORROW)
         self.assertGreaterEqual(len(result), 4)
         self.assertEqual(len({event.id for event in result[:4]}), len(result[:4]))
+
+    def test_non_food_preferences_keep_food_in_meal_slots_only(self):
+        Event.objects.all().delete()
+        make_event("Morning Coffee", category="food", rating=4.8, description="Cafe coffee")
+        make_event("Lunch Restaurant", category="food", rating=4.7, description="Restaurant dining")
+        make_event("History Museum", category="culture", rating=4.9, description="Museum")
+        make_event("Heritage District", category="heritage", rating=4.8, description="Historic site")
+        make_event("Nature Walk", category="nature", rating=4.8, description="Public park")
+        make_event("Art Festival", category="events", rating=4.8, description="Festival")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["culture", "heritage", "nature", "events"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW, seed="no-food-main-activity")
+        specs = build_plan_items_from_ordered_events(result)
+        by_slot = {spec["slot_type"]: spec["event"] for spec in specs}
+
+        self.assertEqual(by_slot["breakfast"].category, "food")
+        self.assertEqual(by_slot["lunch"].category, "food")
+        self.assertNotEqual(by_slot["activity"].category, "food")
+        self.assertIn(by_slot["activity"].category, {"culture", "heritage", "nature", "events"})
+        for spec in specs:
+            if spec["slot_type"] in {"breakfast", "lunch"}:
+                self.assertEqual(spec["event"].category, "food")
+            if spec["slot_type"] == "activity":
+                self.assertNotEqual(spec["event"].category, "food")
+
+    def test_missing_lunch_food_does_not_shift_activity_into_lunch(self):
+        Event.objects.all().delete()
+        make_event("Morning Coffee", category="food", rating=4.8, description="Cafe coffee")
+        make_event("History Museum", category="culture", rating=4.9, description="Museum")
+        make_event("Heritage District", category="heritage", rating=4.8, description="Historic site")
+        make_event("Nature Walk", category="nature", rating=4.8, description="Public park")
+        make_event("Art Festival", category="events", rating=4.8, description="Festival")
+
+        pref, _ = UserPreferences.objects.get_or_create(user=self.user)
+        pref.interests = ["culture", "heritage", "nature", "events"]
+        pref.save()
+
+        result = generate_recommendations(self.user, date_str=TOMORROW, seed="no-lunch-food")
+        specs = build_plan_items_from_ordered_events(result)
+
+        self.assertFalse(
+            any(
+                spec["slot_type"] == "lunch" and spec["event"].category != "food"
+                for spec in specs
+            )
+        )
 
     def test_food_slots_can_use_weaker_food_before_non_food(self):
         Event.objects.all().delete()
@@ -1601,6 +1651,53 @@ class DailyPlanCRUDTests(TestCase):
 
         self.assertEqual(result.returncode, 0, msg=result.stderr)
         self.assertEqual(result.stdout.strip(), "4")
+
+    def test_legacy_frontend_slot_assignment_does_not_label_non_food_lunch(self):
+        script = textwrap.dedent(
+            r"""
+            const fs = require("fs");
+            const vm = require("vm");
+
+            const code = fs.readFileSync("static/js/daily_plan_integration.js", "utf8");
+            const context = {
+              console: { log() {}, error() {}, warn() {} },
+              window: {},
+              document: { addEventListener() {}, getElementById() { return null; } },
+              localStorage: { getItem() { return null; }, setItem() {}, removeItem() {} },
+              setTimeout,
+              clearTimeout,
+            };
+
+            vm.createContext(context);
+            vm.runInContext(code + "\nthis.__test__ = { buildStructuredSlotEvents };", context);
+            const structured = vm.runInContext(`this.__test__.buildStructuredSlotEvents([
+              { id: 1, category: "food", title: "Morning Cafe" },
+              { id: 2, category: "culture", title: "Museum" },
+              { id: 3, category: "heritage", title: "Diriyah" },
+              { id: 4, category: "nature", title: "Park" },
+              { id: 5, category: "events", title: "Festival" }
+            ])`, context);
+            const lunch = structured.find(slot => slot.key === "lunch");
+            const activity = structured.find(slot => slot.key === "activity");
+            process.stdout.write(JSON.stringify({
+              lunchCategories: lunch.items.filter(item => !item._placeholder).map(item => item.category),
+              activityCategories: activity.items.filter(item => !item._placeholder).map(item => item.category)
+            }));
+            """
+        )
+
+        result = subprocess.run(
+            ["node", "-e", script],
+            capture_output=True,
+            text=True,
+            cwd=".",
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        payload = result.stdout.strip()
+        self.assertIn('"lunchCategories":[]', payload)
+        self.assertIn('"activityCategories":["culture","heritage","nature"]', payload)
 
 
 class DailyPlanItemPersistenceTests(TestCase):

@@ -67,6 +67,7 @@ class CheckResult:
     name: str
     status: str
     detail: str
+    section: str = "positive path"
     url: str = ""
     screenshot: str = ""
     console_errors: list[str] | None = None
@@ -125,6 +126,7 @@ class RenderJourneyTester:
         status: str,
         name: str,
         detail: str,
+        section: str = "",
         url: str = "",
         screenshot: str = "",
         console_errors: list[str] | None = None,
@@ -133,24 +135,41 @@ class RenderJourneyTester:
             name=name,
             status=status,
             detail=detail,
+            section=section or self.section_for(name),
             url=url or self.current_url(),
             screenshot=screenshot,
             console_errors=console_errors or [],
         )
         self.results.append(result)
         icon = {"PASS": "PASS", "WARN": "WARN", "FAIL": "FAIL"}[status]
-        print(f"[{icon}] {name}: {detail}")
+        line = f"[{icon}] {name}: {detail}"
+        try:
+            print(line)
+        except UnicodeEncodeError:
+            print(line.encode("ascii", errors="replace").decode("ascii"))
 
-    def pass_(self, name: str, detail: str, url: str = "") -> None:
-        self.add_result("PASS", name, detail, url=url)
+    def section_for(self, name: str) -> str:
+        lowered = name.lower()
+        if "negative" in lowered or "validation" in lowered or "empty form" in lowered or "invalid" in lowered:
+            return "negative validation"
+        if "button audit" in lowered:
+            return "button audit"
+        if "api category" in lowered:
+            return "api category validation"
+        if "console" in lowered:
+            return "console errors"
+        return "positive path"
 
-    def warn(self, name: str, detail: str, url: str = "") -> None:
-        self.add_result("WARN", name, detail, url=url)
+    def pass_(self, name: str, detail: str, url: str = "", section: str = "") -> None:
+        self.add_result("PASS", name, detail, section=section, url=url)
 
-    def fail(self, name: str, detail: str, url: str = "") -> None:
+    def warn(self, name: str, detail: str, url: str = "", section: str = "") -> None:
+        self.add_result("WARN", name, detail, section=section, url=url)
+
+    def fail(self, name: str, detail: str, url: str = "", section: str = "") -> None:
         screenshot = self.screenshot(name) if self.driver else ""
         errors = self.console_errors() if self.driver else []
-        self.add_result("FAIL", name, detail, url=url, screenshot=screenshot, console_errors=errors)
+        self.add_result("FAIL", name, detail, section=section, url=url, screenshot=screenshot, console_errors=errors)
 
     def current_url(self) -> str:
         try:
@@ -254,6 +273,8 @@ class RenderJourneyTester:
             "/api/auth/session-token/ - Failed to load resource: the server responded with a status of 403",
             "/api/auth/admin/users/ - Failed to load resource: the server responded with a status of 401",
             "/api/auth/admin/users/ - Failed to load resource: the server responded with a status of 403",
+            "/api/auth/signup/ - Failed to load resource: the server responded with a status of 400",
+            "/api/auth/login/ - Failed to load resource: the server responded with a status of 400",
         )
         try:
             logs = self.driver.get_log("browser")
@@ -276,6 +297,112 @@ class RenderJourneyTester:
         else:
             self.pass_(f"console errors - {context}", "No severe browser console errors")
 
+    def assert_no_500(self, context: str) -> bool:
+        text = self.body_text().lower()
+        title = ""
+        try:
+            title = (self.driver.title or "").lower() if self.driver else ""
+        except WebDriverException:
+            title = ""
+        bad = (
+            "server error" in text
+            or "traceback" in text
+            or "500" in title
+            or "internal server error" in text
+        )
+        if bad:
+            self.fail(f"{context} no 500", "Page appears to be a server error page")
+            return False
+        self.pass_(f"{context} no 500", "No 500/server-error page detected")
+        return True
+
+    def assert_not_api_browsable_page(self, context: str) -> bool:
+        current = self.current_url()
+        text = self.body_text()
+        is_api = "/api/" in urlparse(current).path and (
+            "Django REST framework" in text
+            or "HTTP 405" in text
+            or "Method \"GET\" not allowed" in text
+        )
+        if is_api:
+            self.fail(f"{context} not DRF API", f"Navigated to browsable API page: {current}")
+            return False
+        self.pass_(f"{context} not DRF API", "Not on DRF browsable API")
+        return True
+
+    def assert_current_url_not_api_auth(self, context: str) -> bool:
+        current = self.current_url()
+        if "/api/auth/login/" in current or "/api/auth/signup/" in current:
+            self.fail(f"{context} not api auth", f"Unexpected auth API URL: {current}")
+            return False
+        self.pass_(f"{context} not api auth", "Did not navigate to auth API endpoint")
+        return True
+
+    def assert_visible_error_or_validation(self, context: str) -> bool:
+        if not self.driver:
+            return False
+        selectors = [
+            "[role='alert']:not(.hidden)",
+            "#signup-error:not(.hidden)",
+            "#login-error:not(.hidden)",
+            "#confirm-mismatch:not(.hidden)",
+            "[id$='-error']:not(.hidden)",
+            "#pref-message:not(.hidden)",
+        ]
+        for selector in selectors:
+            elements = self.all(By.CSS_SELECTOR, selector)
+            visible_text = [el.text.strip() for el in elements if el.is_displayed() and el.text.strip()]
+            if visible_text:
+                self.pass_(f"{context} validation", f"Visible validation: {visible_text[0][:160]}")
+                return True
+        invalid_count = self.driver.execute_script(
+            "return Array.from(document.querySelectorAll('input,select,textarea')).filter(el => !el.checkValidity()).length;"
+        )
+        if invalid_count:
+            self.pass_(f"{context} validation", f"Browser field validation active on {invalid_count} field(s)")
+            return True
+        self.fail(f"{context} validation", "No visible error message or invalid field state found")
+        return False
+
+    def safe_click_button(self, element: WebElement, context: str, restore_url: str | None = None) -> bool:
+        before = self.current_url()
+        clicked = self.click(element)
+        if not clicked:
+            self.warn(f"{context} safe click", "Element could not be clicked")
+            return False
+        self.pause(0.4)
+        self.assert_no_500(context)
+        self.assert_not_api_browsable_page(context)
+        self.check_console(context)
+        if restore_url and self.current_url() != before:
+            self.goto(restore_url)
+            self.wait_document_ready()
+        return True
+
+    def open_external_link_safely(self, link: WebElement, context: str) -> None:
+        if not self.driver:
+            return
+        href = link.get_attribute("href") or ""
+        if not href:
+            self.warn(f"{context} external link", "External link has no href")
+            return
+        original = self.driver.current_window_handle
+        handles_before = set(self.driver.window_handles)
+        try:
+            self.driver.execute_script("window.open(arguments[0], '_blank', 'noopener,noreferrer');", href)
+            WebDriverWait(self.driver, 5).until(lambda d: len(set(d.window_handles) - handles_before) >= 1)
+            new_handle = list(set(self.driver.window_handles) - handles_before)[0]
+            self.driver.switch_to.window(new_handle)
+            self.pass_(f"{context} external link", f"Opened external href in temporary tab: {urlparse(href).netloc}")
+            self.driver.close()
+            self.driver.switch_to.window(original)
+        except Exception as exc:
+            try:
+                self.driver.switch_to.window(original)
+            except Exception:
+                pass
+            self.warn(f"{context} external link", f"Could not open external href safely: {type(exc).__name__}: {exc}")
+
     def request(self, path: str, allow_redirects: bool = True) -> requests.Response | None:
         url = self.full_url(path)
         try:
@@ -293,12 +420,17 @@ class RenderJourneyTester:
         if browser_ok:
             try:
                 self.browser_public_smoke()
+                self.auth_tab_navigation()
+                self.negative_auth_forms()
                 self.signup_flow()
+                self.signup_duplicate_email_negative()
                 self.onboarding_flow()
                 self.explore_flow()
                 self.add_to_plan_flow()
                 self.daily_plan_flow()
                 self.optional_pages_flow()
+                self.profile_settings_flow()
+                self.button_audit_flow()
                 self.logout_flow()
             except Exception as exc:
                 self.fail("unexpected e2e exception", f"{type(exc).__name__}: {exc}\n{traceback.format_exc(limit=5)}")
@@ -377,6 +509,34 @@ class RenderJourneyTester:
                 "api events first result fields",
                 f"Required fields present; optional present: {available_optional or 'none'}",
             )
+        self.check_api_category_filters()
+
+    def check_api_category_filters(self) -> None:
+        for category in ["food", "culture", "nature", "heritage", "events"]:
+            response = self.request(f"/api/events/?category={category}")
+            if response is None:
+                continue
+            if response.status_code != 200:
+                self.fail(f"api category {category}", f"Expected 200, got {response.status_code}", url=response.url)
+                continue
+            try:
+                data = response.json()
+            except ValueError as exc:
+                self.fail(f"api category {category}", f"Invalid JSON: {exc}", url=response.url)
+                continue
+            results = data.get("results") if isinstance(data, dict) else data
+            if not isinstance(results, list) or not results:
+                count = data.get("count") if isinstance(data, dict) else 0
+                if count == 0:
+                    self.warn(f"api category {category}", "API category has zero results; acceptable if UI has clear empty state", url=response.url)
+                else:
+                    self.fail(f"api category {category}", "Expected results list when count is nonzero", url=response.url)
+                continue
+            bad = [item.get("category") for item in results if item.get("category") != category]
+            if bad:
+                self.fail(f"api category {category}", f"Unexpected categories returned: {bad[:5]}", url=response.url)
+            else:
+                self.pass_(f"api category {category}", f"{len(results)} result(s), all category={category}", url=response.url)
 
     def browser_public_smoke(self) -> None:
         for path in ["/", "/login/", "/signup/", "/events/page/"]:
@@ -387,6 +547,145 @@ class RenderJourneyTester:
             else:
                 self.fail(f"browser page {path}", "Page loaded without title")
             self.check_console(path)
+
+    def auth_tab_navigation(self) -> None:
+        self.goto("/signup/")
+        login_tab = self.visible(By.XPATH, "//a[normalize-space()='Login']", 8)
+        if not login_tab or not self.click(login_tab):
+            self.fail("signup login tab", "Could not click Login tab on signup page")
+        elif "/login/" in self.current_url() and "/api/auth/login/" not in self.current_url():
+            if self.visible(By.ID, "login-btn", 8):
+                self.pass_("signup login tab", "Login tab navigates to /login/ and shows login form")
+            else:
+                self.fail("signup login tab", "Navigated to /login/ but login form was not visible")
+        else:
+            self.fail("signup login tab", f"Unexpected target URL: {self.current_url()}")
+        self.assert_current_url_not_api_auth("signup login tab")
+        self.assert_not_api_browsable_page("signup login tab")
+
+        self.goto("/login/")
+        signup_tab = self.visible(By.XPATH, "//a[normalize-space()='Create Account']", 8)
+        if not signup_tab or not self.click(signup_tab):
+            self.fail("login create account tab", "Could not click Create Account tab on login page")
+        elif "/signup/" in self.current_url() and "/api/auth/signup/" not in self.current_url():
+            if self.visible(By.ID, "signup-form", 8):
+                self.pass_("login create account tab", "Create Account tab navigates to /signup/ and shows signup form")
+            else:
+                self.fail("login create account tab", "Navigated to /signup/ but signup form was not visible")
+        else:
+            self.fail("login create account tab", f"Unexpected target URL: {self.current_url()}")
+        self.assert_current_url_not_api_auth("login create account tab")
+        self.assert_not_api_browsable_page("login create account tab")
+
+    def negative_auth_forms(self) -> None:
+        self.signup_negative_empty()
+        self.signup_negative_invalid_email()
+        self.signup_negative_short_password()
+        self.signup_negative_mismatch()
+        self.login_negative_empty()
+        self.login_negative_invalid_email()
+        self.login_negative_unknown_email()
+        self.login_negative_wrong_password_like_test_email()
+
+    def submit_signup_negative(self, name: str, values: dict[str, str]) -> None:
+        self.goto("/signup/")
+        form = self.visible(By.ID, "signup-form", 8)
+        if not form:
+            self.fail(name, "Signup form missing")
+            return
+        for element_id, value in values.items():
+            el = self.find(By.ID, element_id, 4)
+            if el:
+                el.clear()
+                if value:
+                    el.send_keys(value)
+        btn = self.visible(By.ID, "signup-btn", 4)
+        if btn:
+            self.click(btn)
+        self.pause(0.5)
+        if "/signup/" in self.current_url():
+            self.pass_(name, "Stayed on signup page after invalid input")
+        else:
+            self.fail(name, f"Unexpected navigation after invalid signup: {self.current_url()}")
+        self.assert_visible_error_or_validation(name)
+        self.assert_no_500(name)
+        self.assert_current_url_not_api_auth(name)
+        self.assert_not_api_browsable_page(name)
+        self.check_console(name)
+
+    def signup_negative_empty(self) -> None:
+        self.submit_signup_negative("signup negative empty form", {})
+
+    def signup_negative_invalid_email(self) -> None:
+        self.submit_signup_negative(
+            "signup negative invalid email",
+            {
+                "signup-name": "Bad Email",
+                "signup-email": "not-an-email",
+                "signup-password": self.test_password,
+                "signup-confirm": self.test_password,
+            },
+        )
+
+    def signup_negative_short_password(self) -> None:
+        self.submit_signup_negative(
+            "signup negative short password",
+            {
+                "signup-name": "Short Password",
+                "signup-email": f"short_{int(time.time())}@example.com",
+                "signup-password": "123",
+                "signup-confirm": "123",
+            },
+        )
+
+    def signup_negative_mismatch(self) -> None:
+        self.submit_signup_negative(
+            "signup negative password mismatch",
+            {
+                "signup-name": "Mismatch Password",
+                "signup-email": f"mismatch_{int(time.time())}@example.com",
+                "signup-password": self.test_password,
+                "signup-confirm": "Different123!",
+            },
+        )
+
+    def submit_login_negative(self, name: str, email: str = "", password: str = "") -> None:
+        self.goto("/login/")
+        email_el = self.find(By.CSS_SELECTOR, "input[name='email']", 6)
+        password_el = self.find(By.CSS_SELECTOR, "input[name='password']", 6)
+        if email_el:
+            email_el.clear()
+            if email:
+                email_el.send_keys(email)
+        if password_el:
+            password_el.clear()
+            if password:
+                password_el.send_keys(password)
+        btn = self.visible(By.ID, "login-btn", 4)
+        if btn:
+            self.click(btn)
+        self.pause(0.6)
+        if "/login/" in self.current_url():
+            self.pass_(name, "Stayed on login page after invalid input")
+        else:
+            self.fail(name, f"Unexpected navigation after invalid login: {self.current_url()}")
+        self.assert_visible_error_or_validation(name)
+        self.assert_no_500(name)
+        self.assert_current_url_not_api_auth(name)
+        self.assert_not_api_browsable_page(name)
+        self.check_console(name)
+
+    def login_negative_empty(self) -> None:
+        self.submit_login_negative("login negative empty form")
+
+    def login_negative_invalid_email(self) -> None:
+        self.submit_login_negative("login negative invalid email", "not-an-email", "whatever")
+
+    def login_negative_unknown_email(self) -> None:
+        self.submit_login_negative("login negative unknown email", f"unknown_{int(time.time())}@example.com", "WrongPass123!")
+
+    def login_negative_wrong_password_like_test_email(self) -> None:
+        self.submit_login_negative("login negative wrong password", self.test_email, "WrongPass123!")
 
     def signup_flow(self) -> None:
         self.goto("/signup/")
@@ -428,25 +727,65 @@ class RenderJourneyTester:
             self.fail("signup submit", detail)
         self.check_console("signup")
 
+    def signup_duplicate_email_negative(self) -> None:
+        self.goto("/signup/")
+        if "/signup/" not in self.current_url():
+            self.warn(
+                "signup negative duplicate email",
+                f"Could not load signup page after valid signup; current URL {self.current_url()}",
+            )
+            return
+        self.submit_signup_negative(
+            "signup negative duplicate email",
+            {
+                "signup-name": "Duplicate E2E User",
+                "signup-email": self.test_email,
+                "signup-password": self.test_password,
+                "signup-confirm": self.test_password,
+            },
+        )
+
     def onboarding_flow(self) -> None:
         self.goto("/onboarding/")
         if "/login/" in self.current_url():
             self.fail("onboarding access after signup", f"Redirected to login: {self.current_url()}")
             return
 
-        cards = self.all(By.CSS_SELECTOR, ".interest-card")
-        if not cards:
+        self.click_by_id("next-1", "onboarding negative no interests continue")
+        self.assert_visible_error_or_validation("onboarding negative no interests")
+        self.assert_no_500("onboarding negative no interests")
+        if "/login/" in self.current_url():
+            self.fail("onboarding negative no interests auth", "User was logged out during validation")
+            return
+        self.check_console("onboarding negative no interests")
+
+        selected = 0
+        for category in ["culture", "heritage", "nature", "events"]:
+            card = self.find(By.CSS_SELECTOR, f".interest-card[data-cat='{category}']", 5)
+            if card and self.click(card):
+                selected += 1
+        if not selected:
             self.fail("onboarding interests", "No .interest-card buttons found")
             return
-        for card in cards[:3]:
-            self.click(card)
-        self.pass_("onboarding interests", f"Selected {min(3, len(cards))} interests")
+        self.pass_("onboarding interests", f"Selected {selected} non-food interests")
 
         if not self.click_by_id("next-1", "onboarding next step 1"):
             return
 
+        self.set_input_value("startDate", "")
+        self.set_input_value("endDate", "")
+        self.click_by_id("next-2", "onboarding negative missing dates continue")
+        self.assert_visible_error_or_validation("onboarding negative missing dates")
+        self.assert_no_500("onboarding negative missing dates")
+
         start = date.today() + timedelta(days=7)
         end = start + timedelta(days=1)
+        self.set_input_value("startDate", end.isoformat())
+        self.set_input_value("endDate", start.isoformat())
+        self.click_by_id("next-2", "onboarding negative invalid date range continue")
+        self.assert_visible_error_or_validation("onboarding negative invalid date range")
+        self.assert_no_500("onboarding negative invalid date range")
+
         self.set_input_value("startDate", start.isoformat())
         self.set_input_value("endDate", end.isoformat())
         self.pass_("onboarding dates", f"Set {start.isoformat()} to {end.isoformat()}")
@@ -465,6 +804,19 @@ class RenderJourneyTester:
 
         budget_max = self.find(By.ID, "budgetMax", 4)
         if budget_max:
+            self.set_input_value("budgetMin", "6000")
+            self.set_input_value("budgetMax", "1000")
+            normalized = self.driver.execute_script(
+                """
+                const minEl = document.getElementById('budgetMin');
+                const maxEl = document.getElementById('budgetMax');
+                return minEl && maxEl ? Number(minEl.value) <= Number(maxEl.value) : null;
+                """
+            ) if self.driver else None
+            if normalized:
+                self.pass_("onboarding negative invalid budget", "Budget sliders auto-normalized min/max safely")
+            else:
+                self.warn("onboarding negative invalid budget", "Budget min/max could be inverted or could not be verified")
             self.set_input_value("budgetMax", "5000")
             self.pass_("onboarding budget", "Adjusted budget max")
 
@@ -547,7 +899,7 @@ class RenderJourneyTester:
         else:
             self.fail("explore search", "Missing #searchInput")
 
-        for cat in ["food", "culture", "nature"]:
+        for cat in ["food", "culture", "nature", "heritage", "events"]:
             pill = self.find(By.CSS_SELECTOR, f".cat-pill[data-cat='{cat}']", 6)
             if not pill:
                 self.warn(f"explore category {cat}", "Category pill missing")
@@ -564,6 +916,58 @@ class RenderJourneyTester:
         if all_pill:
             self.click(all_pill)
             self.wait_grid_settled()
+
+        favs = [btn for btn in self.all(By.CSS_SELECTOR, ".event-card .fav-btn") if btn.is_displayed()]
+        if favs:
+            before_text = favs[0].text.strip()
+            if self.click(favs[0]):
+                self.pause(0.8)
+                if "/login/" in self.current_url():
+                    self.fail("explore favorite button", "Authenticated test user was redirected to login")
+                else:
+                    try:
+                        after_text = favs[0].text.strip() if favs[0].is_displayed() else ""
+                    except WebDriverException:
+                        after_text = "rerendered"
+                    self.pass_("explore favorite button", f"Favorite button stayed in-app; state {before_text!r}->{after_text!r}")
+            else:
+                self.warn("explore favorite button", "Favorite button was visible but could not be clicked")
+        else:
+            self.warn("explore favorite button", "No favorite buttons visible on event cards")
+
+        for context, selector in [
+            ("explore map link", ".event-card .maps-link"),
+            ("explore featured map link", "#trendingRow .maps-link"),
+        ]:
+            links = [link for link in self.all(By.CSS_SELECTOR, selector) if link.is_displayed()]
+            if links:
+                href = links[0].get_attribute("href") or ""
+                if href and "google.com/maps" in href:
+                    self.pass_(context, f"Map href is present: {urlparse(href).netloc}")
+                    self.open_external_link_safely(links[0], context)
+                else:
+                    self.fail(context, f"Map link missing/invalid href: {href!r}")
+            else:
+                self.warn(context, f"No visible links for selector {selector}")
+
+        trending_adds = [btn for btn in self.all(By.CSS_SELECTOR, "#trendingRow .add-to-plan-btn") if btn.is_displayed()]
+        if trending_adds:
+            label = trending_adds[0].text.strip()
+            if self.click(trending_adds[0]):
+                self.pause(0.8)
+                if "/login/" in self.current_url():
+                    self.fail("explore featured add button", "Authenticated test user was redirected to login")
+                else:
+                    self.pass_("explore featured add button", f"Clicked featured Add button safely ({label!r})")
+            else:
+                self.warn("explore featured add button", "Featured Add button could not be clicked")
+        else:
+            self.warn("explore featured add button", "No featured Add buttons visible")
+
+        if self.all(By.CSS_SELECTOR, ".event-card") or self.page_contains("No places found"):
+            self.pass_("explore post-interaction stability", "Grid still shows cards or a clear empty state")
+        else:
+            self.fail("explore post-interaction stability", "Grid disappeared after interactions")
         self.check_console("explore")
 
     def add_to_plan_flow(self) -> None:
@@ -636,24 +1040,184 @@ class RenderJourneyTester:
         else:
             self.fail("daily plan result", "No activities and no clear user-facing message after generation")
 
+        self.validate_daily_plan_slot_categories()
+        self.daily_plan_day_tabs()
+        self.daily_plan_add_activity_modal()
+        self.daily_plan_route_button()
         self.optional_activity_mutations()
         self.check_console("daily plan")
 
-    def optional_activity_mutations(self) -> None:
-        buttons = self.all(By.XPATH, "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'replace') or contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'remove')]")
-        if not buttons:
-            self.warn("daily plan replace/remove", "No optional replace/remove buttons visible")
+    def validate_daily_plan_slot_categories(self) -> None:
+        if not self.driver:
             return
-        target = buttons[0]
-        label = target.text.strip() or "activity action"
-        if self.click(target):
-            time.sleep(1 if self.slow else 0.3)
-            if "/daily-plan/" in self.current_url():
-                self.pass_("daily plan replace/remove", f"Clicked optional '{label}' and page remained stable")
-            else:
-                self.fail("daily plan replace/remove", f"After clicking '{label}', URL changed to {self.current_url()}")
+        try:
+            slot_texts = self.driver.execute_script(
+                "return Array.from(document.querySelectorAll('#timeline > div')).map(el => el.innerText);"
+            )
+        except WebDriverException as exc:
+            self.warn("daily plan slot categories", f"Could not inspect visible slot text: {exc}")
+            return
+        if not slot_texts:
+            self.warn("daily plan slot categories", "No visible slot cards to inspect")
+            return
+
+        failures = []
+        for text in slot_texts:
+            lowered = str(text).lower()
+            is_placeholder = "no activity for this slot" in lowered
+            if "lunch" in lowered and not is_placeholder and "food" not in lowered:
+                failures.append(f"Lunch slot is not visibly Food: {str(text).splitlines()[:4]}")
+            if "activity" in lowered and not is_placeholder and "food" in lowered:
+                failures.append(f"Activity slot is visibly Food without Food preference: {str(text).splitlines()[:4]}")
+        if failures:
+            self.fail("daily plan slot categories", "; ".join(failures[:2]))
         else:
-            self.warn("daily plan replace/remove", f"Optional button '{label}' could not be clicked")
+            self.pass_("daily plan slot categories", "Visible Lunch/Activity categories respect non-food preferences")
+
+    def optional_activity_mutations(self) -> None:
+        actions = [
+            ("daily plan try another", ".try-another-btn"),
+            ("daily plan remove", ".remove-btn"),
+        ]
+        clicked_any = False
+        for name, selector in actions:
+            buttons = [btn for btn in self.all(By.CSS_SELECTOR, selector) if btn.is_displayed()]
+            if not buttons:
+                self.warn(name, f"No optional {selector} buttons visible")
+                continue
+            label = buttons[0].text.strip() or selector
+            if self.click(buttons[0]):
+                clicked_any = True
+                time.sleep(1 if self.slow else 0.5)
+                if "/daily-plan/" in self.current_url():
+                    self.pass_(name, f"Clicked optional '{label}' and page remained stable")
+                else:
+                    self.fail(name, f"After clicking '{label}', URL changed to {self.current_url()}")
+            else:
+                self.warn(name, f"Optional button '{label}' could not be clicked")
+        if clicked_any:
+            self.assert_no_500("daily plan replace/remove")
+
+    def daily_plan_day_tabs(self) -> None:
+        tabs = [tab for tab in self.all(By.CSS_SELECTOR, "#dayTabs button") if tab.is_displayed()]
+        if not tabs:
+            self.warn("daily plan day tabs", "No day tabs visible")
+            return
+        tested = 0
+        for index in range(min(2, len(tabs))):
+            current_tabs = [tab for tab in self.all(By.CSS_SELECTOR, "#dayTabs button") if tab.is_displayed()]
+            if index >= len(current_tabs):
+                break
+            tab = current_tabs[index]
+            try:
+                label = tab.text.strip() or "day tab"
+            except WebDriverException:
+                label = "day tab"
+            if self.click(tab):
+                tested += 1
+                self.pause(0.4)
+                if "/daily-plan/" in self.current_url():
+                    self.pass_("daily plan day tabs", f"Clicked {label!r} safely")
+                else:
+                    self.fail("daily plan day tabs", f"Day tab changed URL unexpectedly: {self.current_url()}")
+        if tested == 0:
+            self.warn("daily plan day tabs", "Day tabs were visible but could not be clicked")
+
+    def daily_plan_add_activity_modal(self) -> None:
+        btn = self.visible(By.ID, "add-activity-btn", 5)
+        if not btn:
+            self.warn("daily plan add activity modal", "Add Activity button missing")
+            return
+        if not self.click(btn):
+            self.warn("daily plan add activity modal", "Could not open Add Activity modal")
+            return
+        modal = self.visible(By.ID, "addActivityModal", 6)
+        if not modal:
+            self.fail("daily plan add activity modal", "Add Activity modal did not become visible")
+            return
+        self.pass_("daily plan add activity modal", "Modal opened")
+
+        search = self.visible(By.ID, "activitySearchInput", 4)
+        if search:
+            search.clear()
+            search.send_keys("zzzz-no-place-e2e")
+            self.wait_activity_search_result("No results found", 8)
+            if self.page_contains("No results found"):
+                self.pass_("daily plan add activity bad search", "Bad search produced clear no-results message")
+            else:
+                self.warn("daily plan add activity bad search", "No-results message was not visible after bad search")
+
+            search.clear()
+            search.send_keys("park")
+            self.wait_activity_cards(10)
+            results = [el for el in self.all(By.CSS_SELECTOR, "#activitySearchResults [data-event-id]") if el.is_displayed()]
+            if results:
+                self.pass_("daily plan add activity good search", f"Good search returned {len(results)} result(s)")
+                if self.click(results[0]):
+                    self.pause(1.2)
+                    self.pass_("daily plan add activity select", "Clicked one search result for the test user's plan")
+                else:
+                    self.warn("daily plan add activity select", "Search result was visible but could not be clicked")
+            else:
+                self.warn("daily plan add activity good search", "Good search returned no visible results")
+        else:
+            self.warn("daily plan add activity search", "Search input missing in modal")
+
+        close = self.visible(By.ID, "closeAddActivity", 3)
+        if close:
+            self.click(close)
+            self.pass_("daily plan add activity close", "Close modal button clicked")
+        self.assert_no_500("daily plan add activity modal")
+
+    def daily_plan_route_button(self) -> None:
+        buttons = [btn for btn in self.all(By.CSS_SELECTOR, "#openRouteBtn, .navigate-btn") if btn.is_displayed()]
+        if not buttons:
+            self.warn("daily plan route button", "No route/navigation button visible")
+            return
+        btn = buttons[0]
+        href = btn.get_attribute("data-route-url") or btn.get_attribute("data-navigate-url") or ""
+        if href:
+            self.pass_("daily plan route button", f"Route URL present for {urlparse(href).netloc or 'route'}")
+            if self.driver:
+                original = self.driver.current_window_handle
+                handles_before = set(self.driver.window_handles)
+                try:
+                    self.driver.execute_script("window.open(arguments[0], '_blank', 'noopener,noreferrer');", href)
+                    WebDriverWait(self.driver, 5).until(lambda d: len(set(d.window_handles) - handles_before) >= 1)
+                    new_handle = list(set(self.driver.window_handles) - handles_before)[0]
+                    self.driver.switch_to.window(new_handle)
+                    self.pass_("daily plan route button external", "Route opened in a temporary tab")
+                    self.driver.close()
+                    self.driver.switch_to.window(original)
+                except Exception as exc:
+                    try:
+                        self.driver.switch_to.window(original)
+                    except Exception:
+                        pass
+                    self.warn("daily plan route button external", f"Could not open route safely: {type(exc).__name__}: {exc}")
+        else:
+            self.warn("daily plan route button", "Route button visible but no route URL data attribute found")
+
+    def wait_activity_search_result(self, expected_text: str, timeout: int = 8) -> None:
+        if not self.driver:
+            return
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                lambda d: expected_text.lower() in d.find_element(By.ID, "activitySearchResults").text.lower()
+            )
+        except TimeoutException:
+            pass
+
+    def wait_activity_cards(self, timeout: int = 8) -> None:
+        if not self.driver:
+            return
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                lambda d: d.find_elements(By.CSS_SELECTOR, "#activitySearchResults [data-event-id]")
+                or "No results found" in d.find_element(By.ID, "activitySearchResults").text
+            )
+        except TimeoutException:
+            pass
 
     def optional_pages_flow(self) -> None:
         for path in ["/booking/", "/car-rental/", "/travel-guide/", "/settings/", "/profile/"]:
@@ -674,6 +1238,208 @@ class RenderJourneyTester:
             else:
                 self.fail(f"optional page {path}", "No visible title/H1/main content")
             self.check_console(f"optional {path}")
+
+    def profile_settings_flow(self) -> None:
+        self.goto("/profile/")
+        if "/login/" in self.current_url():
+            self.fail("profile load after login", "Profile redirected to login for authenticated test user")
+            return
+        self.assert_no_500("profile load after login")
+        if self.find(By.TAG_NAME, "h1", 5) or self.page_contains("My Preferences"):
+            self.pass_("profile load after login", "Profile page content is visible")
+        else:
+            self.fail("profile load after login", "Profile page did not show recognizable content")
+
+        edit = self.find(By.XPATH, "//a[contains(normalize-space(.), 'Edit Preferences') or contains(normalize-space(.), 'Set them now')]", 5)
+        if edit and self.click(edit):
+            if "/onboarding/" in self.current_url():
+                self.pass_("profile edit preferences", "Edit Preferences navigates to onboarding/preferences")
+            else:
+                self.fail("profile edit preferences", f"Unexpected target URL: {self.current_url()}")
+            self.goto("/profile/")
+        else:
+            self.warn("profile edit preferences", "Edit Preferences link not found/clickable")
+        self.check_console("profile")
+
+        self.goto("/settings/")
+        if "/login/" in self.current_url():
+            self.fail("settings load after login", "Settings redirected to login for authenticated test user")
+            return
+        self.assert_no_500("settings load after login")
+        if self.find(By.TAG_NAME, "h1", 5) or self.page_contains("Settings"):
+            self.pass_("settings load after login", "Settings page content is visible")
+        else:
+            self.fail("settings load after login", "Settings page did not show recognizable content")
+
+        lang_en = self.visible(By.ID, "langEn", 4)
+        if lang_en:
+            self.click(lang_en)
+            self.pass_("settings language toggle", "Clicked English language toggle safely")
+            self.dismiss_alert_if_present("settings language toggle")
+        else:
+            self.warn("settings language toggle", "English language toggle missing")
+
+        theme = self.visible(By.ID, "themeDark", 4) or self.visible(By.ID, "themeLight", 4)
+        if theme:
+            self.click(theme)
+            self.pass_("settings theme toggle", "Clicked a theme toggle safely")
+        else:
+            self.warn("settings theme toggle", "Theme toggles missing")
+
+        save = self.visible(By.ID, "saveSettingsBtn", 4)
+        if save:
+            if save.is_enabled():
+                self.click(save)
+                self.pass_("settings save button", "Clicked Save Settings safely")
+            else:
+                self.warn("settings save button", "Save Settings button present but disabled")
+        else:
+            self.warn("settings save button", "Save Settings button missing")
+        self.check_console("settings")
+
+    def button_audit_flow(self) -> None:
+        for path in [
+            "/",
+            "/login/",
+            "/signup/",
+            "/events/page/",
+            "/daily-plan/",
+            "/booking/",
+            "/car-rental/",
+            "/travel-guide/",
+            "/settings/",
+            "/profile/",
+        ]:
+            self.audit_page_buttons(path)
+
+    def audit_page_buttons(self, path: str) -> None:
+        self.goto(path)
+        self.wait_document_ready()
+        if self.status_from_browser() == 404 or "Not Found" in (self.driver.title if self.driver else ""):
+            self.warn(f"button audit {path}", "Skipped missing/404 route", section="button audit")
+            return
+        controls = [el for el in self.all(By.CSS_SELECTOR, "button, a[href]") if self.is_visible_control(el)]
+        visible_total = len(controls)
+        tested = 0
+        skipped = 0
+        failures = 0
+        max_clicks = 3
+
+        index = 0
+        while index < visible_total:
+            current_controls = [el for el in self.all(By.CSS_SELECTOR, "button, a[href]") if self.is_visible_control(el)]
+            if index >= len(current_controls):
+                break
+            control = current_controls[index]
+            index += 1
+            try:
+                label = self.control_label(control)
+                tag = (control.tag_name or "").lower()
+                href = control.get_attribute("href") or ""
+            except WebDriverException:
+                skipped += 1
+                continue
+            kind, reason = self.classify_control(control, label, href)
+
+            if href and ("/api/auth/login/" in href or "/api/auth/signup/" in href):
+                failures += 1
+                self.fail(
+                    f"button audit {path} api auth link",
+                    f"Visible control {label!r} points to API auth URL: {urlparse(href).path}",
+                    section="button audit",
+                )
+                continue
+
+            if kind == "external":
+                if href and href != "#":
+                    self.pass_(f"button audit {path} external href", f"{label!r} has href {urlparse(href).netloc}", section="button audit")
+                else:
+                    failures += 1
+                    self.fail(f"button audit {path} external href", f"{label!r} external link missing href", section="button audit")
+                continue
+
+            if kind == "skip":
+                skipped += 1
+                continue
+
+            if tested >= max_clicks:
+                skipped += 1
+                continue
+
+            restore = path
+            before = self.current_url()
+            if self.safe_click_button(control, f"button audit {path} {label}", restore_url=restore):
+                tested += 1
+                if "/api/auth/login/" in self.current_url() or "/api/auth/signup/" in self.current_url():
+                    failures += 1
+                    self.fail(f"button audit {path} api navigation", f"Clicked {label!r} and reached API auth URL", section="button audit")
+                elif tag == "a" and before != self.current_url():
+                    self.pass_(f"button audit {path} internal navigation", f"Clicked {label!r} safely", section="button audit")
+            else:
+                skipped += 1
+
+        detail = f"visible={visible_total}, tested={tested}, skipped={skipped}, failures={failures}"
+        if failures:
+            self.fail(f"button audit {path}", detail, section="button audit")
+        elif tested:
+            self.pass_(f"button audit {path}", detail, section="button audit")
+        else:
+            self.warn(f"button audit {path}", detail, section="button audit")
+
+    def is_visible_control(self, element: WebElement) -> bool:
+        try:
+            return element.is_displayed() and element.size.get("height", 0) > 0 and element.size.get("width", 0) > 0
+        except WebDriverException:
+            return False
+
+    def control_label(self, element: WebElement) -> str:
+        try:
+            label = (
+                element.text.strip()
+                or element.get_attribute("aria-label")
+                or element.get_attribute("title")
+                or element.get_attribute("id")
+                or element.get_attribute("class")
+                or element.tag_name
+            )
+        except WebDriverException:
+            label = "control"
+        return " ".join(str(label).split())[:80] or "control"
+
+    def classify_control(self, element: WebElement, label: str, href: str) -> tuple[str, str]:
+        lowered = f"{label} {href}".lower()
+        tag = (element.tag_name or "").lower()
+        destructive = ("logout", "delete", "remove", "clear cache", "password", "submitpwd")
+        heavy_actions = ("add", "generate", "save", "create account", "login", "signup", "book", "rent", "load more", "open route")
+        if any(word in lowered for word in destructive):
+            return "skip", "destructive or auth-ending"
+        if href:
+            parsed = urlparse(href)
+            if parsed.scheme in ("http", "https") and parsed.netloc and parsed.netloc != urlparse(self.base_url).netloc:
+                return "external", "external link"
+            if href.endswith("#") or parsed.path == "":
+                return "skip", "placeholder link"
+            return "click", "internal navigation"
+        if tag == "button":
+            button_type = (element.get_attribute("type") or "submit").lower()
+            if button_type == "submit":
+                return "skip", "form submit"
+            if any(word in lowered for word in heavy_actions):
+                return "skip", "stateful/heavy action"
+            return "click", "safe action/toggle"
+        return "skip", "unsupported control"
+
+    def dismiss_alert_if_present(self, context: str) -> None:
+        if not self.driver:
+            return
+        try:
+            alert = WebDriverWait(self.driver, 1).until(EC.alert_is_present())
+            alert.dismiss()
+            self.pass_(f"{context} alert", "Dismissed browser alert safely")
+        except TimeoutException:
+            return
+        except WebDriverException as exc:
+            self.warn(f"{context} alert", f"Could not dismiss alert: {exc}")
 
     def logout_flow(self) -> None:
         self.goto("/profile/")
@@ -761,12 +1527,14 @@ class RenderJourneyTester:
 
     def write_reports(self) -> None:
         counts = self.counts()
+        sections = self.section_counts()
         verdict = self.verdict()
         payload = {
             "base_url": self.base_url,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "test_email": self.test_email,
             "counts": counts,
+            "sections": sections,
             "verdict": verdict,
             "results": [asdict(result) for result in self.results],
         }
@@ -784,10 +1552,19 @@ class RenderJourneyTester:
             f"Failed: {counts['failed']}",
             f"Final verdict: {verdict}",
             "",
-            "Results:",
+            "Sections:",
         ]
+        for section, section_counts in sections.items():
+            lines.append(
+                f"- {section}: total={section_counts['total']}, "
+                f"pass={section_counts['passed']}, warn={section_counts['warnings']}, fail={section_counts['failed']}"
+            )
+        lines.extend([
+            "",
+            "Results:",
+        ])
         for i, result in enumerate(self.results, 1):
-            lines.append(f"{i:02d}. [{result.status}] {result.name}: {result.detail}")
+            lines.append(f"{i:02d}. [{result.status}] ({result.section}) {result.name}: {result.detail}")
             if result.url:
                 lines.append(f"    URL: {result.url}")
             if result.screenshot:
@@ -805,8 +1582,28 @@ class RenderJourneyTester:
             "failed": sum(1 for item in self.results if item.status == "FAIL"),
         }
 
+    def section_counts(self) -> dict[str, dict[str, int]]:
+        sections: dict[str, dict[str, int]] = {}
+        for item in self.results:
+            bucket = sections.setdefault(item.section, {"total": 0, "passed": 0, "warnings": 0, "failed": 0})
+            bucket["total"] += 1
+            if item.status == "PASS":
+                bucket["passed"] += 1
+            elif item.status == "WARN":
+                bucket["warnings"] += 1
+            elif item.status == "FAIL":
+                bucket["failed"] += 1
+        for section in ["positive path", "negative validation", "button audit", "api category validation", "console errors"]:
+            sections.setdefault(section, {"total": 0, "passed": 0, "warnings": 0, "failed": 0})
+        return dict(sorted(sections.items()))
+
     def verdict(self) -> str:
-        return "SAFE TO DEMO" if self.counts()["failed"] == 0 else "NOT SAFE TO DEMO"
+        counts = self.counts()
+        if counts["failed"]:
+            return "NOT SAFE TO DEMO"
+        if counts["warnings"]:
+            return "SAFE WITH WARNINGS"
+        return "SAFE TO DEMO"
 
     def print_summary(self) -> None:
         counts = self.counts()

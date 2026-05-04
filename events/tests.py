@@ -69,6 +69,18 @@ class EventListAPITests(TestCase):
         for event in results:
             self.assertEqual(event["category"], "food")
 
+    def test_public_category_filters_return_only_requested_category(self):
+        client = APIClient()
+        for category in ("food", "culture", "nature"):
+            response = client.get(f"/api/events/?category={category}")
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            results = response.data.get("results", response.data)
+            self.assertGreater(len(results), 0)
+            self.assertTrue(
+                all(event["category"] == category for event in results),
+                msg=f"Unexpected category in {category} response: {results}",
+            )
+
     def test_legacy_category_alias_is_accepted(self):
         response = self.client.get("/api/events/?category=restaurant")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

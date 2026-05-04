@@ -186,6 +186,11 @@ function createSlotPlaceholder(slotKey, slotIndex = 0) {
   return { id: `placeholder-${slotKey}-${slotIndex}`, _placeholder: true, slotKey, slotIndex, title: "No activity selected" };
 }
 
+function isFoodEvent(event) {
+  const category = String(event?.category || "").toLowerCase();
+  return category === "food" || category === "restaurant" || category === "cafe";
+}
+
 function getDaySlotAssignments(events, dayIndex = currentDayIndex) {
   const existing = _slotAssignmentsByDay[dayIndex];
   if (existing) return cloneSlotAssignments(existing);
@@ -214,15 +219,15 @@ function getDaySlotAssignments(events, dayIndex = currentDayIndex) {
     return cloneSlotAssignments(assignments);
   }
 
-  if      (ids.length === 1) { assignments.breakfast = [ids[0]]; }
-  else if (ids.length === 2) { assignments.breakfast = [ids[0]]; assignments.evening = [ids[1]]; }
-  else if (ids.length === 3) { assignments.breakfast = [ids[0]]; assignments.activity = [ids[1]]; assignments.evening = [ids[2]]; }
-  else {
-    const last = ids.length - 1, lunchIdx = Math.min(3, last - 1);
-    assignments.breakfast = [ids[0]];
-    assignments.lunch     = [ids[lunchIdx]];
-    assignments.evening   = [ids[last]];
-    assignments.activity  = ids.filter((_, i) => i !== 0 && i !== lunchIdx && i !== last).slice(0, getSlotLimit("activity"));
+  const foodIds = safe.filter(isFoodEvent).map(e => Number(e?.id)).filter(id => isFinite(id));
+  const activityIds = safe.filter(e => !isFoodEvent(e)).map(e => Number(e?.id)).filter(id => isFinite(id));
+  if (foodIds.length) assignments.breakfast = [foodIds[0]];
+  if (foodIds.length > 1) assignments.lunch = [foodIds[1]];
+  assignments.activity = activityIds.slice(0, getSlotLimit("activity"));
+  assignments.evening = activityIds.slice(getSlotLimit("activity"), getSlotLimit("activity") + getSlotLimit("evening"));
+
+  if (!foodIds.length && !activityIds.length && ids.length) {
+    assignments.activity = ids.slice(0, getSlotLimit("activity"));
   }
 
   _slotAssignmentsByDay[dayIndex] = cloneSlotAssignments(assignments);
