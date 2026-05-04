@@ -303,22 +303,16 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = "DENY"
     CSRF_TRUSTED_ORIGINS = [
-        "https://tizahab-web.onrender.com",
+        "https://tizahab-web-06kt.onrender.com",
     ]
 
-    ALLOWED_HOSTS = [
-        "tizahab-web.onrender.com",
-        "localhost",
-        "127.0.0.1",
-    ]
+    ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "tizahab-web-06kt.onrender.com,localhost,127.0.0.1")
 
-    # Required for Railway (reverse proxy)
+    # Required for reverse proxy
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-    # Ensure Django treats request as HTTPS
     USE_X_FORWARDED_HOST = True
 
-    # Cookies (keep secure ON)
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
