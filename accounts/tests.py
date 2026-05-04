@@ -54,6 +54,7 @@ class SignupTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Email already exists.", str(response.data))
 
     def test_signup_rejects_mismatched_passwords(self):
         response = self.client.post(
@@ -65,6 +66,7 @@ class SignupTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Passwords do not match.", str(response.data))
 
     def test_signup_rejects_weak_password(self):
         response = self.client.post(
@@ -76,6 +78,7 @@ class SignupTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("at least 8 characters", str(response.data))
 
 
 class LoginTests(TestCase):
@@ -104,6 +107,7 @@ class LoginTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Invalid email or password.", str(response.data))
 
     def test_login_unknown_email(self):
         response = self.client.post(
@@ -114,6 +118,7 @@ class LoginTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Invalid email or password.", str(response.data))
 
 
 class AuthTemplateNavigationTests(TestCase):
@@ -130,6 +135,15 @@ class AuthTemplateNavigationTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, 'href="/signup/"')
         self.assertNotContains(response, 'href="/api/auth/signup/"')
+
+    def test_auth_pages_have_visible_error_targets(self):
+        login = self.client.get("/login/")
+        signup = self.client.get("/signup/")
+
+        self.assertContains(login, 'id="login-error"')
+        self.assertContains(signup, 'id="signup-error"')
+        self.assertContains(signup, "Password must be at least 8 characters")
+        self.assertContains(signup, "Passwords do not match")
 
 
 class SessionTokenTests(TestCase):

@@ -140,7 +140,11 @@ async function _raiseApiError(res, fallbackPrefix = "Request failed") {
   );
   err.status = res.status;
   err.responseData = body;
-  console.error("API failure:", err);
+  if (res.status >= 500) {
+    console.error("API failure:", err);
+  } else {
+    console.warn("Handled API response:", err.message);
+  }
   throw err;
 }
 

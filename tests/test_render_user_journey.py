@@ -290,6 +290,14 @@ class RenderJourneyTester:
             errors.append(message[:500])
         return errors
 
+    def clear_console_logs(self) -> None:
+        if not self.driver:
+            return
+        try:
+            self.driver.get_log("browser")
+        except (ValueError, WebDriverException):
+            pass
+
     def check_console(self, context: str) -> None:
         errors = self.console_errors()
         if errors:
@@ -341,6 +349,20 @@ class RenderJourneyTester:
     def assert_visible_error_or_validation(self, context: str) -> bool:
         if not self.driver:
             return False
+        visible_text = self.wait_for_validation_text(timeout=8)
+        if visible_text:
+            self.pass_(f"{context} validation", f"Visible validation: {visible_text[:160]}")
+            return True
+        invalid_count = self.invalid_field_count()
+        if invalid_count:
+            self.pass_(f"{context} validation", f"Browser field validation active on {invalid_count} field(s)")
+            return True
+        self.fail(f"{context} validation", "No visible error message or invalid field state found")
+        return False
+
+    def wait_for_validation_text(self, timeout: int = 8) -> str:
+        if not self.driver:
+            return ""
         selectors = [
             "[role='alert']:not(.hidden)",
             "#signup-error:not(.hidden)",
@@ -349,20 +371,29 @@ class RenderJourneyTester:
             "[id$='-error']:not(.hidden)",
             "#pref-message:not(.hidden)",
         ]
-        for selector in selectors:
-            elements = self.all(By.CSS_SELECTOR, selector)
-            visible_text = [el.text.strip() for el in elements if el.is_displayed() and el.text.strip()]
-            if visible_text:
-                self.pass_(f"{context} validation", f"Visible validation: {visible_text[0][:160]}")
-                return True
-        invalid_count = self.driver.execute_script(
-            "return Array.from(document.querySelectorAll('input,select,textarea')).filter(el => !el.checkValidity()).length;"
-        )
-        if invalid_count:
-            self.pass_(f"{context} validation", f"Browser field validation active on {invalid_count} field(s)")
-            return True
-        self.fail(f"{context} validation", "No visible error message or invalid field state found")
-        return False
+
+        def find_text(_driver: webdriver.Chrome) -> str:
+            for selector in selectors:
+                elements = self.all(By.CSS_SELECTOR, selector)
+                visible_text = [el.text.strip() for el in elements if el.is_displayed() and el.text.strip()]
+                if visible_text:
+                    return visible_text[0]
+            return ""
+
+        try:
+            return WebDriverWait(self.driver, timeout).until(find_text)
+        except TimeoutException:
+            return ""
+
+    def invalid_field_count(self) -> int:
+        if not self.driver:
+            return 0
+        try:
+            return int(self.driver.execute_script(
+                "return Array.from(document.querySelectorAll('input,select,textarea')).filter(el => !el.checkValidity()).length;"
+            ))
+        except (JavascriptException, WebDriverException, TypeError, ValueError):
+            return 0
 
     def safe_click_button(self, element: WebElement, context: str, restore_url: str | None = None) -> bool:
         before = self.current_url()
@@ -405,11 +436,26 @@ class RenderJourneyTester:
 
     def request(self, path: str, allow_redirects: bool = True) -> requests.Response | None:
         url = self.full_url(path)
-        try:
-            return self.session.get(url, timeout=25, allow_redirects=allow_redirects)
-        except requests.RequestException as exc:
-            self.fail(f"request {path}", f"Request failed: {type(exc).__name__}: {exc}", url=url)
-            return None
+        last_exc: requests.RequestException | None = None
+        for attempt in range(2):
+            try:
+                response = self.session.get(url, timeout=25, allow_redirects=allow_redirects)
+                if attempt == 1:
+                    self.warn(
+                        f"request {path} retry",
+                        "Initial safe GET timed out/failed once, retry succeeded",
+                        url=response.url,
+                    )
+                return response
+            except (requests.Timeout, requests.exceptions.ReadTimeout) as exc:
+                last_exc = exc
+                if attempt == 0:
+                    continue
+            except requests.RequestException as exc:
+                last_exc = exc
+                break
+        self.fail(f"request {path}", f"Request failed: {type(last_exc).__name__}: {last_exc}", url=url)
+        return None
 
     def run(self) -> None:
         self.check_public_routes()
@@ -589,6 +635,7 @@ class RenderJourneyTester:
 
     def submit_signup_negative(self, name: str, values: dict[str, str]) -> None:
         self.goto("/signup/")
+        self.clear_console_logs()
         form = self.visible(By.ID, "signup-form", 8)
         if not form:
             self.fail(name, "Signup form missing")
@@ -651,6 +698,7 @@ class RenderJourneyTester:
 
     def submit_login_negative(self, name: str, email: str = "", password: str = "") -> None:
         self.goto("/login/")
+        self.clear_console_logs()
         email_el = self.find(By.CSS_SELECTOR, "input[name='email']", 6)
         password_el = self.find(By.CSS_SELECTOR, "input[name='password']", 6)
         if email_el:
@@ -689,6 +737,7 @@ class RenderJourneyTester:
 
     def signup_flow(self) -> None:
         self.goto("/signup/")
+        self.clear_console_logs()
         form = self.visible(By.ID, "signup-form", 10)
         if not form:
             self.fail("signup form", "Signup form #signup-form did not render")

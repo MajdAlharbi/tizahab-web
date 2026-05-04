@@ -24,17 +24,22 @@ if (signupForm) {
     if (btnSpinner) btnSpinner.classList.toggle("hidden", !loading);
   }
 
+  function showSignupError(message) {
+    if (!errorBox) return;
+    errorBox.textContent = message;
+    errorBox.classList.remove("hidden");
+  }
+
   signupForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     errorBox?.classList.add("hidden");
     if (errorBox) errorBox.textContent = "";
 
+    if (!signupForm.reportValidity()) return;
+
     if (typeof window.apiPost !== "function") {
-      if (errorBox) {
-        errorBox.textContent = "Signup is temporarily unavailable. Please reload the page.";
-        errorBox.classList.remove("hidden");
-      }
+      showSignupError("Signup is temporarily unavailable. Please reload the page.");
       return;
     }
 
@@ -58,6 +63,16 @@ if (signupForm) {
       signupForm.querySelector("input[name='password2']")
     )?.value ?? "";
 
+    if (password.length < 8) {
+      showSignupError("Password must be at least 8 characters.");
+      return;
+    }
+
+    if (password !== password2) {
+      showSignupError("Passwords do not match.");
+      return;
+    }
+
     setSignupLoading(true);
 
     try {
@@ -72,10 +87,7 @@ if (signupForm) {
       localStorage.setItem("refresh", data.refresh);
       window.location.href = "/onboarding/";
     } catch (err) {
-      if (errorBox) {
-        errorBox.textContent = getSignupPageErrorMessage(err);
-        errorBox.classList.remove("hidden");
-      }
+      showSignupError(getSignupPageErrorMessage(err));
       setSignupLoading(false);
     }
   });
