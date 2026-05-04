@@ -64,3 +64,5 @@ Thumbs.db
 *.tmp
 *.swp
 *.log
+
+tests/e2e_artifacts/
