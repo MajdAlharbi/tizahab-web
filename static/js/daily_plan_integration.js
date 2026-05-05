@@ -24,14 +24,14 @@ const SLOT_GRADIENTS = {
 };
 
 const CATEGORY_IMAGES = {
-  culture: "/static/images/categories/culture.svg",
-  heritage: "/static/images/categories/heritage.svg",
-  food: "/static/images/categories/food.svg",
-  nature: "/static/images/categories/nature.svg",
-  shopping: "/static/images/categories/shopping.svg",
-  events: "/static/images/categories/events.svg",
-  family: "/static/images/categories/family.svg",
-  entertainment: "/static/images/categories/entertainment.svg",
+  culture: "https://commons.wikimedia.org/wiki/Special:FilePath/National_Museum_Riyadh_%286781666263%29.jpg?width=900",
+  heritage: "https://commons.wikimedia.org/wiki/Special:FilePath/Masmak_Fort_%2812753717253%29.jpg?width=900",
+  food: "https://www.alyaum.com/uploads/images/2023/06/03/1944213.jpg",
+  nature: "https://www.atlastravels.com/public/upload/atlas/travelogues/descriptionimage/descriptionimage_1727952417.jpg",
+  shopping: "https://ar.timeoutriyadh.com/cloud/artimeoutriyadh/2022/12/13/malls-in-riyadh.jpg",
+  events: "https://golden4tic.com/blog/wp-content/uploads/2024/11/LG-1.webp",
+  family: "https://cdn2.wingie.com/uploads/f_webp,s_500x300,q_60,fit_cover/bwlyfard_syty_balryad_25321bd3b8.jpg",
+  entertainment: "https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=900",
 };
 
 const PLAN_START_KEY   = "tz_plan_start_date";
