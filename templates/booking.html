@@ -4,211 +4,241 @@
 {% block title %}Stay in Riyadh | Tizahab{% endblock %}
 
 {% block content %}
-<main class="max-w-5xl mx-auto px-4 lg:px-6 py-10 pb-16 space-y-12">
+<main class="max-w-6xl mx-auto px-4 lg:px-8 py-8 pb-16 space-y-10">
 
-  <header class="space-y-4 max-w-3xl">
-    <span class="inline-flex items-center h-7 px-3 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold border border-violet-100">
-      External booking links
-    </span>
-    <div class="space-y-2">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
-        Stay in Riyadh
-      </h1>
-      <p class="text-base text-gray-500 leading-relaxed">
-        Choose the best area for your trip, then continue on a trusted booking platform.
-      </p>
-    </div>
-  </header>
-
-  <section class="space-y-5">
-    <div class="space-y-2">
-      <div class="inline-block px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">
-        External booking links
+  <section class="relative overflow-hidden rounded-[2rem] min-h-[360px] bg-violet-950 text-white shadow-sm">
+    <img
+      src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=1600"
+      alt="Riyadh city lights"
+      class="absolute inset-0 h-full w-full object-cover opacity-70"
+      loading="eager"
+      onerror="this.style.display='none';">
+    <div class="absolute inset-0 bg-gradient-to-r from-violet-950 via-violet-950/75 to-violet-900/20"></div>
+    <div class="relative z-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8 p-7 sm:p-10 lg:p-12">
+      <div class="flex flex-col justify-center max-w-2xl">
+        <span class="inline-flex w-fit items-center h-8 px-3 rounded-full bg-white/15 text-white text-xs font-semibold border border-white/20 backdrop-blur">
+          Riyadh stay guide
+        </span>
+        <h1 class="mt-5 text-4xl sm:text-5xl font-bold leading-tight" style="font-family:'Cantata One',serif">
+          Stay in Riyadh
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-violet-50/90 leading-relaxed">
+          Pick the area that matches your trip style, then continue to a trusted booking platform.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3 text-sm">
+          <span class="rounded-full bg-white/15 border border-white/20 px-4 py-2">Central stays</span>
+          <span class="rounded-full bg-white/15 border border-white/20 px-4 py-2">Heritage nights</span>
+          <span class="rounded-full bg-white/15 border border-white/20 px-4 py-2">Business districts</span>
+        </div>
       </div>
-      <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Recommended stay areas</h2>
-      <p class="text-sm text-gray-500">Choose an area first — it matters more than the hotel brand.</p>
-    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">🏙️ Olaya &amp; Al Sulimaniyah</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">First-time visitors, restaurants, shopping</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">Central, convenient, and close to cafes, malls, and city attractions.</p>
+      <div class="hidden lg:grid grid-cols-2 gap-3 content-end">
+        <div class="rounded-3xl overflow-hidden h-40 shadow-lg border border-white/15">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/KingdomCentre%20Skybridge.JPG?width=800" alt="Olaya skyline" class="h-full w-full object-cover" loading="lazy" onerror="this.style.display='none';">
         </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=Olaya+Riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+in+olaya+riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+        <div class="rounded-3xl overflow-hidden h-40 shadow-lg border border-white/15 translate-y-8">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/At-Turaif%20District%20of%20Diriyah,%20Saudi%20Arabia.jpg?width=800" alt="Diriyah heritage area" class="h-full w-full object-cover" loading="lazy" onerror="this.style.display='none';">
         </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">🏢 KAFD &amp; Al Aqiq</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">Business, luxury stays, modern Riyadh</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">Modern high-rise area with premium hotels and easy access to business districts.</p>
-        </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=KAFD+Riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+in+KAFD+riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
-        </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">🎭 Boulevard &amp; Hittin</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">Entertainment, Riyadh Season, nightlife-style experiences</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">Good for visitors who want to stay close to entertainment zones and popular restaurants.</p>
-        </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=Boulevard+Riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+in+boulevard+riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
-        </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">🕌 Diriyah</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">Heritage, culture, calm evenings</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">Ideal for visitors focused on At-Turaif, Bujairi Terrace, and historic Riyadh.</p>
-        </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=Diriyah+Riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+in+diriyah+riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
-        </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">✈️ Riyadh Front &amp; Airport Area</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">Short stays, airport access, conferences</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">Convenient for short trips, early flights, and events near the airport side.</p>
-        </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=Riyadh+Front+Airport" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+near+riyadh+airport" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
-        </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col gap-5 min-h-[250px]">
-        <div class="space-y-4 flex-1">
-          <h3 class="text-xl font-semibold text-gray-900">🌿 Diplomatic Quarter</h3>
-          <div>
-            <p class="text-sm font-semibold text-violet-700">Best for</p>
-            <p class="text-sm text-gray-700 mt-1">Quiet stays, walking, restaurants</p>
-          </div>
-          <p class="text-sm text-gray-500 leading-relaxed">A calm and green area with restaurants, walking paths, and a quieter atmosphere.</p>
-        </div>
-        <div class="flex gap-2 mt-auto">
-          <a href="https://www.booking.com/searchresults.html?ss=Diplomatic+Quarter+Riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
-          <a href="https://www.google.com/travel/hotels?q=hotels+in+diplomatic+quarter+riyadh" target="_blank" rel="noopener noreferrer"
-            class="flex-1 h-11 rounded-xl border border-violet-600 text-violet-600 text-sm font-medium hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
-        </div>
-      </article>
-
+      </div>
     </div>
   </section>
 
-  <section class="bg-violet-50 rounded-2xl border border-violet-100 p-6 sm:p-7 space-y-4">
-    <h2 class="text-lg font-semibold text-violet-950">Not sure where to stay?</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-violet-800">
-      <p><span class="font-semibold">Food and shopping:</span> Olaya &amp; Al Sulimaniyah</p>
-      <p><span class="font-semibold">Entertainment:</span> Boulevard &amp; Hittin</p>
-      <p><span class="font-semibold">Heritage:</span> Diriyah</p>
-      <p><span class="font-semibold">Business or luxury:</span> KAFD &amp; Al Aqiq</p>
-      <p><span class="font-semibold">Short trips:</span> Riyadh Front &amp; Airport Area</p>
-      <p><span class="font-semibold">Quiet walks:</span> Diplomatic Quarter</p>
+  <section class="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 items-start">
+    <div class="space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Recommended stay areas</h2>
+          <p class="text-sm text-gray-500 mt-1">Choose an area first. It shapes the whole trip more than the hotel brand.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/KingdomCentre%20Skybridge.JPG?width=900" alt="Olaya and Al Sulimaniyah" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Central Riyadh</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">Olaya &amp; Al Sulimaniyah</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for first-time visitors, restaurants, and shopping</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">Central, convenient, and close to cafes, malls, towers, and everyday city attractions.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=Olaya+Riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+in+olaya+riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/KAFD,%20Riyadh%20155059.jpg?width=900" alt="KAFD and Al Aqiq" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Business & luxury</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">KAFD &amp; Al Aqiq</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for business, premium stays, and modern Riyadh</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">A polished high-rise area with luxury hotels, offices, restaurants, and easy metro access.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=KAFD+Riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+in+KAFD+riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=900" alt="Boulevard Riyadh City" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Entertainment</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">Boulevard &amp; Hittin</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for Riyadh Season, entertainment, and restaurants</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">Stay near lively zones, evening experiences, shows, restaurants, and popular attractions.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=Boulevard+Riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+in+boulevard+riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/At-Turaif%20District%20of%20Diriyah,%20Saudi%20Arabia.jpg?width=900" alt="Diriyah heritage district" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Heritage</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">Diriyah</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for heritage, culture, and calm evenings</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">Ideal for At-Turaif, Bujairi Terrace, heritage walks, and historic Riyadh views.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=Diriyah+Riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+in+diriyah+riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Riyadh_1749788410066.jpg?width=900" alt="Riyadh airport area" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Short stays</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">Riyadh Front &amp; Airport Area</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for short trips, flights, and conferences</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">Convenient for early flights, quick stays, events, and access to the airport side.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=Riyadh+Front+Airport" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+near+riyadh+airport" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="group overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+          <div class="relative h-44 overflow-hidden bg-violet-100">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Wv%20Riyadh%20banner.jpg?width=900" alt="Diplomatic Quarter Riyadh" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.style.display='none';">
+            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+              <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-800">Quiet walks</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-4">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900">Diplomatic Quarter</h3>
+              <p class="text-sm text-violet-700 font-semibold mt-1">Best for quiet stays, walking paths, and restaurants</p>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed">A calm green area with plazas, restaurants, walking paths, and a quieter atmosphere.</p>
+            <div class="flex gap-2 pt-1">
+              <a href="https://www.booking.com/searchresults.html?ss=Diplomatic+Quarter+Riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center px-4">Booking.com</a>
+              <a href="https://www.google.com/travel/hotels?q=hotels+in+diplomatic+quarter+riyadh" target="_blank" rel="noopener noreferrer" class="flex-1 h-11 rounded-xl border border-violet-200 text-violet-700 text-sm font-semibold hover:bg-violet-50 transition inline-flex items-center justify-center px-4">Google Hotels</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
+
+    <aside class="lg:sticky lg:top-24 space-y-5">
+      <div class="rounded-3xl border border-violet-100 bg-violet-50/80 p-5 shadow-sm">
+        <h2 class="text-lg font-bold text-violet-950">Where should I stay?</h2>
+        <div class="mt-4 space-y-3 text-sm">
+          <p class="flex justify-between gap-3 border-b border-violet-100 pb-3"><span class="font-semibold text-violet-900">Food & shopping</span><span class="text-gray-600 text-right">Olaya</span></p>
+          <p class="flex justify-between gap-3 border-b border-violet-100 pb-3"><span class="font-semibold text-violet-900">Entertainment</span><span class="text-gray-600 text-right">Boulevard</span></p>
+          <p class="flex justify-between gap-3 border-b border-violet-100 pb-3"><span class="font-semibold text-violet-900">Heritage</span><span class="text-gray-600 text-right">Diriyah</span></p>
+          <p class="flex justify-between gap-3 border-b border-violet-100 pb-3"><span class="font-semibold text-violet-900">Business</span><span class="text-gray-600 text-right">KAFD</span></p>
+          <p class="flex justify-between gap-3"><span class="font-semibold text-violet-900">Quiet walks</span><span class="text-gray-600 text-right">DQ</span></p>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+        <img src="https://www.atlastravels.com/public/upload/atlas/travelogues/descriptionimage/descriptionimage_1727952417.jpg" alt="Riyadh view" class="h-44 w-full object-cover" loading="lazy" onerror="this.style.display='none';">
+        <div class="p-5">
+          <h2 class="text-base font-bold text-gray-900">Booking note</h2>
+          <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+            Tizahab does not process hotel bookings directly. Availability, prices, and reservations are handled by external platforms.
+          </p>
+        </div>
+      </div>
+    </aside>
   </section>
 
-  <section class="space-y-5">
-    <div class="space-y-1">
-      <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Booking platforms</h2>
-      <p class="text-sm text-gray-500">Continue your booking on a trusted external platform.</p>
+  <section class="rounded-3xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-5">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Booking platforms</h2>
+        <p class="text-sm text-gray-500 mt-1">Continue your booking on a trusted external platform.</p>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <a href="https://www.booking.com/searchresults.html?ss=Riyadh" target="_blank" rel="noopener noreferrer" class="group rounded-2xl border border-gray-200 p-5 hover:border-violet-200 hover:bg-violet-50/50 transition">
+        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white font-bold">B</span>
+        <h3 class="mt-4 text-base font-semibold text-gray-900">Booking.com</h3>
+        <p class="mt-1 text-sm text-gray-500">Compare hotel options externally.</p>
+        <span class="mt-4 inline-flex text-sm font-semibold text-violet-700 group-hover:translate-x-1 transition">Search hotels</span>
+      </a>
 
-      <article class="bg-white rounded-2xl border border-gray-200 p-5 h-full flex flex-col">
-        <div class="space-y-1">
-          <h3 class="text-base font-semibold text-gray-900">Booking.com</h3>
-          <p class="text-sm text-gray-500">Compare hotel options externally.</p>
-        </div>
-        <div class="mt-auto pt-4">
-          <a href="https://www.booking.com/searchresults.html?ss=Riyadh" target="_blank" rel="noopener noreferrer"
-            class="h-10 w-full rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center">Search on Booking.com</a>
-        </div>
-      </article>
+      <a href="https://www.google.com/travel/hotels/Riyadh" target="_blank" rel="noopener noreferrer" class="group rounded-2xl border border-gray-200 p-5 hover:border-violet-200 hover:bg-violet-50/50 transition">
+        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500 text-white font-bold">G</span>
+        <h3 class="mt-4 text-base font-semibold text-gray-900">Google Hotels</h3>
+        <p class="mt-1 text-sm text-gray-500">Compare locations and hotel details.</p>
+        <span class="mt-4 inline-flex text-sm font-semibold text-violet-700 group-hover:translate-x-1 transition">Open Google Hotels</span>
+      </a>
 
-      <article class="bg-white rounded-2xl border border-gray-200 p-5 h-full flex flex-col">
-        <div class="space-y-1">
-          <h3 class="text-base font-semibold text-gray-900">Google Hotels</h3>
-          <p class="text-sm text-gray-500">Compare locations and hotel details.</p>
-        </div>
-        <div class="mt-auto pt-4">
-          <a href="https://www.google.com/travel/hotels/Riyadh" target="_blank" rel="noopener noreferrer"
-            class="h-10 w-full rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center">Search on Google Hotels</a>
-        </div>
-      </article>
+      <a href="https://www.hotels.com/Hotel-Search?destination=Riyadh" target="_blank" rel="noopener noreferrer" class="group rounded-2xl border border-gray-200 p-5 hover:border-violet-200 hover:bg-violet-50/50 transition">
+        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-500 text-white font-bold">H</span>
+        <h3 class="mt-4 text-base font-semibold text-gray-900">Hotels.com</h3>
+        <p class="mt-1 text-sm text-gray-500">Browse hotels and stay options.</p>
+        <span class="mt-4 inline-flex text-sm font-semibold text-violet-700 group-hover:translate-x-1 transition">Browse stays</span>
+      </a>
 
-      <article class="bg-white rounded-2xl border border-gray-200 p-5 h-full flex flex-col">
-        <div class="space-y-1">
-          <h3 class="text-base font-semibold text-gray-900">Hotels.com</h3>
-          <p class="text-sm text-gray-500">Browse hotels and stay options.</p>
-        </div>
-        <div class="mt-auto pt-4">
-          <a href="https://www.hotels.com/Hotel-Search?destination=Riyadh" target="_blank" rel="noopener noreferrer"
-            class="h-10 w-full rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center">Search on Hotels.com</a>
-        </div>
-      </article>
-
-      <article class="bg-white rounded-2xl border border-gray-200 p-5 h-full flex flex-col">
-        <div class="space-y-1">
-          <h3 class="text-base font-semibold text-gray-900">Trip.com</h3>
-          <p class="text-sm text-gray-500">Search hotels and travel bundles.</p>
-        </div>
-        <div class="mt-auto pt-4">
-          <a href="https://www.trip.com/hotels/list?city=789" target="_blank" rel="noopener noreferrer"
-            class="h-10 w-full rounded-xl bg-violet-600 text-white text-sm font-semibold hover:bg-violet-700 transition inline-flex items-center justify-center">Search on Trip.com</a>
-        </div>
-      </article>
-
+      <a href="https://www.trip.com/hotels/list?city=789" target="_blank" rel="noopener noreferrer" class="group rounded-2xl border border-gray-200 p-5 hover:border-violet-200 hover:bg-violet-50/50 transition">
+        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-500 text-white font-bold">T</span>
+        <h3 class="mt-4 text-base font-semibold text-gray-900">Trip.com</h3>
+        <p class="mt-1 text-sm text-gray-500">Search hotels and travel bundles.</p>
+        <span class="mt-4 inline-flex text-sm font-semibold text-violet-700 group-hover:translate-x-1 transition">Search Trip.com</span>
+      </a>
     </div>
   </section>
-
-  <aside class="rounded-2xl border border-gray-200 bg-white p-5">
-    <h2 class="text-sm font-semibold text-gray-900">Booking note</h2>
-    <p class="text-sm text-gray-500 mt-2 leading-relaxed">
-      Tizahab does not process hotel bookings directly. Availability, prices, and reservations are handled by external platforms.
-    </p>
-  </aside>
 
 </main>
 {% endblock %}
