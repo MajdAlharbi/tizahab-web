@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
+import json
+from pathlib import Path
 from rest_framework.test import APIClient
 from rest_framework import status
 
@@ -256,6 +258,20 @@ class EventModelTests(TestCase):
     def test_legacy_category_is_normalized_on_save(self):
         event = make_event("Legacy Restaurant", category="restaurant")
         self.assertEqual(event.category, "food")
+
+
+class RiyadhFixtureDataTests(TestCase):
+    def test_fixture_does_not_use_placeholder_image_service(self):
+        fixture_path = Path(__file__).resolve().parent / "fixtures" / "riyadh_places.json"
+        records = json.loads(fixture_path.read_text(encoding="utf-8-sig"))
+
+        bad_images = [
+            record["fields"]["title"]
+            for record in records
+            if record["fields"].get("image_url", "").startswith("https://loremflickr.com/")
+        ]
+
+        self.assertEqual(bad_images, [])
 
 
 class FavoritesAPITests(TestCase):

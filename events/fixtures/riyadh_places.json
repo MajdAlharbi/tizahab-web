@@ -24,7 +24,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/National_Museum_of_Saudi_Arabia_10.jpg/1280px-National_Museum_of_Saudi_Arabia_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/National_Museum_of_Saudi_Arabia_10.jpg/1280px-National_Museum_of_Saudi_Arabia_10.jpg"
     }
   },
   {
@@ -80,7 +80,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/King_Fahad_Library.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/King_Fahad_Library.jpg"
     }
   },
   {
@@ -108,7 +108,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/King_Abdulaziz_Public_Library_%D9%85%D9%83%D8%AA%D8%A8%D8%A9_%D8%A7%D9%84%D9%85%D9%84%D9%83_%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2_%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/King_Abdulaziz_Public_Library_%D9%85%D9%83%D8%AA%D8%A8%D8%A9_%D8%A7%D9%84%D9%85%D9%84%D9%83_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2.jpg"
     }
   },
   {
@@ -136,7 +136,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=5"
+      "image_url": ""
     }
   },
   {
@@ -164,35 +164,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/RSAF_Museum_BAC_Lightning_T55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 7,
-    "fields": {
-      "title": "Jawaher Art Center",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.7111,
-      "longitude": 46.6612,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=7"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/RSAF_Museum_BAC_Lightning_T55.jpg"
     }
   },
   {
@@ -220,63 +192,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=8"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 9,
-    "fields": {
-      "title": "Prince Faisal Arts Hall",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6621,
-      "longitude": 46.6904,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=9"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 10,
-    "fields": {
-      "title": "Hayy Jameel Riyadh Hub",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7812,
-      "longitude": 46.6215,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=10"
+      "image_url": ""
     }
   },
   {
@@ -304,35 +220,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=11"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 12,
-    "fields": {
-      "title": "Riyadh Art Installations",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7136,
-      "longitude": 46.6753,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=12"
+      "image_url": ""
     }
   },
   {
@@ -360,7 +248,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=13"
+      "image_url": ""
     }
   },
   {
@@ -388,7 +276,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=14"
+      "image_url": ""
     }
   },
   {
@@ -416,91 +304,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=15"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 16,
-    "fields": {
-      "title": "Saudi National Library",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.6865,
-      "longitude": 46.685,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=16"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 17,
-    "fields": {
-      "title": "Art House Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.7221,
-      "longitude": 46.6342,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=17"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 18,
-    "fields": {
-      "title": "Riyadh Cultural Forum",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7001,
-      "longitude": 46.6811,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=18"
+      "image_url": ""
     }
   },
   {
@@ -528,7 +332,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=19"
+      "image_url": ""
     }
   },
   {
@@ -556,399 +360,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=20"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 21,
-    "fields": {
-      "title": "Riyadh Theater Hall",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7122,
-      "longitude": 46.6534,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=21"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 22,
-    "fields": {
-      "title": "Music Hall Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7615,
-      "longitude": 46.641,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=22"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 23,
-    "fields": {
-      "title": "Riyadh Opera Concept Hall",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.77,
-      "longitude": 46.65,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=23"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 24,
-    "fields": {
-      "title": "Film Screening Center Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.721,
-      "longitude": 46.6622,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=24"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 25,
-    "fields": {
-      "title": "Arabian Heritage Museum",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.649,
-      "longitude": 46.712,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=25"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 26,
-    "fields": {
-      "title": "Photography Museum Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.7055,
-      "longitude": 46.6788,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=26"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 27,
-    "fields": {
-      "title": "Modern Art Studio Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.7188,
-      "longitude": 46.6899,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=27"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 28,
-    "fields": {
-      "title": "Art Walk Tahlia",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7011,
-      "longitude": 46.69,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=28"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 29,
-    "fields": {
-      "title": "Creative District Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7555,
-      "longitude": 46.6333,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=29"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 30,
-    "fields": {
-      "title": "Literature House Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.6955,
-      "longitude": 46.6822,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=30"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 31,
-    "fields": {
-      "title": "Poetry Lounge Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.71,
-      "longitude": 46.67,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=31"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 32,
-    "fields": {
-      "title": "Arabic Calligraphy Center",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.6466,
-      "longitude": 46.7115,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=32"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 33,
-    "fields": {
-      "title": "Cultural Exchange Center Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.68,
-      "longitude": 46.63,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=33"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 34,
-    "fields": {
-      "title": "Riyadh Innovation Hub",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7655,
-      "longitude": 46.6455,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=34"
+      "image_url": ""
     }
   },
   {
@@ -976,91 +388,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=35"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 36,
-    "fields": {
-      "title": "Visual Arts Center Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7022,
-      "longitude": 46.6833,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=36"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 37,
-    "fields": {
-      "title": "Art District KAFD",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7622,
-      "longitude": 46.6422,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=37"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 38,
-    "fields": {
-      "title": "Urban Culture Hub Riyadh",
-      "category": "culture",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.74,
-      "longitude": 46.66,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,museum?lock=38"
+      "image_url": ""
     }
   },
   {
@@ -1082,13 +410,13 @@
       "latitude": 24.7772,
       "longitude": 46.6289,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://riyadhseason.com/en-US/zone/boulevard-city",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=39"
+      "image_url": ""
     }
   },
   {
@@ -1110,13 +438,13 @@
       "latitude": 24.782,
       "longitude": 46.615,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://riyadhseason.com/en-US/zone/boulevard-world",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=40"
+      "image_url": ""
     }
   },
   {
@@ -1144,7 +472,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=41"
+      "image_url": ""
     }
   },
   {
@@ -1172,7 +500,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=42"
+      "image_url": ""
     }
   },
   {
@@ -1200,35 +528,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=43"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 44,
-    "fields": {
-      "title": "Escape Room Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7088,
-      "longitude": 46.6712,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=44"
+      "image_url": ""
     }
   },
   {
@@ -1256,7 +556,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=45"
+      "image_url": ""
     }
   },
   {
@@ -1284,7 +584,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=46"
+      "image_url": ""
     }
   },
   {
@@ -1312,7 +612,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=47"
+      "image_url": ""
     }
   },
   {
@@ -1340,7 +640,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=48"
+      "image_url": ""
     }
   },
   {
@@ -1368,7 +668,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=49"
+      "image_url": ""
     }
   },
   {
@@ -1396,7 +696,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=50"
+      "image_url": ""
     }
   },
   {
@@ -1424,7 +724,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=51"
+      "image_url": ""
     }
   },
   {
@@ -1452,35 +752,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=52"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 53,
-    "fields": {
-      "title": "Arcade Center Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.705,
-      "longitude": 46.68,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=53"
+      "image_url": ""
     }
   },
   {
@@ -1508,567 +780,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=54"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 55,
-    "fields": {
-      "title": "Laser Tag Arena",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7411,
-      "longitude": 46.65,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=55"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 56,
-    "fields": {
-      "title": "Bowling Center Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.68,
-      "longitude": 46.7,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=56"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 57,
-    "fields": {
-      "title": "Trampoline Park Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.792,
-      "longitude": 46.6111,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=57"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 58,
-    "fields": {
-      "title": "Theme Park Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.8,
-      "longitude": 46.7,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=58"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 59,
-    "fields": {
-      "title": "Adventure Park Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.78,
-      "longitude": 46.6,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=59"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 60,
-    "fields": {
-      "title": "Karting Track Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.75,
-      "longitude": 46.73,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=60"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 61,
-    "fields": {
-      "title": "Cinema VIP Lounge",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.9,
-      "latitude": 24.7115,
-      "longitude": 46.674,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=61"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 62,
-    "fields": {
-      "title": "Outdoor Gaming Park",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.82,
-      "longitude": 46.68,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=62"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 63,
-    "fields": {
-      "title": "Riyadh Night Festival",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.75,
-      "longitude": 46.7,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=63"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 64,
-    "fields": {
-      "title": "Live Show Arena",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7788,
-      "longitude": 46.6277,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=64"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 65,
-    "fields": {
-      "title": "Music Festival Stage",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7855,
-      "longitude": 46.6122,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Engineer_update_-_USACE-p16021coll8-2437.pdf/page1-1280px-Engineer_update_-_USACE-p16021coll8-2437.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 66,
-    "fields": {
-      "title": "Street Performance Area",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7766,
-      "longitude": 46.63,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/The_exploitation_of_a_weak_state_Al-Qaeda_in_the_Arabian_Peninsula_in_Yemen_%28IA_theexploitationo109455291%29.pdf/page1-960px-The_exploitation_of_a_weak_state_Al-Qaeda_in_the_Arabian_Peninsula_in_Yemen_%28IA_theexploitationo109455291%29.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 67,
-    "fields": {
-      "title": "Comedy Club Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.72,
-      "longitude": 46.65,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/20November2007.pdf/page1-960px-20November2007.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 68,
-    "fields": {
-      "title": "Game Arena Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7455,
-      "longitude": 46.6555,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Engineer_update_-_USACE-p16021coll8-2340.pdf/page1-1280px-Engineer_update_-_USACE-p16021coll8-2340.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 69,
-    "fields": {
-      "title": "Fun Land Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.65,
-      "longitude": 46.72,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Concepts_%26_programs_%28IA_conceptsprograms20unse_0%29.pdf/page1-960px-Concepts_%26_programs_%28IA_conceptsprograms20unse_0%29.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 70,
-    "fields": {
-      "title": "Kids Fun Park",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.69,
-      "longitude": 46.75,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/20November2007.pdf/page1-960px-20November2007.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 71,
-    "fields": {
-      "title": "Play Zone Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.71,
-      "longitude": 46.66,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Engineer_update_-_USACE-p16021coll8-2415.pdf/page1-1280px-Engineer_update_-_USACE-p16021coll8-2415.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 72,
-    "fields": {
-      "title": "Indoor Amusement Park",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.775,
-      "longitude": 46.67,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=72"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 73,
-    "fields": {
-      "title": "Festival Square Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7555,
-      "longitude": 46.6444,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/State_1984-05-_Iss_267_%28IA_sim_state-magazine_1984-05_267%29.pdf/page1-960px-State_1984-05-_Iss_267_%28IA_sim_state-magazine_1984-05_267%29.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 74,
-    "fields": {
-      "title": "Interactive Experience Center",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.762,
-      "longitude": 46.6415,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Megacity_analysis-_A_clustering_approach_to_classification_%28IA_megacitynalysisa1094555623%29.pdf/page1-960px-Megacity_analysis-_A_clustering_approach_to_classification_%28IA_megacitynalysisa1094555623%29.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      "image_url": ""
     }
   },
   {
@@ -2096,35 +808,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=75"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 76,
-    "fields": {
-      "title": "Entertainment Dome Riyadh",
-      "category": "entertainment",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7811,
-      "longitude": 46.62,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,entertainment?lock=76"
+      "image_url": ""
     }
   },
   {
@@ -2146,13 +830,13 @@
       "latitude": 24.7772,
       "longitude": 46.6289,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://riyadhseason.com/",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=77"
+      "image_url": ""
     }
   },
   {
@@ -2174,13 +858,13 @@
       "latitude": 24.75,
       "longitude": 46.7333,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://noorriyadh.sa/",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=78"
+      "image_url": ""
     }
   },
   {
@@ -2202,13 +886,13 @@
       "latitude": 24.7336,
       "longitude": 46.5761,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://diriyahseason.sa/",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=79"
+      "image_url": ""
     }
   },
   {
@@ -2236,175 +920,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=80"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 81,
-    "fields": {
-      "title": "Music Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7855,
-      "longitude": 46.6122,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=81"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 82,
-    "fields": {
-      "title": "Art Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7622,
-      "longitude": 46.6422,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=82"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 83,
-    "fields": {
-      "title": "Winter Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7565,
-      "longitude": 46.635,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=83"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 84,
-    "fields": {
-      "title": "Summer Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7111,
-      "longitude": 46.7222,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=84"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 85,
-    "fields": {
-      "title": "Cultural Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.6482,
-      "longitude": 46.7107,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=85"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 86,
-    "fields": {
-      "title": "Heritage Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.738,
-      "longitude": 46.574,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=86"
+      "image_url": ""
     }
   },
   {
@@ -2432,35 +948,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=87"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 88,
-    "fields": {
-      "title": "Design Week Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7136,
-      "longitude": 46.6753,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=88"
+      "image_url": ""
     }
   },
   {
@@ -2488,35 +976,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=89"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 90,
-    "fields": {
-      "title": "Film Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7725,
-      "longitude": 46.661,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=90"
+      "image_url": ""
     }
   },
   {
@@ -2544,63 +1004,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=91"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 92,
-    "fields": {
-      "title": "Tech Expo Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.815,
-      "longitude": 46.755,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=92"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 93,
-    "fields": {
-      "title": "Startup Expo Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7655,
-      "longitude": 46.6455,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=93"
+      "image_url": ""
     }
   },
   {
@@ -2628,35 +1032,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=94"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 95,
-    "fields": {
-      "title": "Sports Event Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.74,
-      "longitude": 46.66,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=95"
+      "image_url": ""
     }
   },
   {
@@ -2684,7 +1060,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=96"
+      "image_url": ""
     }
   },
   {
@@ -2712,315 +1088,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=97"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 98,
-    "fields": {
-      "title": "Night Market Festival",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7788,
-      "longitude": 46.6288,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=98"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 99,
-    "fields": {
-      "title": "Open Air Concert Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.782,
-      "longitude": 46.615,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=99"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 100,
-    "fields": {
-      "title": "Live Performance Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7788,
-      "longitude": 46.6277,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=100"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 101,
-    "fields": {
-      "title": "Cultural Night Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.6312,
-      "longitude": 46.7134,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=101"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 102,
-    "fields": {
-      "title": "Art Exhibition Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7042,
-      "longitude": 46.6715,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=102"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 103,
-    "fields": {
-      "title": "Food Carnival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.8311,
-      "longitude": 46.7277,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=103"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 104,
-    "fields": {
-      "title": "Family Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7555,
-      "longitude": 46.6444,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=104"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 105,
-    "fields": {
-      "title": "Shopping Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7565,
-      "longitude": 46.6322,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=105"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 106,
-    "fields": {
-      "title": "Entertainment Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.777,
-      "longitude": 46.629,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=106"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 107,
-    "fields": {
-      "title": "Season Opening Event",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.9,
-      "latitude": 24.7775,
-      "longitude": 46.6285,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=107"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 108,
-    "fields": {
-      "title": "Closing Ceremony Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.76,
-      "longitude": 46.64,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=108"
+      "image_url": ""
     }
   },
   {
@@ -3048,7 +1116,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=109"
+      "image_url": ""
     }
   },
   {
@@ -3076,63 +1144,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=110"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 111,
-    "fields": {
-      "title": "Community Event Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7122,
-      "longitude": 46.69,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=111"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 112,
-    "fields": {
-      "title": "Outdoor Festival Riyadh",
-      "category": "events",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.6011,
-      "longitude": 46.6667,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,festival?lock=112"
+      "image_url": ""
     }
   },
   {
@@ -3160,987 +1172,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=113"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 114,
-    "fields": {
-      "title": "Kids Fun Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7433,
-      "longitude": 46.6833,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/20November2007.pdf/page1-960px-20November2007.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 115,
-    "fields": {
-      "title": "Family Park Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.7111,
-      "longitude": 46.7222,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=115"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 116,
-    "fields": {
-      "title": "Children Play Zone",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7565,
-      "longitude": 46.6322,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=116"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 117,
-    "fields": {
-      "title": "Family Entertainment Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7772,
-      "longitude": 46.6289,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=117"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 118,
-    "fields": {
-      "title": "Kids Adventure Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.782,
-      "longitude": 46.615,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=118"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 119,
-    "fields": {
-      "title": "Indoor Play Area Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7011,
-      "longitude": 46.6611,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=119"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 120,
-    "fields": {
-      "title": "Family Garden Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6214,
-      "longitude": 46.7115,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=120"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 121,
-    "fields": {
-      "title": "Children Museum Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.6482,
-      "longitude": 46.7107,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=121"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 122,
-    "fields": {
-      "title": "Kids Science Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7136,
-      "longitude": 46.6753,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=122"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 123,
-    "fields": {
-      "title": "Family Picnic Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.6011,
-      "longitude": 46.6667,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=123"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 124,
-    "fields": {
-      "title": "Kids Learning Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6861,
-      "longitude": 46.6853,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=124"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 125,
-    "fields": {
-      "title": "Mini City Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.77,
-      "longitude": 46.66,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=125"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 126,
-    "fields": {
-      "title": "Kids Discovery Zone",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.762,
-      "longitude": 46.6415,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=126"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 127,
-    "fields": {
-      "title": "Family Activity Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7522,
-      "longitude": 46.7088,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=127"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 128,
-    "fields": {
-      "title": "Playground Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.698,
-      "longitude": 46.7455,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=128"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 129,
-    "fields": {
-      "title": "Family Resort Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.85,
-      "longitude": 46.75,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=129"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 130,
-    "fields": {
-      "title": "Kids Workshop Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7042,
-      "longitude": 46.6715,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=130"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 131,
-    "fields": {
-      "title": "Family Arcade",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.705,
-      "longitude": 46.68,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=131"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 132,
-    "fields": {
-      "title": "Children Theme Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.8,
-      "longitude": 46.7,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=132"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 133,
-    "fields": {
-      "title": "Family Outdoor Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6791,
-      "longitude": 46.6264,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=133"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 134,
-    "fields": {
-      "title": "Kids Interactive Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7611,
-      "longitude": 46.6406,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=134"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 135,
-    "fields": {
-      "title": "Family Sports Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.74,
-      "longitude": 46.66,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=135"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 136,
-    "fields": {
-      "title": "Children Activity Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.721,
-      "longitude": 46.6622,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=136"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 137,
-    "fields": {
-      "title": "Family Fun Plaza",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.715,
-      "longitude": 46.6611,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=137"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 138,
-    "fields": {
-      "title": "Kids Water Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.81,
-      "longitude": 46.72,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=138"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 139,
-    "fields": {
-      "title": "Family Event Zone",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7555,
-      "longitude": 46.6444,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=139"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 140,
-    "fields": {
-      "title": "Family Cinema Riyadh",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7114,
-      "longitude": 46.6744,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=140"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 141,
-    "fields": {
-      "title": "Family Play Arena",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.72,
-      "longitude": 46.65,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=141"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 142,
-    "fields": {
-      "title": "Family Garden Walk",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.652,
-      "longitude": 46.71,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=142"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 143,
-    "fields": {
-      "title": "Family Fun Hub",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7655,
-      "longitude": 46.6455,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=143"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 144,
-    "fields": {
-      "title": "Kids Creativity Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7022,
-      "longitude": 46.6833,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=144"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 145,
-    "fields": {
-      "title": "Family Experience Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7622,
-      "longitude": 46.6422,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=145"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 146,
-    "fields": {
-      "title": "Family Day Park",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.73,
-      "longitude": 46.72,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=146"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 147,
-    "fields": {
-      "title": "Children Cultural Center",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.6542,
-      "longitude": 46.621,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=147"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 148,
-    "fields": {
-      "title": "Family Adventure Camp",
-      "category": "family",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 25.1,
-      "longitude": 46.5,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=148"
+      "image_url": ""
     }
   },
   {
@@ -4162,13 +1194,13 @@
       "latitude": 24.7371,
       "longitude": 46.5744,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://www.bujairiterrace.com/",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=149"
+      "image_url": ""
     }
   },
   {
@@ -4196,7 +1228,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=150"
+      "image_url": ""
     }
   },
   {
@@ -4224,7 +1256,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=151"
+      "image_url": ""
     }
   },
   {
@@ -4252,7 +1284,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=152"
+      "image_url": ""
     }
   },
   {
@@ -4280,7 +1312,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=153"
+      "image_url": ""
     }
   },
   {
@@ -4308,7 +1340,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=154"
+      "image_url": ""
     }
   },
   {
@@ -4336,7 +1368,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=155"
+      "image_url": ""
     }
   },
   {
@@ -4364,7 +1396,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=156"
+      "image_url": ""
     }
   },
   {
@@ -4392,7 +1424,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=157"
+      "image_url": ""
     }
   },
   {
@@ -4420,35 +1452,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=158"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 159,
-    "fields": {
-      "title": "Village Kitchen",
-      "category": "food",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.735,
-      "longitude": 46.578,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=159"
+      "image_url": ""
     }
   },
   {
@@ -4476,7 +1480,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=160"
+      "image_url": ""
     }
   },
   {
@@ -4504,7 +1508,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=161"
+      "image_url": ""
     }
   },
   {
@@ -4532,7 +1536,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=162"
+      "image_url": ""
     }
   },
   {
@@ -4560,7 +1564,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=163"
+      "image_url": ""
     }
   },
   {
@@ -4588,7 +1592,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=164"
+      "image_url": ""
     }
   },
   {
@@ -4616,7 +1620,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=165"
+      "image_url": ""
     }
   },
   {
@@ -4644,7 +1648,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=166"
+      "image_url": ""
     }
   },
   {
@@ -4672,7 +1676,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=167"
+      "image_url": ""
     }
   },
   {
@@ -4700,7 +1704,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=168"
+      "image_url": ""
     }
   },
   {
@@ -4728,7 +1732,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=169"
+      "image_url": ""
     }
   },
   {
@@ -4756,7 +1760,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=170"
+      "image_url": ""
     }
   },
   {
@@ -4784,7 +1788,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=171"
+      "image_url": ""
     }
   },
   {
@@ -4812,7 +1816,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=172"
+      "image_url": ""
     }
   },
   {
@@ -4840,7 +1844,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=173"
+      "image_url": ""
     }
   },
   {
@@ -4868,7 +1872,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=174"
+      "image_url": ""
     }
   },
   {
@@ -4896,7 +1900,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=175"
+      "image_url": ""
     }
   },
   {
@@ -4924,7 +1928,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=176"
+      "image_url": ""
     }
   },
   {
@@ -4952,7 +1956,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=177"
+      "image_url": ""
     }
   },
   {
@@ -4980,7 +1984,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=178"
+      "image_url": ""
     }
   },
   {
@@ -5008,7 +2012,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=179"
+      "image_url": ""
     }
   },
   {
@@ -5036,7 +2040,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=180"
+      "image_url": ""
     }
   },
   {
@@ -5064,7 +2068,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=181"
+      "image_url": ""
     }
   },
   {
@@ -5092,7 +2096,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=182"
+      "image_url": ""
     }
   },
   {
@@ -5120,7 +2124,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=183"
+      "image_url": ""
     }
   },
   {
@@ -5148,7 +2152,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=184"
+      "image_url": ""
     }
   },
   {
@@ -5176,7 +2180,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=185"
+      "image_url": ""
     }
   },
   {
@@ -5204,7 +2208,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,restaurant?lock=186"
+      "image_url": ""
     }
   },
   {
@@ -5232,7 +2236,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=187"
+      "image_url": ""
     }
   },
   {
@@ -5260,7 +2264,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=188"
+      "image_url": ""
     }
   },
   {
@@ -5288,7 +2292,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=189"
+      "image_url": ""
     }
   },
   {
@@ -5316,7 +2320,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=190"
+      "image_url": ""
     }
   },
   {
@@ -5344,7 +2348,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=191"
+      "image_url": ""
     }
   },
   {
@@ -5372,7 +2376,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=192"
+      "image_url": ""
     }
   },
   {
@@ -5400,7 +2404,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=193"
+      "image_url": ""
     }
   },
   {
@@ -5428,7 +2432,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=194"
+      "image_url": ""
     }
   },
   {
@@ -5456,119 +2460,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=195"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 196,
-    "fields": {
-      "title": "Old Riyadh Walls",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.632,
-      "longitude": 46.712,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=196"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 197,
-    "fields": {
-      "title": "Historical Guesthouse Najd",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.64,
-      "longitude": 46.71,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=197"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 198,
-    "fields": {
-      "title": "Najd Heritage House",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.75,
-      "longitude": 46.6,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=198"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 199,
-    "fields": {
-      "title": "Subaie Heritage House",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.15,
-      "longitude": 47.3,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=199"
+      "image_url": ""
     }
   },
   {
@@ -5596,63 +2488,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=200"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 201,
-    "fields": {
-      "title": "Old Diriyah Farms",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.74,
-      "longitude": 46.58,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=201"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 202,
-    "fields": {
-      "title": "Heritage Walk Diriyah",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.9,
-      "latitude": 24.735,
-      "longitude": 46.577,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=202"
+      "image_url": ""
     }
   },
   {
@@ -5680,7 +2516,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=203"
+      "image_url": ""
     }
   },
   {
@@ -5708,7 +2544,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=204"
+      "image_url": ""
     }
   },
   {
@@ -5736,7 +2572,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=205"
+      "image_url": ""
     }
   },
   {
@@ -5764,287 +2600,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=206"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 207,
-    "fields": {
-      "title": "Old City Gates Riyadh",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6325,
-      "longitude": 46.713,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=207"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 208,
-    "fields": {
-      "title": "Traditional Najdi Houses",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.73,
-      "longitude": 46.57,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=208"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 209,
-    "fields": {
-      "title": "Heritage Village Riyadh",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.85,
-      "longitude": 46.75,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=209"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 210,
-    "fields": {
-      "title": "Ancient Trade Route Market",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.631,
-      "longitude": 46.716,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=210"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 211,
-    "fields": {
-      "title": "Historical Riyadh District",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.64,
-      "longitude": 46.71,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=211"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 212,
-    "fields": {
-      "title": "Al Yamamah Heritage Area",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.55,
-      "longitude": 46.8,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=212"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 213,
-    "fields": {
-      "title": "Mud Brick Houses Riyadh",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.732,
-      "longitude": 46.575,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=213"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 214,
-    "fields": {
-      "title": "Old Souq Alley Riyadh",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6308,
-      "longitude": 46.7155,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=214"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 215,
-    "fields": {
-      "title": "Traditional Crafts Center",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.647,
-      "longitude": 46.7105,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=215"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 216,
-    "fields": {
-      "title": "Historical Mosque District",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.63,
-      "longitude": 46.712,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=216"
+      "image_url": ""
     }
   },
   {
@@ -6072,203 +2628,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=217"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 218,
-    "fields": {
-      "title": "Old Caravan Market",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.632,
-      "longitude": 46.717,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=218"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 219,
-    "fields": {
-      "title": "Heritage Alley Riyadh",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.6315,
-      "longitude": 46.714,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=219"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 220,
-    "fields": {
-      "title": "Riyadh Old Courtyard Houses",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.641,
-      "longitude": 46.7095,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=220"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 221,
-    "fields": {
-      "title": "Najd Architecture Museum",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7355,
-      "longitude": 46.5765,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=221"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 222,
-    "fields": {
-      "title": "Ancient Riyadh Neighborhood",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.62,
-      "longitude": 46.73,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=222"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 223,
-    "fields": {
-      "title": "Al Dukhna Heritage Area",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.628,
-      "longitude": 46.71,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=223"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 224,
-    "fields": {
-      "title": "Old Riyadh Square",
-      "category": "heritage",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.63,
-      "longitude": 46.7125,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,heritage?lock=224"
+      "image_url": ""
     }
   },
   {
@@ -6296,7 +2656,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=225"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Wadi_Hanifa.png/1280px-Wadi_Hanifa.png"
     }
   },
   {
@@ -6324,7 +2684,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=226"
+      "image_url": ""
     }
   },
   {
@@ -6352,7 +2712,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=227"
+      "image_url": ""
     }
   },
   {
@@ -6380,7 +2740,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=228"
+      "image_url": ""
     }
   },
   {
@@ -6408,7 +2768,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=229"
+      "image_url": ""
     }
   },
   {
@@ -6436,7 +2796,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=230"
+      "image_url": ""
     }
   },
   {
@@ -6458,13 +2818,13 @@
       "latitude": 24.7125,
       "longitude": 46.73,
       "source": "curated",
-      "source_url": "",
+      "source_url": "https://www.kingsalmanpark.sa/",
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=231"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/KSP_Landscape.jpg/1280px-KSP_Landscape.jpg"
     }
   },
   {
@@ -6492,35 +2852,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=232"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 233,
-    "fields": {
-      "title": "Rock Park",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.675,
-      "longitude": 46.615,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=233"
+      "image_url": ""
     }
   },
   {
@@ -6548,7 +2880,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=234"
+      "image_url": ""
     }
   },
   {
@@ -6576,7 +2908,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=235"
+      "image_url": ""
     }
   },
   {
@@ -6604,7 +2936,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=236"
+      "image_url": ""
     }
   },
   {
@@ -6632,7 +2964,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=237"
+      "image_url": ""
     }
   },
   {
@@ -6660,7 +2992,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=238"
+      "image_url": ""
     }
   },
   {
@@ -6688,7 +3020,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=239"
+      "image_url": ""
     }
   },
   {
@@ -6716,7 +3048,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=240"
+      "image_url": ""
     }
   },
   {
@@ -6744,7 +3076,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=241"
+      "image_url": ""
     }
   },
   {
@@ -6772,7 +3104,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=242"
+      "image_url": ""
     }
   },
   {
@@ -6800,7 +3132,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=243"
+      "image_url": ""
     }
   },
   {
@@ -6828,7 +3160,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=244"
+      "image_url": ""
     }
   },
   {
@@ -6856,7 +3188,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=245"
+      "image_url": ""
     }
   },
   {
@@ -6884,455 +3216,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=246"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 247,
-    "fields": {
-      "title": "Desert Camping Area Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 25.1,
-      "longitude": 46.5,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=247"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 248,
-    "fields": {
-      "title": "Stargazing Camp Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 25.15,
-      "longitude": 46.2,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=248"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 249,
-    "fields": {
-      "title": "Eco Park Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.85,
-      "longitude": 46.65,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=249"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 250,
-    "fields": {
-      "title": "Green Walk Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.72,
-      "longitude": 46.68,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=250"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 251,
-    "fields": {
-      "title": "Nature Reserve Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 25.0,
-      "longitude": 47.0,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=251"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 252,
-    "fields": {
-      "title": "Sand Dune Adventure Area",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.35,
-      "longitude": 46.4,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=252"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 253,
-    "fields": {
-      "title": "Wildlife Park Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.88,
-      "longitude": 46.75,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=253"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 254,
-    "fields": {
-      "title": "Mountain Viewpoint Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.9,
-      "latitude": 24.8,
-      "longitude": 46.15,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=254"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 255,
-    "fields": {
-      "title": "Hiking Trail Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.685,
-      "longitude": 46.58,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=255"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 256,
-    "fields": {
-      "title": "Desert Safari Zone",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.4,
-      "longitude": 46.5,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=256"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 257,
-    "fields": {
-      "title": "Sunset Point Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.9,
-      "latitude": 24.93,
-      "longitude": 46.0,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=257"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 258,
-    "fields": {
-      "title": "Valley Walk Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.61,
-      "longitude": 46.67,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=258"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 259,
-    "fields": {
-      "title": "Nature Escape Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.95,
-      "longitude": 46.3,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=259"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 260,
-    "fields": {
-      "title": "Outdoor Retreat Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.75,
-      "longitude": 46.55,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=260"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 261,
-    "fields": {
-      "title": "Picnic Park Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.73,
-      "longitude": 46.72,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=261"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 262,
-    "fields": {
-      "title": "Forest Concept Park Riyadh",
-      "category": "nature",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.725,
-      "longitude": 46.74,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,park?lock=262"
+      "image_url": ""
     }
   },
   {
@@ -7360,7 +3244,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=263"
+      "image_url": ""
     }
   },
   {
@@ -7388,7 +3272,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=264"
+      "image_url": ""
     }
   },
   {
@@ -7416,7 +3300,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=265"
+      "image_url": ""
     }
   },
   {
@@ -7444,7 +3328,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=266"
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Granada_Centre.jpg/1280px-Granada_Centre.jpg"
     }
   },
   {
@@ -7472,7 +3356,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=267"
+      "image_url": ""
     }
   },
   {
@@ -7500,7 +3384,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=268"
+      "image_url": ""
     }
   },
   {
@@ -7528,7 +3412,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=269"
+      "image_url": ""
     }
   },
   {
@@ -7556,7 +3440,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=270"
+      "image_url": ""
     }
   },
   {
@@ -7584,7 +3468,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=271"
+      "image_url": ""
     }
   },
   {
@@ -7612,7 +3496,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=272"
+      "image_url": ""
     }
   },
   {
@@ -7640,7 +3524,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=273"
+      "image_url": ""
     }
   },
   {
@@ -7668,7 +3552,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=274"
+      "image_url": ""
     }
   },
   {
@@ -7696,7 +3580,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=275"
+      "image_url": ""
     }
   },
   {
@@ -7724,7 +3608,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=276"
+      "image_url": ""
     }
   },
   {
@@ -7752,7 +3636,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=277"
+      "image_url": ""
     }
   },
   {
@@ -7780,7 +3664,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=278"
+      "image_url": ""
     }
   },
   {
@@ -7808,595 +3692,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=279"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 280,
-    "fields": {
-      "title": "Traditional Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.63,
-      "longitude": 46.7115,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=280"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 281,
-    "fields": {
-      "title": "Farmers Market Diriyah",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7388,
-      "longitude": 46.5744,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=281"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 282,
-    "fields": {
-      "title": "Luxury Boutique Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7042,
-      "longitude": 46.6722,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=282"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 283,
-    "fields": {
-      "title": "Fashion Avenue Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.757,
-      "longitude": 46.6333,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=283"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 284,
-    "fields": {
-      "title": "Outlet Mall Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.52,
-      "longitude": 46.9,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=284"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 285,
-    "fields": {
-      "title": "Designer District Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7622,
-      "longitude": 46.64,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=285"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 286,
-    "fields": {
-      "title": "Retail Park Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.8311,
-      "longitude": 46.7277,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=286"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 287,
-    "fields": {
-      "title": "Lifestyle Mall Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.7155,
-      "longitude": 46.661,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=287"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 288,
-    "fields": {
-      "title": "Modern Shopping Plaza",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.3,
-      "latitude": 24.7222,
-      "longitude": 46.6555,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=288"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 289,
-    "fields": {
-      "title": "Urban Mall Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7488,
-      "longitude": 46.63,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=289"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 290,
-    "fields": {
-      "title": "Community Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.2,
-      "latitude": 24.65,
-      "longitude": 46.75,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "East Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=290"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 291,
-    "fields": {
-      "title": "Artisan Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.6311,
-      "longitude": 46.7155,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=291"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 292,
-    "fields": {
-      "title": "Street Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.1,
-      "latitude": 24.62,
-      "longitude": 46.72,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=292"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 293,
-    "fields": {
-      "title": "Night Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7788,
-      "longitude": 46.6288,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=293"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 294,
-    "fields": {
-      "title": "Craft Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7336,
-      "longitude": 46.5761,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=294"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 295,
-    "fields": {
-      "title": "Handmade Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.4,
-      "latitude": 24.647,
-      "longitude": 46.7111,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "South Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=295"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 296,
-    "fields": {
-      "title": "Organic Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.8,
-      "latitude": 24.7111,
-      "longitude": 46.6822,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=296"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 297,
-    "fields": {
-      "title": "Pop-up Market Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.736,
-      "longitude": 46.6315,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "West Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=297"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 298,
-    "fields": {
-      "title": "Seasonal Bazaar Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.5,
-      "latitude": 24.7555,
-      "longitude": 46.6444,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "North Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=298"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 299,
-    "fields": {
-      "title": "Fashion Hub Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.7,
-      "latitude": 24.7022,
-      "longitude": 46.6755,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=299"
-    }
-  },
-  {
-    "model": "events.event",
-    "pk": 300,
-    "fields": {
-      "title": "Concept Store Riyadh",
-      "category": "shopping",
-      "description": "",
-      "date": "2025-05-02T12:00:00Z",
-      "location": "Riyadh, Saudi Arabia",
-      "start_date": null,
-      "end_date": null,
-      "start_time": null,
-      "end_time": null,
-      "price_range": "",
-      "price": null,
-      "rating": 4.6,
-      "latitude": 24.7188,
-      "longitude": 46.6699,
-      "source": "curated",
-      "source_url": "",
-      "is_active": true,
-      "tourism_relevance": 3,
-      "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z",
-      "area": "Central Riyadh",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=300"
+      "image_url": ""
     }
   },
   {
@@ -8424,7 +3720,33 @@
       "tourism_relevance": 4,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
-      "image_url": "https://loremflickr.com/1200/800/riyadh,mall?lock=301"
+      "image_url": ""
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 302,
+    "fields": {
+      "title": "Qiddiya City",
+      "category": "entertainment",
+      "description": "A major entertainment, sports, and culture destination west of Riyadh.",
+      "date": "2025-05-02T15:00:00+03:00",
+      "start_date": null,
+      "end_date": null,
+      "start_time": null,
+      "end_time": null,
+      "location": "Qiddiya, Riyadh Province, Saudi Arabia",
+      "area": "West Riyadh",
+      "price_range": "",
+      "price": null,
+      "latitude": 24.627,
+      "longitude": 46.325,
+      "rating": "4.6",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Qiddiya_Illustration.png/1280px-Qiddiya_Illustration.png",
+      "source": "curated",
+      "source_url": "https://qiddiya.com/",
+      "is_active": true,
+      "tourism_relevance": 5
     }
   }
 ]
