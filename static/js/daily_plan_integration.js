@@ -52,6 +52,7 @@ let _replacementCache       = new Map();
 let _isPlanLoading          = false;
 let _activityDebounce       = null;
 let _userLocation           = null;
+let _addActivityContext     = { dayIndex: 0, slotKey: "activity" };
 // Tracks which day indices have ever had plan data — used to show
 // placeholder slots (not full empty-state) after all activities are removed.
 let _dayHasPlan             = {};
@@ -515,6 +516,8 @@ function buildTimelineCard(slotKey, event, slotIndex) {
         <div class="rounded-2xl border-2 border-dashed border-violet-100 bg-white/70 py-7 text-center text-gray-400 text-sm">
           <p>No activity for this slot</p>
           <button type="button"
+            data-slot-key="${escapeHtml(slotKey)}"
+            data-day-index="${currentDayIndex}"
             class="placeholder-add-btn mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition">
             <span class="text-base leading-none">+</span>
             Add Activity
@@ -607,7 +610,12 @@ function buildTimelineCard(slotKey, event, slotIndex) {
 
 function bindTimelineActions(container, dayIndex) {
   container.querySelectorAll(".placeholder-add-btn").forEach(btn => {
-    btn.addEventListener("click", openAddActivityModal);
+    btn.addEventListener("click", () => {
+      openAddActivityModal({
+        dayIndex: Number(btn.dataset.dayIndex || dayIndex),
+        slotKey: btn.dataset.slotKey || "activity",
+      });
+    });
   });
 
   container.querySelectorAll(".navigate-btn").forEach(btn => {
@@ -737,9 +745,10 @@ function renderDailyPlan(planOrDayIndex = currentDayIndex) {
 window.renderDailyPlan = renderDailyPlan;
 
 // ── Plan loading ──────────────────────────────────────────
-async function loadCurrentPlan() {
+async function loadCurrentPlan(options = {}) {
   setLoading(true);
   try {
+    const requestedDayIndex = isFinite(Number(options.dayIndex)) ? Number(options.dayIndex) : currentDayIndex;
     await refreshPreferences();
     const duration = getTripDuration();
     multiDayPlans       = [];
@@ -760,14 +769,16 @@ async function loadCurrentPlan() {
     }
     if (!_currentPlan) _currentPlan = plans[0] || null;
 
-    currentDayIndex = 0;
-    setSelectedPlanDate(_localDateStr(start));
+    currentDayIndex = Math.min(Math.max(requestedDayIndex, 0), Math.max(duration - 1, 0));
+    const selectedDate = new Date(start);
+    selectedDate.setDate(start.getDate() + currentDayIndex);
+    setSelectedPlanDate(_localDateStr(selectedDate));
     renderDayTabs();
-    renderTimeline(0);
+    renderTimeline(currentDayIndex);
   } catch (e) {
     console.error("Failed to load plan:", e);
     renderDayTabs();
-    renderTimeline(0);
+    renderTimeline(currentDayIndex);
   } finally {
     setLoading(false);
   }
@@ -1031,15 +1042,24 @@ async function removeEventFromPlan(eventId, slotKey = "evening", options = {}) {
 }
 
 // ── Add Activity Modal ────────────────────────────────────
-function openAddActivityModal() {
+function openAddActivityModal(options = {}) {
+  const dayIndex = isFinite(Number(options.dayIndex)) ? Number(options.dayIndex) : currentDayIndex;
+  _addActivityContext = {
+    dayIndex,
+    slotKey: options.slotKey || "activity",
+  };
+  setSelectedPlanDate(_localDateStr(getPlanDateForIndex(dayIndex)));
   document.getElementById("addActivityModal")?.classList.remove("hidden");
+  const input = document.getElementById("activitySearchInput");
+  if (input) input.value = "";
   const results = document.getElementById("activitySearchResults");
   if (results) results.innerHTML = '<p class="text-sm text-gray-400 text-center py-8">Type to search for places</p>';
-  setTimeout(() => document.getElementById("activitySearchInput")?.focus(), 50);
+  setTimeout(() => input?.focus(), 50);
 }
 
 function closeAddActivityModal() {
   document.getElementById("addActivityModal")?.classList.add("hidden");
+  _addActivityContext = { dayIndex: currentDayIndex, slotKey: "activity" };
 }
 
 function renderActivityResults(events) {
@@ -1068,16 +1088,20 @@ function renderActivityResults(events) {
 
   container.querySelectorAll("[data-event-id]").forEach(card => {
     card.addEventListener("click", async () => {
-      const id   = Number(card.dataset.eventId);
-      const date = getSelectedPlanDate();
+      const id       = Number(card.dataset.eventId);
+      const dayIndex = isFinite(Number(_addActivityContext.dayIndex)) ? Number(_addActivityContext.dayIndex) : currentDayIndex;
+      const slotKey  = _addActivityContext.slotKey || "activity";
+      const date     = _localDateStr(getPlanDateForIndex(dayIndex));
       if (!isFinite(id) || !date) return;
       card.classList.add("opacity-50");
       try {
-        await apiPost("/api/daily-plan/add/", { date, event_id: id });
+        await apiPost("/api/daily-plan/add/", { date, event_id: id, slot_type: slotKey });
         closeAddActivityModal();
-        await loadCurrentPlan();
+        await loadCurrentPlan({ dayIndex });
+        showPlanMessage("Activity added to your plan.", "success");
       } catch (e) {
         console.error("Add activity failed:", e);
+        showPlanMessage("Could not add this activity. It may already be in your plan.", "error");
         card.classList.remove("opacity-50");
       }
     });
@@ -1138,7 +1162,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add Activity modal
-  document.getElementById("add-activity-btn")?.addEventListener("click", openAddActivityModal);
+  document.getElementById("add-activity-btn")?.addEventListener("click", () => {
+    openAddActivityModal({ dayIndex: currentDayIndex, slotKey: "activity" });
+  });
   document.getElementById("closeAddActivity")?.addEventListener("click", closeAddActivityModal);
   document.getElementById("addActivityOverlay")?.addEventListener("click", closeAddActivityModal);
   document.getElementById("activitySearchInput")?.addEventListener("input", e => {
