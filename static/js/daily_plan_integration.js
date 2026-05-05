@@ -34,6 +34,8 @@ const CATEGORY_IMAGES = {
   entertainment: "https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=900",
 };
 
+const DARB_APP_URL = "https://play.google.com/store/apps/details?hl=ar&id=com.rcrc.riyadhjourneyplanner";
+
 const PLAN_START_KEY   = "tz_plan_start_date";
 const PLAN_END_KEY     = "tz_plan_end_date";
 const SELECTED_DATE_KEY = "tz_selected_plan_date";
@@ -338,6 +340,22 @@ function buildDailyRouteUrl(stops) {
   return "";
 }
 
+function buildEventMapUrl(event) {
+  const point = getStopCoordinates(event);
+  if (point) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinateQuery(point))}`;
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event?.title || "") + " Riyadh")}`;
+}
+
+function buildUberUrl(event) {
+  const point = getStopCoordinates(event);
+  if (point) {
+    return `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${point.lat}&dropoff[longitude]=${point.lng}&dropoff[nickname]=${encodeURIComponent(event?.title || "")}`;
+  }
+  return `https://m.uber.com/ul/?action=setPickup&dropoff[nickname]=${encodeURIComponent((event?.title || "") + " Riyadh")}`;
+}
+
 function updateRouteNavigationCard(stops) {
   const card = document.getElementById("routeNavigationCard");
   const btn = document.getElementById("openRouteBtn");
@@ -494,8 +512,13 @@ function buildTimelineCard(slotKey, event, slotIndex) {
           <span class="text-gray-300">•</span>
           <span>${escapeHtml(slotLabel)}</span>
         </div>
-        <div class="rounded-2xl border-2 border-dashed border-gray-200 py-8 text-center text-gray-400 text-sm">
-          No activity for this slot
+        <div class="rounded-2xl border-2 border-dashed border-violet-100 bg-white/70 py-7 text-center text-gray-400 text-sm">
+          <p>No activity for this slot</p>
+          <button type="button"
+            class="placeholder-add-btn mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition">
+            <span class="text-base leading-none">+</span>
+            Add Activity
+          </button>
         </div>
       </div>`;
   }
@@ -505,17 +528,14 @@ function buildTimelineCard(slotKey, event, slotIndex) {
   const catLabel  = formatCategory(event.category);
   const rating    = event.rating ? `★ ${parseFloat(event.rating).toFixed(1)}` : "";
   const imageUrl  = getEventImageUrl(event);
-  const hasCoords = event.latitude != null && event.longitude != null && isFinite(parseFloat(event.latitude));
-
-  const navigateUrl = hasCoords
-    ? `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${event.latitude}&dropoff[longitude]=${event.longitude}&dropoff[nickname]=${encodeURIComponent(event.title || "")}`
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.title || "") + " Riyadh")}`;
+  const googleMapsUrl = buildEventMapUrl(event);
+  const uberUrl = buildUberUrl(event);
 
   const navigateBtn = `<button type="button"
       class="navigate-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
       style="background-color:#7c3aed"
-      data-navigate-url="${escapeHtml(navigateUrl)}">
-      🚗 Navigate →
+      data-navigate-url="${escapeHtml(googleMapsUrl)}">
+      Google Maps
     </button>`;
 
   return `
@@ -526,9 +546,9 @@ function buildTimelineCard(slotKey, event, slotIndex) {
         <span>${escapeHtml(slotLabel)}</span>
       </div>
       <div class="rounded-2xl p-5 shadow-sm" style="background:${gradient}">
-        <div class="flex items-start gap-4 mb-4">
+        <div class="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
           ${imageUrl ? `
-            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-white/60 shrink-0">
+            <div class="w-full sm:w-32 h-40 sm:h-32 rounded-2xl overflow-hidden bg-white/60 shrink-0">
               <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(event.title || "")}" loading="lazy"
                 class="h-full w-full object-cover"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
@@ -548,29 +568,48 @@ function buildTimelineCard(slotKey, event, slotIndex) {
                data-lat="${event.latitude || ""}" data-lng="${event.longitude || ""}"></p>
           </div>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
-          ${navigateBtn}
-          <button type="button"
-            class="try-another-btn px-3 py-2 rounded-xl text-sm text-gray-600 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
-            data-event-id="${event.id}"
-            data-slot-key="${escapeHtml(slotKey)}"
-            data-slot-index="${slotIndex}"
-            data-plan-item-id="${event.plan_item_id || ""}">
-            Try Another
-          </button>
-          <button type="button"
-            class="remove-btn px-3 py-2 rounded-xl text-sm text-red-500 bg-white/70 hover:bg-white border border-transparent hover:border-red-200 transition"
-            data-event-id="${event.id}"
-            data-slot-key="${escapeHtml(slotKey)}"
-            data-plan-item-id="${event.plan_item_id || ""}">
-            Remove
-          </button>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            ${navigateBtn}
+            <button type="button"
+              class="try-another-btn px-3 py-2 rounded-xl text-sm text-gray-600 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
+              data-event-id="${event.id}"
+              data-slot-key="${escapeHtml(slotKey)}"
+              data-slot-index="${slotIndex}"
+              data-plan-item-id="${event.plan_item_id || ""}">
+              Try Another
+            </button>
+            <button type="button"
+              class="remove-btn px-3 py-2 rounded-xl text-sm text-red-500 bg-white/70 hover:bg-white border border-transparent hover:border-red-200 transition"
+              data-event-id="${event.id}"
+              data-slot-key="${escapeHtml(slotKey)}"
+              data-plan-item-id="${event.plan_item_id || ""}">
+              Remove
+            </button>
+          </div>
+          <div class="flex items-center gap-2 sm:justify-end">
+            <span class="hidden sm:inline text-xs font-semibold text-gray-500">Ride:</span>
+            <button type="button"
+              class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
+              data-navigate-url="${escapeHtml(uberUrl)}">
+              Uber
+            </button>
+            <button type="button"
+              class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-emerald-700 bg-white/70 hover:bg-white border border-transparent hover:border-emerald-200 transition"
+              data-navigate-url="${escapeHtml(DARB_APP_URL)}">
+              Metro
+            </button>
+          </div>
         </div>
       </div>
     </div>`;
 }
 
 function bindTimelineActions(container, dayIndex) {
+  container.querySelectorAll(".placeholder-add-btn").forEach(btn => {
+    btn.addEventListener("click", openAddActivityModal);
+  });
+
   container.querySelectorAll(".navigate-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const url = btn.dataset.navigateUrl;
