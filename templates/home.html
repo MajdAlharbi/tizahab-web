@@ -5,86 +5,161 @@
 
 {% block content %}
 
-<div class="max-w-[700px] mx-auto px-4 py-10 sm:py-14 space-y-10">
+<div class="min-h-full bg-[#fbf7ff]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-7">
 
-  <!-- ── 1. Hero ── -->
-  <header class="text-center space-y-3">
-    <h1 id="heroGreeting"
-      class="text-3xl sm:text-4xl font-bold text-gray-900"
-      style="font-family:'Cantata One',serif">
-      {% trans "Welcome to Riyadh" %}
-    </h1>
+    <!-- Hero -->
+    <section class="relative overflow-hidden rounded-[28px] min-h-[310px] sm:min-h-[360px] shadow-sm border border-violet-100 bg-gray-900">
+      <img
+        src="https://www.atlastravels.com/public/upload/atlas/travelogues/descriptionimage/descriptionimage_1727952417.jpg"
+        alt="Riyadh destination"
+        class="absolute inset-0 h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/5"></div>
+      <div class="relative h-full min-h-[310px] sm:min-h-[360px] flex flex-col justify-end p-6 sm:p-9 lg:p-10 text-white">
+        <div class="max-w-xl space-y-4">
+          <h1 id="heroGreeting"
+            class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
+            style="font-family:'Cantata One',serif">
+            {% trans "Welcome to Riyadh" %}
+          </h1>
+          <p class="text-sm sm:text-base text-white/85 max-w-md leading-relaxed">
+            {% trans "Discover places, build your route, and turn your Riyadh days into a clear journey." %}
+          </p>
+          <div class="flex flex-wrap items-center gap-2 text-sm">
+            <span id="tripDateRange" class="hidden rounded-full bg-white/18 px-3 py-1.5 backdrop-blur"></span>
+            <span id="dayCounterBadge"
+              class="hidden rounded-full bg-white text-violet-700 font-semibold text-xs px-3 py-1.5">
+              <span id="dayCounterText"></span>
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="/daily-plan/"
+              class="inline-flex h-11 items-center justify-center rounded-xl bg-white px-5 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-50 transition">
+              {% trans "View Today’s Plan" %}
+            </a>
+            <a href="/events/page/"
+              class="inline-flex h-11 items-center justify-center rounded-xl border border-white/45 px-5 text-sm font-semibold text-white hover:bg-white/12 transition">
+              {% trans "Explore Places" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="flex flex-wrap items-center justify-center gap-2 text-sm text-gray-500">
-      <span id="tripDateRange" class="hidden"></span>
-      <span id="tripDateSep" class="hidden text-gray-300">·</span>
-      <span id="dayCounterBadge"
-        class="hidden inline-flex items-center gap-1 bg-violet-50 text-violet-700 font-semibold text-xs px-3 py-1 rounded-full">
-        <span id="dayCounterText"></span>
-      </span>
-    </div>
-  </header>
+    <!-- Plan and city moments -->
+    <section class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-5 items-stretch">
+      <div id="planCard">
+        <div class="h-full bg-white rounded-3xl border border-violet-100 shadow-sm p-8 text-center">
+          <p class="text-sm text-gray-300">{% trans "Loading your journey..." %}</p>
+        </div>
+      </div>
 
-  <!-- ── 2. Daily Plan Card ── -->
-  <div id="planCard">
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
-      <p class="text-sm text-gray-300">{% trans "Loading your journey..." %}</p>
-    </div>
+      <div class="grid grid-cols-2 gap-4">
+        <a href="/events/page/?category=heritage"
+          class="group relative min-h-[190px] overflow-hidden rounded-3xl border border-violet-100 bg-gray-900 shadow-sm">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Masmak_Fort_%2812753717253%29.jpg?width=900"
+            alt="Masmak Fort" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-4 text-white">
+            <p class="text-xs uppercase tracking-widest text-white/70">{% trans "Heritage" %}</p>
+            <h2 class="mt-1 text-lg font-bold">{% trans "Old Riyadh" %}</h2>
+          </div>
+        </a>
+        <a href="/events/page/?category=food"
+          class="group relative min-h-[190px] overflow-hidden rounded-3xl border border-violet-100 bg-gray-900 shadow-sm">
+          <img src="https://www.alyaum.com/uploads/images/2023/06/03/1944213.jpg"
+            alt="Riyadh dining" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-4 text-white">
+            <p class="text-xs uppercase tracking-widest text-white/70">{% trans "Food" %}</p>
+            <h2 class="mt-1 text-lg font-bold">{% trans "Dining Stops" %}</h2>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Quick Navigation -->
+    <section>
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">{% trans "Start Exploring" %}</h2>
+          <p class="text-sm text-gray-500 mt-1">{% trans "Jump into the main parts of your trip." %}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <a href="/events/page/" class="home-photo-link group" style="--img:url('https://ar.timeoutriyadh.com/cloud/artimeoutriyadh/2022/12/13/malls-in-riyadh.jpg')">
+          <span>{% trans "Explore" %}</span>
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </a>
+        <a href="/travel-guide/" class="home-photo-link group" style="--img:url('https://www.atlastravels.com/public/upload/atlas/travelogues/descriptionimage/descriptionimage_1727952417.jpg')">
+          <span>{% trans "Travel Guide" %}</span>
+          <i data-lucide="compass" class="w-5 h-5"></i>
+        </a>
+        <a href="/booking/" class="home-photo-link group" style="--img:url('https://cdn2.wingie.com/uploads/f_webp,s_500x300,q_60,fit_cover/bwlyfard_syty_balryad_25321bd3b8.jpg')">
+          <span>{% trans "Hotel Booking" %}</span>
+          <i data-lucide="bed" class="w-5 h-5"></i>
+        </a>
+        <a href="{% url 'car_rental' %}" class="home-photo-link group" style="--img:url('https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=900')">
+          <span>{% trans "Car Rental" %}</span>
+          <i data-lucide="car" class="w-5 h-5"></i>
+        </a>
+        <a href="/profile/" class="home-photo-link group" style="--img:url('https://golden4tic.com/blog/wp-content/uploads/2024/11/LG-1.webp')">
+          <span>{% trans "Profile" %}</span>
+          <i data-lucide="user" class="w-5 h-5"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section>
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">{% trans "Recommended Riyadh Places" %}</h2>
+          <p class="text-sm text-gray-500 mt-1">{% trans "A few ideas from the live destination data." %}</p>
+        </div>
+        <a href="/events/page/" class="hidden sm:inline-flex text-sm font-semibold text-violet-700 hover:text-violet-900">
+          {% trans "View all" %}
+        </a>
+      </div>
+      <div id="recommendedPlaces" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="h-56 rounded-3xl bg-white/80 border border-violet-100 animate-pulse"></div>
+        <div class="h-56 rounded-3xl bg-white/80 border border-violet-100 animate-pulse"></div>
+        <div class="h-56 rounded-3xl bg-white/80 border border-violet-100 animate-pulse"></div>
+      </div>
+    </section>
+
   </div>
-
-  <!-- ── 3. Quick Navigation ── -->
-  <section>
-    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-5">{% trans "Explore" %}</p>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-
-      <a href="/events/page/"
-        class="group flex flex-col items-center gap-2.5 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-violet-200 hover:shadow-md transition">
-        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition">
-          <i data-lucide="search" class="w-5 h-5 text-blue-600"></i>
-        </div>
-        <span class="text-sm font-medium text-gray-700">{% trans "Explore" %}</span>
-      </a>
-
-      <a href="/travel-guide/"
-        class="group flex flex-col items-center gap-2.5 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-violet-200 hover:shadow-md transition">
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition">
-          <i data-lucide="compass" class="w-5 h-5 text-emerald-600"></i>
-        </div>
-        <span class="text-sm font-medium text-gray-700">{% trans "Travel Guide" %}</span>
-      </a>
-
-      <a href="/booking/"
-        class="group flex flex-col items-center gap-2.5 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-violet-200 hover:shadow-md transition">
-        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition">
-          <i data-lucide="bed" class="w-5 h-5 text-amber-600"></i>
-        </div>
-        <span class="text-sm font-medium text-gray-700">{% trans "Hotel Booking" %}</span>
-      </a>
-
-      <a href="{% url 'car_rental' %}"
-        class="group flex flex-col items-center gap-2.5 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-violet-200 hover:shadow-md transition">
-        <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition">
-          <i data-lucide="car" class="w-5 h-5 text-rose-500"></i>
-        </div>
-        <span class="text-sm font-medium text-gray-700">{% trans "Car Rental" %}</span>
-      </a>
-
-      <a href="/profile/"
-        class="group flex flex-col items-center gap-2.5 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-violet-200 hover:shadow-md transition">
-        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition">
-          <i data-lucide="user" class="w-5 h-5 text-gray-500"></i>
-        </div>
-        <span class="text-sm font-medium text-gray-700">{% trans "Profile" %}</span>
-      </a>
-
-    </div>
-  </section>
-
 </div>
+
+<style>
+  .home-photo-link {
+    position: relative;
+    min-height: 150px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(221, 214, 254, 0.9);
+    background-image: linear-gradient(to top, rgba(0,0,0,.68), rgba(0,0,0,.08)), var(--img);
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 18px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .home-photo-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 38px rgba(88, 28, 135, .14);
+  }
+</style>
 
 <script src="{% static 'js/home.js' %}"></script>
 <script>
-  // Hero personalisation — reads localStorage, never throws
   (function () {
     try {
       var startRaw = localStorage.getItem("tz_plan_start_date") || localStorage.getItem("tz_start_date");
@@ -103,9 +178,8 @@
 
       if (startRaw && endRaw) {
         var rangeEl = document.getElementById("tripDateRange");
-        var sepEl   = document.getElementById("tripDateSep");
         if (rangeEl) {
-          rangeEl.textContent = fmt(startRaw) + " – " + fmt(endRaw);
+          rangeEl.textContent = fmt(startRaw) + " - " + fmt(endRaw);
           rangeEl.classList.remove("hidden");
         }
 
@@ -121,11 +195,10 @@
           if (badge && text) {
             text.textContent = "{% trans 'Day' %} " + dayX + " {% trans 'of' %} " + dayY;
             badge.classList.remove("hidden");
-            if (sepEl) sepEl.classList.remove("hidden");
           }
         }
       }
-    } catch (e) { /* localStorage unavailable — fail silently */ }
+    } catch (e) {}
   })();
 </script>
 
