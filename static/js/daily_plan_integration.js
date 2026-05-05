@@ -75,6 +75,10 @@ function formatPrice(price) {
   return p === 0 ? "Free" : `${p.toFixed(0)} SAR`;
 }
 
+function getEventImageUrl(event) {
+  return event?.image_url || event?.image || event?.photo_url || "";
+}
+
 // ── User geolocation (optional — for distance labels) ─────
 function getUserLocation() {
   return new Promise(resolve => {
@@ -488,6 +492,7 @@ function buildTimelineCard(slotKey, event, slotIndex) {
   const price     = formatPrice(event.price);
   const catLabel  = formatCategory(event.category);
   const rating    = event.rating ? `★ ${parseFloat(event.rating).toFixed(1)}` : "";
+  const imageUrl  = getEventImageUrl(event);
   const hasCoords = event.latitude != null && event.longitude != null && isFinite(parseFloat(event.latitude));
 
   const navigateUrl = hasCoords
@@ -510,7 +515,14 @@ function buildTimelineCard(slotKey, event, slotIndex) {
       </div>
       <div class="rounded-2xl p-5 shadow-sm" style="background:${gradient}">
         <div class="flex items-start gap-4 mb-4">
-          <span class="text-6xl leading-none shrink-0 select-none" aria-hidden="true">${emoji}</span>
+          ${imageUrl ? `
+            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-white/60 shrink-0">
+              <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(event.title || "")}" loading="lazy"
+                class="h-full w-full object-cover"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <span class="h-full w-full items-center justify-center text-5xl" style="display:none">${emoji}</span>
+            </div>
+          ` : `<span class="text-6xl leading-none shrink-0 select-none" aria-hidden="true">${emoji}</span>`}
           <div class="flex-1 min-w-0 pt-1">
             <h3 class="text-xl font-bold text-gray-900 leading-snug">${escapeHtml(event.title || "")}</h3>
             <div class="flex items-center flex-wrap gap-2 mt-1.5">
@@ -989,7 +1001,14 @@ function renderActivityResults(events) {
   container.innerHTML = events.map(e => `
     <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition"
          data-event-id="${e.id}">
-      <span class="text-2xl shrink-0">${categoryEmoji(e.category)}</span>
+      ${getEventImageUrl(e) ? `
+        <div class="w-11 h-11 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+          <img src="${escapeHtml(getEventImageUrl(e))}" alt="${escapeHtml(e.title || "")}" loading="lazy"
+            class="h-full w-full object-cover"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <span class="h-full w-full items-center justify-center text-xl" style="display:none">${categoryEmoji(e.category)}</span>
+        </div>
+      ` : `<span class="text-2xl shrink-0">${categoryEmoji(e.category)}</span>`}
       <div class="min-w-0 flex-1">
         <div class="text-sm font-medium text-gray-800 truncate">${escapeHtml(e.title || "")}</div>
         <div class="text-xs text-gray-500">${escapeHtml(formatCategory(e.category))}</div>

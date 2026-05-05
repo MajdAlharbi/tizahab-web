@@ -231,8 +231,13 @@ function normalizeEvent(ev) {
     title: getTitle(ev),
     category: String(ev?.category || "events").toLowerCase(),
     area: ev?.area || "",
+    image_url: ev?.image_url || ev?.image || ev?.photo_url || "",
     location: ev?.location || ev?.area || ev?.address || "",
   };
+}
+
+function getImageUrl(ev) {
+  return ev?.image_url || ev?.image || ev?.photo_url || "";
 }
 
 function getLocationText(ev) {
@@ -321,6 +326,7 @@ function buildEventCard(ev) {
   const emoji = catEmoji(ev.category);
   const grad = catGradient(ev.category);
   const title = getTitle(ev);
+  const imageUrl = getImageUrl(ev);
   const location = getLocationText(ev);
   const price = getPriceText(ev);
   const rating = ev.rating
@@ -331,8 +337,16 @@ function buildEventCard(ev) {
   card.className = "event-card rounded-2xl border border-gray-100 overflow-hidden bg-white hover:shadow-md transition cursor-pointer";
 
   card.innerHTML = `
-    <div class="h-24 relative flex items-center justify-center" style="background:${grad}">
-      <span class="text-4xl select-none">${emoji}</span>
+    <div class="h-24 relative overflow-hidden flex items-center justify-center" style="background:${grad}">
+      ${imageUrl ? `
+        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="h-full w-full items-center justify-center" style="background:${grad};display:none">
+          <span class="text-4xl select-none">${emoji}</span>
+        </div>
+        <div class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/25 to-transparent pointer-events-none"></div>
+      ` : `<span class="text-4xl select-none">${emoji}</span>`}
       <button type="button" class="fav-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 grid place-items-center border border-white/60 hover:bg-white transition z-10"
         data-id="${escapeHtml(ev.id)}" aria-label="Toggle favorite">
         <span class="fav-icon text-base leading-none">${fav ? "&hearts;" : "&#9825;"}</span>
@@ -391,6 +405,7 @@ function buildTrendingCard(ev) {
   const emoji = catEmoji(ev.category);
   const grad = catGradient(ev.category);
   const title = getTitle(ev);
+  const imageUrl = getImageUrl(ev);
   const rating = ev.rating
     ? `<span class="text-xs text-gray-600 font-medium">${escapeHtml(ev.rating)}</span>` : "";
 
@@ -400,16 +415,25 @@ function buildTrendingCard(ev) {
   article.style.background = grad;
 
   article.innerHTML = `
+    ${imageUrl ? `
+      <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" loading="lazy"
+        class="absolute inset-0 h-full w-full object-cover"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="absolute inset-0 items-center justify-center" style="background:${grad};display:none">
+        <span class="text-5xl select-none">${emoji}</span>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/10 pointer-events-none"></div>
+    ` : ""}
     <div class="absolute inset-0 flex flex-col p-4">
       <div class="flex items-start justify-between">
-        <span class="text-5xl select-none">${emoji}</span>
+        ${imageUrl ? `<span></span>` : `<span class="text-5xl select-none">${emoji}</span>`}
         <button type="button" class="fav-btn w-8 h-8 rounded-full bg-white/80 grid place-items-center border border-white/60 hover:bg-white transition z-10 shrink-0"
           data-id="${escapeHtml(ev.id)}" aria-label="Toggle favorite">
           <span class="fav-icon text-base leading-none">${fav ? "&hearts;" : "&#9825;"}</span>
         </button>
       </div>
       <div class="mt-auto space-y-2">
-        <p class="font-bold text-gray-800 text-sm leading-snug line-clamp-2">${escapeHtml(title)}</p>
+        <p class="font-bold ${imageUrl ? "text-white" : "text-gray-800"} text-sm leading-snug line-clamp-2">${escapeHtml(title)}</p>
         <div class="flex items-center gap-2">
           <span class="text-xs px-2 py-0.5 rounded-full bg-white/60 text-gray-600 font-medium">${escapeHtml(label)}</span>
           ${rating}
@@ -760,6 +784,7 @@ function renderEventDetails(ev) {
   const label = catLabel(ev.category);
   const emoji = catEmoji(ev.category);
   const color = catColor(ev.category);
+  const imageUrl = getImageUrl(ev);
   const mapsLink = getGoogleMapsUrl(ev);
   const sourceUrl = ev.source_url || ev.website || "";
   const primaryAction = sourceUrl
@@ -769,7 +794,13 @@ function renderEventDetails(ev) {
   container.innerHTML = `
     <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
       <div class="flex items-start gap-4">
-        <span class="text-5xl">${emoji}</span>
+        ${imageUrl ? `
+          <div class="w-20 h-20 rounded-2xl overflow-hidden bg-gray-100 shrink-0">
+            <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(getTitle(ev))}" class="h-full w-full object-cover"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="h-full w-full items-center justify-center text-5xl" style="display:none">${emoji}</span>
+          </div>
+        ` : `<span class="text-5xl">${emoji}</span>`}
         <div class="flex-1 min-w-0">
           <span class="inline-block text-xs font-medium px-2.5 py-1 rounded-full ${color} mb-2">${escapeHtml(label)}</span>
           <h1 class="text-2xl font-bold text-gray-900 leading-snug">${escapeHtml(getTitle(ev))}</h1>

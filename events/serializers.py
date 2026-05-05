@@ -36,6 +36,7 @@ class EventSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
             "rating",
+            "image_url",
             "source",
             "source_url",
             "is_active",

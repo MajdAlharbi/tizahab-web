@@ -56,6 +56,7 @@ class Event(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    image_url = models.URLField(max_length=500, blank=True, default="")
     source = models.CharField(max_length=255, blank=True, default="")
     source_url = models.URLField(blank=True, default="")
     is_active = models.BooleanField(default=True, db_index=True)

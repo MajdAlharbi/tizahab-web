@@ -121,6 +121,17 @@ class EventListAPITests(TestCase):
         self.assertIn("start_date", first)
         self.assertIn("end_date", first)
         self.assertIn("area", first)
+        self.assertIn("image_url", first)
+
+    def test_serializer_returns_event_image_url(self):
+        image_url = "https://example.com/place.jpg"
+        make_event("Photo Place", category="nature", image_url=image_url)
+
+        response = self.client.get("/api/events/?search=Photo%20Place")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        results = response.data.get("results", response.data)
+        self.assertEqual(results[0]["image_url"], image_url)
 
     def test_filter_by_area(self):
         make_event("North Place", category="nature", area="North Riyadh")
