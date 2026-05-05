@@ -21,35 +21,37 @@
 {% endblock %}
 
 {% block content %}
-<div class="max-w-[1200px] mx-auto px-4 py-8 space-y-8 pb-16">
+<div class="max-w-[1320px] mx-auto px-4 py-8 space-y-9 pb-16">
 
-  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 space-y-5">
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-      <div class="space-y-2">
-        <span class="inline-flex items-center h-7 px-3 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold border border-purple-100">
-          Riyadh discovery guide
-        </span>
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" style="font-family:'Cantata One',serif">
+  <section class="relative overflow-hidden rounded-[2rem] bg-violet-950 text-white shadow-sm">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=1600"
+      alt="Riyadh attractions"
+      class="absolute inset-0 h-full w-full object-cover opacity-45"
+      loading="eager"
+      onerror="this.style.display='none';">
+    <div class="absolute inset-0 bg-gradient-to-r from-violet-950 via-violet-950/85 to-violet-900/35"></div>
+    <div class="relative z-10 p-6 sm:p-8 lg:p-10 space-y-6">
+      <div class="grid lg:grid-cols-[1fr_440px] gap-6 lg:items-end">
+        <div class="space-y-3 max-w-2xl">
+          <h1 class="text-4xl sm:text-5xl font-bold leading-tight" style="font-family:'Cantata One',serif">
             Explore Riyadh
           </h1>
-          <p class="text-sm sm:text-base text-gray-500 mt-1">
+          <p class="text-base sm:text-lg text-violet-50/85 leading-relaxed">
             Discover places by category, area, and open directions when you're ready.
           </p>
         </div>
+
+        <div class="flex items-center gap-2 h-[52px] bg-white rounded-2xl px-4 border border-white/70 shadow-lg w-full">
+          <i data-lucide="search" class="w-4 h-4 text-violet-400 shrink-0"></i>
+          <input id="searchInput" type="text" placeholder="Search places, events..."
+            class="flex-1 outline-none text-sm bg-transparent text-gray-800 placeholder-gray-400 min-w-0"
+            autocomplete="off">
+          <button id="clearSearchBtn" type="button"
+            class="hidden text-gray-300 hover:text-gray-500 transition text-xl leading-none shrink-0">&times;</button>
+        </div>
       </div>
 
-      <div class="flex items-center gap-2 h-12 bg-gray-50 rounded-2xl px-4 border border-gray-200 w-full lg:max-w-md">
-        <i data-lucide="search" class="w-4 h-4 text-gray-400 shrink-0"></i>
-        <input id="searchInput" type="text" placeholder="Search places, events..."
-          class="flex-1 outline-none text-sm bg-transparent text-gray-800 placeholder-gray-400 min-w-0"
-          autocomplete="off">
-        <button id="clearSearchBtn" type="button"
-          class="hidden text-gray-300 hover:text-gray-500 transition text-xl leading-none shrink-0">&times;</button>
-      </div>
-    </div>
-
-    <div class="overflow-x-auto no-scrollbar -mx-1 px-1">
+      <div class="overflow-x-auto no-scrollbar -mx-1 px-1">
       <div class="flex gap-2.5 pb-1 w-max">
         <button type="button" data-cat="" data-gradient="#ffffff" class="cat-pill active flex items-center gap-1.5 px-4 py-2 rounded-2xl border text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
           All Places
@@ -81,11 +83,12 @@
       </div>
     </div>
 
-    <div id="activeFilterBar" class="hidden items-center justify-between gap-3 rounded-2xl border border-violet-100 bg-violet-50 px-4 py-3">
-      <p id="activeFilterText" class="text-sm font-medium text-violet-800"></p>
-      <button type="button" onclick="clearFilter()" class="text-sm font-semibold text-violet-700 hover:text-violet-900">
+    <div id="activeFilterBar" class="hidden items-center justify-between gap-3 rounded-2xl border border-white/20 bg-white/15 px-4 py-3 backdrop-blur">
+      <p id="activeFilterText" class="text-sm font-medium text-white"></p>
+      <button type="button" onclick="clearFilter()" class="text-sm font-semibold text-white hover:text-violet-100">
         Clear all
       </button>
+    </div>
     </div>
   </section>
 
@@ -100,15 +103,16 @@
         Clear Area
       </button>
     </div>
-    <div id="eventsAreasGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="h-36 rounded-2xl bg-white border border-gray-100 skeleton-pulse"></div>
-      <div class="h-36 rounded-2xl bg-white border border-gray-100 skeleton-pulse hidden sm:block"></div>
-      <div class="h-36 rounded-2xl bg-white border border-gray-100 skeleton-pulse hidden lg:block"></div>
-      <div class="h-36 rounded-2xl bg-white border border-gray-100 skeleton-pulse hidden lg:block"></div>
+    <div id="eventsAreasGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="h-52 rounded-3xl bg-white border border-gray-100 skeleton-pulse"></div>
+      <div class="h-52 rounded-3xl bg-white border border-gray-100 skeleton-pulse hidden sm:block"></div>
+      <div class="h-52 rounded-3xl bg-white border border-gray-100 skeleton-pulse hidden lg:block"></div>
+      <div class="h-52 rounded-3xl bg-white border border-gray-100 skeleton-pulse hidden lg:block"></div>
+      <div class="h-52 rounded-3xl bg-white border border-gray-100 skeleton-pulse hidden lg:block"></div>
     </div>
   </section>
 
-  <section class="space-y-4">
+  <section class="space-y-4 rounded-[2rem] border border-gray-100 bg-white p-5 sm:p-6 shadow-sm">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold text-gray-900" style="font-family:'Cantata One',serif">Featured Places</h2>
       <div class="flex items-center gap-2">
@@ -123,10 +127,10 @@
       </div>
     </div>
     <div id="trendingRow" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2">
-      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"></div>
-      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"></div>
-      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)"></div>
-      <div class="min-w-[220px] h-56 rounded-2xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)"></div>
+      <div class="min-w-[280px] h-72 rounded-3xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"></div>
+      <div class="min-w-[280px] h-72 rounded-3xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"></div>
+      <div class="min-w-[280px] h-72 rounded-3xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)"></div>
+      <div class="min-w-[280px] h-72 rounded-3xl skeleton-pulse flex-shrink-0" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)"></div>
     </div>
   </section>
 
@@ -177,6 +181,30 @@
     </div>
   </section>
 
+</div>
+
+<div id="planDayModal" class="fixed inset-0 z-50 hidden">
+  <div id="planDayOverlay" class="absolute inset-0 bg-black/40"></div>
+  <div class="absolute inset-x-0 bottom-0 sm:inset-0 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full sm:max-w-md max-h-[82vh] overflow-hidden">
+      <div class="flex items-start justify-between gap-4 px-5 py-4 border-b border-gray-100">
+        <div>
+          <h3 class="text-base font-semibold text-gray-900">Add to Plan</h3>
+          <p id="planDayEventTitle" class="text-sm text-gray-500 mt-1 line-clamp-1">Choose a day</p>
+        </div>
+        <button id="closePlanDayModal" type="button"
+          class="text-gray-400 hover:text-gray-600 transition rounded-lg p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <p class="text-sm font-medium text-gray-700">Which day should this place be added to?</p>
+        <div id="planDayChoices" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        <p id="planDayMessage" class="hidden text-sm rounded-xl px-4 py-3"></p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 

@@ -5,6 +5,9 @@ const SELECTED_PLAN_DATE_STORAGE_KEYS = [
   "tz_start_date",
 ];
 
+const PLAN_START_STORAGE_KEYS = ["tz_plan_start_date", "tz_start_date"];
+const PLAN_END_STORAGE_KEYS = ["tz_plan_end_date", "tz_end_date"];
+
 const CAT_GRADIENTS = {
   culture: "linear-gradient(135deg,#ede9fe,#c4b5fd)",
   heritage: "linear-gradient(135deg,#fef3c7,#fcd34d)",
@@ -34,6 +37,14 @@ const RIYADH_AREAS = [
   "South Riyadh",
   "West Riyadh",
 ];
+
+const AREA_IMAGES = {
+  "Central Riyadh": "https://commons.wikimedia.org/wiki/Special:FilePath/KingdomCentre%20Skybridge.JPG?width=900",
+  "North Riyadh": "https://ar.timeoutriyadh.com/cloud/artimeoutriyadh/2022/12/13/malls-in-riyadh.jpg",
+  "East Riyadh": "https://commons.wikimedia.org/wiki/Special:FilePath/Riyadh_1749788410066.jpg?width=900",
+  "South Riyadh": "https://www.atlastravels.com/public/upload/atlas/travelogues/descriptionimage/descriptionimage_1727952417.jpg",
+  "West Riyadh": "https://commons.wikimedia.org/wiki/Special:FilePath/At-Turaif%20District%20of%20Diriyah,%20Saudi%20Arabia.jpg?width=900",
+};
 
 function catGradient(cat) {
   return CAT_GRADIENTS[cat] || "linear-gradient(135deg,#f3f4f6,#e9eaec)";
@@ -97,6 +108,52 @@ function updatePillActiveState(activeCat) {
       btn.style.borderColor = "#ede9fe";
       btn.style.color = "#6d28d9";
     }
+  });
+}
+
+function getStoredValue(keys) {
+  for (const key of keys) {
+    const value = localStorage.getItem(key);
+    if (value) return value;
+  }
+  return "";
+}
+
+function localDateStr(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function parseLocalDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function getPlanStartDate() {
+  return getStoredValue(PLAN_START_STORAGE_KEYS) || getSelectedPlanDate();
+}
+
+function getTripDurationDays() {
+  const start = parseLocalDate(getPlanStartDate());
+  const end = parseLocalDate(getStoredValue(PLAN_END_STORAGE_KEYS));
+  if (start && end && end >= start) {
+    return Math.max(1, Math.min(30, Math.round((end - start) / 86400000) + 1));
+  }
+  const raw = Number.parseInt(localStorage.getItem("tz_trip_duration") || "3", 10);
+  return Math.max(1, Math.min(30, Number.isFinite(raw) ? raw : 3));
+}
+
+function getPlanDayChoices() {
+  const start = parseLocalDate(getPlanStartDate()) || new Date();
+  const duration = getTripDurationDays();
+  return Array.from({ length: duration }, (_, index) => {
+    const date = new Date(start);
+    date.setDate(start.getDate() + index);
+    return {
+      index,
+      date: localDateStr(date),
+      label: `Day ${index + 1}`,
+      sublabel: date.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
+    };
   });
 }
 
@@ -213,23 +270,85 @@ function notifyPlanUpdated(detail) {
   window.dispatchEvent(new CustomEvent("tizahab:plan-updated", { detail: detail || {} }));
 }
 
-async function addEventToPlan(eventId, button) {
+let _pendingPlanAdd = null;
+
+function setPlanDayMessage(message = "", type = "info") {
+  const el = document.getElementById("planDayMessage");
+  if (!el) return;
+  if (!message) {
+    el.classList.add("hidden");
+    el.textContent = "";
+    return;
+  }
+  el.textContent = message;
+  el.className = `text-sm rounded-xl px-4 py-3 ${
+    type === "error" ? "bg-red-50 text-red-600" :
+    type === "success" ? "bg-green-50 text-green-700" :
+    "bg-violet-50 text-violet-700"
+  }`;
+}
+
+function closePlanDayModal() {
+  document.getElementById("planDayModal")?.classList.add("hidden");
+  setPlanDayMessage("");
+  _pendingPlanAdd = null;
+}
+
+function openAddToPlanDayModal(event, button) {
+  const token = getToken();
+  if (!token) { promptLoginForFavorites(); return; }
+
+  _pendingPlanAdd = { event, button };
+  const modal = document.getElementById("planDayModal");
+  const title = document.getElementById("planDayEventTitle");
+  const choices = document.getElementById("planDayChoices");
+  if (!modal || !choices) return;
+
+  if (title) title.textContent = getTitle(event);
+  choices.innerHTML = getPlanDayChoices().map(day => `
+    <button type="button"
+      class="plan-day-choice text-left rounded-2xl border border-violet-100 bg-white p-4 hover:bg-violet-50 hover:border-violet-200 transition"
+      data-date="${escapeHtml(day.date)}"
+      data-label="${escapeHtml(day.label)}">
+      <span class="block text-sm font-bold text-gray-900">${escapeHtml(day.label)}</span>
+      <span class="block text-xs text-gray-500 mt-1">${escapeHtml(day.sublabel)}</span>
+    </button>
+  `).join("");
+
+  choices.querySelectorAll(".plan-day-choice").forEach(dayBtn => {
+    dayBtn.addEventListener("click", () => {
+      if (!_pendingPlanAdd) return;
+      addEventToPlan(_pendingPlanAdd.event.id, _pendingPlanAdd.button, dayBtn.dataset.date, dayBtn.dataset.label)
+        .catch(console.error);
+    });
+  });
+
+  setPlanDayMessage("");
+  modal.classList.remove("hidden");
+  if (window.lucide) window.lucide.createIcons();
+}
+
+async function addEventToPlan(eventId, button, targetDate = getSelectedPlanDate(), dayLabel = "") {
   const token = getToken();
   if (!token) { promptLoginForFavorites(); return; }
 
   const original = button.textContent;
   button.disabled = true;
   button.textContent = "Adding...";
+  document.querySelectorAll(".plan-day-choice").forEach(btn => { btn.disabled = true; btn.classList.add("opacity-60"); });
+  setPlanDayMessage("Adding to your plan...");
 
   try {
-    const targetDate = getSelectedPlanDate();
     await apiPost("/api/daily-plan/add/", {
       event_id: Number(eventId),
       date: targetDate,
     });
     notifyPlanUpdated({ eventId: Number(eventId), date: targetDate });
-    button.textContent = "Added";
-    showToast("Added to your plan!");
+    localStorage.setItem("tz_selected_plan_date", targetDate);
+    button.textContent = dayLabel ? `Added ${dayLabel}` : "Added";
+    setPlanDayMessage(`Added to ${dayLabel || targetDate}.`, "success");
+    showToast(`Added to ${dayLabel || "your plan"}!`);
+    setTimeout(closePlanDayModal, 650);
     setTimeout(() => {
       button.textContent = original;
       button.disabled = false;
@@ -237,6 +356,8 @@ async function addEventToPlan(eventId, button) {
   } catch (error) {
     button.disabled = false;
     button.textContent = original;
+    document.querySelectorAll(".plan-day-choice").forEach(btn => { btn.disabled = false; btn.classList.remove("opacity-60"); });
+    setPlanDayMessage(getEventsErrorMessage(error), "error");
     showToast(getEventsErrorMessage(error), "error");
   }
 }
@@ -419,7 +540,7 @@ function buildEventCard(ev) {
 
   card.querySelector(".add-to-plan-btn").addEventListener("click", e => {
     e.stopPropagation();
-    addEventToPlan(ev.id, e.currentTarget).catch(console.error);
+    openAddToPlanDayModal(ev, e.currentTarget);
   });
 
   card.querySelector(".maps-link").addEventListener("click", e => e.stopPropagation());
@@ -439,7 +560,7 @@ function buildTrendingCard(ev) {
 
   const article = document.createElement("article");
   article.dataset.id = String(ev.id);
-  article.className = "relative min-w-[220px] w-56 h-60 rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer";
+  article.className = "relative min-w-[280px] w-72 h-72 rounded-3xl overflow-hidden flex-shrink-0 cursor-pointer shadow-sm";
   article.style.background = grad;
 
   article.innerHTML = `
@@ -460,17 +581,17 @@ function buildTrendingCard(ev) {
           <span class="fav-icon text-base leading-none">${fav ? "&hearts;" : "&#9825;"}</span>
         </button>
       </div>
-      <div class="mt-auto space-y-2">
-        <p class="font-bold ${imageUrl ? "text-white" : "text-gray-800"} text-sm leading-snug line-clamp-2">${escapeHtml(title)}</p>
+      <div class="mt-auto space-y-3">
+        <p class="font-bold ${imageUrl ? "text-white" : "text-gray-800"} text-base leading-snug line-clamp-2">${escapeHtml(title)}</p>
         <div class="flex items-center gap-2">
           <span class="text-xs px-2 py-0.5 rounded-full bg-white/60 text-gray-600 font-medium">${escapeHtml(label)}</span>
           ${rating}
         </div>
         <div class="grid grid-cols-[1fr_auto] gap-2">
-          <button type="button" class="add-to-plan-btn h-8 rounded-xl bg-white/85 hover:bg-white text-xs font-semibold text-gray-700 transition px-3">
+          <button type="button" class="add-to-plan-btn h-10 rounded-xl bg-white/90 hover:bg-white text-xs font-semibold text-gray-800 transition px-3">
             Add to Plan
           </button>
-          <a class="maps-link h-8 rounded-xl bg-white/65 hover:bg-white text-xs font-semibold text-gray-700 transition inline-flex items-center justify-center px-3"
+          <a class="maps-link h-10 rounded-xl bg-white/70 hover:bg-white text-xs font-semibold text-gray-800 transition inline-flex items-center justify-center px-3"
             href="${getGoogleMapsUrl(ev)}" target="_blank" rel="noopener">
             Maps
           </a>
@@ -494,7 +615,7 @@ function buildTrendingCard(ev) {
 
   article.querySelector(".add-to-plan-btn").addEventListener("click", e => {
     e.stopPropagation();
-    addEventToPlan(ev.id, e.currentTarget).catch(console.error);
+    openAddToPlanDayModal(ev, e.currentTarget);
   });
 
   article.querySelector(".maps-link").addEventListener("click", e => e.stopPropagation());
@@ -506,25 +627,34 @@ function buildAreaCard(area, events) {
   const card = document.createElement("article");
   const active = _currentArea === area;
   const names = events.slice(0, 3).map(ev => getTitle(ev));
-  card.className = `area-card rounded-2xl border bg-white p-4 shadow-sm space-y-3 ${active ? "border-purple-300 ring-2 ring-purple-100" : "border-gray-100"}`;
+  const imageUrl = AREA_IMAGES[area] || CATEGORY_IMAGES.nature;
+  card.className = `area-card group relative h-52 overflow-hidden rounded-3xl border shadow-sm cursor-pointer ${active ? "border-purple-300 ring-2 ring-purple-100" : "border-gray-100"}`;
   card.innerHTML = `
-    <div class="flex items-start justify-between gap-3">
-      <div>
-        <h3 class="font-semibold text-gray-900">${escapeHtml(area)}</h3>
-        <p class="text-xs text-gray-500">${events.length} places</p>
-      </div>
-      <span class="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+    <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(area)}" loading="lazy"
+      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+      onerror="this.style.display='none';">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/5"></div>
+    <div class="relative z-10 flex h-full flex-col justify-between p-4 text-white">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-bold text-white">${escapeHtml(area)}</h3>
+          <p class="text-xs text-white/80">${events.length} places</p>
+        </div>
+        <span class="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur">
         <i data-lucide="map-pin" class="w-4 h-4"></i>
-      </span>
+        </span>
+      </div>
+      <div class="space-y-3">
+        <div class="space-y-1">
+          ${names.length
+            ? names.map(name => `<p class="text-xs text-white/85 line-clamp-1">${escapeHtml(name)}</p>`).join("")
+            : `<p class="text-xs text-white/70">No places in this filter yet.</p>`}
+        </div>
+        <button type="button" class="view-area-btn w-full h-10 rounded-xl ${active ? "bg-purple-600 text-white" : "bg-white/90 text-gray-900"} text-xs font-bold hover:opacity-90 transition">
+          ${active ? "Viewing Area" : "View Places"}
+        </button>
+      </div>
     </div>
-    <div class="min-h-[54px] space-y-1">
-      ${names.length
-        ? names.map(name => `<p class="text-xs text-gray-500 line-clamp-1">${escapeHtml(name)}</p>`).join("")
-        : `<p class="text-xs text-gray-400">No places in this filter yet.</p>`}
-    </div>
-    <button type="button" class="view-area-btn w-full h-9 rounded-xl ${active ? "bg-purple-600 text-white" : "bg-gray-50 text-gray-700 border border-gray-200"} text-xs font-semibold hover:opacity-90 transition">
-      ${active ? "Viewing Area" : "View Places"}
-    </button>
   `;
   card.querySelector(".view-area-btn").addEventListener("click", () => {
     _currentArea = active ? "" : area;
@@ -1037,6 +1167,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".cat-pill").forEach(btn =>
       btn.addEventListener("click", () => onCategorySelect(btn.dataset.cat))
     );
+
+    document.getElementById("closePlanDayModal")?.addEventListener("click", closePlanDayModal);
+    document.getElementById("planDayOverlay")?.addEventListener("click", closePlanDayModal);
   }
 
   if (window.EVENT_ID) {
