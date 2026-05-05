@@ -22,7 +22,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -48,7 +49,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -74,7 +76,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -100,7 +103,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -126,7 +130,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -152,7 +157,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -178,7 +184,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -204,7 +211,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -230,7 +238,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -256,7 +265,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -282,7 +292,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -308,7 +319,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -334,7 +346,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -360,7 +373,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -386,7 +400,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -412,7 +427,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -438,7 +454,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -464,7 +481,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -490,7 +508,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -516,7 +535,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -542,7 +562,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -568,7 +589,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -594,7 +616,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -620,7 +643,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -646,7 +670,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -672,7 +697,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -698,7 +724,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -724,7 +751,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -750,7 +778,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -776,7 +805,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -802,7 +832,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -828,7 +859,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -854,7 +886,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -880,7 +913,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -906,7 +940,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -932,7 +967,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -958,7 +994,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -984,7 +1021,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1010,7 +1048,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1036,7 +1075,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1062,7 +1102,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1088,7 +1129,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1114,7 +1156,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1140,7 +1183,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1166,7 +1210,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -1192,7 +1237,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1218,7 +1264,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1244,7 +1291,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1270,7 +1318,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1296,7 +1345,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1322,7 +1372,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1348,7 +1399,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1374,7 +1426,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1400,7 +1453,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1426,7 +1480,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1452,7 +1507,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1478,7 +1534,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1504,7 +1561,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1530,7 +1588,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -1556,7 +1615,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -1582,7 +1642,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1608,7 +1669,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1634,7 +1696,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1660,7 +1723,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1686,7 +1750,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1712,7 +1777,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1738,7 +1804,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1764,7 +1831,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1790,7 +1858,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -1816,7 +1885,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -1842,7 +1912,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -1868,7 +1939,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1894,7 +1966,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1920,7 +1993,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1946,7 +2020,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -1972,7 +2047,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -1998,7 +2074,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2024,7 +2101,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -2050,7 +2128,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -2076,7 +2155,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2102,7 +2182,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2128,7 +2209,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2154,7 +2236,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2180,7 +2263,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -2206,7 +2290,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -2232,7 +2317,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -2258,7 +2344,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -2284,7 +2371,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2310,7 +2398,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -2336,7 +2425,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2362,7 +2452,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2388,7 +2479,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2414,7 +2506,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2440,7 +2533,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2466,7 +2560,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2492,7 +2587,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2518,7 +2614,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -2544,7 +2641,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2570,7 +2668,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2596,7 +2695,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2622,7 +2722,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -2648,7 +2749,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2674,7 +2776,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2700,7 +2803,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2726,7 +2830,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2752,7 +2857,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2778,7 +2884,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2804,7 +2911,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -2830,7 +2938,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2856,7 +2965,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -2882,7 +2992,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2908,7 +3019,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -2934,7 +3046,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -2960,7 +3073,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -2986,7 +3100,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -3012,7 +3127,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3038,7 +3154,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3064,7 +3181,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3090,7 +3208,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3116,7 +3235,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -3142,7 +3262,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -3168,7 +3289,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3194,7 +3316,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -3220,7 +3343,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3246,7 +3370,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3272,7 +3397,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3298,7 +3424,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3324,7 +3451,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -3350,7 +3478,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3376,7 +3505,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3402,7 +3532,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3428,7 +3559,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3454,7 +3586,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -3480,7 +3613,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3506,7 +3640,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3532,7 +3667,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3558,7 +3694,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3584,7 +3721,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3610,7 +3748,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3636,7 +3775,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3662,7 +3802,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3688,7 +3829,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -3714,7 +3856,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3740,7 +3883,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3766,7 +3910,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3792,7 +3937,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -3818,7 +3964,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -3844,7 +3991,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -3870,7 +4018,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -3896,7 +4045,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3922,7 +4072,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3948,7 +4099,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -3974,7 +4126,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4000,7 +4153,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4026,7 +4180,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4052,7 +4207,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4078,7 +4234,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4104,7 +4261,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4130,7 +4288,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4156,7 +4315,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4182,7 +4342,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -4208,7 +4369,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4234,7 +4396,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4260,7 +4423,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4286,7 +4450,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4312,7 +4477,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4338,7 +4504,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4364,7 +4531,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4390,7 +4558,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4416,7 +4585,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4442,7 +4612,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4468,7 +4639,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4494,7 +4666,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4520,7 +4693,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4546,7 +4720,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4572,7 +4747,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4598,7 +4774,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -4624,7 +4801,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4650,7 +4828,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4676,7 +4855,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4702,7 +4882,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4728,7 +4909,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -4754,7 +4936,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4780,7 +4963,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4806,7 +4990,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4832,7 +5017,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4858,7 +5044,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4884,7 +5071,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4910,7 +5098,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4936,7 +5125,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -4962,7 +5152,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -4988,7 +5179,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -5014,7 +5206,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -5040,7 +5233,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -5066,7 +5260,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5092,7 +5287,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5118,7 +5314,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5144,7 +5341,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5170,7 +5368,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -5196,7 +5395,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5222,7 +5422,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5248,7 +5449,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5274,7 +5476,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5300,7 +5503,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5326,7 +5530,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5352,7 +5557,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5378,7 +5584,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5404,7 +5611,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5430,7 +5638,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -5456,7 +5665,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5482,7 +5692,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5508,7 +5719,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5534,7 +5746,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5560,7 +5773,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5586,7 +5800,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5612,7 +5827,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5638,7 +5854,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5664,7 +5881,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5690,7 +5908,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5716,7 +5935,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5742,7 +5962,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5768,7 +5989,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5794,7 +6016,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5820,7 +6043,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5846,7 +6070,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5872,7 +6097,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5898,7 +6124,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -5924,7 +6151,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -5950,7 +6178,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -5976,7 +6205,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6002,7 +6232,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6028,7 +6259,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6054,7 +6286,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6080,7 +6313,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6106,7 +6340,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6132,7 +6367,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6158,7 +6394,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -6184,7 +6421,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6210,7 +6448,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -6236,7 +6475,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6262,7 +6502,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6288,7 +6529,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6314,7 +6556,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6340,7 +6583,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6366,7 +6610,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6392,7 +6637,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6418,7 +6664,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6444,7 +6691,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6470,7 +6718,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6496,7 +6745,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -6522,7 +6772,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -6548,7 +6799,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6574,7 +6826,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6600,7 +6853,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6626,7 +6880,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6652,7 +6907,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6678,7 +6934,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6704,7 +6961,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -6730,7 +6988,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6756,7 +7015,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -6782,7 +7042,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -6808,7 +7069,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -6834,7 +7096,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6860,7 +7123,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -6886,7 +7150,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6912,7 +7177,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6938,7 +7204,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -6964,7 +7231,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -6990,7 +7258,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7016,7 +7285,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7042,7 +7312,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -7068,7 +7339,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7094,7 +7366,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7120,7 +7393,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7146,7 +7420,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7172,7 +7447,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7198,7 +7474,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7224,7 +7501,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7250,7 +7528,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7276,7 +7555,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -7302,7 +7582,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7328,7 +7609,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7354,7 +7636,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7380,7 +7663,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -7406,7 +7690,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7432,7 +7717,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7458,7 +7744,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7484,7 +7771,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7510,7 +7798,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7536,7 +7825,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "East Riyadh"
     }
   },
   {
@@ -7562,7 +7852,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -7588,7 +7879,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -7614,7 +7906,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7640,7 +7933,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7666,7 +7960,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "South Riyadh"
     }
   },
   {
@@ -7692,7 +7987,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7718,7 +8014,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "West Riyadh"
     }
   },
   {
@@ -7744,7 +8041,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "North Riyadh"
     }
   },
   {
@@ -7770,7 +8068,8 @@
       "is_active": true,
       "tourism_relevance": 3,
       "created_at": "2025-05-02T12:00:00Z",
-      "updated_at": "2025-05-02T12:00:00Z"
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
     }
   },
   {
@@ -7795,6 +8094,34 @@
       "source_url": "",
       "is_active": true,
       "tourism_relevance": 3,
+      "created_at": "2025-05-02T12:00:00Z",
+      "updated_at": "2025-05-02T12:00:00Z",
+      "area": "Central Riyadh"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 301,
+    "fields": {
+      "title": "Al Muaiqiliyah Market",
+      "category": "shopping",
+      "area": "Central Riyadh",
+      "description": "A traditional market area in central Riyadh near historic souqs and heritage landmarks.",
+      "date": "2025-05-02T12:00:00Z",
+      "location": "Central Riyadh, Saudi Arabia",
+      "start_date": null,
+      "end_date": null,
+      "start_time": null,
+      "end_time": null,
+      "price_range": "",
+      "price": null,
+      "rating": 4.6,
+      "latitude": 24.6322,
+      "longitude": 46.7142,
+      "source": "curated",
+      "source_url": "",
+      "is_active": true,
+      "tourism_relevance": 4,
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z"
     }

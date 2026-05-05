@@ -10,6 +10,13 @@ User = get_user_model()
 
 
 class Event(models.Model):
+    AREA_CHOICES = [
+        ("Central Riyadh", "Central Riyadh"),
+        ("North Riyadh", "North Riyadh"),
+        ("East Riyadh", "East Riyadh"),
+        ("South Riyadh", "South Riyadh"),
+        ("West Riyadh", "West Riyadh"),
+    ]
     CATEGORY_CHOICES = TOURISM_CATEGORY_CHOICES
     CATEGORY_VALUES = TOURISM_CATEGORY_VALUES
     CATEGORY_MAP = {
@@ -31,6 +38,12 @@ class Event(models.Model):
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
     location = models.CharField(max_length=255)
+    area = models.CharField(
+        max_length=50,
+        choices=AREA_CHOICES,
+        default="Central Riyadh",
+        db_index=True,
+    )
     price_range = models.CharField(max_length=100, null=True, blank=True)
     price = models.DecimalField(
         max_digits=10,
@@ -59,6 +72,7 @@ class Event(models.Model):
         ordering = ["-date"]
         indexes = [
             models.Index(fields=["category", "date"]),
+            models.Index(fields=["area", "category"]),
         ]
 
     def __str__(self):

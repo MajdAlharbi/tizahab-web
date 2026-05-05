@@ -120,6 +120,22 @@ class EventListAPITests(TestCase):
         self.assertIn("price", first)
         self.assertIn("start_date", first)
         self.assertIn("end_date", first)
+        self.assertIn("area", first)
+
+    def test_filter_by_area(self):
+        make_event("North Place", category="nature", area="North Riyadh")
+        make_event("South Place", category="nature", area="South Riyadh")
+
+        response = self.client.get("/api/events/", {"area": "North Riyadh"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        results = response.data.get("results", response.data)
+        self.assertGreater(len(results), 0)
+        self.assertTrue(all(event["area"] == "North Riyadh" for event in results))
+
+    def test_invalid_area_returns_400(self):
+        response = self.client.get("/api/events/?area=Unknown")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class FilteredEventsAPITests(TestCase):

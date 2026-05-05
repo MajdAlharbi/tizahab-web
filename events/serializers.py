@@ -30,6 +30,7 @@ class EventSerializer(serializers.ModelSerializer):
             "start_time",
             "end_time",
             "location",
+            "area",
             "price",
             "price_range",
             "latitude",

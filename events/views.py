@@ -23,6 +23,7 @@ from .categories import TOURISM_CATEGORY_VALUES, normalize_category_input, LEGAC
 from daily_plan.models import DailyPlan
 
 VALID_EVENT_CATEGORIES = set(TOURISM_CATEGORY_VALUES)
+VALID_RIYADH_AREAS = {value for value, _label in Event.AREA_CHOICES}
 
 # All raw category values (legacy sub-types + canonical) that map to "food".
 # Covers un-normalized DB rows produced before load_data normalization ran.
@@ -81,6 +82,29 @@ def _validate_category(value):
             }
         )
     return normalized
+
+
+def _validate_area(value):
+    if value is None:
+        return None
+    raw_value = str(value).strip()
+    if not raw_value:
+        return None
+    normalized = " ".join(raw_value.split())
+    matching_area = next(
+        (area for area in VALID_RIYADH_AREAS if area.lower() == normalized.lower()),
+        None,
+    )
+    if matching_area is None:
+        raise ValidationError(
+            {
+                "detail": (
+                    "Invalid area. "
+                    f"Valid options: {sorted(VALID_RIYADH_AREAS)}"
+                )
+            }
+        )
+    return matching_area
 
 
 def _apply_date_range_filter(queryset, date_from, date_to):
@@ -209,6 +233,12 @@ class EventListAPIView(ListAPIView):
             category = _validate_category(category_raw)
             if category:
                 queryset = queryset.filter(category=category)
+
+        area_raw = self.request.query_params.get("area", "").strip()
+        if area_raw and area_raw.lower() != "all":
+            area = _validate_area(area_raw)
+            if area:
+                queryset = queryset.filter(area=area)
 
         search = self.request.query_params.get("search", "").strip()
         if search:

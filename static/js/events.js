@@ -18,13 +18,10 @@ const CAT_GRADIENTS = {
 
 const RIYADH_AREAS = [
   "Central Riyadh",
-  "Diriyah",
-  "Boulevard Area",
-  "KAFD",
-  "Riyadh Front",
-  "Diplomatic Quarter",
-  "Tuwaiq / Edge Area",
-  "Other Riyadh",
+  "North Riyadh",
+  "East Riyadh",
+  "South Riyadh",
+  "West Riyadh",
 ];
 
 function catGradient(cat) {
@@ -233,6 +230,7 @@ function normalizeEvent(ev) {
     ...ev,
     title: getTitle(ev),
     category: String(ev?.category || "events").toLowerCase(),
+    area: ev?.area || "",
     location: ev?.location || ev?.area || ev?.address || "",
   };
 }
@@ -263,17 +261,43 @@ function formatDateWindow(ev) {
 }
 
 function inferArea(ev) {
+  const explicitArea = String(ev?.area || "").trim();
+  if (RIYADH_AREAS.includes(explicitArea)) return explicitArea;
+
   const text = `${getTitle(ev)} ${getLocationText(ev)} ${ev.description || ""}`.toLowerCase();
-  if (/diriyah|turaif|bujairi|salwa/.test(text)) return "Diriyah";
-  if (/boulevard|winter wonderland|u walk/.test(text)) return "Boulevard Area";
-  if (/kafd|financial district/.test(text)) return "KAFD";
-  if (/riyadh front|front/.test(text)) return "Riyadh Front";
-  if (/diplomatic quarter|dq/.test(text)) return "Diplomatic Quarter";
-  if (/tuwaiq|edge of the world|hidden valley|red sand|desert|cliffs|heet cave|ammariyah/.test(text)) return "Tuwaiq / Edge Area";
-  if (/masmak|murabba|national museum|king abdulaziz historical|deera|dirah|zal|thumairi|olaya|kingdom|faisaliah|malaz|central/.test(text)) {
+  if (/masmak|murabba|national museum|king abdulaziz historical|deera|dirah|zal|thumairi|muaiq|malaz|central/.test(text)) {
     return "Central Riyadh";
   }
-  return "Other Riyadh";
+  if (/riyadh park|nakheel|granada|roshn|riyadh front|kafd|u walk|boulevard|wonder garden|winter wonderland|king salman|olaya|kingdom/.test(text)) {
+    return "North Riyadh";
+  }
+  if (/rawdat khuraim|king fahd stadium|aviation museum|al nahda/.test(text)) {
+    return "East Riyadh";
+  }
+  if (/wadi namar|red sand|heet cave|manakh/.test(text)) {
+    return "South Riyadh";
+  }
+  if (/diriyah|turaif|bujairi|salwa|tuwaiq|edge of the world|qiddiya|hidden valley/.test(text)) {
+    return "West Riyadh";
+  }
+
+  const lat = Number.parseFloat(ev.latitude);
+  const lng = Number.parseFloat(ev.longitude);
+  if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    const centerLat = 24.7136;
+    const centerLng = 46.6753;
+    if (Math.abs(lat - centerLat) < 0.035 && Math.abs(lng - centerLng) < 0.035) {
+      return "Central Riyadh";
+    }
+    const dLat = (lat - centerLat) * 111;
+    const dLng = (lng - centerLng) * 102;
+    if (Math.abs(dLat) >= Math.abs(dLng)) {
+      return dLat > 0 ? "North Riyadh" : "South Riyadh";
+    }
+    return dLng > 0 ? "East Riyadh" : "West Riyadh";
+  }
+
+  return "Central Riyadh";
 }
 
 function eventMatchesExploreFilters(ev, includeArea = true) {
