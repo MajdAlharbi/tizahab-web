@@ -65,10 +65,10 @@
 
   <!-- Sidebar -->
   <aside id="sidebar"
-    class="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-100 flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+    class="fixed inset-y-0 left-0 w-64 bg-[#fbf7ff] border-r border-violet-100 flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
     <!-- Logo -->
-    <div class="h-16 flex items-center px-5 border-b border-gray-100 shrink-0">
+    <div class="h-16 flex items-center px-5 border-b border-violet-100 shrink-0">
       <a href="/" class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shrink-0">
           <span class="text-white font-bold text-sm">T</span>
@@ -87,51 +87,51 @@
     <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">
 
       <a href="/home/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="home" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Home" %}</span>
       </a>
 
       <a href="/daily-plan/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Daily Plan" %}</span>
       </a>
 
       <a href="/events/page/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="ticket" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Explore" %}</span>
       </a>
 
       <a href="/travel-guide/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="compass" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Travel Guide" %}</span>
       </a>
 
       <a href="/booking/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="hotel" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Booking" %}</span>
       </a>
 
       <a href="{% url 'car_rental' %}"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="car" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Car Rental" %}</span>
       </a>
 
-      <div class="my-2 border-t border-gray-100"></div>
+      <div class="my-2 border-t border-violet-100"></div>
 
       <a href="/profile/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="user" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Profile" %}</span>
       </a>
 
       <a href="/settings/"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+        class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-white/70 transition-colors">
         <i data-lucide="settings" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Settings" %}</span>
       </a>
@@ -139,9 +139,9 @@
     </nav>
 
     <!-- Logout -->
-    <div class="p-3 border-t border-gray-100 shrink-0">
+    <div class="p-3 border-t border-violet-100 shrink-0">
       <button type="button" onclick="logout();"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors w-full">
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-white/70 transition-colors w-full">
         <i data-lucide="log-out" class="w-[18px] h-[18px] shrink-0"></i>
         <span>{% trans "Logout" %}</span>
       </button>
@@ -260,7 +260,7 @@
         if (!href || href === "/") return;
         const norm = href.replace(/\/$/, "");
         if (path === norm || path === norm + "/" || path.startsWith(norm + "/")) {
-          item.classList.add("bg-[#faf5ff]", "!text-[#7e1ca1]", "font-medium");
+          item.classList.add("bg-white", "shadow-sm", "ring-1", "ring-violet-100", "!text-[#7e1ca1]", "font-medium");
           item.classList.remove("text-gray-600");
         }
       });
