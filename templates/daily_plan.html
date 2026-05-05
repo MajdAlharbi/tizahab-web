@@ -3,23 +3,46 @@
 
 {% block title %}Daily Plan | Tizahab{% endblock %}
 
+{% block head %}
+<style>
+  .plan-action-menu > summary { list-style: none; }
+  .plan-action-menu > summary::-webkit-details-marker { display: none; }
+</style>
+{% endblock %}
+
 {% block content %}
 
-<div class="max-w-[780px] mx-auto px-4 py-8 pb-24 space-y-8">
+<div class="max-w-[900px] mx-auto px-4 py-8 pb-24 space-y-8">
 
   <!-- ── 1. Hero ── -->
-  <header class="text-center space-y-2">
-    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900"
-        style="font-family:'Cantata One',serif">
-      Your Riyadh Journey
-    </h1>
-    <div class="flex items-center justify-center gap-3 flex-wrap text-sm">
-      <span id="heroDate" class="text-gray-500"></span>
-      <span id="dayBadge"
-        class="hidden items-center gap-1 bg-violet-50 text-violet-700 text-xs font-semibold px-3 py-1 rounded-full">
-      </span>
+  <header class="relative overflow-hidden rounded-[2rem] bg-violet-950 text-white shadow-sm">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulevard_Riyadh_City.jpg?width=1400"
+      alt="Riyadh evening view"
+      class="absolute inset-0 h-full w-full object-cover opacity-45"
+      loading="eager"
+      onerror="this.style.display='none';">
+    <div class="absolute inset-0 bg-gradient-to-r from-violet-950 via-violet-950/85 to-violet-900/35"></div>
+    <div class="relative z-10 px-6 py-8 sm:px-8 sm:py-10">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
+        <div class="space-y-3">
+          <h1 class="text-3xl sm:text-4xl font-bold leading-tight"
+              style="font-family:'Cantata One',serif">
+            Your Riyadh Journey
+          </h1>
+          <div class="flex items-center gap-3 flex-wrap text-sm">
+            <span id="heroDate" class="text-violet-50/85"></span>
+            <span id="dayBadge"
+              class="hidden items-center gap-1 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full border border-white/20">
+            </span>
+          </div>
+          <p id="activityCount" class="text-sm text-violet-50/75 min-h-[1.25rem]"></p>
+        </div>
+        <a href="/events/page/"
+          class="inline-flex h-11 items-center justify-center rounded-xl bg-white/15 px-5 text-sm font-semibold text-white border border-white/20 hover:bg-white/20 transition">
+          Explore places
+        </a>
+      </div>
     </div>
-    <p id="activityCount" class="text-sm text-gray-400 min-h-[1.25rem]"></p>
   </header>
 
   <!-- ── 2. Day Tabs ── -->
@@ -89,21 +112,21 @@
     </div>
   </section>
 
-  <div class="flex gap-3 pt-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
 
     <button id="add-activity-btn" type="button"
-      class="flex-1 h-12 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2">
+      class="h-12 rounded-xl border border-violet-100 bg-white text-sm font-semibold text-violet-700 hover:bg-violet-50 transition flex items-center justify-center gap-2 shadow-sm">
       <i data-lucide="plus" class="w-4 h-4"></i>
       Add Activity
     </button>
 
     <button id="generate-plan-btn" type="button"
-      class="flex-1 h-12 rounded-xl text-sm font-semibold text-white transition flex items-center justify-center gap-2"
+      class="h-12 rounded-xl text-sm font-semibold text-white transition flex items-center justify-center gap-2 shadow-sm"
       style="background-color:#7c3aed"
       onmouseover="this.style.backgroundColor='#6d28d9'"
       onmouseout="this.style.backgroundColor='#7c3aed'">
       <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-      <span id="generate-plan-btn-label">Generate New Plan</span>
+      <span id="generate-plan-btn-label">Regenerate Day</span>
     </button>
 
   </div>
@@ -117,7 +140,10 @@
     <div class="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[80vh] flex flex-col">
 
       <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h3 class="text-base font-semibold text-gray-900">Add Activity</h3>
+        <div>
+          <h3 class="text-base font-semibold text-gray-900">Add Activity</h3>
+          <p id="addActivityContextLabel" class="text-xs text-gray-400 mt-0.5">Choose a place for your plan</p>
+        </div>
         <button id="closeAddActivity"
           class="text-gray-400 hover:text-gray-600 transition rounded-lg p-1">
           <i data-lucide="x" class="w-5 h-5"></i>

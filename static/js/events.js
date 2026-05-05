@@ -93,11 +93,26 @@ function updatePillActiveState(activeCat) {
       btn.style.borderColor = "";
       btn.style.color = "";
     } else {
-      btn.style.background = btn.dataset.gradient || "#f3f4f6";
-      btn.style.borderColor = "transparent";
-      btn.style.color = "#374151";
+      btn.style.background = "#ffffff";
+      btn.style.borderColor = "#ede9fe";
+      btn.style.color = "#6d28d9";
     }
   });
+}
+
+function updateActiveFilterBar() {
+  const bar = document.getElementById("activeFilterBar");
+  const text = document.getElementById("activeFilterText");
+  if (!bar || !text) return;
+
+  const parts = [];
+  if (_currentCategory) parts.push(catLabel(_currentCategory));
+  if (_currentArea) parts.push(_currentArea);
+  if (_currentSearch) parts.push(`Search: "${_currentSearch}"`);
+
+  bar.classList.toggle("hidden", !parts.length);
+  bar.classList.toggle("flex", Boolean(parts.length));
+  text.textContent = parts.length ? `Active filters: ${parts.join(" + ")}` : "";
 }
 
 function clearFilter() {
@@ -110,6 +125,7 @@ function clearFilter() {
   const clearBtn = document.getElementById("clearSearchBtn");
   if (clearBtn) clearBtn.classList.add("hidden");
   updatePillActiveState("");
+  updateActiveFilterBar();
   loadEvents().catch(console.error);
 }
 
@@ -346,10 +362,10 @@ function buildEventCard(ev) {
 
   const card = document.createElement("article");
   card.dataset.id = String(ev.id);
-  card.className = "event-card rounded-2xl border border-gray-100 overflow-hidden bg-white hover:shadow-md transition cursor-pointer";
+  card.className = "event-card rounded-2xl border border-gray-100 overflow-hidden bg-white hover:shadow-lg transition cursor-pointer";
 
   card.innerHTML = `
-    <div class="h-24 relative overflow-hidden flex items-center justify-center" style="background:${grad}">
+    <div class="h-32 relative overflow-hidden flex items-center justify-center" style="background:${grad}">
       ${imageUrl ? `
         <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" loading="lazy"
           class="absolute inset-0 h-full w-full object-cover"
@@ -376,13 +392,13 @@ function buildEventCard(ev) {
         ${location ? `<p class="text-xs text-gray-500 line-clamp-1">${escapeHtml(location)}</p>` : ""}
         ${price ? `<p class="text-xs text-gray-500 capitalize">${escapeHtml(price)}</p>` : ""}
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <button type="button" class="add-to-plan-btn h-9 rounded-xl bg-purple-600 hover:bg-purple-700 text-xs font-semibold text-white transition">
-          Add
+      <div class="grid grid-cols-[1fr_auto] gap-2">
+        <button type="button" class="add-to-plan-btn h-10 rounded-xl bg-purple-600 hover:bg-purple-700 text-xs font-semibold text-white transition px-3">
+          Add to Plan
         </button>
-        <a class="maps-link h-9 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 text-xs font-semibold text-gray-700 transition inline-flex items-center justify-center"
+        <a class="maps-link h-10 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 text-xs font-semibold text-gray-700 transition inline-flex items-center justify-center px-3"
           href="${getGoogleMapsUrl(ev)}" target="_blank" rel="noopener">
-          Open Maps
+          Maps
         </a>
       </div>
     </div>
@@ -450,11 +466,11 @@ function buildTrendingCard(ev) {
           <span class="text-xs px-2 py-0.5 rounded-full bg-white/60 text-gray-600 font-medium">${escapeHtml(label)}</span>
           ${rating}
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" class="add-to-plan-btn h-8 rounded-xl bg-white/80 hover:bg-white text-xs font-medium text-gray-700 transition">
-            Add
+        <div class="grid grid-cols-[1fr_auto] gap-2">
+          <button type="button" class="add-to-plan-btn h-8 rounded-xl bg-white/85 hover:bg-white text-xs font-semibold text-gray-700 transition px-3">
+            Add to Plan
           </button>
-          <a class="maps-link h-8 rounded-xl bg-white/60 hover:bg-white text-xs font-medium text-gray-700 transition inline-flex items-center justify-center"
+          <a class="maps-link h-8 rounded-xl bg-white/65 hover:bg-white text-xs font-semibold text-gray-700 transition inline-flex items-center justify-center px-3"
             href="${getGoogleMapsUrl(ev)}" target="_blank" rel="noopener">
             Maps
           </a>
@@ -590,6 +606,7 @@ function updateAreaControls() {
   const heading = document.getElementById("placesHeading");
   clearBtn?.classList.toggle("hidden", !_currentArea);
   if (heading) heading.textContent = _currentArea || "Places";
+  updateActiveFilterBar();
   updateLoadMoreState();
 }
 
@@ -728,6 +745,7 @@ function onSearchChange(value) {
   _currentSearch = value.trim();
   _currentArea = "";
   _nextPageUrl = null;
+  updateActiveFilterBar();
   clearTimeout(_debounceTimer);
   _debounceTimer = setTimeout(() => loadEvents().catch(console.error), 350);
 }
@@ -737,6 +755,7 @@ function onCategorySelect(cat) {
   _currentArea = "";
   _nextPageUrl = null;
   updatePillActiveState(_currentCategory);
+  updateActiveFilterBar();
   loadEvents().catch(console.error);
 }
 

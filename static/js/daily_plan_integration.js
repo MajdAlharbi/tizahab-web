@@ -513,14 +513,14 @@ function buildTimelineCard(slotKey, event, slotIndex) {
           <span class="text-gray-300">•</span>
           <span>${escapeHtml(slotLabel)}</span>
         </div>
-        <div class="rounded-2xl border-2 border-dashed border-violet-100 bg-white/70 py-7 text-center text-gray-400 text-sm">
-          <p>No activity for this slot</p>
+        <div class="rounded-2xl border-2 border-dashed border-violet-100 bg-white/75 py-7 text-center text-gray-400 text-sm">
+          <p>No ${escapeHtml(slotLabel.toLowerCase())} planned yet</p>
           <button type="button"
             data-slot-key="${escapeHtml(slotKey)}"
             data-day-index="${currentDayIndex}"
             class="placeholder-add-btn mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition">
-            <span class="text-base leading-none">+</span>
-            Add Activity
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add to ${escapeHtml(slotLabel)}
           </button>
         </div>
       </div>`;
@@ -535,10 +535,11 @@ function buildTimelineCard(slotKey, event, slotIndex) {
   const uberUrl = buildUberUrl(event);
 
   const navigateBtn = `<button type="button"
-      class="navigate-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
+      class="navigate-btn inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
       style="background-color:#7c3aed"
       data-navigate-url="${escapeHtml(googleMapsUrl)}">
-      Google Maps
+      <i data-lucide="map-pinned" class="w-4 h-4"></i>
+      Navigate
     </button>`;
 
   return `
@@ -571,36 +572,46 @@ function buildTimelineCard(slotKey, event, slotIndex) {
                data-lat="${event.latitude || ""}" data-lng="${event.longitude || ""}"></p>
           </div>
         </div>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-white/40 pt-4">
           <div class="flex items-center gap-2 flex-wrap">
             ${navigateBtn}
             <button type="button"
-              class="try-another-btn px-3 py-2 rounded-xl text-sm text-gray-600 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
+              class="try-another-btn inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-white/75 hover:bg-white border border-white/50 hover:border-gray-200 transition"
               data-event-id="${event.id}"
               data-slot-key="${escapeHtml(slotKey)}"
               data-slot-index="${slotIndex}"
               data-plan-item-id="${event.plan_item_id || ""}">
-              Try Another
-            </button>
-            <button type="button"
-              class="remove-btn px-3 py-2 rounded-xl text-sm text-red-500 bg-white/70 hover:bg-white border border-transparent hover:border-red-200 transition"
-              data-event-id="${event.id}"
-              data-slot-key="${escapeHtml(slotKey)}"
-              data-plan-item-id="${event.plan_item_id || ""}">
-              Remove
+              <i data-lucide="shuffle" class="w-4 h-4"></i>
+              Replace
             </button>
           </div>
           <div class="flex items-center gap-2 sm:justify-end">
-            <span class="hidden sm:inline text-xs font-semibold text-gray-500">Ride:</span>
+            <details class="plan-action-menu relative">
+              <summary class="cursor-pointer inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-white/75 hover:bg-white border border-white/50 hover:border-gray-200 transition">
+                <i data-lucide="car" class="w-4 h-4"></i>
+                Ride
+              </summary>
+              <div class="mt-2 sm:absolute sm:right-0 sm:bottom-full sm:mb-2 z-20 grid grid-cols-2 gap-2 rounded-2xl border border-gray-100 bg-white p-2 shadow-lg min-w-[180px]">
+                <button type="button"
+                  class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 transition"
+                  data-navigate-url="${escapeHtml(uberUrl)}">
+                  Uber
+                </button>
+                <button type="button"
+                  class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition"
+                  data-navigate-url="${escapeHtml(DARB_APP_URL)}">
+                  Metro
+                </button>
+              </div>
+            </details>
             <button type="button"
-              class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 bg-white/70 hover:bg-white border border-transparent hover:border-gray-200 transition"
-              data-navigate-url="${escapeHtml(uberUrl)}">
-              Uber
-            </button>
-            <button type="button"
-              class="navigate-btn px-3 py-2 rounded-xl text-sm font-semibold text-emerald-700 bg-white/70 hover:bg-white border border-transparent hover:border-emerald-200 transition"
-              data-navigate-url="${escapeHtml(DARB_APP_URL)}">
-              Metro
+              class="remove-btn inline-flex items-center justify-center w-11 h-11 rounded-xl text-red-500 bg-white/70 hover:bg-white border border-white/50 hover:border-red-200 transition"
+              data-event-id="${event.id}"
+              data-slot-key="${escapeHtml(slotKey)}"
+              data-plan-item-id="${event.plan_item_id || ""}"
+              title="Remove activity"
+              aria-label="Remove activity">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
@@ -637,7 +648,9 @@ function bindTimelineActions(container, dayIndex) {
         console.error("Replace failed:", e);
         showPlanMessage("No alternative found for this slot.", "error");
       } finally {
-        btn.disabled = false; btn.textContent = "Try Another";
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="shuffle" class="w-4 h-4"></i> Replace';
+        if (window.lucide) window.lucide.createIcons();
       }
     });
   });
@@ -653,7 +666,9 @@ function bindTimelineActions(container, dayIndex) {
       } catch (e) {
         console.error("Remove failed:", e);
         showPlanMessage("Could not remove this activity.", "error");
-        btn.disabled = false; btn.textContent = "Remove";
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="trash-2" class="w-4 h-4"></i>';
+        if (window.lucide) window.lucide.createIcons();
       }
     });
   });
@@ -691,6 +706,7 @@ function renderTimeline(dayIndex = currentDayIndex) {
         .join("");
       container.classList.remove("hidden");
       bindTimelineActions(container, dayIndex);
+      if (window.lucide) window.lucide.createIcons();
       updateHero(dayIndex);
       return;
     }
@@ -714,6 +730,7 @@ function renderTimeline(dayIndex = currentDayIndex) {
   container.classList.remove("hidden");
 
   bindTimelineActions(container, dayIndex);
+  if (window.lucide) window.lucide.createIcons();
   populateDistanceLabels(container).catch(() => {});
 
   if (allReal.length) {
@@ -803,7 +820,7 @@ function _setBtnGenerating(btn, on) {
   if (!btn) return;
   btn.disabled = on;
   const label = document.getElementById("generate-plan-btn-label");
-  if (label) label.textContent = on ? "Generating…" : "Generate New Plan";
+  if (label) label.textContent = on ? "Generating..." : "Regenerate Day";
 }
 
 async function generateAllDays(btn) {
@@ -1049,6 +1066,11 @@ function openAddActivityModal(options = {}) {
     slotKey: options.slotKey || "activity",
   };
   setSelectedPlanDate(_localDateStr(getPlanDateForIndex(dayIndex)));
+  const contextLabel = document.getElementById("addActivityContextLabel");
+  if (contextLabel) {
+    const slotLabel = SLOT_LABELS[_addActivityContext.slotKey] || "Activity";
+    contextLabel.textContent = `Day ${dayIndex + 1} - ${slotLabel}`;
+  }
   document.getElementById("addActivityModal")?.classList.remove("hidden");
   const input = document.getElementById("activitySearchInput");
   if (input) input.value = "";

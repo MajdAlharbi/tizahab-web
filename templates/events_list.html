@@ -8,7 +8,7 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .cat-pill { transition: all 0.18s ease; cursor: pointer; }
-  .cat-pill:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .cat-pill:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,58,237,0.10); }
   .event-card, .area-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
   .event-card:hover, .area-card:hover { transform: translateY(-2px); }
   @keyframes skeleton-pulse {
@@ -16,7 +16,7 @@
     50%       { opacity: 0.5; }
   }
   .skeleton-pulse { animation: skeleton-pulse 1.5s ease-in-out infinite; }
-  .cat-pill.active { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; font-weight: 600; }
+  .cat-pill.active { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; font-weight: 700; box-shadow: 0 10px 22px rgba(124,58,237,0.18); }
 </style>
 {% endblock %}
 
@@ -51,34 +51,41 @@
 
     <div class="overflow-x-auto no-scrollbar -mx-1 px-1">
       <div class="flex gap-2.5 pb-1 w-max">
-        <button type="button" data-cat="" data-gradient="#f5f3ff" class="cat-pill active flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
+        <button type="button" data-cat="" data-gradient="#ffffff" class="cat-pill active flex items-center gap-1.5 px-4 py-2 rounded-2xl border text-sm font-semibold whitespace-nowrap text-white" style="background:#7c3aed;border-color:#7c3aed">
           All Places
         </button>
-        <button type="button" data-cat="culture" data-gradient="linear-gradient(135deg,#ede9fe,#c4b5fd)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">
+        <button type="button" data-cat="culture" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Culture
         </button>
-        <button type="button" data-cat="heritage" data-gradient="linear-gradient(135deg,#fef3c7,#fcd34d)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">
+        <button type="button" data-cat="heritage" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Heritage
         </button>
-        <button type="button" data-cat="food" data-gradient="linear-gradient(135deg,#fff7ed,#fed7aa)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)">
+        <button type="button" data-cat="food" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Food
         </button>
-        <button type="button" data-cat="nature" data-gradient="linear-gradient(135deg,#ecfdf5,#a7f3d0)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">
+        <button type="button" data-cat="nature" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Nature
         </button>
-        <button type="button" data-cat="shopping" data-gradient="linear-gradient(135deg,#eff6ff,#bfdbfe)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe)">
+        <button type="button" data-cat="shopping" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Shopping
         </button>
-        <button type="button" data-cat="events" data-gradient="linear-gradient(135deg,#fef2f2,#fecaca)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fef2f2,#fecaca)">
+        <button type="button" data-cat="events" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Events
         </button>
-        <button type="button" data-cat="family" data-gradient="linear-gradient(135deg,#fefce8,#fde047)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fefce8,#fde047)">
+        <button type="button" data-cat="family" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Family
         </button>
-        <button type="button" data-cat="entertainment" data-gradient="linear-gradient(135deg,#fdf2f8,#fbcfe8)" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border-2 border-transparent text-sm font-semibold whitespace-nowrap text-gray-700" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8)">
+        <button type="button" data-cat="entertainment" data-gradient="#ffffff" class="cat-pill flex items-center gap-1.5 px-4 py-2 rounded-2xl border border-violet-100 bg-white text-sm font-semibold whitespace-nowrap text-violet-700 hover:bg-violet-50">
           Entertainment
         </button>
       </div>
+    </div>
+
+    <div id="activeFilterBar" class="hidden items-center justify-between gap-3 rounded-2xl border border-violet-100 bg-violet-50 px-4 py-3">
+      <p id="activeFilterText" class="text-sm font-medium text-violet-800"></p>
+      <button type="button" onclick="clearFilter()" class="text-sm font-semibold text-violet-700 hover:text-violet-900">
+        Clear all
+      </button>
     </div>
   </section>
 
@@ -130,8 +137,9 @@
         <span id="countText" class="text-sm text-gray-400"></span>
       </div>
       <button id="prefBtn" type="button"
-        class="flex items-center gap-1.5 h-9 px-4 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
-        Favorites
+        class="flex items-center gap-1.5 h-10 px-4 rounded-xl border border-violet-100 bg-white text-sm font-semibold text-violet-700 hover:bg-violet-50 transition">
+        <span aria-hidden="true">♡</span>
+        Favorites only
       </button>
     </div>
 
