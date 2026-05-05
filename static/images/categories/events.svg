@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Events">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ede9fe"/>
+      <stop offset="1" stop-color="#fbcfe8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M310 570h580V320H310z" fill="#4c1d95"/>
+  <path d="M245 320h710v-85H245z" fill="#7c3aed"/>
+  <circle cx="390" cy="235" r="26" fill="#fbbf24"/>
+  <circle cx="510" cy="235" r="26" fill="#fbbf24"/>
+  <circle cx="690" cy="235" r="26" fill="#fbbf24"/>
+  <circle cx="810" cy="235" r="26" fill="#fbbf24"/>
+  <path d="M420 430h360M420 500h250" stroke="#ffffff" stroke-width="36" stroke-linecap="round" opacity=".85"/>
+  <text x="600" y="705" fill="#3b0764" font-family="Arial, sans-serif" font-size="48" font-weight="700" text-anchor="middle">Events</text>
+</svg>

@@ -16,6 +16,17 @@ const CAT_GRADIENTS = {
   entertainment: "linear-gradient(135deg,#fdf2f8,#fbcfe8)",
 };
 
+const CATEGORY_IMAGES = {
+  culture: "/static/images/categories/culture.svg",
+  heritage: "/static/images/categories/heritage.svg",
+  food: "/static/images/categories/food.svg",
+  nature: "/static/images/categories/nature.svg",
+  shopping: "/static/images/categories/shopping.svg",
+  events: "/static/images/categories/events.svg",
+  family: "/static/images/categories/family.svg",
+  entertainment: "/static/images/categories/entertainment.svg",
+};
+
 const RIYADH_AREAS = [
   "Central Riyadh",
   "North Riyadh",
@@ -237,7 +248,8 @@ function normalizeEvent(ev) {
 }
 
 function getImageUrl(ev) {
-  return ev?.image_url || ev?.image || ev?.photo_url || "";
+  const category = String(ev?.category || "events").toLowerCase();
+  return ev?.image_url || ev?.image || ev?.photo_url || CATEGORY_IMAGES[category] || CATEGORY_IMAGES.events;
 }
 
 function getLocationText(ev) {

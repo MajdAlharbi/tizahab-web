@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Shopping">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#ddd6fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M360 320h480l-45 260H405z" fill="#7c3aed"/>
+  <path d="M455 320c0-90 65-150 145-150s145 60 145 150" fill="none" stroke="#4c1d95" stroke-width="38" stroke-linecap="round"/>
+  <circle cx="430" cy="405" r="18" fill="#fbbf24"/>
+  <circle cx="770" cy="405" r="18" fill="#fbbf24"/>
+  <text x="600" y="705" fill="#3b0764" font-family="Arial, sans-serif" font-size="48" font-weight="700" text-anchor="middle">Shopping</text>
+</svg>

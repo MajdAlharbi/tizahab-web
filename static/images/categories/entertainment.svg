@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Entertainment">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fce7f3"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M220 540c120-250 260-250 380 0 120-250 260-250 380 0" fill="none" stroke="#6d28d9" stroke-width="55" stroke-linecap="round"/>
+  <circle cx="370" cy="330" r="44" fill="#fbbf24"/>
+  <circle cx="600" cy="270" r="56" fill="#ffffff" opacity=".8"/>
+  <circle cx="830" cy="330" r="44" fill="#fbbf24"/>
+  <rect x="260" y="570" width="680" height="50" rx="20" fill="#4c1d95" opacity=".85"/>
+  <text x="600" y="705" fill="#3b0764" font-family="Arial, sans-serif" font-size="48" font-weight="700" text-anchor="middle">Entertainment</text>
+</svg>

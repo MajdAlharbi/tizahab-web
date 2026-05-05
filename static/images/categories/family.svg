@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Family">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#bbf7d0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="465" cy="310" r="62" fill="#7c3aed"/>
+  <circle cx="640" cy="280" r="78" fill="#f59e0b"/>
+  <circle cx="790" cy="330" r="55" fill="#10b981"/>
+  <path d="M340 585c25-130 95-190 185-190s165 60 190 190M610 585c20-105 80-155 150-155s125 50 145 155" fill="none" stroke="#4c1d95" stroke-width="42" stroke-linecap="round"/>
+  <text x="600" y="705" fill="#14532d" font-family="Arial, sans-serif" font-size="48" font-weight="700" text-anchor="middle">Family</text>
+</svg>

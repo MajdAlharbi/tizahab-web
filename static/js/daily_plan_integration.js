@@ -23,6 +23,17 @@ const SLOT_GRADIENTS = {
   evening:   "linear-gradient(135deg, #eef2ff 0%, #c7d2fe 100%)",
 };
 
+const CATEGORY_IMAGES = {
+  culture: "/static/images/categories/culture.svg",
+  heritage: "/static/images/categories/heritage.svg",
+  food: "/static/images/categories/food.svg",
+  nature: "/static/images/categories/nature.svg",
+  shopping: "/static/images/categories/shopping.svg",
+  events: "/static/images/categories/events.svg",
+  family: "/static/images/categories/family.svg",
+  entertainment: "/static/images/categories/entertainment.svg",
+};
+
 const PLAN_START_KEY   = "tz_plan_start_date";
 const PLAN_END_KEY     = "tz_plan_end_date";
 const SELECTED_DATE_KEY = "tz_selected_plan_date";
@@ -76,7 +87,8 @@ function formatPrice(price) {
 }
 
 function getEventImageUrl(event) {
-  return event?.image_url || event?.image || event?.photo_url || "";
+  const category = String(event?.category || "events").toLowerCase();
+  return event?.image_url || event?.image || event?.photo_url || CATEGORY_IMAGES[category] || CATEGORY_IMAGES.events;
 }
 
 // ── User geolocation (optional — for distance labels) ─────
