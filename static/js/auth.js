@@ -64,12 +64,12 @@ if (signupForm) {
     )?.value ?? "";
 
     if (password.length < 8) {
-      showSignupError("Password must be at least 8 characters.");
+      showSignupError(window.authT?.("passwordHelp", "Password must be at least 8 characters.") || "Password must be at least 8 characters.");
       return;
     }
 
     if (password !== password2) {
-      showSignupError("Passwords do not match.");
+      showSignupError(window.authT?.("passwordMismatch", "Passwords do not match.") || "Passwords do not match.");
       return;
     }
 

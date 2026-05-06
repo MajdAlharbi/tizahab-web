@@ -5,7 +5,12 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.contrib.auth.decorators import login_required, user_passes_test
-from accounts.views import admin_panel_view, logout_view
+from accounts.views import (
+    admin_panel_view,
+    forgot_password_page,
+    logout_view,
+    reset_password_page,
+)
 
 
 protected_template = lambda template_name: login_required(  # noqa: E731
@@ -33,6 +38,8 @@ urlpatterns += i18n_patterns(
     # Auth Pages
     path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
+    path("forgot-password/", forgot_password_page, name="forgot_password"),
+    path("reset-password/<str:token>/", reset_password_page, name="reset_password"),
     path("logout/", logout_view, name="logout"),
 
     # Auth APIs

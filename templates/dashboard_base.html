@@ -189,7 +189,8 @@
         <!-- Language switcher -->
         <form action="{% url 'set_language' %}" method="post" class="flex items-center">
           {% csrf_token %}
-          <select name="language" onchange="this.form.submit()"
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <select name="language" onchange="localStorage.setItem('tz_lang', this.value); this.form.submit()"
             class="h-9 rounded-xl border border-gray-200 bg-white px-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
             <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
             <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>

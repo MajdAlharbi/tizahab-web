@@ -311,8 +311,8 @@ class PasswordResetTokenTests(TestCase):
         make_user("real@test.com")
         client = self.client
 
-        r1 = client.post("/api/auth/ui/forgot-password/", {"email": "real@test.com"})
-        r2 = client.post("/api/auth/ui/forgot-password/", {"email": "ghost@test.com"})
+        r1 = client.post("/forgot-password/", {"email": "real@test.com"})
+        r2 = client.post("/forgot-password/", {"email": "ghost@test.com"})
 
         # Both should redirect or render — neither should expose whether the user exists
         # real user gets redirect (302), non-existing user gets re-render (200 with info)
@@ -320,7 +320,7 @@ class PasswordResetTokenTests(TestCase):
         self.assertNotIn(b"No account found", r2.content)
 
     def test_reset_with_invalid_token_shows_error(self):
-        response = self.client.get("/api/auth/ui/reset-password/badtoken/")
+        response = self.client.get("/reset-password/badtoken/")
         self.assertIn(b"invalid", response.content.lower())
 
     def test_reset_with_valid_token_allows_password_change(self):
@@ -331,7 +331,7 @@ class PasswordResetTokenTests(TestCase):
         safe_token = quote(token, safe="")
 
         response = self.client.post(
-            f"/api/auth/ui/reset-password/{safe_token}/",
+            f"/reset-password/{safe_token}/",
             {"password1": "NewPass123!", "password2": "NewPass123!"},
         )
         self.assertEqual(response.status_code, 302)
@@ -344,7 +344,7 @@ class PasswordResetTokenTests(TestCase):
         from urllib.parse import quote
 
         safe_token = quote(token, safe="")
-        url = f"/api/auth/ui/reset-password/{safe_token}/"
+        url = f"/reset-password/{safe_token}/"
 
         first = self.client.post(
             url,
@@ -370,7 +370,7 @@ class PasswordResetTokenTests(TestCase):
         make_user("mailfail@test.com")
 
         response = self.client.post(
-            "/api/auth/ui/forgot-password/",
+            "/forgot-password/",
             {"email": "mailfail@test.com"},
         )
 
@@ -378,6 +378,12 @@ class PasswordResetTokenTests(TestCase):
         self.assertIn(b"if that email is registered", response.content.lower())
         send_mail_mock.assert_called_once()
         logger_mock.error.assert_called_once()
+
+    def test_login_page_links_to_clean_forgot_password_url(self):
+        response = self.client.get("/login/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'href="/forgot-password/"')
+        self.assertNotContains(response, "/api/auth/ui/forgot-password/")
 
 
 class LogoutFlowTests(TestCase):

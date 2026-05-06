@@ -120,7 +120,7 @@ def forgot_password_page(request):
 
             safe_token = quote(token, safe="")
             reset_url = request.build_absolute_uri(
-                f"/api/auth/ui/reset-password/{safe_token}/"
+                f"/reset-password/{safe_token}/"
             )
             try:
                 send_mail(

@@ -62,3 +62,39 @@ msgstr "اليوم"
 
 msgid "of"
 msgstr "من"
+
+msgid "Discover places, build your route, and turn your Riyadh days into a clear journey."
+msgstr "اكتشف الأماكن، ابنِ مسارك، وحوّل أيامك في الرياض إلى رحلة واضحة."
+
+msgid "View Today’s Plan"
+msgstr "عرض خطة اليوم"
+
+msgid "Explore Places"
+msgstr "استكشف الأماكن"
+
+msgid "Heritage"
+msgstr "تراث"
+
+msgid "Old Riyadh"
+msgstr "الرياض القديمة"
+
+msgid "Food"
+msgstr "مطاعم"
+
+msgid "Dining Stops"
+msgstr "تجارب الطعام"
+
+msgid "Start Exploring"
+msgstr "ابدأ الاستكشاف"
+
+msgid "Jump into the main parts of your trip."
+msgstr "انتقل بسرعة إلى أهم أجزاء رحلتك."
+
+msgid "Recommended Riyadh Places"
+msgstr "أماكن مقترحة في الرياض"
+
+msgid "A few ideas from the live destination data."
+msgstr "اقتراحات مختارة من بيانات الوجهات الحالية."
+
+msgid "View all"
+msgstr "عرض الكل"
