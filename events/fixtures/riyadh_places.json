@@ -24,7 +24,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://usfo.ainewslabs.com/images/25/10/1760567225cdfaxtf0f514ec7bcc76d2301603b428c99bad.jpeg"
     }
   },
   {
@@ -52,7 +52,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://media.licdn.com/dms/image/v2/D4D12AQGSl3O89wTrSg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1730110823187?e=2147483647&v=beta&t=-LXQsIHy_tvLX0R7y3PjFaKvjeKopTLrncj9_V03Wro"
     }
   },
   {
@@ -114,6 +114,7 @@
   {
     "model": "events.event",
     "pk": 5,
+
     "fields": {
       "title": "National Museum of Saudi Arabia",
       "category": "culture",
@@ -158,7 +159,7 @@
       "latitude": 24.734603,
       "longitude": 46.697436,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.rcrc.gov.sa/wp-content/uploads/2023/11/%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%85%D8%B1%D9%83%D8%B2-%D8%A7%D9%84%D9%85%D9%84%D9%83-%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2-%D8%A7%D9%84%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE%D9%8A7-1024x576-1.jpg",
       "source": "openstreetmap:node/6834310906",
       "source_url": "",
       "is_active": true,
@@ -300,7 +301,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": ""
+      "image_url": "https://www.thisisriyadh.com/wp-content/uploads/2023/05/image-30.png"
     }
   },
   {
@@ -322,7 +323,7 @@
       "latitude": 24.753742,
       "longitude": 46.738362,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.thisisriyadh.com/wp-content/uploads/2023/05/image-30.png",
       "source": "openstreetmap:way/663121740",
       "source_url": "",
       "is_active": true,
@@ -374,7 +375,7 @@
       "latitude": 24.775546,
       "longitude": 46.751674,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.KenYHkmQ-J9KTTdzUhLz7gHaEw?rs=1&pid=ImgDetMain&o=7&rm=3",
       "source": "openstreetmap:way/384194285",
       "source_url": "",
       "is_active": true,
@@ -406,7 +407,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.kafd.sa/globalassets/images/pages/live/landmarks/pif-tower.png"
     }
   },
   {
@@ -480,7 +481,7 @@
       "latitude": 24.779621,
       "longitude": 46.705993,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://th.bing.com/th/id/R.2a08699f9aa073d43ce6303e5942449b?rik=V7AggkW%2bBokEtw&riu=http%3a%2f%2fwww.metara.com.sa%2fimg%2fprojects%2fOyasis%2f01.jpg&ehk=7jheGccLwqiOBO5IU%2fyKrQOV1YOv%2f%2bwv5INUWZt%2bgjw%3d&risl=&pid=ImgRaw&r=0",
       "source": "openstreetmap:way/1305885019",
       "source_url": "",
       "is_active": true,
@@ -506,7 +507,7 @@
       "latitude": 24.631208,
       "longitude": 46.713329,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://travelwithkarla.com/wp-content/uploads/2024/11/Al-Masmak-Palace-2.jpg",
       "source": "openstreetmap:way/1385940120",
       "source_url": "",
       "is_active": true,
@@ -532,7 +533,7 @@
       "latitude": 24.647921,
       "longitude": 46.708779,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://ksa.com/wp-content/uploads/2025/08/project_2990_featured_9cfd3d71.webp",
       "source": "openstreetmap:way/364944408",
       "source_url": "",
       "is_active": true,
@@ -564,7 +565,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://www.gioforma.com/wp-content/uploads/2024/05/DSC4526.jpg"
     }
   },
   {
@@ -586,7 +587,7 @@
       "latitude": 24.658482,
       "longitude": 46.670233,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse3.mm.bing.net/th/id/OIP.sEfNTvT4Cex5RTacJisWugHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
       "source": "openstreetmap:node/10264097009",
       "source_url": "",
       "is_active": true,
@@ -638,7 +639,7 @@
       "latitude": 24.599599,
       "longitude": 46.695114,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://experbiastorage.blob.core.windows.net/blog/a4303db9-55d7-4a5b-8bf9-01ccd98bc2bd",
       "source": "openstreetmap:way/385418696",
       "source_url": "",
       "is_active": true,
@@ -649,7 +650,7 @@
     "model": "events.event",
     "pk": 25,
     "fields": {
-      "title": "مكتبه خالد",
+      "title": "مكتبه فهد",
       "category": "culture",
       "description": "A cultural place in South Riyadh such as a museum, library, gallery, or arts venue.",
       "date": "2025-05-02T15:00:00+03:00",
@@ -664,7 +665,7 @@
       "latitude": 24.621711,
       "longitude": 46.759026,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.uy8OlQJKMtsgMlPl8OA7GQHaFj?pid=ImgDet&w=474&h=355&rs=1&o=7&rm=3",
       "source": "openstreetmap:node/4250150393",
       "source_url": "",
       "is_active": true,
@@ -690,7 +691,7 @@
       "latitude": 24.738926,
       "longitude": 46.578424,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://as1.ftcdn.net/v2/jpg/03/76/58/70/1000_F_376587098_u3gnNCLMUUNdon68SYbn1Sbt2vJL4Kyp.jpg",
       "source": "openstreetmap:node/6420151111",
       "source_url": "",
       "is_active": true,
@@ -716,7 +717,7 @@
       "latitude": 24.732895,
       "longitude": 46.574643,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://d1477w6a38me2o.cloudfront.net/uploads/saudi-diriyah/spotlight/diriyah/4.jpg",
       "source": "openstreetmap:way/847452971",
       "source_url": "",
       "is_active": true,
@@ -742,7 +743,7 @@
       "latitude": 24.734057,
       "longitude": 46.575797,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://i.pinimg.com/originals/8a/58/a7/8a58a7713863657390b5aeb407497244.jpg",
       "source": "openstreetmap:node/13415346082",
       "source_url": "",
       "is_active": true,
@@ -774,7 +775,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://www.resortx.com/embedded/riyadh-diplomatic-quarter-67227200.jpg"
     }
   },
   {
@@ -802,7 +803,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://www.arabnews.pk/sites/default/files/userimages/694711/installation_view_diriyah_contemporary_art_biennale_2021_courtesy_canvas_and_diriyah_biennale_foundation_1.jpg"
     }
   },
   {
@@ -824,7 +825,7 @@
       "latitude": 24.718104,
       "longitude": 46.619607,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://i.pinimg.com/originals/d2/ae/97/d2ae97134e0cec6fdca2219241c2046e.png",
       "source": "openstreetmap:way/133795316",
       "source_url": "",
       "is_active": true,
@@ -876,7 +877,7 @@
       "latitude": 24.733798,
       "longitude": 46.576007,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://cdn.theculturetrip.com/wp-content/uploads/2019/05/cmnha9.jpg",
       "source": "openstreetmap:way/1346352234",
       "source_url": "",
       "is_active": true,
@@ -956,7 +957,7 @@
       "latitude": 24.742302,
       "longitude": 46.658091,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.candpco.com/static/projects/cp-amc.jpg",
       "source": "openstreetmap:node/11085992365",
       "source_url": "",
       "is_active": true,
@@ -1014,7 +1015,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": "https://www.alriyadhcity.com/wp-content/uploads/2022/12/The-Zone-Riyadh-restaurants.jpg"
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.9wivFV_seUXWCN2tXkTmNQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   },
   {
@@ -1124,7 +1125,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://static.listmag.com/styles/1393xauto/public/2023-11/Riyadh%20Season%20Boulevard%20City%201.jpg?itok=KBKy1VTp"
     }
   },
   {
@@ -1180,7 +1181,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://english.zeenmag.net/wp-content/uploads/2025/02/Doos-Karting-1.jpg"
     }
   },
   {
@@ -1208,7 +1209,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://images.squarespace-cdn.com/content/v1/59b69f82e3df28d573d2e9da/1575102499787-0U3HA1LARONZO8WT88IU/Magic+Planet+in+Bahrain.jpg"
     }
   },
   {
@@ -1236,7 +1237,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://sollywood.com.sa/wp-content/uploads/2021/09/1000_341ab53c94.jpg"
     }
   },
   {
@@ -1258,7 +1259,7 @@
       "latitude": 24.764722,
       "longitude": 46.716073,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://sollywood.com.sa/wp-content/uploads/2021/09/1000_341ab53c94.jpg",
       "source": "openstreetmap:node/11086118617",
       "source_url": "",
       "is_active": true,
@@ -1344,7 +1345,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.timeoutriyadh.com/cloud/timeoutriyadh/2022/11/22/9Fyv4FAj-riyadh-season-2022-boulevard-world-800x600.jpg"
     }
   },
   {
@@ -1372,7 +1373,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://blog.wasalt.sa/en/wp-content/uploads/2025/11/Kingdom-Center-Sky-Bridge-1-1024x400.jpg"
     }
   },
   {
@@ -1400,7 +1401,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://echoarchitecture.com/wp-content/uploads/2022/02/01-29-jpg-webp.webp"
     }
   },
   {
@@ -1428,7 +1429,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.l6ChBicKAj9jDfLa4lfr8AHaD8?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   },
   {
@@ -1456,7 +1457,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://thumbs.dreamstime.com/b/reality-attractions-riyadh-boulevard-world-theme-park-saudi-arabia-dec-modern-entertainment-center-offering-immersive-361078543.jpg"
     }
   },
   {
@@ -1484,7 +1485,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.FgeLllfIr2T4lrqqgUZk-QHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   },
   {
@@ -1506,7 +1507,7 @@
       "latitude": 24.767092,
       "longitude": 46.717614,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.urtrips.com/wp-content/uploads/2023/01/sparkys-jubail.png",
       "source": "openstreetmap:node/3847079975",
       "source_url": "",
       "is_active": true,
@@ -1662,7 +1663,7 @@
       "latitude": 24.587024,
       "longitude": 46.32339,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://blooloop.com/wp-content/uploads/2024/05/Aquarabia-concept-art.jpg",
       "source": "openstreetmap:way/1365569291",
       "source_url": "",
       "is_active": true,
@@ -1714,7 +1715,7 @@
       "latitude": 24.767401,
       "longitude": 46.605089,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://res.cloudinary.com/qidz/image/upload/q_80/v1679411633/trcntb8ybkwhe3jdu80l.jpg",
       "source": "openstreetmap:node/11655051233",
       "source_url": "",
       "is_active": true,
@@ -1740,7 +1741,7 @@
       "latitude": 24.717313,
       "longitude": 46.620286,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://ar.timeoutriyadh.com/cloud/artimeoutriyadh/2023/12/17/image-1000x750.png",
       "source": "openstreetmap:way/133795291",
       "source_url": "",
       "is_active": true,
@@ -1870,7 +1871,7 @@
       "latitude": 24.735726,
       "longitude": 46.631734,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://hcc-ksa.com/wp-content/uploads/2022/10/muvi2.png",
       "source": "openstreetmap:node/11086118618",
       "source_url": "",
       "is_active": true,
@@ -1948,7 +1949,7 @@
       "latitude": 24.589006,
       "longitude": 46.333813,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://usercontent.one/wp/www.themeparknews.org/wp-content/uploads/2024/08/Six-Flags-Qiddiya-Aerial-View-1536x864.jpg?media=1722109444",
       "source": "openstreetmap:way/1451027859",
       "source_url": "",
       "is_active": true,
@@ -2026,7 +2027,7 @@
       "latitude": 24.800792,
       "longitude": 46.578525,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse1.mm.bing.net/th/id/OIP.lLopTN-rT8ievYBftAVm9AHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3",
       "source": "openstreetmap:node/11513678079",
       "source_url": "",
       "is_active": true,
@@ -2058,7 +2059,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.thisisriyadh.com/wp-content/uploads/2025/07/image09.jpg"
     }
   },
   {
@@ -2086,7 +2087,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://sportsforall.com.sa/wp-content/uploads/2024/11/42-scaled.jpg"
     }
   },
   {
@@ -2114,7 +2115,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": ""
+      "image_url": "https://www.rcrc.gov.sa/wp-content/uploads/2024/11/1-11.jpg"
     }
   },
   {
@@ -2142,7 +2143,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": ""
+      "image_url": "https://www.rcrc.gov.sa/wp-content/uploads/2024/11/1-11.jpg"
     }
   },
   {
@@ -2198,7 +2199,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.timeoutdubai.com/cloud/timeoutdubai/2024/12/10/Ripe-Market-600x450.jpg"
     }
   },
   {
@@ -2226,7 +2227,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://sm.ign.com/ign_me/screenshot/default/image00002_4v8f.jpg"
     }
   },
   {
@@ -2254,7 +2255,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.eyeofriyadh.com/news_images/2022/04/dec96d0a89e6.jpeg"
     }
   },
   {
@@ -2338,7 +2339,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://tse4.mm.bing.net/th/id/OIP.UimA0UuArBxCsMSI9XJmMAHaFj?pid=ImgDet&w=474&h=355&rs=1&o=7&rm=3"
     }
   },
   {
@@ -2466,7 +2467,7 @@
       "latitude": 24.676804,
       "longitude": 46.7373,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://wujhat.com/wp-content/uploads/2021/01/%D8%AD%D8%AF%D9%8A%D9%82%D8%A9-%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D9%84%D8%B2-3.png",
       "source": "openstreetmap:node/4349044994",
       "source_url": "",
       "is_active": true,
@@ -2498,7 +2499,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "East Riyadh",
-      "image_url": ""
+      "image_url": "https://thesaudiboom.com/wp-content/uploads/2024/09/1-Riyadh-Zoo-Will-Offer-Free-Entry-at-Riyadh-Season-2024.png"
     }
   },
   {
@@ -2520,7 +2521,7 @@
       "latitude": 24.805929,
       "longitude": 46.742196,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://qurtuba.co.za/wp-content/uploads/2023/03/HOME4187.jpg",
       "source": "openstreetmap:way/470509971",
       "source_url": "",
       "is_active": true,
@@ -2546,7 +2547,7 @@
       "latitude": 24.798455,
       "longitude": 46.642908,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://funkylilmunchkins.com/wp-content/uploads/2024/03/DSC_3754-Copy.jpg",
       "source": "openstreetmap:node/7801373163",
       "source_url": "",
       "is_active": true,
@@ -2704,7 +2705,7 @@
       "latitude": 24.703912,
       "longitude": 46.702419,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.annajah.net/article-images/%D9%85%D8%B7%D8%B9%D9%85_%D8%A3%D9%82%D9%88%D8%B3_%D8%B4%D8%A7%D8%B1%D8%B9_%D8%A7%D9%84%D8%AA%D8%AD%D9%84%D9%8A%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6.jpg_276c1174436778f_large.jpg",
       "source": "openstreetmap:node/5157426421",
       "source_url": "",
       "is_active": true,
@@ -2736,7 +2737,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://scth.scene7.com/is/image/scth/aseeb-najd-restaurant:crop-1920x1080?defaultImage=aseeb-najd-restaurant"
     }
   },
   {
@@ -2792,7 +2793,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.GeDqnS0p-VST-VNUMiyAggHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   },
   {
@@ -2820,7 +2821,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.timeoutriyadh.com/cloud/timeoutriyadh/2022/02/13/Coya-768x516.png"
     }
   },
   {
@@ -2978,7 +2979,7 @@
       "latitude": 24.703764,
       "longitude": 46.702022,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.aYIR18F-qvPdc_aEMc-tMQHaE8?pid=ImgDet&w=474&h=316&rs=1&o=7&rm=3",
       "source": "openstreetmap:node/5369768822",
       "source_url": "",
       "is_active": true,
@@ -3004,7 +3005,7 @@
       "latitude": 24.703943,
       "longitude": 46.706497,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.timeoutriyadh.com/cloud/timeoutriyadh/2023/10/18/kayz-1000x750-1.png",
       "source": "openstreetmap:node/12850282301",
       "source_url": "",
       "is_active": true,
@@ -3064,7 +3065,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.eyeofriyadh.com/news_images/2021/05/14c91cdb19978.jpg"
     }
   },
   {
@@ -3092,7 +3093,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://media-cdn.tripadvisor.com/media/photo-s/0e/ec/04/a5/outdoors.jpg"
     }
   },
   {
@@ -3114,7 +3115,7 @@
       "latitude": 24.699994,
       "longitude": 46.704893,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.theworlds50best.com/discovery/filestore/jpg/Myazu-Riyadh-Saudi-Arabia%20(1).jpg",
       "source": "openstreetmap:node/12850281339",
       "source_url": "",
       "is_active": true,
@@ -3146,7 +3147,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.caterermiddleeast.com/cloud/2022/03/24/Tlkvb4MU-MYAZU-1-1200x800.jpg"
     }
   },
   {
@@ -3174,7 +3175,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.visitsaudi.com/content/dam/no-dynamic-media-folder/manifest-newarticles-batch1/09-saudi-cuisine-101/saudicuisine101_hero.jpg"
     }
   },
   {
@@ -3202,7 +3203,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://pbs.twimg.com/media/ESCAICCWkAENXAF.jpg:large"
     }
   },
   {
@@ -3256,7 +3257,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://restaurant.eatapp.co/hs-fs/hubfs/Screenshot%202023-04-11%20at%2015.13.34.webp?width=1268&height=732&name=Screenshot%202023-04-11%20at%2015.13.34.webp"
     }
   },
   {
@@ -3418,7 +3419,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://tse1.mm.bing.net/th/id/OIP.jwaNFrSKVzW4XMe5ZT3uoQHaJQ?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   },
   {
@@ -3446,7 +3447,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://ar.esquireme.com/cloud/2022/03/03/Villa-Palma2-1024x683.jpg"
     }
   },
   {
@@ -3468,7 +3469,7 @@
       "latitude": 24.724086,
       "longitude": 46.645457,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.alriyadhcity.com/wp-content/uploads/2023/01/%D8%AC%D9%88%D9%84%D8%AA-%D8%A8%D8%B1%D8%AC-%D8%A7%D9%84%D9%85%D9%85%D9%84%D9%83%D8%A9.jpg",
       "source": "openstreetmap:node/5492001721",
       "source_url": "",
       "is_active": true,
@@ -3624,7 +3625,7 @@
       "latitude": 24.686699,
       "longitude": 46.747366,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://gowellconsulting.co.nz/wp-content/uploads/2023/01/BF.jpg",
       "source": "openstreetmap:node/8407654505",
       "source_url": "",
       "is_active": true,
@@ -3912,7 +3913,7 @@
       "latitude": 24.766865,
       "longitude": 46.621876,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://i.pinimg.com/736x/08/55/bd/0855bdce27ea597b52e6c28aee284ffd.jpg",
       "source": "openstreetmap:node/13477392859",
       "source_url": "",
       "is_active": true,
@@ -3938,7 +3939,7 @@
       "latitude": 24.761621,
       "longitude": 46.6742,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://assets-diriyah.diriyah.me/5a82b0703fac4b4b88589c094c5eee43?width=3840&quality=80&transform=true&format=webp",
       "source": "openstreetmap:node/13168508941",
       "source_url": "",
       "is_active": true,
@@ -3970,7 +3971,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://whatsonsaudiarabia.com/wp-content/uploads/2021/01/amazonico-.jpg"
     }
   },
   {
@@ -3998,7 +3999,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://pbs.twimg.com/media/FPRevuEWYAwVUqU.jpg"
     }
   },
   {
@@ -4026,7 +4027,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://i.ytimg.com/vi/TywVtH4ufO4/maxresdefault.jpg"
     }
   },
   {
@@ -4048,7 +4049,7 @@
       "latitude": 24.814961,
       "longitude": 46.688816,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.rli.uk.com/wp-content/uploads/2021/01/Burgerizzr.jpg",
       "source": "openstreetmap:node/5177732887",
       "source_url": "",
       "is_active": true,
@@ -4074,7 +4075,7 @@
       "latitude": 24.802743,
       "longitude": 46.716512,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://c.regencyholidays.com/blog/2022/9/131114_White%20Garden%20Caf%C3%A9.webp",
       "source": "openstreetmap:node/5867949784",
       "source_url": "",
       "is_active": true,
@@ -4106,7 +4107,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.timeoutriyadh.com/wp-content/uploads/cloud/timeoutriyadh/2024/09/20/Chestnut-Bakery-1-1-1024x768.jpg"
     }
   },
   {
@@ -4134,7 +4135,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.tasteandflavors.com/wp-content/uploads/2025/09/Screen-Shot-2025-09-10-at-3.35.59-PM.png"
     }
   },
   {
@@ -4182,7 +4183,7 @@
       "latitude": 24.817929,
       "longitude": 46.686846,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://media-cdn.tripadvisor.com/media/photo-m/1280/2a/f0/af/44/caption.jpg",
       "source": "openstreetmap:node/9357878572",
       "source_url": "",
       "is_active": true,
@@ -4208,7 +4209,7 @@
       "latitude": 24.817108,
       "longitude": 46.687565,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://pbs.twimg.com/media/E6yKLS-WEAIlEnI.jpg",
       "source": "openstreetmap:node/7184858979",
       "source_url": "",
       "is_active": true,
@@ -4234,7 +4235,7 @@
       "latitude": 24.854328,
       "longitude": 46.648112,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://saudimoments.awicdn.com/site-images/sites/default/files/saudimoments-prod/article/3/f/586621/273a87337286612477bf763077d93b728c355bf6-250523121943.jpg?preset=v3.0_970XDYN&rnd=12344&save-png=1",
       "source": "openstreetmap:way/984869143",
       "source_url": "",
       "is_active": true,
@@ -4266,7 +4267,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://tse4.mm.bing.net/th/id/OIP.8pWxEGE0-HD_ztm2qXqi1gHaEK?pid=ImgDet&w=474&h=266&rs=1&o=7&rm=3"
     }
   },
   {
@@ -4288,7 +4289,7 @@
       "latitude": 24.759117,
       "longitude": 46.674312,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://spcdn.shortpixel.ai/spio/ret_img,q_cdnize,to_webp,s_webp/soulofsaudi.com/wp-content/uploads/2025/03/AD_4nXe2uJRR9lEvQDDNw2NjA7jmKlmY8NfBIpSAJopPEVeWjq7EGdV8om4dLY1Cu_M38hLpXrFXMOxIrJuwzE8H6WQ7MQKyWdQ0o57_csj2Th5V0V8t16EQd1pjb18kjSEo51vFhFMwWQ.png",
       "source": "openstreetmap:way/1305904812",
       "source_url": "",
       "is_active": true,
@@ -4394,7 +4395,7 @@
       "latitude": 24.82344,
       "longitude": 46.655694,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse3.mm.bing.net/th/id/OIP.zqBnoaiYtUMjqH2LTLIu2gHaEK?pid=ImgDet&w=474&h=266&rs=1&o=7&rm=3",
       "source": "openstreetmap:node/11385783359",
       "source_url": "",
       "is_active": true,
@@ -4426,7 +4427,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.caterermiddleeast.com/cloud/2022/11/11/Sadelles-Riyadh-2-scaled.jpg"
     }
   },
   {
@@ -4454,7 +4455,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://expressservice.sa/wp-content/uploads/2025/09/Scotts-Via-Riyadh.jpg"
     }
   },
   {
@@ -4530,7 +4531,7 @@
       "latitude": 24.808451,
       "longitude": 46.669578,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://i.pinimg.com/originals/f2/5a/6b/f25a6b71f5caf20380bbbfb818418c32.jpg",
       "source": "openstreetmap:node/10881672530",
       "source_url": "",
       "is_active": true,
@@ -4556,7 +4557,7 @@
       "latitude": 24.760984,
       "longitude": 46.640455,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://th.bing.com/th/id/R.69637f01d774c6800b69f2bc43defd0a?rik=bLTzxwulTA7uXg&riu=http%3a%2f%2farabicmenu.net%2fwp-content%2fuploads%2f2024%2f01%2f%d9%85%d9%86%d9%8a%d9%88-%d9%85%d8%b7%d8%b9%d9%85-%d8%a7%d9%8a%d8%b1%d8%ab-%d9%83%d8%a7%d9%81%d9%8a%d9%87-%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8%a7%d8%b3%d8%b9%d8%a7%d8%b1-%d8%b9%d8%b1%d8%a8%d9%8a-urth-caffe-menu.webp&ehk=y%2bCURq2HCuMBa96O1vCiz3gpOQaSWK0Vbw7Ys2myWrk%3d&risl=&pid=ImgRaw&r=0",
       "source": "openstreetmap:node/12799847564",
       "source_url": "",
       "is_active": true,
@@ -4588,7 +4589,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://www.commercialinteriordesign.com/cloud/2025/01/06/Zuma-Riyadh-copy.jpg"
     }
   },
   {
@@ -4662,7 +4663,7 @@
       "latitude": 24.761514,
       "longitude": 46.674079,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse1.mm.bing.net/th/id/OIP.6flDPXyHz2eIWTOQPqlkTgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3",
       "source": "openstreetmap:node/4962386822",
       "source_url": "",
       "is_active": true,
@@ -4688,7 +4689,7 @@
       "latitude": 24.781156,
       "longitude": 46.66174,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://i.pinimg.com/736x/d5/72/bc/d572bcb7f9f7f5a88d3c51a1ac629524.jpg",
       "source": "openstreetmap:node/2455292060",
       "source_url": "",
       "is_active": true,
@@ -4746,7 +4747,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://images.otstatic.com/prod1/48344969/3/large.jpg"
     }
   },
   {
@@ -4768,7 +4769,7 @@
       "latitude": 24.674286,
       "longitude": 46.668147,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.gannett-cdn.com/-mm-/4df0b95148bcad569b56dc166be2c0f508dbb7ef/c=53-0-1771-1292/local/-/media/2017/11/02/MIGroup/Lansing/636452105578575973-Baskin-Robbins-Store-Front.jpg?width=540&height=405&fit=crop",
       "source": "openstreetmap:node/5951211686",
       "source_url": "",
       "is_active": true,
@@ -4794,7 +4795,7 @@
       "latitude": 24.590139,
       "longitude": 46.592932,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.tagvenue.com/resize/202509/1f/12/widen-1680-noupsize;101156-dining-room-room-qcNgmYQn.jpg",
       "source": "openstreetmap:node/13423578650",
       "source_url": "",
       "is_active": true,
@@ -4820,7 +4821,7 @@
       "latitude": 24.619772,
       "longitude": 46.744737,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://tse3.mm.bing.net/th/id/OIP.fzQiLvNS4HXiYl9dsZpuBgHaD4?rs=1&pid=ImgDetMain&o=7&rm=3",
       "source": "openstreetmap:node/4110758484",
       "source_url": "",
       "is_active": true,
@@ -4878,7 +4879,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://media-cdn.tripadvisor.com/media/photo-s/28/13/ea/61/this-is-by-far-one-of.jpg"
     }
   },
   {
@@ -4900,7 +4901,7 @@
       "latitude": 24.73433,
       "longitude": 46.611247,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://images.adsttc.com/media/images/5e67/aed6/b357/65a1/f300/016c/large_jpg/FOR_DIGITAL_USE_ONLY_003_Elixir_Bunn_Alhamra_by_Abdulrahman_Bayashout__DSC5950-Edit.jpg?1583853259",
       "source": "openstreetmap:node/3645300298",
       "source_url": "",
       "is_active": true,
@@ -4988,7 +4989,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://tse2.mm.bing.net/th/id/OIP.12Ol1v5I4tSMQfjlioTpoQHaJ4?pid=ImgDet&w=474&h=632&rs=1&o=7&rm=3"
     }
   },
   {
@@ -5016,7 +5017,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://thesaudiboom.com/wp-content/uploads/2024/12/8.-The-Groves-Zone-Returns-to-Riyadh-Season-2024-with-a-Brand-New-Look.png"
     }
   },
   {
@@ -5126,7 +5127,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://www.wanderlustmagazine.com/wp-content/uploads/2024/03/shorthand/67725/l6O0vjiQH8/assets/R2mRaNILFx/murabba-palace-1920x1280.jpg"
     }
   },
   {
@@ -5182,7 +5183,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://c.regencyholidays.com/blog/2025/4/81657_5%20(12).webp"
     }
   },
   {
@@ -6644,7 +6645,7 @@
       "latitude": 24.647544,
       "longitude": 46.709794,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://th.bing.com/th/id/R.533d5d59d0c96d4d0fa299b77155a029?rik=%2fIzAqZ0LrYTndA&pid=ImgRaw&r=0",
       "source": "openstreetmap:way/223372708",
       "source_url": "",
       "is_active": true,
@@ -6676,7 +6677,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://saudiscoop.com/wp-content/uploads/2022/11/Lake-Park-Namar-Dam-top-most-beautiful-parks-in-riyadh-saudiscoop-3.jpg"
     }
   },
   {
@@ -6698,7 +6699,7 @@
       "latitude": 24.61722,
       "longitude": 46.772456,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://d19r6u3d126ojb.cloudfront.net/park_in_sharjah_c7b795305e.webp",
       "source": "openstreetmap:way/221638262",
       "source_url": "",
       "is_active": true,
@@ -6756,7 +6757,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://images.fineartamerica.com/images-medium-large-5/red-sand-dunes-katka-pruskova.jpg"
     }
   },
   {
@@ -6784,7 +6785,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://omrania.com/wp-content/uploads/Salam_Park-1200x628.jpg"
     }
   },
   {
@@ -6866,7 +6867,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "South Riyadh",
-      "image_url": ""
+      "image_url": "https://live.staticflickr.com/846/28647702697_742fa6e746_k.jpg"
     }
   },
   {
@@ -6894,7 +6895,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://media.istockphoto.com/id/1185628170/photo/caribbean-salt-lake-mining-work-bonaire-island-netherlandes-antilles.jpg?s=612x612&w=0&k=20&c=x9dqhvInGRVtCDQ16NOUMqxB-XAkixWATzFl0RyuaY4="
     }
   },
   {
@@ -6916,7 +6917,7 @@
       "latitude": 24.688581,
       "longitude": 46.619366,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://thediplomaticclub.com/uploads/banners/10ba41eedff4341f32139a34dfdedfa6.jpg",
       "source": "openstreetmap:node/3371529006",
       "source_url": "",
       "is_active": true,
@@ -6948,7 +6949,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://secure.s.forbestravelguide.com/img/properties/marriott-riyadh-diplomatic-quarter/extra-large/marriott-diplomatic-quarter-riyadh-exterior.jpg"
     }
   },
   {
@@ -6970,7 +6971,7 @@
       "latitude": 24.737938,
       "longitude": 46.573206,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://assets-diriyahco.diriyah.me/e086d9ef01ee4f1d9d2c17d30d1b7b40?width=1920&quality=80&transform=true&format=webp",
       "source": "openstreetmap:node/7906706474",
       "source_url": "",
       "is_active": true,
@@ -7002,7 +7003,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=600,dpr=2/tour_img/026c120345398eae136bd1e042d8330e64173822fd9b6260dcef964214797255.jpg"
     }
   },
   {
@@ -7030,7 +7031,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://www.burohappold.com/wp-content/uploads/2016/05/TuwaiqPalace_02_Joe-Poon_cover.jpg"
     }
   },
   {
@@ -7058,7 +7059,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://livelovesaudi.net/wp-content/uploads/2025/03/National-Museum-Park-1024x768-1.jpg"
     }
   },
   {
@@ -7106,7 +7107,7 @@
       "latitude": 24.755431,
       "longitude": 46.586857,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.vision2030.gov.sa/media/eonbzfcb/4.jpg?width=1920&format=webp",
       "source": "openstreetmap:node/12942334755",
       "source_url": "",
       "is_active": true,
@@ -7216,7 +7217,7 @@
       "latitude": 24.689526,
       "longitude": 46.685586,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/39/e9/cb/al-faisaliah-mall-interior.jpg?w=900&h=500&s=1",
       "source": "openstreetmap:way/55462879",
       "source_url": "",
       "is_active": true,
@@ -7276,7 +7277,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://scth.scene7.com/is/image/scth/riyadh-centria-mall:crop-1920x1080?defaultImage=riyadh-centria-mall"
     }
   },
   {
@@ -7304,7 +7305,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://scth.scene7.com/is/image/scth/riyadh-hayat-mall:crop-1920x1080?defaultImage=riyadh-hayat-mall"
     }
   },
   {
@@ -7326,7 +7327,7 @@
       "latitude": 24.711365,
       "longitude": 46.674356,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://touryana.com/wp-content/uploads/2025/12/Kingdom-Centre-Mall.jpg",
       "source": "openstreetmap:way/264745917",
       "source_url": "",
       "is_active": true,
@@ -7380,7 +7381,7 @@
       "latitude": 24.744858,
       "longitude": 46.660506,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://example.com/marina-mall.jpg",
       "source": "openstreetmap:way/636404824",
       "source_url": "",
       "is_active": true,
@@ -7432,7 +7433,7 @@
       "latitude": 24.737778,
       "longitude": 46.661058,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://example.com/owais-market.jpg",
       "source": "openstreetmap:node/13267042617",
       "source_url": "",
       "is_active": true,
@@ -7464,7 +7465,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://expressservice.sa/wp-content/uploads/2025/06/Highlights-Features-of-Panorama-Mall-768x432.jpg"
     }
   },
   {
@@ -7486,7 +7487,7 @@
       "latitude": 24.743187,
       "longitude": 46.65834,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://arabmls.org/wp-content/uploads/2024/04/RG2-1.jpg",
       "source": "openstreetmap:way/53223367",
       "source_url": "",
       "is_active": true,
@@ -7628,7 +7629,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "Central Riyadh",
-      "image_url": ""
+      "image_url": "https://c.regencyholidays.com/blog/2025/2/201547_1.webp"
     }
   },
   {
@@ -7704,7 +7705,7 @@
       "latitude": 24.685747,
       "longitude": 46.774851,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://vid.alarabiya.net/images/2016/07/31/ff5c1fa7-c677-4cdb-9e91-e86b3acb60e4/ff5c1fa7-c677-4cdb-9e91-e86b3acb60e4.jpg",
       "source": "openstreetmap:node/2705629617",
       "source_url": "",
       "is_active": true,
@@ -7756,7 +7757,7 @@
       "latitude": 24.696031,
       "longitude": 46.728539,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.hudalighting.com/wp-content/uploads/2023/07/cenomi-01-1536x1536.png",
       "source": "openstreetmap:way/636274819",
       "source_url": "",
       "is_active": true,
@@ -7782,7 +7783,7 @@
       "latitude": 24.750433,
       "longitude": 46.822469,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://th.bing.com/th/id/R.ec9f52941b5e7d0509480b209f3b1e2a?rik=NylXx345IriOqg&riu=http%3a%2f%2fsaudiarabesque.com%2fwp-content%2fuploads%2f2016%2f08%2fsaudi-arabesque-riyadh-al-othaim-mall-rabwa-1024x707.jpg&ehk=VCbdVzTBG7s7dwisOcvj31kDLxEGr7d1ABPmiRyqgqc%3d&risl=&pid=ImgRaw&r=0",
       "source": "openstreetmap:way/160973220",
       "source_url": "",
       "is_active": true,
@@ -7834,7 +7835,7 @@
       "latitude": 24.766788,
       "longitude": 46.715824,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://c.regencyholidays.com/blog/blog/content/images/2021/12/Al-Nakheel-Mall-by-Arabian--Riyadh.jpg",
       "source": "openstreetmap:way/381458692",
       "source_url": "",
       "is_active": true,
@@ -7976,7 +7977,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "North Riyadh",
-      "image_url": ""
+      "image_url": "https://c.regencyholidays.com/blog/blog/content/images/2021/12/Al-Nakheel-Mall-by-Arabian--Riyadh.jpg"
     }
   },
   {
@@ -7998,7 +7999,7 @@
       "latitude": 24.827523,
       "longitude": 46.728388,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://blog.wasalt.sa/en/wp-content/uploads/2024/10/Park-Avenue-Mall-3-1140x815.jpg",
       "source": "openstreetmap:way/486835586",
       "source_url": "",
       "is_active": true,
@@ -8024,7 +8025,7 @@
       "latitude": 24.756767,
       "longitude": 46.629872,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.urtrips.com/wp-content/uploads/2022/06/riyadh-park-mall-riyadh4.jpg",
       "source": "openstreetmap:way/636659011",
       "source_url": "",
       "is_active": true,
@@ -8078,7 +8079,7 @@
       "latitude": 24.84143,
       "longitude": 46.733158,
       "rating": null,
-      "image_url": "",
+      "image_url": "https://www.constructionweeksaudi.com/cloud/2023/09/11/Shopping-Area-Shops0-1024x455.jpg",
       "source": "openstreetmap:way/1014277998",
       "source_url": "",
       "is_active": true,
@@ -8400,7 +8401,7 @@
       "created_at": "2025-05-02T12:00:00Z",
       "updated_at": "2025-05-02T12:00:00Z",
       "area": "West Riyadh",
-      "image_url": ""
+      "image_url": "https://sela.sa/media/lceb3y3r/via-website.jpg"
     }
   }
 ]
