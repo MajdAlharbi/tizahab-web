@@ -1,6 +1,6 @@
 """
 Tizahab E2E User Journey Tests
-Target: https://tizahab-web.up.railway.app
+Target: https://tizahab-web.onrender.com
 
 Setup:
     pip install selenium webdriver-manager
@@ -591,7 +591,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Tizahab end-to-end test suite")
     parser.add_argument(
         "--url",
-        default="https://tizahab-web.up.railway.app",
+        default="https://tizahab-web.onrender.com",
         help="Base URL to test against (default: production)",
     )
     parser.add_argument(

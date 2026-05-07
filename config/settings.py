@@ -64,7 +64,7 @@ GOOGLE_BROWSER_MAPS_API_KEY = (
 DEBUG = env_bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = [
-    "tizahab-web.up.railway.app",
+    "tizahab-web.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
